@@ -1,3 +1,6 @@
+![Tests](https://github.com/AlexDarigan/CardGame/workflows/Tests/badge.svg)
+
+
 # Card Game
 
 ## Commit Style Guide
