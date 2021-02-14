@@ -5,5 +5,12 @@
 
 		],
 		"passing": true
+	},
+	"res://Tests/ServerTest.cs": {
+		"path": "res://Tests/ServerTest.cs",
+		"tags": [
+
+		],
+		"passing": true
 	}
 }

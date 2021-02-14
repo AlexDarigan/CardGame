@@ -19,15 +19,15 @@
 
 ## [ ] Matchmaking
 - _Features_
-    - [ ] Add Server
+    - [X] Add Server
     - [ ] Add Client
     - [ ] Add Player
     - [ ] Add Player Queue
 - _Tests_
-    - [ ] Is the Server the Server?
+    - [X] Is the Server the Server?
     - [ ] Is the first client a client?
     - [ ] Is the second client a client?
-    - [ ] Is the server connected?
+    - [X] Is the server connected?
     - [ ] When the first clients is there one player on the server?
     - [ ] When the second client joins is does the game start?
     - [ ] When the game starts do both clients setup local rooms?
