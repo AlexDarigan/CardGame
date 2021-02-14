@@ -12,16 +12,16 @@ namespace CardGame.Tests
         private readonly Server.Connection Server = new Server.Connection();
         private readonly Client.Connection Client = new Client.Connection();
 
-        public override async void Start()
+        public override void Start()
         {
             AddChild(Server);
             AddChild(Client);
-            await ToSignal(UntilTimeout(0.02), YIELD);
         }
 
         [Test]
-        public void Is_Live()
+        public async void Is_Live()
         {
+            await ToSignal(UntilTimeout(0.1), YIELD);
             Assert.IsTrue(Client.IsLive);
         }
 
