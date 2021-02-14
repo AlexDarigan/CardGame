@@ -19,19 +19,21 @@
 
 ## [ ] Matchmaking
 - _Features_
-    - [ ] Add Server
-    - [ ] Add Client
-    - [ ] Add Player
-    - [ ] Add Player Queue
+    - [X] Add Server
+    - [X] Add Client
+    - [X] Add Player
+    - [X] Add Player Queue
+    - [X] Add Room
 - _Tests_
-    - [ ] Is the Server the Server?
-    - [ ] Is the first client a client?
-    - [ ] Is the second client a client?
-    - [ ] Is the server connected?
-    - [ ] When the first clients is there one player on the server?
-    - [ ] When the second client joins is does the game start?
-    - [ ] When the game starts do both clients setup local rooms?
-
+    - [X] Is the Server the Server?
+    - [X] Is the server connected?
+    - [X] Is the client a client?
+    - [X] Is the client connected?
+    - [X] When the first clients is there one player on the server?
+    - [X] When the second client joins is does the game start?
+    - [X] When the game starts do both clients setup local rooms?
+    - [X] The Client Rooms share the same name
+  
 ## [ ] Base Game Loop
 - _Features_
     - [ ] Add Card
