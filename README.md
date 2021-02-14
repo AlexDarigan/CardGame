@@ -21,14 +21,14 @@
 - _Features_
     - [X] Add Server
     - [X] Add Client
-    - [ ] Add Player
-    - [ ] Add Player Queue
+    - [X] Add Player
+    - [X] Add Player Queue
 - _Tests_
     - [X] Is the Server the Server?
     - [X] Is the server connected?
     - [X] Is the client a client?
     - [X] Is the client connected?
-    - [ ] When the first clients is there one player on the server?
+    - [X] When the first clients is there one player on the server?
     - [ ] When the second client joins is does the game start?
     - [ ] When the game starts do both clients setup local rooms?
 

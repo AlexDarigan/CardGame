@@ -4,6 +4,13 @@
 		"tags": [
 
 		],
+		"passing": true
+	},
+	"res://Tests/ConnectionTest.cs": {
+		"path": "res://Tests/ConnectionTest.cs",
+		"tags": [
+
+		],
 		"passing": false
 	},
 	"res://Tests/SampleTest.cs": {
