@@ -10,6 +10,8 @@ namespace CardGame.Server
     public class Room: Node
     {
         private readonly Dictionary<int, Player> _players = new Dictionary<int, Player>();
+        private readonly Dictionary<int, Card> _cards = new Dictionary<int, Card>();
+        private int _nextCardId = 0;
 
         public Room()
         {
@@ -37,7 +39,21 @@ namespace CardGame.Server
 
         private void Start()
         {
-            GD.Print("Let The Game Begin!");
+            SetDecks();
+        }
+
+        private void SetDecks()
+        {
+            // We Set Decks here so we cards can be registered
+            foreach (Player player in _players.Values)
+            {
+                for (int i = 0; i < 40; i++)
+                {
+                    Card card = new Card(_nextCardId, player);
+                    _nextCardId++;
+                    player.Deck.Add(card);
+                }
+            }
         }
         
     }
