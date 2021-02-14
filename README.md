@@ -20,7 +20,7 @@
 ## [ ] Matchmaking
 - _Features_
     - [X] Add Server
-    - [ ] Add Client
+    - [X] Add Client
     - [ ] Add Player
     - [ ] Add Player Queue
 - _Tests_
