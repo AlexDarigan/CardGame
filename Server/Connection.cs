@@ -22,7 +22,8 @@ namespace CardGame.Server
                 GD.PushError(err.ToString());
             }
 
-            CustomMultiplayer = new MultiplayerAPI {RootNode = this, NetworkPeer = Server};
+            CustomMultiplayer = new MultiplayerAPI {NetworkPeer = Server};
+            CustomMultiplayer.SetRootNode(this);
             CustomMultiplayer.Connect("network_peer_connected", this, nameof(OnNetworkPeerConnected));
         }
 

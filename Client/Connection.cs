@@ -19,7 +19,8 @@ namespace CardGame.Client
                 GD.PushError(err.ToString());
             }
 
-            CustomMultiplayer = new MultiplayerAPI {RootNode = this, NetworkPeer = Client};
+            CustomMultiplayer = new MultiplayerAPI {NetworkPeer = Client};
+            CustomMultiplayer.SetRootNode(this);
         }
 
         [Puppet]
