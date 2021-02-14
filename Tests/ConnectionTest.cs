@@ -22,11 +22,11 @@ namespace CardGame.Tests
         public async void And_Two_Clients()
         {
             AddChild(Client1);
-            await ToSignal(UntilTimeout(0.2), YIELD);
+            await ToSignal(UntilTimeout(0.5), YIELD);
             Assert.IsEqual(Server.PlayerCount, 1, 
                 "When the first client joins there is one player on the server");
             AddChild(Client2);
-            await ToSignal(UntilTimeout(0.2), YIELD);
+            await ToSignal(UntilTimeout(0.5), YIELD);
             Assert.IsType<Server.Room>(Server.GetChild(0), 
                 "When the second client joins a room is created on the server");
             Assert.IsType<Client.Room>(Client1.GetChild(0),

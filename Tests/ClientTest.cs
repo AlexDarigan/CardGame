@@ -21,7 +21,7 @@ namespace CardGame.Tests
         [Test]
         public async void Is_Live()
         {
-            await ToSignal(UntilTimeout(0.1), YIELD);
+            await ToSignal(UntilTimeout(0.5), YIELD);
             Assert.IsTrue(Client.IsLive);
         }
 
