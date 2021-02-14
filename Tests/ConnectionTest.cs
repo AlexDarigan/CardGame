@@ -4,9 +4,9 @@ namespace CardGame.Tests
 {
     public class ConnectionTest: WAT.Test
     {
-        private readonly Server.Connection Server = new();
-        private readonly Client.Connection Client1 = new();
-        private readonly Client.Connection Client2 = new();
+        private readonly Server.Connection Server = new Server.Connection();
+        private readonly Client.Connection Client1 = new Client.Connection();
+        private readonly Client.Connection Client2 = new Client.Connection();
 
         public override string Title()
         {

@@ -8,7 +8,7 @@ namespace CardGame.Server
 {
     public class Room: Node
     {
-        private readonly Dictionary<int, Player> _players = new();
+        private readonly Dictionary<int, Player> _players = new Dictionary<int, Player>();
         
         public Room(Player player1, Player player2)
         {

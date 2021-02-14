@@ -11,7 +11,7 @@
 		"tags": [
 
 		],
-		"passing": false
+		"passing": true
 	},
 	"res://Tests/SampleTest.cs": {
 		"path": "res://Tests/SampleTest.cs",

@@ -7,7 +7,7 @@ namespace CardGame.Client
     {
         private const string ServerAddress = "127.0.0.1";
         private const int ServerPort = 5000;
-        private readonly NetworkedMultiplayerENet Client = new();
+        private readonly NetworkedMultiplayerENet Client = new NetworkedMultiplayerENet();
         public bool IsLive => Client.GetConnectionStatus() == NetworkedMultiplayerPeer.ConnectionStatus.Connected;
         public bool IsClient => !CustomMultiplayer.IsNetworkServer();
 

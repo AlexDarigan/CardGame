@@ -6,7 +6,7 @@ jobs:
   Tests:
     name: Run All Tests
     runs-on:  ubuntu-latest
-    container: barichello/godot-ci:mono-3.2.3
+    container: barichello/godot-ci:mono-3.2.4
     steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies

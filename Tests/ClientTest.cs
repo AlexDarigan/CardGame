@@ -9,8 +9,8 @@ namespace CardGame.Tests
             return "Client";
         }
 
-        private readonly Server.Connection Server = new();
-        private readonly Client.Connection Client = new();
+        private readonly Server.Connection Server = new Server.Connection();
+        private readonly Client.Connection Client = new Client.Connection();
 
         public override async void Start()
         {

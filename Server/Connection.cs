@@ -7,8 +7,8 @@ namespace CardGame.Server
     public class Connection : Node
     {
         private const int Port = 5000;
-        private readonly NetworkedMultiplayerENet Server = new();
-        private readonly Queue<Player> Queue = new();
+        private readonly NetworkedMultiplayerENet Server = new NetworkedMultiplayerENet();
+        private readonly Queue<Player> Queue = new Queue<Player>();
         private int roomCount = 0;
         public bool IsLive => Server.GetConnectionStatus() == NetworkedMultiplayerPeer.ConnectionStatus.Connected;
         public bool IsServer => CustomMultiplayer.IsNetworkServer();
@@ -50,7 +50,7 @@ namespace CardGame.Server
             Player player1 = Queue.Dequeue();
             Player player2 = Queue.Dequeue();
             roomCount++;
-            Room room = new(player1, player2) {Name = roomCount.ToString(), CustomMultiplayer = CustomMultiplayer};
+            Room room = new Room(player1, player2) {Name = roomCount.ToString(), CustomMultiplayer = CustomMultiplayer};
             RpcId(player1.Id, "CreateRoom", roomCount.ToString());
             RpcId(player2.Id, "CreateRoom", roomCount.ToString());
             AddChild(room);
