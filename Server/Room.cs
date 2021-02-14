@@ -9,6 +9,7 @@ namespace CardGame.Server
 {
     public class Room: Node
     {
+        private readonly Match _match = new Match();
         private readonly Dictionary<int, Player> _players = new Dictionary<int, Player>();
         private readonly Dictionary<int, Card> _cards = new Dictionary<int, Card>();
         private int _nextCardId = 0;
@@ -36,10 +37,12 @@ namespace CardGame.Server
             }
             Start();
         }
-
-        private void Start()
+        
+        // Making this public for the sake of Tests
+        public void Start()
         {
             SetDecks();
+            DrawStartingHands();
         }
 
         private void SetDecks()
@@ -52,6 +55,17 @@ namespace CardGame.Server
                     Card card = new Card(_nextCardId, player);
                     _nextCardId++;
                     player.Deck.Add(card);
+                }
+            }
+        }
+
+        private void DrawStartingHands()
+        {
+            foreach (Player player in _players.Values)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    _match.Draw(player);
                 }
             }
         }
