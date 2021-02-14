@@ -9,6 +9,7 @@ namespace CardGame.Server
         private const int Port = 5000;
         private readonly NetworkedMultiplayerENet Server = new();
         private readonly Queue<Player> Queue = new();
+        private int roomCount = 0;
         public bool IsLive => Server.GetConnectionStatus() == NetworkedMultiplayerPeer.ConnectionStatus.Connected;
         public bool IsServer => CustomMultiplayer.IsNetworkServer();
         public int PlayerCount => Queue.Count;
@@ -36,6 +37,23 @@ namespace CardGame.Server
             {
                 CustomMultiplayer.Poll();
             }
+
+            if (PlayerCount > 1)
+            {
+                CreateRoom();
+            }
+        }
+
+        private void CreateRoom()
+        {
+            // This will likely need review when we build our GUI since it depends on NodePaths in the tree
+            Player player1 = Queue.Dequeue();
+            Player player2 = Queue.Dequeue();
+            roomCount++;
+            Room room = new(player1, player2) {Name = roomCount.ToString(), CustomMultiplayer = CustomMultiplayer};
+            RpcId(player1.Id, "CreateRoom", roomCount.ToString());
+            RpcId(player2.Id, "CreateRoom", roomCount.ToString());
+            AddChild(room);
         }
 
         public override void _ExitTree()

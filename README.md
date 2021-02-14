@@ -23,15 +23,17 @@
     - [X] Add Client
     - [X] Add Player
     - [X] Add Player Queue
+    - [X] Add Room
 - _Tests_
     - [X] Is the Server the Server?
     - [X] Is the server connected?
     - [X] Is the client a client?
     - [X] Is the client connected?
     - [X] When the first clients is there one player on the server?
-    - [ ] When the second client joins is does the game start?
-    - [ ] When the game starts do both clients setup local rooms?
-
+    - [X] When the second client joins is does the game start?
+    - [X] When the game starts do both clients setup local rooms?
+    - [X] The Client Rooms share the same name
+  
 ## [ ] Base Game Loop
 - _Features_
     - [ ] Add Card

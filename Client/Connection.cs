@@ -22,6 +22,12 @@ namespace CardGame.Client
             CustomMultiplayer = new MultiplayerAPI {RootNode = this, NetworkPeer = Client};
         }
 
+        [Puppet]
+        public void CreateRoom(string roomName)
+        {
+            AddChild(new Room() {Name = roomName, CustomMultiplayer = CustomMultiplayer}, true);
+        }
+
         public override void _Process(float delta)
         {
             if (CustomMultiplayer.HasNetworkPeer())
