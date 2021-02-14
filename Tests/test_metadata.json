@@ -1,6 +1,27 @@
 {
+	"res://Tests/ClientTest.cs": {
+		"path": "res://Tests/ClientTest.cs",
+		"tags": [
+
+		],
+		"passing": true
+	},
+	"res://Tests/ConnectionTest.cs": {
+		"path": "res://Tests/ConnectionTest.cs",
+		"tags": [
+
+		],
+		"passing": true
+	},
 	"res://Tests/SampleTest.cs": {
 		"path": "res://Tests/SampleTest.cs",
+		"tags": [
+
+		],
+		"passing": true
+	},
+	"res://Tests/ServerTest.cs": {
+		"path": "res://Tests/ServerTest.cs",
 		"tags": [
 
 		],
