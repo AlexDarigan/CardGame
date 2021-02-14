@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using Godot;
 
 
@@ -9,7 +10,12 @@ namespace CardGame.Server
     public class Room: Node
     {
         private readonly Dictionary<int, Player> _players = new Dictionary<int, Player>();
-        
+
+        public Room()
+        {
+            // I believe an empty constructor is required in Godot Classes that have non-empty constructor(s)
+            // ..for the sake of some Godot callbacks
+        }
         public Room(Player player1, Player player2)
         {
             player1.Opponent = player2;
