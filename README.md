@@ -25,9 +25,9 @@
     - [ ] Add Player Queue
 - _Tests_
     - [X] Is the Server the Server?
-    - [ ] Is the first client a client?
-    - [ ] Is the second client a client?
     - [X] Is the server connected?
+    - [X] Is the client a client?
+    - [X] Is the client connected?
     - [ ] When the first clients is there one player on the server?
     - [ ] When the second client joins is does the game start?
     - [ ] When the game starts do both clients setup local rooms?

@@ -1,4 +1,11 @@
 {
+	"res://Tests/ClientTest.cs": {
+		"path": "res://Tests/ClientTest.cs",
+		"tags": [
+
+		],
+		"passing": false
+	},
 	"res://Tests/SampleTest.cs": {
 		"path": "res://Tests/SampleTest.cs",
 		"tags": [
