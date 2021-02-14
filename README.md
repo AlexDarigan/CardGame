@@ -38,12 +38,12 @@
 - _Features_
     - [ ] Add Card
     - [ ] Add Card Data
-    - [ ] Add Card Register
+    - [X] Add Card Register
     - [ ] Add Decklist
     - [ ] Add Player Zones
-    - [ ] Add Game Start Function 
-    - [ ] Add Load Deck Function
-    - [ ] Add Draw Function
+    - [X] Add Game Start Function 
+    - [X] Add Load Deck Function
+    - [X] Add Draw Function
 - _Tests_
     - [ ] Are Player deck contents equal to decklist contents (in setcodes)
     - [ ] Are Player decks equal in size to decklist?
