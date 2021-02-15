@@ -37,6 +37,12 @@ namespace CardGame.Server
         
         public void Draw(Player player)
         {
+            if (player.State != Player.States.Idle && player != TurnPlayer)
+            {
+                Disqualify(player);
+                return;
+            }
+            
             player.Draw();
             Update();
         }

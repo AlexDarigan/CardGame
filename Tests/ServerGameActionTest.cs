@@ -38,5 +38,21 @@ namespace CardGame.Tests
             Assert.IsTrue(player1.Disqualified, 
                 "When player 1 attempts to end their turn during Player 2's turn they are disqualified");
         }
+        
+        [Test]
+        public void A_Player_Is_Disqualified_When_They_Draw_During_Their_Opponents_Turn()
+        {
+            List<SetCodes> deckList = new List<SetCodes>();
+            for (int i = 0; i < 40; i++)
+            {
+                deckList.Add(SetCodes.Alpha001);
+            }
+            Player player1 = new Player(1, deckList);
+            Player player2 = new Player(2, deckList);
+            CardRegister cards = new CardRegister();
+            Match match = new Match(player1, player2, cards, Update);
+            match.Draw(player2);
+            Assert.IsTrue(player2.Disqualified);
+        }
     }
 }
