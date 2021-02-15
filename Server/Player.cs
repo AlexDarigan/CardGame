@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Godot;
 
 namespace CardGame.Server
 {
@@ -24,6 +25,22 @@ namespace CardGame.Server
         {
             Id = id;
             DeckList = deckList;
+        }
+
+        public void LoadDeck(CardRegister cardRegister)
+        {
+            foreach (SetCodes setCode in DeckList)
+            {
+                Card card = new Card(cardRegister.Count, this);
+                CardData cardData = GD.Load<CardData>($"res://Server/Library/{setCode.ToString()}.tres");
+                cardRegister.Add(card);
+                card.Title = cardData.Title;
+                card.SetCodes = cardData.SetCodes;
+                card.CardType = cardData.CardType;
+                card.Faction = cardData.Faction;
+                card.Power = cardData.Power;
+                Deck.Add(card);
+            }
         }
 
         public void Draw()

@@ -1,4 +1,6 @@
-﻿namespace CardGame.Server
+﻿using System.Collections.Generic;
+
+namespace CardGame.Server
 {
     public class Match
     {
@@ -11,6 +13,17 @@
         public Match()
         {
             
+        }
+
+        public void Start(Player player1, Player player2)
+        {
+            foreach (Player player in new List<Player>{player1, player2})
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    Draw(player);
+                }
+            }
         }
         
         public void Draw(Player player)
