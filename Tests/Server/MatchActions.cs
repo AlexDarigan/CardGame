@@ -23,7 +23,7 @@ namespace CardGame.Tests.Server
 
         public override string Title()
         {
-            return "A Player is Disqualified When";
+            return "A Player is Not Disqualified When";
         }
 
         public override void Start()
@@ -52,6 +52,7 @@ namespace CardGame.Tests.Server
                 "Then their deck is reduced in size");
             Assert.IsLessThan(handCountBeforeDraw, _player1.Hand.Count, 
                 "Then their hand count is increased in size");
+            Assert.IsFalse(_player1.Disqualified);
         }
         
         [Test]
@@ -59,7 +60,9 @@ namespace CardGame.Tests.Server
         {
             int unitCountBeforeDeploy = _player1.Units.Count;
             int handCountBeforeDeploy = _player1.Hand.Count;
-            _match.Deploy(_player1, _player1.Hand[0]);
+            Card unit = _player1.Hand[0];
+            unit.CardType = CardType.Unit;
+            _match.Deploy(_player1, unit);
             Assert.IsEqual(_player1.Units.Count, unitCountBeforeDeploy + 1, 
                 "Their owners unit count is increased by 1");
             Assert.IsEqual(_player1.Hand.Count, handCountBeforeDeploy - 1,
@@ -71,7 +74,9 @@ namespace CardGame.Tests.Server
         {
             int supportCountBeforeDeploy = _player1.Supports.Count;
             int handCountBeforeDeploy = _player1.Hand.Count;
-            _match.SetFaceDown(_player1, _player1.Hand[0]);
+            Card support = _player1.Hand[0];
+            support.CardType = CardType.Support;
+            _match.SetFaceDown(_player1, support);
             Assert.IsEqual(_player1.Supports.Count, supportCountBeforeDeploy + 1, 
                 "Their owners support count is increased by 1");
             Assert.IsEqual(_player1.Hand.Count, handCountBeforeDeploy - 1,
