@@ -1,26 +1,26 @@
 ﻿using CardGame.Server;
 
-namespace CardGame.Tests.Server
+namespace CardGame.Tests.Server.Actions
 {
-    public class PlayerAction: BaseTest
+    public class MatchActions: BaseTest
     {
         /*
-         * We do not care about rules enforcement in this test. We just want to check what happens when
-         * we invoke the primary actions on players to see if the correct state exists. We should typically not invoke
-         * actions on our match script in this test (unless it can't otherwise be avoided).
-         * NOTE: Since these are action based scripts, we don't care about card type
+         * Our MATCH RULES Test dealt with what would get a player disqualified but we still need to add the positive
+         * tests to check against state as a pincer attack. We only need to cover the happy path in these tests
+         * so there is to be less tests overall here.
          */
-
+      
         [Test]
         public void When_A_Player_Draws_A_Card()
         {
             int deckCountBeforeDraw = Player1.Deck.Count;
             int handCountBeforeDraw = Player1.Hand.Count;
-            Player1.Draw();
+            Match.Draw(Player1);
             Assert.IsGreaterThan(deckCountBeforeDraw, Player1.Deck.Count, 
                 "Then their deck is reduced in size");
             Assert.IsLessThan(handCountBeforeDraw, Player1.Hand.Count, 
                 "Then their hand count is increased in size");
+            Assert.IsFalse(Player1.Disqualified);
         }
         
         [Test]
@@ -28,7 +28,9 @@ namespace CardGame.Tests.Server
         {
             int unitCountBeforeDeploy = Player1.Units.Count;
             int handCountBeforeDeploy = Player1.Hand.Count;
-            Player1.Deploy(Player1.Hand[0]);
+            Card unit = Player1.Hand[0];
+            unit.CardType = CardType.Unit;
+            Match.Deploy(Player1, unit);
             Assert.IsEqual(Player1.Units.Count, unitCountBeforeDeploy + 1, 
                 "Their owners unit count is increased by 1");
             Assert.IsEqual(Player1.Hand.Count, handCountBeforeDeploy - 1,
@@ -40,7 +42,9 @@ namespace CardGame.Tests.Server
         {
             int supportCountBeforeDeploy = Player1.Supports.Count;
             int handCountBeforeDeploy = Player1.Hand.Count;
-            Player1.SetFaceDown(Player1.Hand[0]);
+            Card support = Player1.Hand[0];
+            support.CardType = CardType.Support;
+            Match.SetFaceDown(Player1, support);
             Assert.IsEqual(Player1.Supports.Count, supportCountBeforeDeploy + 1, 
                 "Their owners support count is increased by 1");
             Assert.IsEqual(Player1.Hand.Count, handCountBeforeDeploy - 1,

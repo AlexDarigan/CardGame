@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace CardGame.Tests.Server
+namespace CardGame.Tests.Server.Initialization
 {
     public class OnGameStart: BaseTest
     {

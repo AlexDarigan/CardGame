@@ -1,6 +1,6 @@
 ﻿using CardGame.Server;
 
-namespace CardGame.Tests.Server
+namespace CardGame.Tests.Server.Conclusion
 {
     /*
      * Game Over Tests test to make sure our victory and lose conditions are working accurately

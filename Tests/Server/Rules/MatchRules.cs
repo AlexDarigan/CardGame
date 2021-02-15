@@ -1,6 +1,6 @@
 ﻿using CardGame.Server;
 
-namespace CardGame.Tests.Server
+namespace CardGame.Tests.Server.Rules
 {
     public class MatchRules: BaseTest
     {

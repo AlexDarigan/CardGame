@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CardGame.Server;
 
-namespace CardGame.Tests.Server
+namespace CardGame.Tests.Server.Actions
 {
     public class Battle: BaseTest
     {
