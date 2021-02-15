@@ -54,5 +54,44 @@ namespace CardGame.Tests
             match.Draw(player2);
             Assert.IsTrue(player2.Disqualified);
         }
+        
+        [Test]
+        public void A_Player_Is_Disqualified_When_They_Deploy_During_Their_Opponents_Turn()
+        {
+            List<SetCodes> deckList = new List<SetCodes>();
+            for (int i = 0; i < 40; i++)
+            {
+                deckList.Add(SetCodes.Alpha001);
+            }
+            Player player1 = new Player(1, deckList);
+            Player player2 = new Player(2, deckList);
+            CardRegister cards = new CardRegister();
+            Match match = new Match(player1, player2, cards, Update);
+            int unitCountBeforeDeploy = player1.Units.Count;
+            int handCountBeforeDeploy = player1.Hand.Count;
+            match.Deploy(player2, player2.Hand[0]);
+            Assert.IsTrue(player2.Disqualified);
+        }
+        
+        [Test]
+        public void When_A_Unit_Is_Deployed()
+        {
+            List<SetCodes> deckList = new List<SetCodes>();
+            for (int i = 0; i < 40; i++)
+            {
+                deckList.Add(SetCodes.Alpha001);
+            }
+            Player player1 = new Player(1, deckList);
+            Player player2 = new Player(2, deckList);
+            CardRegister cards = new CardRegister();
+            Match match = new Match(player1, player2, cards, Update);
+            int unitCountBeforeDeploy = player1.Units.Count;
+            int handCountBeforeDeploy = player1.Hand.Count;
+            player1.Deploy(player1.Hand[0]);
+            Assert.IsEqual(player1.Units.Count, unitCountBeforeDeploy + 1, 
+                "Their owners unit count is increased by 1");
+            Assert.IsEqual(player1.Hand.Count, handCountBeforeDeploy - 1,
+                "Their owners hand count is reduced by 1");
+        }
     }
 }

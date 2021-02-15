@@ -52,5 +52,11 @@ namespace CardGame.Server
             Deck.Remove(card);
             Hand.Add(card);
         }
+
+        public void Deploy(Card unit)
+        {
+            Hand.Remove(unit);
+            Units.Add(unit);
+        }
     }
 }

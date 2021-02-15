@@ -47,6 +47,18 @@ namespace CardGame.Server
             Update();
         }
 
+        public void Deploy(Player player, Card unit)
+        {
+            if (player.State != Player.States.Idle || player != TurnPlayer || unit.CardType != CardType.Unit)
+            {
+                Disqualify(player);
+                return;
+            }
+
+            player.Deploy(unit);
+            Update();
+        }
+
         public void EndTurn(Player player)
         {
             if (player.State != Player.States.Idle && player != TurnPlayer)
