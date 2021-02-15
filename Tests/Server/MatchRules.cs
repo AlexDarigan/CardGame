@@ -21,6 +21,11 @@ namespace CardGame.Tests.Server
         private Match _match;
         private CardRegister _cards;
 
+        public override string Title()
+        {
+            return "A Player is Disqualified When";
+        }
+
         public override void Start()
         {
             for (int i = 0; i < 40; i++)
@@ -39,18 +44,58 @@ namespace CardGame.Tests.Server
         }
 
         [Test]
-        public void A_Player_Is_Disqualified_When_They_Draw_During_Their_Opponents_Turn()
+        public void They_Draw_During_Their_Opponents_Turn()
         {
             _match.Draw(_player2);
             Assert.IsTrue(_player2.Disqualified);
         }
         
         [Test]
-        public void A_Player_Is_Disqualified_When_They_Deploy_During_Their_Opponents_Turn()
+        public void They_Draw_In_A_NonIdle_State()
+        {
+            _player1.State = Player.States.Passive;
+            _match.Draw(_player1);
+            Assert.IsTrue(_player1.Disqualified);
+        }
+        
+        [Test]
+        public void They_Deploy_During_Their_Opponents_Turn()
         {
             
             _match.Deploy(_player2, _player2.Hand[0]);
             Assert.IsTrue(_player2.Disqualified);
+        }
+        
+        [Test]
+        public void They_Deploy_During_Their_Turn_In_A_NonIdle_State()
+        {
+            _player1.State = Player.States.Passive;
+            _match.Deploy(_player1, _player1.Hand[0]);
+            Assert.IsTrue(_player1.Disqualified);
+        }
+        
+        [Test]
+        public void They_Deploy_A_NonUnit_Card()
+        {
+            Card card = _player1.Hand[0];
+            card.CardType = CardType.Support;
+            _match.Deploy(_player1, card);
+            Assert.IsTrue(_player1.Disqualified);
+        }
+        
+        [Test]
+        public void They_End_Their_Turn_During_Their_Opponents_Turn()
+        {
+            _match.EndTurn(_player2);
+            Assert.IsTrue(_player2.Disqualified);
+        }
+        
+        [Test]
+        public void They_End_Their_Turn_In_A_NonIdle_State()
+        {
+            _player1.State = Player.States.Passive;
+            _match.EndTurn(_player1);
+            Assert.IsTrue(_player1.Disqualified);
         }
     }
 }

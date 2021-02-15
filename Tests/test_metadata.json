@@ -11,14 +11,14 @@
 		"tags": [
 
 		],
-		"passing": false
+		"passing": true
 	},
 	"res://Tests/Server/MatchRules.cs": {
 		"path": "res://Tests/Server/MatchRules.cs",
 		"tags": [
 
 		],
-		"passing": true
+		"passing": false
 	},
 	"res://Tests/Server/MatchScenario.cs": {
 		"path": "res://Tests/Server/MatchScenario.cs",
