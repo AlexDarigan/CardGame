@@ -103,7 +103,7 @@ namespace CardGame.Server
             player.SetFaceDown(support);
             Update();
         }
-
+        
         public void EndTurn(Player player)
         {
             if (player.State != Player.States.Idle || player != TurnPlayer)

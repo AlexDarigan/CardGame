@@ -62,21 +62,15 @@
 
 ## [ ] Player Actions
 - _Features_
-    - [ ] Add Support Card Data
-    - [ ] Add Additional Player States
     - [X] Add Deploy Function
-    - [ ] Add DeclareAttack
-    - [ ] Add DeclareDirectAttack
+    - [X] Add DeclareAttack
+    - [X] Add DeclareDirectAttack
     - [X] Add SetFaceDown Function
-    - [ ] Add Activate Support Card
     - [X] Add Disqualify Function
 - _Tests_
-    - [ ] A Creature cannot attack the turn it is played
-    - [ ] A Support cannot be activated the turn it is set
-    - [ ] A Creature can attack after the turn it has been played
-    - [ ] A Support can be activated during either player's turn
-    - [ ] A Creature can only be played during its owners turn
-    - [ ] A Creature can only be set during its owners turn
+    - [X] A Creature cannot attack the turn it is played
+    - [X] A Creature can attack after the turn it has been played
+    - [X] A Creature can only be played during its owners turn
 
 ## [ ] Battle System
 
@@ -87,6 +81,12 @@
     These are significant in size and are too far in the future to accurately talk about immediatly.
 
     - Link System
+      - [ ] Add Activate Support Card
+      - [ ] A Support can be activated during either player's turn
+      - [ ] A Support cannot be activated the turn it is set
+
+
+
     - GUI
     - Custom Rules
 
