@@ -56,7 +56,7 @@ namespace CardGame.Server
                     Resource cardData = GD.Load<Resource>($"res://Server/Library/{setCode.ToString()}.tres");
                     
                     // Unfortunately Godot (as of writing) doesn't support custom resources properly in C# so we have
-                    // to resort virtual get methods for each property. It might be worthwhile to create our custom
+                    // to resort to virtual get methods for each property. It might be worthwhile to create our custom
                     // inspector in future for this?
                     card.Title = (string) cardData.Get("Title");
                     card.SetCodes = (SetCodes) cardData.Get("SetCodes");

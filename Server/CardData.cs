@@ -1,4 +1,6 @@
-﻿using Godot;
+﻿using System;
+using System.Collections.Generic;
+using Godot;
 
 namespace CardGame.Server
 {
@@ -9,5 +11,7 @@ namespace CardGame.Server
         [Export()] public CardType CardType = CardType.Null;
         [Export()] public Faction Faction = Faction.Null;
         [Export()] public int Power = 0;
+
+        
     }
 }
