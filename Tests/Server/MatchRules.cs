@@ -84,6 +84,35 @@ namespace CardGame.Tests.Server
         }
         
         [Test]
+        public void They_Set_A_Support_FaceDown_During_Their_Opponents_Turn()
+        {
+            Card card = _player2.Hand[0];
+            card.CardType = CardType.Support;
+            _match.SetFaceDown(_player2, card);
+            Assert.IsTrue(_player2.Disqualified);
+        }
+        
+        [Test]
+        public void They_Set_A_Support_FaceDown_During_Their_Turn_In_A_NonIdle_State()
+        {
+            Card card = _player1.Hand[0];
+            card.CardType = CardType.Support;
+            _player1.State = Player.States.Passive;
+            _match.SetFaceDown(_player1, card);
+            Assert.IsTrue(_player1.Disqualified);
+        }
+
+        
+        [Test]
+        public void They_Set_A_NonSupport_Card_FaceDown()
+        {
+            Card card = _player1.Hand[0];
+            card.CardType = CardType.Unit;
+            _match.SetFaceDown(_player1, card);
+            Assert.IsTrue(_player1.Disqualified);
+        }
+        
+        [Test]
         public void They_End_Their_Turn_During_Their_Opponents_Turn()
         {
             _match.EndTurn(_player2);

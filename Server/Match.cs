@@ -66,6 +66,18 @@ namespace CardGame.Server
             Update();
         }
 
+        public void SetFaceDown(Player player, Card support)
+        {
+            if (player.State != Player.States.Idle || player != TurnPlayer || support.CardType != CardType.Support)
+            {
+                Disqualify(player);
+                return;
+            }
+
+            player.SetFaceDown(support);
+            Update();
+        }
+
         public void EndTurn(Player player)
         {
             if (player.State != Player.States.Idle || player != TurnPlayer)

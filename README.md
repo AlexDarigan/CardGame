@@ -67,7 +67,7 @@
     - [X] Add Deploy Function
     - [ ] Add DeclareAttack
     - [ ] Add DeclareDirectAttack
-    - [ ] Add SetFaceDown Function
+    - [X] Add SetFaceDown Function
     - [ ] Add Activate Support Card
     - [X] Add Disqualify Function
 - _Tests_
