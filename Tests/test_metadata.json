@@ -13,57 +13,57 @@
 		],
 		"passing": true
 	},
-	"res://Tests/Server/Battle.cs": {
-		"path": "res://Tests/Server/Battle.cs",
-		"tags": [
-
-		],
-		"passing": false
-	},
-	"res://Tests/Server/GameOver.cs": {
-		"path": "res://Tests/Server/GameOver.cs",
+	"res://Tests/Server/Actions/Battle.cs": {
+		"path": "res://Tests/Server/Actions/Battle.cs",
 		"tags": [
 
 		],
 		"passing": true
 	},
-	"res://Tests/Server/MatchActions.cs": {
-		"path": "res://Tests/Server/MatchActions.cs",
+	"res://Tests/Server/Actions/MatchActions.cs": {
+		"path": "res://Tests/Server/Actions/MatchActions.cs",
 		"tags": [
 
 		],
 		"passing": true
 	},
-	"res://Tests/Server/MatchRules.cs": {
-		"path": "res://Tests/Server/MatchRules.cs",
+	"res://Tests/Server/Actions/PlayerAction.cs": {
+		"path": "res://Tests/Server/Actions/PlayerAction.cs",
 		"tags": [
 
 		],
 		"passing": true
 	},
-	"res://Tests/Server/MatchScenario.cs": {
-		"path": "res://Tests/Server/MatchScenario.cs",
+	"res://Tests/Server/Conclusion/GameOver.cs": {
+		"path": "res://Tests/Server/Conclusion/GameOver.cs",
 		"tags": [
 
 		],
 		"passing": true
 	},
-	"res://Tests/Server/OnGameStart.cs": {
-		"path": "res://Tests/Server/OnGameStart.cs",
+	"res://Tests/Server/Initialization/OnGameStart.cs": {
+		"path": "res://Tests/Server/Initialization/OnGameStart.cs",
 		"tags": [
 
 		],
 		"passing": true
 	},
-	"res://Tests/Server/PlayerAction.cs": {
-		"path": "res://Tests/Server/PlayerAction.cs",
+	"res://Tests/Server/Initialization/ServerConnection.cs": {
+		"path": "res://Tests/Server/Initialization/ServerConnection.cs",
 		"tags": [
 
 		],
 		"passing": true
 	},
-	"res://Tests/Server/ServerConnection.cs": {
-		"path": "res://Tests/Server/ServerConnection.cs",
+	"res://Tests/Server/Rules/MatchRules.cs": {
+		"path": "res://Tests/Server/Rules/MatchRules.cs",
+		"tags": [
+
+		],
+		"passing": true
+	},
+	"res://Tests/Server/Scenarios/MatchScenario.cs": {
+		"path": "res://Tests/Server/Scenarios/MatchScenario.cs",
 		"tags": [
 
 		],
