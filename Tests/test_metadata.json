@@ -13,12 +13,19 @@
 		],
 		"passing": true
 	},
+	"res://Tests/Server/GameOver.cs": {
+		"path": "res://Tests/Server/GameOver.cs",
+		"tags": [
+
+		],
+		"passing": false
+	},
 	"res://Tests/Server/MatchRules.cs": {
 		"path": "res://Tests/Server/MatchRules.cs",
 		"tags": [
 
 		],
-		"passing": false
+		"passing": true
 	},
 	"res://Tests/Server/MatchScenario.cs": {
 		"path": "res://Tests/Server/MatchScenario.cs",

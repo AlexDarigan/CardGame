@@ -11,7 +11,7 @@ namespace CardGame.Server
      */
     public class Player
     {
-        public enum States { Idle, Passive }
+        public enum States { Idle, Passive, Loser, Winner }
         public readonly int Id;
         public Player Opponent;
         public bool Ready = false;

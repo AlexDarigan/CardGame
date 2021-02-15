@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Godot;
 
 namespace CardGame.Server
 {
@@ -15,6 +16,7 @@ namespace CardGame.Server
 
         private readonly Action Update;
         private Player TurnPlayer;
+        private bool _isGameOver;
         public Match(Player player1, Player player2, CardRegister cardRegister, Action update)
         {
             player1.Opponent = player2;
@@ -42,7 +44,12 @@ namespace CardGame.Server
                 Disqualify(player);
                 return;
             }
-            
+
+            if (player.Deck.Count == 0)
+            {
+                GameOver(player.Opponent, player);
+                return;
+            }
             player.Draw();
             Update();
         }
@@ -70,13 +77,26 @@ namespace CardGame.Server
             TurnPlayer = TurnPlayer.Opponent;
             TurnPlayer.State = Player.States.Idle;
             TurnPlayer.Opponent.State = Player.States.Passive;
-            TurnPlayer.Draw();
+            Draw(TurnPlayer);
             Update();
         }
 
         private void Disqualify(Player player)
         {
+            if (_isGameOver)
+            {
+                // The Player States are already invalid at this point so no reason to force the disqualification
+                return;
+            }
             player.Disqualified = true;
+        }
+
+        private void GameOver(Player winner, Player loser)
+        {
+            winner.State = Player.States.Winner;
+            loser.State = Player.States.Loser;
+            _isGameOver = true;
+            Update();
         }
     }
 }
