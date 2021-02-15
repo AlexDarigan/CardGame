@@ -64,12 +64,12 @@
 - _Features_
     - [ ] Add Support Card Data
     - [ ] Add Additional Player States
-    - [ ] Add Deploy Function
+    - [X] Add Deploy Function
     - [ ] Add DeclareAttack
     - [ ] Add DeclareDirectAttack
     - [ ] Add SetFaceDown Function
     - [ ] Add Activate Support Card
-    - [ ] Add Disqualify Function
+    - [X] Add Disqualify Function
 - _Tests_
     - [ ] A Creature cannot attack the turn it is played
     - [ ] A Support cannot be activated the turn it is set
