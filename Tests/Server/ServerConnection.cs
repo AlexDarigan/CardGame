@@ -1,9 +1,8 @@
 ﻿using CardGame.Server;
-using Godot;
 
-namespace CardGame.Tests
+namespace CardGame.Tests.Server
 {
-    public class ServerTest: WAT.Test
+    public class ServerConnection: WAT.Test
     {
         private readonly Connection Server = new Connection();
 

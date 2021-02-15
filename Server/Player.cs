@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Godot;
 
 namespace CardGame.Server
 {
@@ -10,6 +11,7 @@ namespace CardGame.Server
      */
     public class Player
     {
+        public enum States { Idle, Passive, Loser, Winner }
         public readonly int Id;
         public Player Opponent;
         public bool Ready = false;
@@ -19,11 +21,29 @@ namespace CardGame.Server
         public readonly List<Card> Hand = new List<Card>();
         public readonly List<Card> Units = new List<Card>();
         public readonly List<Card> Supports = new List<Card>();
+        public States State = States.Passive;
+        public bool Disqualified = false;
 
         public Player(int id, IEnumerable<SetCodes> deckList)
         {
             Id = id;
             DeckList = deckList;
+        }
+
+        public void LoadDeck(CardRegister cardRegister)
+        {
+            foreach (SetCodes setCode in DeckList)
+            {
+                Card card = new Card(cardRegister.Count, this);
+                CardData cardData = GD.Load<CardData>($"res://Server/Library/{setCode.ToString()}.tres");
+                cardRegister.Add(card);
+                card.Title = cardData.Title;
+                card.SetCodes = cardData.SetCodes;
+                card.CardType = cardData.CardType;
+                card.Faction = cardData.Faction;
+                card.Power = cardData.Power;
+                Deck.Add(card);
+            }
         }
 
         public void Draw()
@@ -32,5 +52,12 @@ namespace CardGame.Server
             Deck.Remove(card);
             Hand.Add(card);
         }
+
+        public void Deploy(Card unit)
+        {
+            Hand.Remove(unit);
+            Units.Add(unit);
+        }
+
     }
 }
