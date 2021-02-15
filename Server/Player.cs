@@ -13,15 +13,17 @@ namespace CardGame.Server
         public readonly int Id;
         public Player Opponent;
         public bool Ready = false;
+        public readonly IEnumerable<SetCodes> DeckList;
         public readonly List<Card> Deck = new List<Card>();
         public readonly List<Card> Graveyard = new List<Card>();
         public readonly List<Card> Hand = new List<Card>();
         public readonly List<Card> Units = new List<Card>();
         public readonly List<Card> Supports = new List<Card>();
 
-        public Player(int id)
+        public Player(int id, IEnumerable<SetCodes> deckList)
         {
             Id = id;
+            DeckList = deckList;
         }
 
         public void Draw()
