@@ -78,6 +78,19 @@ namespace CardGame.Server
             // TODO: Implement Battle Logic
             Update();
         }
+        
+        public void DeclareDirectAttack(Player player, Card attacker)
+        {
+            if (player.State != Player.States.Idle || !player.Units.Contains(attacker) ||
+                player.Opponent.Units.Count != 0 || !attacker.IsReady)
+            {
+                Disqualify(player);
+                return;
+            }
+
+            // TODO: Implement Battle Logic
+            Update();
+        }
 
         public void SetFaceDown(Player player, Card support)
         {
