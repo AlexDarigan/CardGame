@@ -1,34 +1,55 @@
 {
-	"res://Tests/ClientTest.cs": {
-		"path": "res://Tests/ClientTest.cs",
+	"res://Tests/Client/ClientConnection.cs": {
+		"path": "res://Tests/Client/ClientConnection.cs",
 		"tags": [
 
 		],
 		"passing": true
 	},
-	"res://Tests/ConnectionTest.cs": {
-		"path": "res://Tests/ConnectionTest.cs",
+	"res://Tests/Integration/ConnectionTest.cs": {
+		"path": "res://Tests/Integration/ConnectionTest.cs",
 		"tags": [
 
 		],
 		"passing": true
 	},
-	"res://Tests/SampleTest.cs": {
-		"path": "res://Tests/SampleTest.cs",
+	"res://Tests/Server/GameOver.cs": {
+		"path": "res://Tests/Server/GameOver.cs",
+		"tags": [
+
+		],
+		"passing": false
+	},
+	"res://Tests/Server/MatchRules.cs": {
+		"path": "res://Tests/Server/MatchRules.cs",
 		"tags": [
 
 		],
 		"passing": true
 	},
-	"res://Tests/ServerGameTest.cs": {
-		"path": "res://Tests/ServerGameTest.cs",
+	"res://Tests/Server/MatchScenario.cs": {
+		"path": "res://Tests/Server/MatchScenario.cs",
 		"tags": [
 
 		],
 		"passing": true
 	},
-	"res://Tests/ServerTest.cs": {
-		"path": "res://Tests/ServerTest.cs",
+	"res://Tests/Server/OnGameStart.cs": {
+		"path": "res://Tests/Server/OnGameStart.cs",
+		"tags": [
+
+		],
+		"passing": true
+	},
+	"res://Tests/Server/PlayerAction.cs": {
+		"path": "res://Tests/Server/PlayerAction.cs",
+		"tags": [
+
+		],
+		"passing": true
+	},
+	"res://Tests/Server/ServerConnection.cs": {
+		"path": "res://Tests/Server/ServerConnection.cs",
 		"tags": [
 
 		],

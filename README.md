@@ -49,15 +49,16 @@
     - [X] Are Player decks reduced in size when we draw?
 ## [ ] Victory Conditions
 - _Features_
-    - [ ] Add Player States
-    - [ ] Add End Turn Function
-    - [ ] Add ServerSide Win/Lose Function
-    - [ ] Add ClientSide Win/Lose Function
-    - [ ] Add Game Cleanup
+    - [X] Add Player States
+    - [X] Add End Turn Function
+    - [X] Add ServerSide Win/Lose Function
 - _Tests_
-    - [ ] When a player tries to draw a card with 0 cards, do they lose?
-    - [ ] When a player loses does the other player win?
-    - [ ] When a game ends are the players informed?
+    - [X] When a player tries to draw a card with 0 cards, is the game over?
+    - [X] When a player loses does the other player win?
+    - [X] When a game ends are the players informed?
+    - [X] A Player is disqualified when
+        - [X] They try to end their turn during their opponents turn
+        - [X] They try to end their turn when in a non-idle state
 
 ## [ ] Player Actions
 - _Features_
