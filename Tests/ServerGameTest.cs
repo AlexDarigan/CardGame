@@ -13,6 +13,10 @@ namespace CardGame.Tests
         private Match _match;
         private CardRegister _cards = new CardRegister();
         
+        private void Update()
+        {
+            // We could use this to capture parts of the test   
+        }
         public override string Title()
         {
             return "When a game starts";
@@ -28,7 +32,7 @@ namespace CardGame.Tests
             _player2 = new Player(2, DeckList);
             _player1.LoadDeck(_cards);
             _player2.LoadDeck(_cards);
-            _match = new Match();
+            _match = new Match(Update);
             _match.Start(_player1, _player2);
         }
 
@@ -56,7 +60,7 @@ namespace CardGame.Tests
             CardRegister cards = new CardRegister();
             player1.LoadDeck(cards);
             player2.LoadDeck(cards);
-            _match = new Match();
+            _match = new Match(Update);
             _match.Start(player1, player2);
             int deckCountBeforeDraw = player1.Deck.Count;
             int handCountBeforeDraw = player1.Hand.Count;
@@ -74,5 +78,7 @@ namespace CardGame.Tests
                            _player1.Hand.All(card => card.SetCodes == SetCodes.Alpha001);
             Assert.IsTrue(success);
         }
+
+        
     }
 }

@@ -9,14 +9,15 @@ namespace CardGame.Server
 {
     public class Room: Node
     {
-        private readonly Match _match = new Match();
+        private readonly Match _match;
         private readonly Dictionary<int, Player> _players = new Dictionary<int, Player>();
         private readonly CardRegister _cards = new CardRegister();
      
         public Room()
-        {
+        { 
             // I believe an empty constructor is required in Godot Classes that have non-empty constructor(s)
             // ..for the sake of some Godot callbacks
+            _match = new Match(Update);
         }
         public Room(Player player1, Player player2)
         {
@@ -27,6 +28,12 @@ namespace CardGame.Server
             player1.LoadDeck(_cards);
             player2.LoadDeck(_cards);
         }
+
+        private void Update()
+        {
+            
+        }
+        
 
         [Master]
         public void OnClientReady()

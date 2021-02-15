@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CardGame.Server
 {
@@ -10,9 +11,11 @@ namespace CardGame.Server
          * When we want to test actions independently of a script like this, we will just invoke them
          * directly on their owners (either a player or a skill).
          */
-        public Match()
+
+        private readonly Action Update;
+        public Match(Action update)
         {
-            
+            Update = update;
         }
 
         public void Start(Player player1, Player player2)
@@ -29,6 +32,7 @@ namespace CardGame.Server
         public void Draw(Player player)
         {
             player.Draw();
+            Update();
         }
     }
 }
