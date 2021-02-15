@@ -66,6 +66,44 @@ namespace CardGame.Server
             Update();
         }
 
+        public void DeclareAttack(Player player, Card attacker, Card defender)
+        {
+            if (player.State != Player.States.Idle || !player.Units.Contains(attacker) ||
+                !player.Opponent.Units.Contains(defender) || !attacker.IsReady)
+            {
+                Disqualify(player);
+                return;
+            }
+
+            // TODO: Implement Battle Logic
+            Update();
+        }
+        
+        public void DeclareDirectAttack(Player player, Card attacker)
+        {
+            if (player.State != Player.States.Idle || !player.Units.Contains(attacker) ||
+                player.Opponent.Units.Count != 0 || !attacker.IsReady)
+            {
+                Disqualify(player);
+                return;
+            }
+
+            // TODO: Implement Battle Logic
+            Update();
+        }
+
+        public void SetFaceDown(Player player, Card support)
+        {
+            if (player.State != Player.States.Idle || player != TurnPlayer || support.CardType != CardType.Support)
+            {
+                Disqualify(player);
+                return;
+            }
+
+            player.SetFaceDown(support);
+            Update();
+        }
+        
         public void EndTurn(Player player)
         {
             if (player.State != Player.States.Idle || player != TurnPlayer)
@@ -78,6 +116,8 @@ namespace CardGame.Server
             TurnPlayer.State = Player.States.Idle;
             TurnPlayer.Opponent.State = Player.States.Passive;
             Draw(TurnPlayer);
+            foreach (Card card in player.Units) { card.IsReady = true; }
+            foreach (Card card in player.Supports) { card.IsReady = true; }
             Update();
         }
 

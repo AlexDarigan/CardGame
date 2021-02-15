@@ -10,6 +10,7 @@
         public Player Controller;
         public string Title;
         public int Power;
+        public bool IsReady = false;
 
         public Card(int id, Player owner)
         {

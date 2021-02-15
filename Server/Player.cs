@@ -59,5 +59,11 @@ namespace CardGame.Server
             Units.Add(unit);
         }
 
+        public void SetFaceDown(Card support)
+        {
+            Hand.Remove(support);
+            Supports.Add(support);
+        }
+
     }
 }
