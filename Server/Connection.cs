@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using Godot.Collections;
 
 namespace CardGame.Server
 {
@@ -24,12 +25,12 @@ namespace CardGame.Server
 
             CustomMultiplayer = new MultiplayerAPI {NetworkPeer = Server};
             CustomMultiplayer.SetRootNode(this);
-            CustomMultiplayer.Connect("network_peer_connected", this, nameof(OnNetworkPeerConnected));
         }
 
-        private void OnNetworkPeerConnected(int id)
+        [Master]
+        public void OnNetworkPeerConnected(IEnumerable<SetCodes> deckList)
         {
-            Queue.Enqueue(new Player(id));
+            Queue.Enqueue(new Player(CustomMultiplayer.GetRpcSenderId(), deckList));
         }
 
         public override void _Process(float delta)
