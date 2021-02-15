@@ -1,41 +1,34 @@
 {
-	"res://Tests/ClientTest.cs": {
-		"path": "res://Tests/ClientTest.cs",
+	"res://Tests/Client/ClientTest.cs": {
+		"path": "res://Tests/Client/ClientTest.cs",
 		"tags": [
 
 		],
 		"passing": true
 	},
-	"res://Tests/ConnectionTest.cs": {
-		"path": "res://Tests/ConnectionTest.cs",
+	"res://Tests/Integration/ConnectionTest.cs": {
+		"path": "res://Tests/Integration/ConnectionTest.cs",
+		"tags": [
+
+		],
+		"passing": false
+	},
+	"res://Tests/Server/ServerGameActionTest.cs": {
+		"path": "res://Tests/Server/ServerGameActionTest.cs",
 		"tags": [
 
 		],
 		"passing": true
 	},
-	"res://Tests/SampleTest.cs": {
-		"path": "res://Tests/SampleTest.cs",
+	"res://Tests/Server/ServerGameTest.cs": {
+		"path": "res://Tests/Server/ServerGameTest.cs",
 		"tags": [
 
 		],
 		"passing": true
 	},
-	"res://Tests/ServerGameActionTest.cs": {
-		"path": "res://Tests/ServerGameActionTest.cs",
-		"tags": [
-
-		],
-		"passing": true
-	},
-	"res://Tests/ServerGameTest.cs": {
-		"path": "res://Tests/ServerGameTest.cs",
-		"tags": [
-
-		],
-		"passing": true
-	},
-	"res://Tests/ServerTest.cs": {
-		"path": "res://Tests/ServerTest.cs",
+	"res://Tests/Server/ServerTest.cs": {
+		"path": "res://Tests/Server/ServerTest.cs",
 		"tags": [
 
 		],

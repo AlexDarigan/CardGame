@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using ServerConn = CardGame.Server.Connection;
+using ClientConn = CardGame.Client.Connection;
 
-namespace CardGame.Tests
+namespace CardGame.Tests.Client
 {
     public class ClientTest: WAT.Test
     {
@@ -9,8 +10,8 @@ namespace CardGame.Tests
             return "Client";
         }
 
-        private readonly Server.Connection Server = new Server.Connection();
-        private readonly Client.Connection Client = new Client.Connection();
+        private readonly ServerConn Server = new ServerConn();
+        private readonly ClientConn Client = new ClientConn();
 
         public override void Start()
         {

@@ -1,7 +1,6 @@
 ﻿using CardGame.Server;
-using Godot;
 
-namespace CardGame.Tests
+namespace CardGame.Tests.Server
 {
     public class ServerTest: WAT.Test
     {

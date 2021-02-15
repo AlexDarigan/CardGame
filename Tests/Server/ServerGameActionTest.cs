@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CardGame.Server;
 
-namespace CardGame.Tests
+namespace CardGame.Tests.Server
 {
     public class ServerGameActionTest: WAT.Test
     {

@@ -1,12 +1,14 @@
-﻿using System.Net;
+﻿using ServerConn = CardGame.Server.Connection;
+using ClientConn = CardGame.Client.Connection;
 
-namespace CardGame.Tests
+
+namespace CardGame.Tests.Integration
 {
     public class ConnectionTest: WAT.Test
     {
-        private readonly Server.Connection Server = new Server.Connection();
-        private readonly Client.Connection Client1 = new Client.Connection();
-        private readonly Client.Connection Client2 = new Client.Connection();
+        private readonly ServerConn Server = new ServerConn();
+        private readonly ClientConn Client1 = new ClientConn();
+        private readonly ClientConn Client2 = new ClientConn();
 
         public override string Title()
         {
@@ -27,11 +29,11 @@ namespace CardGame.Tests
                 "When the first client joins there is one player on the server");
             AddChild(Client2);
             await ToSignal(UntilTimeout(0.5), YIELD);
-            Assert.IsType<Server.Room>(Server.GetChild(0), 
+            Assert.IsType<CardGame.Server.Room>(Server.GetChild(0), 
                 "When the second client joins a room is created on the server");
-            Assert.IsType<Client.Room>(Client1.GetChild(0),
+            Assert.IsType<CardGame.Client.Room>(Client1.GetChild(0),
                 "And A Room is created on Client 1");
-            Assert.IsType<Client.Room>(Client2.GetChild(0),
+            Assert.IsType<CardGame.Client.Room>(Client2.GetChild(0),
                 "And A Room is created on Client 2");
             Assert.IsEqual(Client1.GetChild(0).Name, Client2.GetChild(0).Name, 
                 "The Client Rooms share the same name");

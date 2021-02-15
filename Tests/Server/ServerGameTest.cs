@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CardGame.Server;
-using WAT;
 
-namespace CardGame.Tests
+namespace CardGame.Tests.Server
 {
     public class ServerGameTest: WAT.Test
     {
