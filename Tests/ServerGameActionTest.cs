@@ -22,12 +22,8 @@ namespace CardGame.Tests
             Player player1 = new Player(1, deckList);
             Player player2 = new Player(2, deckList);
             CardRegister cards = new CardRegister();
-            player1.LoadDeck(cards);
-            player2.LoadDeck(cards);
-            player1.Opponent = player2;
-            player2.Opponent = player1;
-            Match match = new Match(Update);
-            match.Start(player1, player2);
+            Match match = new Match(player1, player2, cards, Update);
+          
             
             Assert.IsEqual(player1.State, Player.States.Idle, "When it starts, Player 1 is Idle");
             Assert.IsEqual(player2.State, Player.States.Passive, "While Player 2 is Passive");

@@ -21,13 +21,9 @@ namespace CardGame.Server
         }
         public Room(Player player1, Player player2)
         {
-            player1.Opponent = player2;
-            player2.Opponent = player1;
             _players[player1.Id] = player1;
             _players[player2.Id] = player2;
-            player1.LoadDeck(_cards);
-            player2.LoadDeck(_cards);
-            _match = new Match(Update);
+            _match = new Match(player1, player2, _cards, Update);
         }
 
         private void Update()
@@ -45,7 +41,10 @@ namespace CardGame.Server
                 return;
             }
             
-            _match.Start(_players.Values.ToList()[0], _players.Values.ToList()[1]);
+            // Since all of our work is done in the constructor we will be ready to push our events here
+            // (With that in mind, should we queue everything serverside and only push it once when ready to update?..
+            // ..arguably that could help with some peekAhead methods on client-side for better queueing).
+            Update();
         }
 
         [Master]

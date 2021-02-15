@@ -30,12 +30,7 @@ namespace CardGame.Tests
             }
             _player1 = new Player(1, DeckList);
             _player2 = new Player(2, DeckList);
-            _player1.Opponent = _player2;
-            _player2.Opponent = _player1;
-            _player1.LoadDeck(_cards);
-            _player2.LoadDeck(_cards);
-            _match = new Match(Update);
-            _match.Start(_player1, _player2);
+            _match = new Match(_player1, _player2, _cards, Update);
         }
 
         [Test]
@@ -60,12 +55,7 @@ namespace CardGame.Tests
             Player player1 = new Player(1, DeckList);
             Player player2 = new Player(2, DeckList);
             CardRegister cards = new CardRegister();
-            player1.LoadDeck(cards);
-            player2.LoadDeck(cards);
-            player1.Opponent = player2;
-            player2.Opponent = player1;
-            _match = new Match(Update);
-            _match.Start(player1, player2);
+            _match = new Match(player1, player2, cards, Update);
             int deckCountBeforeDraw = player1.Deck.Count;
             int handCountBeforeDraw = player1.Hand.Count;
             player1.Draw();

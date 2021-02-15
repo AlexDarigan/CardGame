@@ -15,25 +15,24 @@ namespace CardGame.Server
 
         private readonly Action Update;
         private Player TurnPlayer;
-        public Match(Action update)
+        public Match(Player player1, Player player2, CardRegister cardRegister, Action update)
         {
-            Update = update;
-        }
-
-        public void Start(Player player1, Player player2)
-        {
+            player1.Opponent = player2;
+            player2.Opponent = player1;
+            player1.LoadDeck(cardRegister);
+            player2.LoadDeck(cardRegister);
+            
+            // This is not the most pleasing, maybe be better to do it as player.draw(count)?
             foreach (Player player in new List<Player>{player1, player2})
             {
                 for (int i = 0; i < 7; i++)
                 {
-                    // Call it directly here so we don't ram multiple updates down the hatch
                     player.Draw();
                 }
             }
-
             TurnPlayer = player1;
             TurnPlayer.State = Player.States.Idle;
-            Update();
+            Update = update;
         }
         
         public void Draw(Player player)
