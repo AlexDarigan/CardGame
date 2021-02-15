@@ -2,7 +2,7 @@
 
 namespace CardGame.Tests.Server
 {
-    public class ServerTest: WAT.Test
+    public class ServerConnection: WAT.Test
     {
         private readonly Connection Server = new Connection();
 

@@ -66,7 +66,7 @@ namespace CardGame.Server
                 Disqualify(player);
                 return;
             }
-
+            
             TurnPlayer = TurnPlayer.Opponent;
             TurnPlayer.State = Player.States.Idle;
             TurnPlayer.Opponent.State = Player.States.Passive;

@@ -3,7 +3,7 @@ using ClientConn = CardGame.Client.Connection;
 
 namespace CardGame.Tests.Client
 {
-    public class ClientTest: WAT.Test
+    public class ClientConnection: WAT.Test
     {
         public override string Title()
         {

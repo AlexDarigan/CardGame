@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource( 1 )
-Power = 2000
-CardType = 1
-Faction = 1
 SetCodes = 1
+Faction = 1
+CardType = 1
+Power = 2000
 Title = "Dungeon Guide"

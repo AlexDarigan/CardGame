@@ -4,7 +4,7 @@ using CardGame.Server;
 
 namespace CardGame.Tests.Server
 {
-    public class ServerGameTest: WAT.Test
+    public class OnGameStart: WAT.Test
     {
         private readonly List<SetCodes> DeckList = new List<SetCodes>();
         private Player _player1;
@@ -46,22 +46,6 @@ namespace CardGame.Tests.Server
             // ..unless we choose to not allow the first turn draw
             Assert.IsEqual(_player1.Hand.Count, 7);
             Assert.IsEqual(_player2.Hand.Count, 7);
-        }
-
-        [Test]
-        public void And_A_Player_Draws()
-        {
-            Player player1 = new Player(1, DeckList);
-            Player player2 = new Player(2, DeckList);
-            CardRegister cards = new CardRegister();
-            _match = new Match(player1, player2, cards, Update);
-            int deckCountBeforeDraw = player1.Deck.Count;
-            int handCountBeforeDraw = player1.Hand.Count;
-            player1.Draw();
-            Assert.IsGreaterThan(deckCountBeforeDraw, player1.Deck.Count, 
-                "Then their deck is reduced in size");
-            Assert.IsLessThan(handCountBeforeDraw, player1.Hand.Count, 
-                "Then their hand count is increased in size");
         }
 
         [Test]
