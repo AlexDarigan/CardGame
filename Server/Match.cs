@@ -75,7 +75,22 @@ namespace CardGame.Server
                 return;
             }
 
-            // TODO: Implement Battle Logic
+            static void DamageCalculation(Card winner, Card loser)
+            {
+                loser.Controller.Health -= winner.Power - loser.Power;
+                loser.Controller.Units.Remove(loser);
+                loser.Owner.Graveyard.Add(loser);
+            }
+
+            if (attacker.Power > defender.Power)
+            {
+                DamageCalculation(attacker, defender);
+            }
+            else if(defender.Power > attacker.Power)
+            {
+                DamageCalculation(defender, attacker);
+            }
+
             Update();
         }
         
