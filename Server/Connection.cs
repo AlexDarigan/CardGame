@@ -61,6 +61,7 @@ namespace CardGame.Server
         public override void _ExitTree()
         {
             Server?.CloseConnection();
+            QueueFree();
         }
     }
 }
