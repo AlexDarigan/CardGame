@@ -111,6 +111,80 @@ namespace CardGame.Tests.Server
             _match.SetFaceDown(_player1, card);
             Assert.IsTrue(_player1.Disqualified);
         }
+
+        [Test]
+        public void They_Declare_An_Attack_When_They_Are_Not_The_Turn_Player()
+        {
+            Card attacker = _player1.Hand[0];
+            Card defender = _player2.Hand[0];
+            attacker.CardType = CardType.Unit;
+            defender.CardType = CardType.Unit;
+            _match.Deploy(_player1, attacker);
+            _match.EndTurn(_player1);
+            _match.Deploy(_player2, defender);
+            _match.EndTurn(_player1);
+            _match.DeclareAttack(_player1, attacker, defender);
+            Assert.IsTrue(_player1.Disqualified);
+        }
+        
+        [Test]
+        public void They_Declare_An_Attack_When_They_Are_In_A_NonIdle_State()
+        {
+            Card attacker = _player1.Hand[0];
+            Card defender = _player2.Hand[0];
+            attacker.CardType = CardType.Unit;
+            defender.CardType = CardType.Unit;
+            _match.Deploy(_player1, attacker);
+            _match.EndTurn(_player1);
+            _match.Deploy(_player2, defender);
+            _match.EndTurn(_player2);
+            _player1.State = Player.States.Passive;
+            _match.DeclareAttack(_player1, attacker, defender);
+            Assert.IsTrue(_player1.Disqualified);
+        }
+        
+        [Test]
+        public void They_Declare_An_Attack_With_An_Unready_Unit()
+        {
+            Card attacker = _player1.Hand[0];
+            Card defender = _player2.Hand[0];
+            attacker.CardType = CardType.Unit;
+            defender.CardType = CardType.Unit;
+            _match.EndTurn(_player1);
+            _match.Deploy(_player2, defender);
+            _match.EndTurn(_player2);
+            _match.Deploy(_player1, attacker);
+            _match.DeclareAttack(_player1, attacker, defender);
+            Assert.IsTrue(_player1.Disqualified);
+        }
+
+        [Test]
+        public void They_Declare_An_Attack_With_A_Card_That_Is_Not_On_The_Field()
+        {
+            Card attacker = _player1.Hand[0];
+            Card defender = _player2.Hand[0];
+            attacker.CardType = CardType.Unit;
+            defender.CardType = CardType.Unit;
+            _match.EndTurn(_player1);
+            _match.Deploy(_player2, defender);
+            _match.EndTurn(_player2);
+            _match.DeclareAttack(_player1, attacker, defender);
+            Assert.IsTrue(_player1.Disqualified);
+        }
+
+        [Test]
+        public void They_Declare_An_Attack_Against_A_Card_That_Is_Not_On_The_Field()
+        {
+            Card attacker = _player1.Hand[0];
+            Card defender = _player2.Hand[0];
+            attacker.CardType = CardType.Unit;
+            defender.CardType = CardType.Unit;
+            _match.Deploy(_player1, attacker);
+            _match.EndTurn(_player1);
+            _match.EndTurn(_player2);
+            _match.DeclareAttack(_player1, attacker, defender);
+            Assert.IsTrue(_player1.Disqualified);
+        }
         
         [Test]
         public void They_End_Their_Turn_During_Their_Opponents_Turn()
