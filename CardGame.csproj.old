@@ -1,12 +1,9 @@
-<Project Sdk="Godot.NET.Sdk/3.2.3">
+<Project Sdk="Godot.NET.Sdk/3.2.4">
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Server\Library" />
   </ItemGroup>
 </Project>

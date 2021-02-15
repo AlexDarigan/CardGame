@@ -1,5 +1,9 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Godot.Collections;
+using Array = Godot.Collections.Array;
 
 namespace CardGame.Client
 {
@@ -21,6 +25,17 @@ namespace CardGame.Client
 
             CustomMultiplayer = new MultiplayerAPI {NetworkPeer = Client};
             CustomMultiplayer.SetRootNode(this);
+            CustomMultiplayer.Connect("connected_to_server", this, nameof(OnConnectedToServer));
+        }
+
+        public void OnConnectedToServer()
+        {
+            Array<SetCodes> deckList = new Array<SetCodes>();
+            for (int i = 0; i < 40; i++)
+            {
+                deckList.Add(SetCodes.Alpha001);
+            }
+            RpcId(1, "OnNetworkPeerConnected", deckList);
         }
 
         [Puppet]

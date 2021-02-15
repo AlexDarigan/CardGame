@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Server/CardData.cs" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+Title = "Dungeon Guide"
+SetCodes = 1
+CardType = 1
+Faction = 1
+Power = 2000
