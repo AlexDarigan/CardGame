@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Godot;
+﻿using Godot;
 
 namespace CardGame.Server
 {
+    // Tool is required for our tests when we're using in-editor launch context
+    [Tool]
     public class CardData: Resource
     {
         [Export()] public string Title = "NullCard";
