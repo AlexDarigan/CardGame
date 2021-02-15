@@ -3,7 +3,13 @@
     public class Card
     {
         public readonly int Id;
-        private readonly Player Owner;
+        public SetCodes SetCodes;
+        public CardType CardType;
+        public Faction Faction;
+        public readonly Player Owner;
+        public Player Controller;
+        public string Title;
+        public int Power;
 
         public Card(int id, Player owner)
         {
