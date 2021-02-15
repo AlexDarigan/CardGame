@@ -23,6 +23,7 @@ namespace CardGame.Server
         public readonly List<Card> Supports = new List<Card>();
         public States State = States.Passive;
         public bool Disqualified = false;
+        public int Health = 8000;
 
         public Player(int id, IEnumerable<SetCodes> deckList)
         {

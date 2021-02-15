@@ -16,6 +16,7 @@
         {
             Id = id;
             Owner = owner;
+            Controller = owner;
         }
     }
 }
