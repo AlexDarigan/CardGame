@@ -36,19 +36,17 @@
   
 ## [ ] Base Game Loop
 - _Features_
-    - [ ] Add Card
-    - [ ] Add Card Data
-    - [ ] Add Card Register
-    - [ ] Add Decklist
-    - [ ] Add Player Zones
-    - [ ] Add Game Start Function 
-    - [ ] Add Load Deck Function
-    - [ ] Add Draw Function
+    - [X] Add Card
+    - [X] Add Card Data
+    - [X] Add Card Register
+    - [X] Add DeckList
+    - [X] Add Player Zones
+    - [X] Add Game Start Function 
+    - [X] Add Load Deck Function
+    - [X] Add Draw Function
 - _Tests_
-    - [ ] Are Player deck contents equal to decklist contents (in setcodes)
-    - [ ] Are Player decks equal in size to decklist?
-    - [ ] Is Card Register count equal to sum of both players decks?
-    - [ ] Are our decks reduced in size when we draw?
+    - [X] Are Player deck contents equal to deckList contents (in setCodes)
+    - [X] Are Player decks reduced in size when we draw?
 ## [ ] Victory Conditions
 - _Features_
     - [ ] Add Player States
