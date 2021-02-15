@@ -14,8 +14,11 @@ namespace CardGame.Server
         public Player Opponent;
         public bool Ready = false;
         public readonly List<Card> Deck = new List<Card>();
+        public readonly List<Card> Graveyard = new List<Card>();
         public readonly List<Card> Hand = new List<Card>();
-        
+        public readonly List<Card> Units = new List<Card>();
+        public readonly List<Card> Supports = new List<Card>();
+
         public Player(int id)
         {
             Id = id;

@@ -40,7 +40,7 @@
     - [ ] Add Card Data
     - [X] Add Card Register
     - [ ] Add Decklist
-    - [ ] Add Player Zones
+    - [X] Add Player Zones
     - [X] Add Game Start Function 
     - [X] Add Load Deck Function
     - [X] Add Draw Function
