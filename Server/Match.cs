@@ -88,7 +88,7 @@ namespace CardGame.Server
                 return;
             }
 
-            // TODO: Implement Battle Logic
+            player.Opponent.Health -= attacker.Power;
             Update();
         }
 

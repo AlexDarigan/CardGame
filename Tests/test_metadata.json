@@ -4,10 +4,17 @@
 		"tags": [
 
 		],
-		"passing": false
+		"passing": true
 	},
 	"res://Tests/Integration/ConnectionTest.cs": {
 		"path": "res://Tests/Integration/ConnectionTest.cs",
+		"tags": [
+
+		],
+		"passing": true
+	},
+	"res://Tests/Server/Battle.cs": {
+		"path": "res://Tests/Server/Battle.cs",
 		"tags": [
 
 		],
@@ -60,6 +67,6 @@
 		"tags": [
 
 		],
-		"passing": false
+		"passing": true
 	}
 }
