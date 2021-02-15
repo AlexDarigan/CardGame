@@ -55,6 +55,7 @@ namespace CardGame.Client
         public override void _ExitTree()
         {
             Client?.CloseConnection();
+            QueueFree();
         }
     }
 }
