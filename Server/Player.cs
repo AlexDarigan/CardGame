@@ -11,6 +11,7 @@ namespace CardGame.Server
      */
     public class Player
     {
+        public enum States { Idle, Passive }
         public readonly int Id;
         public Player Opponent;
         public bool Ready = false;
@@ -20,6 +21,8 @@ namespace CardGame.Server
         public readonly List<Card> Hand = new List<Card>();
         public readonly List<Card> Units = new List<Card>();
         public readonly List<Card> Supports = new List<Card>();
+        public States State = States.Passive;
+        public bool Disqualified = false;
 
         public Player(int id, IEnumerable<SetCodes> deckList)
         {

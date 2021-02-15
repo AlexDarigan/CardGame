@@ -20,6 +20,13 @@
 		],
 		"passing": true
 	},
+	"res://Tests/ServerGameActionTest.cs": {
+		"path": "res://Tests/ServerGameActionTest.cs",
+		"tags": [
+
+		],
+		"passing": true
+	},
 	"res://Tests/ServerGameTest.cs": {
 		"path": "res://Tests/ServerGameTest.cs",
 		"tags": [

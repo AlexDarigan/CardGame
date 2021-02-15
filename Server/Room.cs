@@ -17,7 +17,7 @@ namespace CardGame.Server
         { 
             // I believe an empty constructor is required in Godot Classes that have non-empty constructor(s)
             // ..for the sake of some Godot callbacks
-            _match = new Match(Update);
+            
         }
         public Room(Player player1, Player player2)
         {
@@ -27,6 +27,7 @@ namespace CardGame.Server
             _players[player2.Id] = player2;
             player1.LoadDeck(_cards);
             player2.LoadDeck(_cards);
+            _match = new Match(Update);
         }
 
         private void Update()
@@ -43,7 +44,14 @@ namespace CardGame.Server
             {
                 return;
             }
+            
             _match.Start(_players.Values.ToList()[0], _players.Values.ToList()[1]);
+        }
+
+        [Master]
+        public void EndTurn(int playerId)
+        {
+            _match.EndTurn(_players[playerId]);
         }
     }
 }

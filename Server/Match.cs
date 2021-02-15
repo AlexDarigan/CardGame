@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace CardGame.Server
 {
@@ -13,6 +14,7 @@ namespace CardGame.Server
          */
 
         private readonly Action Update;
+        private Player TurnPlayer;
         public Match(Action update)
         {
             Update = update;
@@ -24,15 +26,40 @@ namespace CardGame.Server
             {
                 for (int i = 0; i < 7; i++)
                 {
-                    Draw(player);
+                    // Call it directly here so we don't ram multiple updates down the hatch
+                    player.Draw();
                 }
             }
+
+            TurnPlayer = player1;
+            TurnPlayer.State = Player.States.Idle;
+            Update();
         }
         
         public void Draw(Player player)
         {
             player.Draw();
             Update();
+        }
+
+        public void EndTurn(Player player)
+        {
+            if (player.State != Player.States.Idle && player != TurnPlayer)
+            {
+                Disqualify(player);
+                return;
+            }
+
+            TurnPlayer = TurnPlayer.Opponent;
+            TurnPlayer.State = Player.States.Idle;
+            TurnPlayer.Opponent.State = Player.States.Passive;
+            TurnPlayer.Draw();
+            Update();
+        }
+
+        public void Disqualify(Player player)
+        {
+            player.Disqualified = true;
         }
     }
 }
