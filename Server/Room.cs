@@ -50,9 +50,19 @@ namespace CardGame.Server
             // We Set Decks here so we cards can be registered
             foreach (Player player in _players.Values)
             {
-                for (int i = 0; i < 40; i++)
+                foreach (SetCodes setCode in player.DeckList)
                 {
                     Card card = new Card(_nextCardId, player);
+                    Resource cardData = GD.Load<Resource>($"res://Server/Library/{setCode.ToString()}.tres");
+                    
+                    // Unfortunately Godot (as of writing) doesn't support custom resources properly in C# so we have
+                    // to resort virtual get methods for each property. It might be worthwhile to create our custom
+                    // inspector in future for this?
+                    card.Title = (string) cardData.Get("Title");
+                    card.SetCodes = (SetCodes) cardData.Get("SetCodes");
+                    card.CardType = (CardType) cardData.Get("CardType");
+                    card.Faction = (Faction) cardData.Get("Faction");
+                    card.Power = (int) cardData.Get("Power");
                     _nextCardId++;
                     player.Deck.Add(card);
                 }
