@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource( 1 )
-Title = "Null Card"
-Faction = 0
 CardType = 0
 Power = 0
+Faction = 0
 SetCodes = 0
+Title = "Null Card"
