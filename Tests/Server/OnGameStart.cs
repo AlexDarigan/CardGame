@@ -25,7 +25,7 @@ namespace CardGame.Tests.Server
         {
             for (int i = 0; i < 40; i++)
             {
-                DeckList.Add(SetCodes.Alpha001);
+                DeckList.Add(SetCodes.NullCard);
             }
             _player1 = new Player(1, DeckList);
             _player2 = new Player(2, DeckList);
@@ -51,8 +51,8 @@ namespace CardGame.Tests.Server
         [Test]
         public void Deck_Contents_As_SetCodes_Equal_DeckList_SetCodes()
         {
-            bool success = _player1.Deck.All(card => card.SetCodes == SetCodes.Alpha001) &&
-                           _player1.Hand.All(card => card.SetCodes == SetCodes.Alpha001);
+            bool success = _player1.Deck.All(card => card.SetCodes == SetCodes.NullCard) &&
+                           _player1.Hand.All(card => card.SetCodes == SetCodes.NullCard);
             Assert.IsTrue(success);
         }
 

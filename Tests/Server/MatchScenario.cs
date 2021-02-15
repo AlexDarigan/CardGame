@@ -22,7 +22,7 @@ namespace CardGame.Tests.Server
             List<SetCodes> deckList = new List<SetCodes>();
             for (int i = 0; i < 40; i++)
             {
-                deckList.Add(SetCodes.Alpha001);
+                deckList.Add(SetCodes.NullCard);
             }
             Player player1 = new Player(1, deckList);
             Player player2 = new Player(2, deckList);

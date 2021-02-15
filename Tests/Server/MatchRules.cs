@@ -30,7 +30,7 @@ namespace CardGame.Tests.Server
         {
             for (int i = 0; i < 40; i++)
             {
-                _deckList.Add(SetCodes.Alpha001);
+                _deckList.Add(SetCodes.NullCard);
             }
         }
 
