@@ -59,17 +59,21 @@ namespace CardGame.Tests.Server.Actions
             support.CardType = CardType.Support;
 
             // Create Skill
-            SkillBuilder draw2Cards = new SkillBuilder {Description = "Draw 2 Cards"};
-            draw2Cards.Triggers.Add(Triggers.Any);
-            draw2Cards.Instructions.Add(Instructions.GetController);
-            draw2Cards.Instructions.Add(Instructions.Two);
-            draw2Cards.Instructions.Add(Instructions.Draw);
-            draw2Cards.CreateSkill(support);
+            SkillBuilder skillBuilder = new SkillBuilder {Description = "Draw 2 Cards"};
+            skillBuilder.Triggers.Add(Triggers.Any);
+            skillBuilder.Instructions.Add(Instructions.GetController);
+            skillBuilder.Instructions.Add(Instructions.Two);
+            skillBuilder.Instructions.Add(Instructions.Draw);
+            Skill draw2Cards = skillBuilder.CreateSkill(support);
+            support.Skills.Add(draw2Cards);
             
             Match.SetFaceDown(Player1, support);
             Match.EndTurn(Player1);
             Match.EndTurn(Player2);
+            int handCountBeforeDraw = Player1.Hand.Count;
             Match.Activate(Player1, support);
+            Assert.IsEqual(Player1.Hand.Count, handCountBeforeDraw + 2,
+                "Then the players hand is increased by 2");
         }
         
         [Test]
