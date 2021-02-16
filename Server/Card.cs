@@ -1,4 +1,6 @@
-﻿namespace CardGame.Server
+﻿using System.Collections.Generic;
+
+namespace CardGame.Server
 {
     public class Card
     {
@@ -11,12 +13,14 @@
         public string Title;
         public int Power;
         public bool IsReady = false;
+        public List<Skill> Skills;
 
         public Card(int id, Player owner)
         {
             Id = id;
             Owner = owner;
             Controller = owner;
+            Skills = new List<Skill>();
         }
     }
 }
