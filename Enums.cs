@@ -43,6 +43,7 @@
 
         // Actions
         Draw,
+        Destroy, // Whether it is one or many cards, we will destroy them in a list
     }
 
 }

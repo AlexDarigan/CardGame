@@ -15,6 +15,7 @@ namespace CardGame.Server
         public int Power;
         public bool IsReady = false;
         public List<Skill> Skills;
+        public IList<Card> Zone;
 
         public Card(int id, Player owner)
         {
