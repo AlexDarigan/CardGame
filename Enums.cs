@@ -31,9 +31,12 @@
         Hundred = 100,
         Thousand = 1000,
         
+        // Getters
+        GetController,
+        GetOpponent,
+        
         // Actions
         Draw,
-        GetController,
     }
 
 }
