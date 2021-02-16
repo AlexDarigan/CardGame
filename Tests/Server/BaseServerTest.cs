@@ -42,11 +42,12 @@ namespace CardGame.Tests.Server
         {
             public List<Triggers> Triggers = new List<Triggers>();
             public List<Instructions> Instructions = new List<Instructions>();
+            public Stack<object> Arguments = new Stack<object>();
             public string Description = "";
 
             public Skill CreateSkill(Card owner)
             {
-                return new Skill(owner, Triggers, Instructions, Description);
+                return new Skill(owner, Triggers, Instructions, Arguments, Description);
             }
             
         }
