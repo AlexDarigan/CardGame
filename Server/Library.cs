@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
+using Godot;
 using Newtonsoft.Json;
+using File = System.IO.File;
 
 namespace CardGame.Server
 {
@@ -23,7 +26,7 @@ namespace CardGame.Server
             card.Power = cardInfo.Power;
             foreach (SkillInfo skillInfo in cardInfo.Skills)
             {
-                card.Skills.Add(new Skill(card, skillInfo.Triggers, skillInfo.Instructions, skillInfo.Description));
+                card.Skills.Add(new Skill(card, skillInfo.Triggers, skillInfo.Instructions, skillInfo.Arguments, skillInfo.Description));
             }
             cardRegister.Add(card);
             return card;
@@ -55,23 +58,21 @@ namespace CardGame.Server
             // The Description Attribute is more of the sake of debugging rather than any practical application in game
             public readonly IEnumerable<Triggers> Triggers;
             public readonly IEnumerable<Instructions> Instructions;
+            public readonly Stack<object> Arguments;
             public readonly string Description;
             
             [JsonConstructor]
-            public SkillInfo(IEnumerable<Triggers> triggers, IEnumerable<Instructions> instructions, string description)
+            public SkillInfo(IEnumerable<Triggers> triggers, IEnumerable<Instructions> instructions, Stack<object> arguments, string description)
             {
                 Triggers = triggers;
                 Instructions = instructions;
                 Description = description;
+                
+                // Stack Reverses the Order, so we're calling a second constructor to reverse it back
+                Arguments = new Stack<object>(arguments);
+               
             }
             
         }
     }
 }
-
-// "Skills":  [
-// {
-//     "Triggers": ["Any"], // Int?
-//     "Instructions": ["GetController", "Literal", "2", "Draw"], Array<String> ?/
-//     "Description": "Draw 2 Cards" // Description
-// }

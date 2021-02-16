@@ -14,8 +14,8 @@ namespace CardGame.Tests.Server.Actions
             SkillBuilder skillBuilder = new SkillBuilder {Description = "Draw 2 Cards"};
             skillBuilder.Triggers.Add(Triggers.Any);
             skillBuilder.Instructions.Add(Instructions.GetController);
-            skillBuilder.Instructions.Add(Instructions.Two);
             skillBuilder.Instructions.Add(Instructions.Draw);
+            skillBuilder.Arguments.Push(2);
             Skill draw2Cards = skillBuilder.CreateSkill(support);
             support.Skills.Add(draw2Cards);
             
@@ -37,8 +37,8 @@ namespace CardGame.Tests.Server.Actions
             SkillBuilder skillBuilder = new SkillBuilder {Description = "Draw 5 Cards"};
             skillBuilder.Triggers.Add(Triggers.Any);
             skillBuilder.Instructions.Add(Instructions.GetOpponent);
-            skillBuilder.Instructions.Add(Instructions.Five);
             skillBuilder.Instructions.Add(Instructions.Draw);
+            skillBuilder.Arguments.Push(5);
             Skill draw2Cards = skillBuilder.CreateSkill(support);
             support.Skills.Add(draw2Cards);
             
