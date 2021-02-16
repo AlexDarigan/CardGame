@@ -50,6 +50,7 @@ namespace CardGame.Server
         {
             Hand.Remove(unit);
             Units.Add(unit);
+            unit.Zone = Units;
         }
 
         public void SetFaceDown(Card support)
