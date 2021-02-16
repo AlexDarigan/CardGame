@@ -5,7 +5,8 @@
     public enum SetCodes
     {
         NullCard = 0,
-        Alpha001
+        Alpha001,
+        Alpha002
     }
 
 }
