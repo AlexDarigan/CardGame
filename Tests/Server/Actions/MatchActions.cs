@@ -1,4 +1,5 @@
-﻿using CardGame.Server;
+﻿using System.Collections.Generic;
+using CardGame.Server;
 
 namespace CardGame.Tests.Server.Actions
 {
@@ -49,6 +50,26 @@ namespace CardGame.Tests.Server.Actions
                 "Their owners support count is increased by 1");
             Assert.IsEqual(Player1.Hand.Count, handCountBeforeDeploy - 1,
                 "Their owners hand count is reduced by 1");
+        }
+        
+        [Test]
+        public void When_A_Card_Is_Activated_That_Draws_2_Cards()
+        {
+            Card support = Player1.Hand[0];
+            support.CardType = CardType.Support;
+
+            // Create Skill
+            SkillBuilder draw2Cards = new SkillBuilder {Description = "Draw 2 Cards"};
+            draw2Cards.Triggers.Add(Triggers.Any);
+            draw2Cards.Instructions.Add(Instructions.GetController);
+            draw2Cards.Instructions.Add(Instructions.Two);
+            draw2Cards.Instructions.Add(Instructions.Draw);
+            draw2Cards.CreateSkill(support);
+            
+            Match.SetFaceDown(Player1, support);
+            Match.EndTurn(Player1);
+            Match.EndTurn(Player2);
+            Match.Activate(Player1, support);
         }
         
         [Test]
