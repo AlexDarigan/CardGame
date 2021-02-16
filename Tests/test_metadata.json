@@ -25,7 +25,7 @@
 		"tags": [
 
 		],
-		"passing": false
+		"passing": true
 	},
 	"res://Tests/Server/Actions/PlayerAction.cs": {
 		"path": "res://Tests/Server/Actions/PlayerAction.cs",
@@ -60,7 +60,7 @@
 		"tags": [
 
 		],
-		"passing": false
+		"passing": true
 	},
 	"res://Tests/Server/Scenarios/MatchScenario.cs": {
 		"path": "res://Tests/Server/Scenarios/MatchScenario.cs",

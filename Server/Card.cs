@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Godot;
 
 namespace CardGame.Server
 {
@@ -21,6 +22,11 @@ namespace CardGame.Server
             Owner = owner;
             Controller = owner;
             Skills = new List<Skill>();
+        }
+
+        public void Activate()
+        {
+            Skills[0].Activate();
         }
     }
 }
