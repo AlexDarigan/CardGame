@@ -75,15 +75,18 @@ namespace CardGame.Server
                      case CardGame.Instructions.GetController:
                          Arguments.Push(Owner.Controller);
                          break;
+                     case CardGame.Instructions.GetOpponent:
+                         Arguments.Push(Owner.Controller.Opponent);
+                         break;
                      default:
                          throw new ArgumentOutOfRangeException();
                  }
             }
         }
 
-        public void Draw(Player player, int count)
+        private void Draw(Player player, int count)
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < count; i++)
             {
                 Card card = player.Deck[player.Deck.Count - 1];
                 player.Deck.Remove(card);
