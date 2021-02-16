@@ -77,6 +77,26 @@ namespace CardGame.Tests.Server.Rules
             Match.SetFaceDown(Player1, card);
             Assert.IsTrue(Player1.Disqualified);
         }
+        
+        [Test]
+        public void They_Activate_A_Card_That_Is_Not_On_Their_Field()
+        {
+            Card card = Player1.Hand[0];
+            card.CardType = CardType.Support;
+            Match.Activate(Player1, card);
+            Assert.IsTrue(Player1.Disqualified);
+        }
+        
+        [Test]
+        public void They_Activate_A_Card_That_In_A_State_That_Is_Not_Idle_Or_Active()
+        {
+            Card card = Player1.Hand[0];
+            card.CardType = CardType.Support;
+            Match.SetFaceDown(Player1, card);
+            Match.EndTurn(Player1);
+            Match.Activate(Player1, card);
+            Assert.IsTrue(Player1.Disqualified);
+        }
 
         [Test]
         public void They_Declare_An_Attack_When_They_Are_Not_The_Turn_Player()
