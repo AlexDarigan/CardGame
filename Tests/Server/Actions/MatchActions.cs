@@ -51,55 +51,7 @@ namespace CardGame.Tests.Server.Actions
             Assert.IsEqual(Player1.Hand.Count, handCountBeforeDeploy - 1,
                 "Their owners hand count is reduced by 1");
         }
-        
-        [Test]
-        public void When_A_Card_Is_Activated_That_Draws_2_Cards()
-        {
-            Card support = Player1.Hand[0];
-            support.CardType = CardType.Support;
 
-            // Create Skill
-            SkillBuilder skillBuilder = new SkillBuilder {Description = "Draw 2 Cards"};
-            skillBuilder.Triggers.Add(Triggers.Any);
-            skillBuilder.Instructions.Add(Instructions.GetController);
-            skillBuilder.Instructions.Add(Instructions.Two);
-            skillBuilder.Instructions.Add(Instructions.Draw);
-            Skill draw2Cards = skillBuilder.CreateSkill(support);
-            support.Skills.Add(draw2Cards);
-            
-            Match.SetFaceDown(Player1, support);
-            Match.EndTurn(Player1);
-            Match.EndTurn(Player2);
-            int handCountBeforeDraw = Player1.Hand.Count;
-            Match.Activate(Player1, support);
-            Assert.IsEqual(Player1.Hand.Count, handCountBeforeDraw + 2,
-                "Then the players hand is increased by 2");
-        }
-        
-        [Test]
-        public void When_A_Card_Is_Activated_That_Draws_5_Cards_For_Opponent()
-        {
-            Card support = Player1.Hand[0];
-            support.CardType = CardType.Support;
-
-            // Create Skill
-            SkillBuilder skillBuilder = new SkillBuilder {Description = "Draw 5 Cards"};
-            skillBuilder.Triggers.Add(Triggers.Any);
-            skillBuilder.Instructions.Add(Instructions.GetOpponent);
-            skillBuilder.Instructions.Add(Instructions.Five);
-            skillBuilder.Instructions.Add(Instructions.Draw);
-            Skill draw2Cards = skillBuilder.CreateSkill(support);
-            support.Skills.Add(draw2Cards);
-            
-            Match.SetFaceDown(Player1, support);
-            Match.EndTurn(Player1);
-            Match.EndTurn(Player2);
-            int handCountBeforeDraw = Player2.Hand.Count;
-            Match.Activate(Player1, support);
-            Assert.IsEqual(Player2.Hand.Count, handCountBeforeDraw + 5,
-                "Then the opponents hand is increased by 5");
-        }
-        
         [Test]
         public void When_A_Player_Ends_Their_Turn()
         {
