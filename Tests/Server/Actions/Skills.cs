@@ -75,17 +75,15 @@ namespace CardGame.Tests.Server.Actions
             unitA.CardType = CardType.Unit;
             unitB.CardType = CardType.Unit;
             Match.Deploy(Player2, unitA);
-            Assert.Contains(unitA, Player2.Units, "UnitA Was Deployed");
             Match.Deploy(Player2, unitB);
-            Assert.Contains(unitB, Player2.Units, "UnitB Was Deployed");
             Match.EndTurn(Player2);
 
             // Activate
             Match.Activate(Player1, support);
-            Assert.Contains(unitA, Player2.Graveyard, "Unit A is in P2 GY");
-            Assert.Contains(unitB, Player2.Graveyard, "Unit B is in P2 GY");
-            Assert.DoesNotContain(unitA, Player2.Units, "Unit A is not in P2 Units");
-            Assert.DoesNotContain(unitB, Player2.Units, "Unit B is not in P2 Units");
+            Assert.Contains(unitA, Player2.Graveyard);
+            Assert.Contains(unitB, Player2.Graveyard);
+            Assert.DoesNotContain(unitA, Player2.Units);
+            Assert.DoesNotContain(unitB, Player2.Units);
         }
 
         [Test]
