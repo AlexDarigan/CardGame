@@ -5,8 +5,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="README.md" />
+    <Content Include="Server\Library.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Server\Library" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 </Project>
