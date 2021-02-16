@@ -118,6 +118,18 @@ namespace CardGame.Server
             player.SetFaceDown(support);
             Update();
         }
+
+        public void Activate(Player player, Card support)
+        {
+            if (player.State != Player.States.Idle || support.CardType != CardType.Support)
+            {
+                Disqualify(player);
+                return;
+            }
+
+            Update();
+        }
+        
         
         public void EndTurn(Player player)
         {

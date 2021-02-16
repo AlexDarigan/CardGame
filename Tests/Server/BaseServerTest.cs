@@ -37,5 +37,18 @@ namespace CardGame.Tests.Server
             Cards = new CardRegister();
             Match = new Match(Player1, Player2, Cards, Update);
         }
+        
+        protected class SkillBuilder
+        {
+            public List<Triggers> Triggers = new List<Triggers>();
+            public List<Instructions> Instructions = new List<Instructions>();
+            public string Description = "";
+
+            public Skill CreateSkill(Card owner)
+            {
+                return new Skill(owner, Triggers, Instructions, Description);
+            }
+            
+        }
     }
 }
