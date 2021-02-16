@@ -126,9 +126,7 @@ namespace CardGame.Server
                 Disqualify(player);
                 return;
             }
-
-            GD.Print("Activating skill 0 of ", support.Title);
-            GD.Print("Support has " + support.Skills.Count.ToString() + " skills");
+            
             support.Activate();
             Update();
         }

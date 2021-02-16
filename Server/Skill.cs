@@ -29,31 +29,43 @@ namespace CardGame.Server
                  switch (instruction)
                  {
                      case CardGame.Instructions.Zero:
+                         Arguments.Push(0);
                          break;
                      case CardGame.Instructions.One:
+                         Arguments.Push(1);
                          break;
                      case CardGame.Instructions.Two:
                          Arguments.Push(2);
                          break;
                      case CardGame.Instructions.Three:
+                         Arguments.Push(3);
                          break;
                      case CardGame.Instructions.Four:
+                         Arguments.Push(4);
                          break;
                      case CardGame.Instructions.Five:
+                         Arguments.Push(5);
                          break;
                      case CardGame.Instructions.Six:
+                         Arguments.Push(6);
                          break;
                      case CardGame.Instructions.Seven:
+                         Arguments.Push(7);
                          break;
                      case CardGame.Instructions.Eight:
+                         Arguments.Push(8);
                          break;
                      case CardGame.Instructions.Nine:
+                         Arguments.Push(9);
                          break;
                      case CardGame.Instructions.Ten:
+                         Arguments.Push(10);
                          break;
                      case CardGame.Instructions.Hundred:
+                         Arguments.Push(100);
                          break;
                      case CardGame.Instructions.Thousand:
+                         Arguments.Push(1000);
                          break;
                      case CardGame.Instructions.Draw:
                          int count = (int) Arguments.Pop();
