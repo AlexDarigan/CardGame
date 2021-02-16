@@ -60,7 +60,7 @@
 		"tags": [
 
 		],
-		"passing": true
+		"passing": false
 	},
 	"res://Tests/Server/Scenarios/MatchScenario.cs": {
 		"path": "res://Tests/Server/Scenarios/MatchScenario.cs",

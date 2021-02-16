@@ -121,7 +121,7 @@ namespace CardGame.Server
 
         public void Activate(Player player, Card support)
         {
-            if (player.State != Player.States.Idle || support.CardType != CardType.Support)
+            if (player.State != Player.States.Idle || !player.Supports.Contains(support))
             {
                 Disqualify(player);
                 return;
