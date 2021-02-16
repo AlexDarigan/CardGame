@@ -17,6 +17,7 @@
     public enum Instructions
     {
         // Getters
+        GetOwningCard,
         GetController,
         GetOpponent,
         GetDeck,
@@ -25,7 +26,11 @@
         GetUnits,
         GetSupport,
         
-
+        // Setters
+        SetTitle,
+        SetFaction,
+        SetPower,
+        
         // Actions
         Draw,
         Destroy, // Whether it is one or many cards, we will destroy them in a list
