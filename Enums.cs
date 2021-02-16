@@ -34,7 +34,13 @@
         // Getters
         GetController,
         GetOpponent,
+        GetDeck,
+        GetGraveyard,
+        GetHand,
+        GetUnits,
+        GetSupport,
         
+
         // Actions
         Draw,
     }

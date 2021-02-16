@@ -68,15 +68,47 @@ namespace CardGame.Server
                          Arguments.Push(1000);
                          break;
                      case CardGame.Instructions.Draw:
-                         int count = (int) Arguments.Pop();
-                         Player player = (Player) Arguments.Pop();
-                         Draw(player, count);
+                         {
+                             int count = (int) Arguments.Pop();
+                             Player player = (Player) Arguments.Pop();
+                             Draw(player, count);
+                         }
                          break;
                      case CardGame.Instructions.GetController:
                          Arguments.Push(Owner.Controller);
                          break;
                      case CardGame.Instructions.GetOpponent:
                          Arguments.Push(Owner.Controller.Opponent);
+                         break;
+                     case CardGame.Instructions.GetDeck:
+                         {
+                             Player player = (Player) Arguments.Pop();
+                             Arguments.Push(player.Deck);
+                         }
+                         break;
+                     case CardGame.Instructions.GetGraveyard:
+                         {
+                             Player player = (Player) Arguments.Pop();
+                             Arguments.Push(player.Graveyard);
+                         }
+                         break;
+                     case CardGame.Instructions.GetHand:
+                         {
+                             Player player = (Player) Arguments.Pop();
+                             Arguments.Push(player.Hand);
+                         }
+                         break;
+                     case CardGame.Instructions.GetUnits:
+                         {
+                             Player player = (Player) Arguments.Pop();
+                             Arguments.Push(player.Units);
+                         }
+                         break;
+                     case CardGame.Instructions.GetSupport:
+                         {
+                             Player player = (Player) Arguments.Pop();
+                             Arguments.Push(player.Supports);
+                         }
                          break;
                      default:
                          throw new ArgumentOutOfRangeException();
