@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Remoting;
 using System.Security.Cryptography.X509Certificates;
 using Godot;
@@ -26,8 +27,10 @@ namespace CardGame.Server
 
         public void Activate()
         {
-            foreach (Instructions instruction in Instructions)
+            
+            for(int index = 0; index < Instructions.Count(); index++)
             {
+                Instructions instruction = Instructions.ElementAt(index);
                 switch (instruction)
                 {
                     case CardGame.Instructions.Draw:
@@ -42,6 +45,31 @@ namespace CardGame.Server
                         IList<Card> cards = (IList<Card>) Arguments.Pop();
                         Destroy(cards);
                     }
+                        break;
+                    case CardGame.Instructions.Count:
+                    {
+                        IList<Card> cards = (IList<Card>) Arguments.Pop();
+                        Arguments.Push(cards.Count);
+                    }
+                        break;
+                    case CardGame.Instructions.IfLessThan:
+                    {
+                        int a = (int) Arguments.Pop();
+                        int b = (int) Arguments.Pop();
+                        int jump = (int) Arguments.Pop();
+                        if (a < b)
+                        {
+                            // Do Nothing | Follow Until JUMP / GOTO / END
+                        }
+                        else
+                        {
+                            // Jump To Next Index - 1
+                            // - 1 is to account for the Index added by the for loop
+                            index += jump;
+                        }
+                    }
+                        break;
+                    case CardGame.Instructions.IfGreaterThan:
                         break;
                     case CardGame.Instructions.GetController:
                         Arguments.Push(Owner.Controller);
@@ -103,6 +131,20 @@ namespace CardGame.Server
                         IList<Card> cards = (IList<Card>) Arguments.Pop();
                         int power= (int) Arguments.Pop();
                         SetPower(cards, power);
+                    }
+                        break;
+                    case CardGame.Instructions.DiscardArgument:
+                        // Jumped In Control Flow so we discard Arguments we don't use
+                        Arguments.Pop();
+                        break;
+                    case CardGame.Instructions.GoToEnd:
+                        index = Instructions.Count(); // We could just do an early return?
+                        break;
+                    case CardGame.Instructions.DealDamage:
+                    {
+                        Player player = (Player) Arguments.Pop();
+                        int damage = (int) Arguments.Pop();
+                        player.Health -= damage;
                     }
                         break;
                     default:

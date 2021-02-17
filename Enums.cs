@@ -26,6 +26,17 @@
         GetUnits,
         GetSupport,
         
+        // Control Flow
+        DiscardArgument, // Surely there is a better way?
+        GoToEnd,
+
+        // Match
+        Count,
+        
+        // Conditionals
+        IfLessThan,
+        IfGreaterThan,
+        
         // Setters
         SetTitle,
         SetFaction,
@@ -34,6 +45,7 @@
         // Actions
         Draw,
         Destroy, // Whether it is one or many cards, we will destroy them in a list
+        DealDamage,
     }
 
 }
