@@ -24,10 +24,10 @@ namespace CardGame.Server
             card.CardType = cardInfo.CardType;
             card.Faction = cardInfo.Faction;
             card.Power = cardInfo.Power;
-            foreach (SkillInfo skillInfo in cardInfo.Skills)
-            {
-                card.Skills.Add(new Skill(card, skillInfo.Triggers, skillInfo.Instructions, skillInfo.Arguments, skillInfo.Description));
-            }
+            
+            // Staying with one skill per card for the time being
+            SkillInfo skillInfo = cardInfo.Skill;
+            card.Skill = new Skill(card, skillInfo.Triggers, skillInfo.Instructions, skillInfo.Arguments, skillInfo.Description);
             cardRegister.Add(card);
             return card;
         }
@@ -39,17 +39,17 @@ namespace CardGame.Server
             public readonly string Title;
             public readonly Faction Faction;
             public readonly int Power;
-            public readonly IEnumerable<SkillInfo> Skills;
+            public readonly SkillInfo Skill;
 
             [JsonConstructor]
-            public CardInfo(SetCodes setCode, CardType cardType, Faction faction, string title, int power, IEnumerable<SkillInfo> skills)
+            public CardInfo(SetCodes setCode, CardType cardType, Faction faction, string title, int power, SkillInfo skill)
             {
                 SetCode = setCode;
                 CardType = cardType;
                 Faction = faction;
                 Title = title;
                 Power = power;
-                Skills = skills;
+                Skill = skill;
             }
         }
 

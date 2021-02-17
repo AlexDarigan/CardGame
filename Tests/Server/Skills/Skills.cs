@@ -22,7 +22,7 @@ namespace CardGame.Tests.Server.Actions
             skillBuilder.Instructions.Add(Instructions.Draw);
             skillBuilder.Arguments.Push(2);
             Skill draw2Cards = skillBuilder.CreateSkill(support);
-            support.Skills.Add(draw2Cards);
+            support.Skill = draw2Cards;
 
             Match.SetFaceDown(Player1, support);
             Match.EndTurn(Player1);
@@ -45,7 +45,7 @@ namespace CardGame.Tests.Server.Actions
             skillBuilder.Instructions.Add(Instructions.Draw);
             skillBuilder.Arguments.Push(5);
             Skill draw2Cards = skillBuilder.CreateSkill(support);
-            support.Skills.Add(draw2Cards);
+            support.Skill = draw2Cards;
 
             Match.SetFaceDown(Player1, support);
             Match.EndTurn(Player1);
@@ -68,7 +68,7 @@ namespace CardGame.Tests.Server.Actions
             skillBuilder.Instructions.Add(Instructions.GetUnits);
             skillBuilder.Instructions.Add(Instructions.Destroy);
             Skill draw2Cards = skillBuilder.CreateSkill(support);
-            support.Skills.Add(draw2Cards);
+            support.Skill = draw2Cards;
 
             // Play Cards
             Match.SetFaceDown(Player1, support);
@@ -102,7 +102,7 @@ namespace CardGame.Tests.Server.Actions
             skillBuilder.Instructions.Add(Instructions.SetTitle);
             skillBuilder.Arguments.Push("Changed Title");
             Skill changeCardTitle = skillBuilder.CreateSkill(support);
-            support.Skills.Add(changeCardTitle);
+            support.Skill = changeCardTitle;
 
             string previousTitle = support.Title;
             Match.SetFaceDown(Player1, support);
@@ -126,7 +126,7 @@ namespace CardGame.Tests.Server.Actions
             // We store enums as strings in JSON
             skillBuilder.Arguments.Push(Faction.Warrior.ToString());
             Skill changeCardFaction = skillBuilder.CreateSkill(support);
-            support.Skills.Add(changeCardFaction);
+            support.Skill = changeCardFaction;
 
             Faction previousFaction = support.Faction;
             Match.SetFaceDown(Player1, support);
@@ -149,7 +149,7 @@ namespace CardGame.Tests.Server.Actions
             skillBuilder.Instructions.Add(Instructions.SetPower);
             skillBuilder.Arguments.Push(1000);
             Skill changeCardPower = skillBuilder.CreateSkill(support);
-            support.Skills.Add(changeCardPower);
+            support.Skill = changeCardPower;
 
             int previousPower = support.Power;
             Match.SetFaceDown(Player1, support);
@@ -203,7 +203,7 @@ namespace CardGame.Tests.Server.Actions
             skillBuilder.Arguments.Push(jump);
             skillBuilder.Arguments.Push(count);
             Skill changeCardPower = skillBuilder.CreateSkill(support);
-            support.Skills.Add(changeCardPower);
+            support.Skill = changeCardPower;
 
             Match.SetFaceDown(Player1, support);
 

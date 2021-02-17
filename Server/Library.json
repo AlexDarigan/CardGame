@@ -1,18 +1,18 @@
 ﻿{
   "NullCard": 
-  { "Title": "Null Card", "CardType": "Null", "Faction":  "Null", "Power": 0, "Skills": [] },
+  { "Title": "Null Card", "CardType": "Null", "Faction":  "Null", "Power": 0, "Skills": {} },
   
   "Alpha001":
-  { "Title": "Dungeon Guide", "CardType": "Unit", "Faction": "Warrior", "Power": 2000, "Skills": [] },
+  { "Title": "Dungeon Guide", "CardType": "Unit", "Faction": "Warrior", "Power": 2000, "Skills": {} },
   
   "Alpha002": 
   { "Title": "Quest Reward", "CardType": "Support", "Faction": "Null", "Power": 0,
-    "Skills":  [
+    "Skill":  
       {
         "Triggers": ["Any"],
         "Instructions": ["GetController", "Draw"],
         "Arguments": [2],
         "Description": "Draw 2 Cards"
       }
-  ]}
+  }
 }
