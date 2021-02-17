@@ -34,13 +34,6 @@
 		],
 		"passing": true
 	},
-	"res://Tests/Server/Actions/Skills.cs": {
-		"path": "res://Tests/Server/Actions/Skills.cs",
-		"tags": [
-
-		],
-		"passing": true
-	},
 	"res://Tests/Server/Conclusion/GameOver.cs": {
 		"path": "res://Tests/Server/Conclusion/GameOver.cs",
 		"tags": [
@@ -75,5 +68,12 @@
 
 		],
 		"passing": true
+	},
+	"res://Tests/Server/Skills/Skills.cs": {
+		"path": "res://Tests/Server/Skills/Skills.cs",
+		"tags": [
+
+		],
+		"passing": false
 	}
 }
