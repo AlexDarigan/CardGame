@@ -6,15 +6,24 @@ namespace CardGame.Server
 {
     public class VirtualStackMachine
     {
-        
-        public readonly Stack<object> Arguments;
-        
+        /*
+         * I was planning on grouping cards with a 0 to separate the values but suddenly realized if we store
+         * this as int it might be too big and cause overflow.
+         */
+        private readonly CardRegister _cardRegister;
+
+        public VirtualStackMachine(CardRegister cardRegister)
+        {
+            _cardRegister = cardRegister;
+        }
         public void Activate(Card card)
         {
             // Make sure these are unique copies
             IEnumerable<int> Instructions = card.Skill.Instructions;
-            Stack<object> Arguments = card.Skill.Arguments;
-
+            Stack<object> arguments = card.Skill.Arguments;
+            IList<Player> players = new List<Player>{card.Controller, card.Controller.Opponent};
+            IList<Card> Cards = new List<Card>();
+            
             for(int index = 0; index < Instructions.Count(); index++)
             {
                 Instructions instruction = (Instructions) Instructions.ElementAt(index);
@@ -22,28 +31,28 @@ namespace CardGame.Server
                 {
                     case CardGame.Instructions.Draw:
                     {
-                        Player player = (Player) Arguments.Pop();
-                        int count = (int) Arguments.Pop();
+                        Player player = players[(int) arguments.Pop()];
+                        int count = (int) arguments.Pop();
                         Draw(player, count);
                     }
                         break;
                     case CardGame.Instructions.Destroy:
                     {
-                        IList<Card> cards = (IList<Card>) Arguments.Pop();
+                        IList<Card> cards = (IList<Card>) arguments.Pop();
                         Destroy(cards);
                     }
                         break;
                     case CardGame.Instructions.Count:
                     {
-                        IList<Card> cards = (IList<Card>) Arguments.Pop();
-                        Arguments.Push(cards.Count);
+                        IList<Card> cards = (IList<Card>) arguments.Pop();
+                        arguments.Push(cards.Count);
                     }
                         break;
                     case CardGame.Instructions.IfLessThan:
                     {
-                        int a = (int) Arguments.Pop();
-                        int b = (int) Arguments.Pop();
-                        int jump = (int) Arguments.Pop();
+                        int a = (int) arguments.Pop();
+                        int b = (int) arguments.Pop();
+                        int jump = (int) arguments.Pop();
                         if (a < b)
                         {
                             // Do Nothing | Follow Until JUMP / GOTO / END
@@ -59,78 +68,78 @@ namespace CardGame.Server
                     case CardGame.Instructions.IfGreaterThan:
                         break;
                     case CardGame.Instructions.GetController:
-                        Arguments.Push(card.Controller);
+                        arguments.Push(0);
                         break;
                     case CardGame.Instructions.GetOpponent:
-                        Arguments.Push(card.Controller.Opponent);
+                        arguments.Push(1);
                         break;
                     case CardGame.Instructions.GetDeck:
                     {
-                        Player player = (Player) Arguments.Pop();
-                        Arguments.Push(new List<Card>(player.Deck));
+                        Player player = players[(int) arguments.Pop()];
+                        arguments.Push(new List<Card>(player.Deck));
                     }
                         break;
                     case CardGame.Instructions.GetGraveyard:
                     {
-                        Player player = (Player) Arguments.Pop();
-                        Arguments.Push(new List<Card>(player.Graveyard));
+                        Player player = players[(int) arguments.Pop()];
+                        arguments.Push(new List<Card>(player.Graveyard));
                     }
                         break;
                     case CardGame.Instructions.GetHand:
                     {
-                        Player player = (Player) Arguments.Pop();
-                        Arguments.Push(new List<Card>(player.Hand));
+                        Player player = players[(int) arguments.Pop()];
+                        arguments.Push(new List<Card>(player.Hand));
                     }
                         break;
                     case CardGame.Instructions.GetUnits:
                     {
-                        Player player = (Player) Arguments.Pop();
-                        Arguments.Push(new List<Card>(player.Units));
+                        Player player = players[(int) arguments.Pop()];
+                        arguments.Push(new List<Card>(player.Units));
                     }
                         break;
                     case CardGame.Instructions.GetSupport:
                     {
-                        Player player = (Player) Arguments.Pop();
-                        Arguments.Push(new List<Card>(player.Supports));
+                        Player player = players[(int) arguments.Pop()];
+                        arguments.Push(new List<Card>(player.Supports));
                     }
                         break;
                     case CardGame.Instructions.GetOwningCard:
                         // All Cards are stored in a list even if they're individual in case a further..
                         // ..instruction requires to group a number of them together
-                        Arguments.Push(new List<Card>{card});
+                        arguments.Push(new List<Card>{card});
                         break;
                     case CardGame.Instructions.SetTitle:
                     {
-                        IList<Card> cards = (IList<Card>) Arguments.Pop();
-                        string title = (string) Arguments.Pop();
+                        IList<Card> cards = (IList<Card>) arguments.Pop();
+                        string title = (string) arguments.Pop();
                         SetTitle(cards, title);
                     }
                         break;
                     case CardGame.Instructions.SetFaction:
                     {
-                        IList<Card> cards = (IList<Card>) Arguments.Pop();
-                        Enum.TryParse((string) Arguments.Pop(), out Faction faction);
+                        IList<Card> cards = (IList<Card>) arguments.Pop();
+                        Enum.TryParse((string) arguments.Pop(), out Faction faction);
                         SetFaction(cards, faction);
                     }
                         break;
                     case CardGame.Instructions.SetPower:
                     {
-                        IList<Card> cards = (IList<Card>) Arguments.Pop();
-                        int power= (int) Arguments.Pop();
+                        IList<Card> cards = (IList<Card>) arguments.Pop();
+                        int power= (int) arguments.Pop();
                         SetPower(cards, power);
                     }
                         break;
                     case CardGame.Instructions.DiscardArgument:
                         // Jumped In Control Flow so we discard Arguments we don't use
-                        Arguments.Pop();
+                        arguments.Pop();
                         break;
                     case CardGame.Instructions.GoToEnd:
                         index = Instructions.Count(); // We could just do an early return?
                         break;
                     case CardGame.Instructions.DealDamage:
                     {
-                        Player player = (Player) Arguments.Pop();
-                        int damage = (int) Arguments.Pop();
+                        Player player = players[(int) arguments.Pop()];
+                        int damage = (int) arguments.Pop();
                         player.Health -= damage;
                     }
                         break;
@@ -174,6 +183,6 @@ namespace CardGame.Server
         {
             foreach (Card card in cards) { card.Power = power; }
         }
-        
+
     }
 }

@@ -14,12 +14,13 @@ namespace CardGame.Server
          * directly on their owners (either a player or a skill).
          */
 
-        private readonly VirtualStackMachine _virtualStackMachine = new VirtualStackMachine();
+        private readonly VirtualStackMachine _virtualStackMachine;
         private readonly Action Update;
         private Player TurnPlayer;
         private bool _isGameOver;
         public Match(Player player1, Player player2, CardRegister cardRegister, Action update)
         {
+            _virtualStackMachine = new VirtualStackMachine(cardRegister);
             player1.Opponent = player2;
             player2.Opponent = player1;
             player1.LoadDeck(cardRegister);
