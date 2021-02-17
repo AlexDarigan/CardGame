@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Godot;
@@ -57,15 +56,44 @@ namespace CardGame.Server
         {
             // The Description Attribute is more of the sake of debugging rather than any practical application in game
             public readonly IEnumerable<Triggers> Triggers;
-            public readonly IEnumerable<Instructions> Instructions;
+            public readonly IEnumerable<int> Instructions;
             public readonly Stack<object> Arguments;
             public readonly string Description;
             
             [JsonConstructor]
-            public SkillInfo(IEnumerable<Triggers> triggers, IEnumerable<Instructions> instructions, Stack<object> arguments, string description)
+            public SkillInfo(IEnumerable<Triggers> triggers, IEnumerable<string> instructions, Stack<object> arguments, string description)
             {
                 Triggers = triggers;
-                Instructions = instructions;
+                // We store all arguments as strings but they can exist in one of a number of enums or as a literal
+                //Instructions = instructions;
+                List<int> insts = new List<int>();
+                
+                // All Instructions are stored as Integers
+                // We check the string against each enum we have..
+                //      ..If we have a match, then we add the related int value..
+                //      ....else we just add it as a literal int
+                
+                // This is probably fairly expensive but we do this once at the load-time of the server so unlikely
+                // ..to be any real performance issue.
+                foreach (string command in instructions)
+                {
+                    
+                    if (Enum.TryParse(command, out Instructions instruction))
+                    {
+                        insts.Add((int) instruction);
+                    }
+                    else if (Enum.TryParse(command, out CardType cardType))
+                    {
+                        insts.Add((int) cardType);
+                    }
+                    else 
+                    {
+                        // Is Literal Integer
+                        insts.Add(command.ToInt());
+                    }
+                }
+
+                Instructions = insts;
                 Description = description;
                 
                 // Stack Reverses the Order, so we're calling a second constructor to reverse it back

@@ -11,11 +11,11 @@ namespace CardGame.Server
     {
         public readonly Card Owner;
         public readonly IEnumerable<Triggers> Triggers;
-        public readonly IEnumerable<Instructions> Instructions;
+        public readonly IEnumerable<int> Instructions;
         public readonly Stack<object> Arguments;
         public readonly string Description;
 
-        public Skill(Card owner, IEnumerable<Triggers> triggers, IEnumerable<Instructions> instructions, 
+        public Skill(Card owner, IEnumerable<Triggers> triggers, IEnumerable<int> instructions, 
             Stack<object> arguments, string description)
         {
             Owner = owner;
@@ -30,7 +30,7 @@ namespace CardGame.Server
             
             for(int index = 0; index < Instructions.Count(); index++)
             {
-                Instructions instruction = Instructions.ElementAt(index);
+                Instructions instruction = (Instructions) Instructions.ElementAt(index);
                 switch (instruction)
                 {
                     case CardGame.Instructions.Draw:
