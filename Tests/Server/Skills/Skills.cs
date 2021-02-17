@@ -1,4 +1,9 @@
-﻿using CardGame.Server;
+﻿using System;
+using CardGame.Server;
+using System.Collections.Generic;
+using Godot;
+
+//using Godot.Collections;
 
 namespace CardGame.Tests.Server.Actions
 {
@@ -153,6 +158,77 @@ namespace CardGame.Tests.Server.Actions
             Match.Activate(Player1, support);
             Assert.IsEqual(1000, support.Power);
             Assert.IsNotEqual(previousPower, support);
+        }
+        
+        // Draw A Card When you have six or less cards in your hand
+        // Take Damage, When you have seven or more cards
+        // covers if/else
+        
+        public enum Path { Happy, Sad }
+        [RunWith(Path.Happy)]
+        [RunWith(Path.Sad)]
+        [Test]
+        public void If_Hand_Count_Is_Less_Than_Seven_Draw_5_Cards_Else_Take_1000_Damage(Path path)
+        {
+            Describe(path == Path.Happy
+                ? "Draw 5 cards if you have less than 7 cards in your hand else take 1000 damage (Happy Path)"
+                : "Draw 5 cards if you have less than 7 cards in your hand else take 1000 damage (Sad Path)");
+
+            Card support = Player1.Hand[0];
+            support.CardType = CardType.Support;
+            SkillBuilder skillBuilder = new SkillBuilder {Description = "If you have less than seven cards " +
+                                                                        "in your hand draw 2 cards else take 1000 damage"};
+            skillBuilder.Triggers.Add(Triggers.Any);
+            skillBuilder.Instructions.Add(Instructions.GetController);
+            skillBuilder.Instructions.Add(Instructions.GetHand);
+            skillBuilder.Instructions.Add(Instructions.Count);
+            skillBuilder.Instructions.Add(Instructions.IfLessThan);
+            skillBuilder.Instructions.Add(Instructions.GetController);
+            skillBuilder.Instructions.Add(Instructions.Draw);
+            skillBuilder.Instructions.Add(Instructions.GoToEnd);
+            
+            // Else Branch
+            
+            // DiscardArgument is to clear arguments from the other branch we don't care about
+            skillBuilder.Instructions.Add(Instructions.DiscardArgument);
+            skillBuilder.Instructions.Add(Instructions.GetController);
+            skillBuilder.Instructions.Add(Instructions.DealDamage);
+
+            const int damage = 1000;
+            const int draw = 5;
+            const int jump = 3;
+            const int count = 7;
+            skillBuilder.Arguments.Push(damage);
+            skillBuilder.Arguments.Push(draw);
+            skillBuilder.Arguments.Push(jump);
+            skillBuilder.Arguments.Push(count);
+            Skill changeCardPower = skillBuilder.CreateSkill(support);
+            support.Skills.Add(changeCardPower);
+
+            Match.SetFaceDown(Player1, support);
+
+            if (path == Path.Happy)
+            {
+                Card support2 = Player1.Hand[1];
+                support2.CardType = CardType.Support;
+                Match.SetFaceDown(Player1, support2);
+            }
+
+            Match.EndTurn(Player1);
+            Match.EndTurn(Player2);
+            
+            int previousLife = Player1.Health;
+            int previousHandCount = Player1.Hand.Count;
+            Match.Activate(Player1, support);
+            
+            if (path == Path.Happy)
+            {
+                Assert.IsEqual(Player1.Hand.Count, previousHandCount + draw);
+            }
+            else
+            {
+                Assert.IsEqual(Player1.Health, previousLife - damage);
+            }
         }
     }
 }
