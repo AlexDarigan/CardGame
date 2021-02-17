@@ -14,6 +14,7 @@ namespace CardGame.Server
          * directly on their owners (either a player or a skill).
          */
 
+        private readonly VirtualStackMachine _virtualStackMachine = new VirtualStackMachine();
         private readonly Action Update;
         private Player TurnPlayer;
         private bool _isGameOver;
@@ -127,7 +128,7 @@ namespace CardGame.Server
                 return;
             }
             
-            support.Activate();
+            _virtualStackMachine.Activate(support);
             Update();
         }
         

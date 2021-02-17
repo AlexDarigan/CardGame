@@ -24,10 +24,5 @@ namespace CardGame.Server
             Owner = owner;
             Controller = owner;
         }
-
-        public void Activate()
-        {
-            Skill.Activate();
-        }
     }
 }
