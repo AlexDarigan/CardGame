@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Godot;
@@ -24,10 +23,10 @@ namespace CardGame.Server
             card.CardType = cardInfo.CardType;
             card.Faction = cardInfo.Faction;
             card.Power = cardInfo.Power;
-            foreach (SkillInfo skillInfo in cardInfo.Skills)
-            {
-                card.Skills.Add(new Skill(card, skillInfo.Triggers, skillInfo.Instructions, skillInfo.Arguments, skillInfo.Description));
-            }
+            
+            // Staying with one skill per card for the time being
+            SkillInfo skillInfo = cardInfo.Skill;
+            card.Skill = new Skill(card, skillInfo.Triggers, skillInfo.Instructions, skillInfo.Description);
             cardRegister.Add(card);
             return card;
         }
@@ -39,17 +38,17 @@ namespace CardGame.Server
             public readonly string Title;
             public readonly Faction Faction;
             public readonly int Power;
-            public readonly IEnumerable<SkillInfo> Skills;
+            public readonly SkillInfo Skill;
 
             [JsonConstructor]
-            public CardInfo(SetCodes setCode, CardType cardType, Faction faction, string title, int power, IEnumerable<SkillInfo> skills)
+            public CardInfo(SetCodes setCode, CardType cardType, Faction faction, string title, int power, SkillInfo skill)
             {
                 SetCode = setCode;
                 CardType = cardType;
                 Faction = faction;
                 Title = title;
                 Power = power;
-                Skills = skills;
+                Skill = skill;
             }
         }
 
@@ -57,20 +56,45 @@ namespace CardGame.Server
         {
             // The Description Attribute is more of the sake of debugging rather than any practical application in game
             public readonly IEnumerable<Triggers> Triggers;
-            public readonly IEnumerable<Instructions> Instructions;
-            public readonly Stack<object> Arguments;
+            public readonly IEnumerable<int> Instructions;
             public readonly string Description;
             
             [JsonConstructor]
-            public SkillInfo(IEnumerable<Triggers> triggers, IEnumerable<Instructions> instructions, Stack<object> arguments, string description)
+            public SkillInfo(IEnumerable<Triggers> triggers, IEnumerable<string> instructions, string description)
             {
                 Triggers = triggers;
-                Instructions = instructions;
-                Description = description;
+                // We store all arguments as strings but they can exist in one of a number of enums or as a literal
+                //Instructions = instructions;
+                List<int> insts = new List<int>();
                 
-                // Stack Reverses the Order, so we're calling a second constructor to reverse it back
-                Arguments = new Stack<object>(arguments);
-               
+                // All Instructions are stored as Integers
+                // We check the string against each enum we have..
+                //      ..If we have a match, then we add the related int value..
+                //      ....else we just add it as a literal int
+                
+                // This is probably fairly expensive but we do this once at the load-time of the server so unlikely
+                // ..to be any real performance issue.
+                foreach (string command in instructions)
+                {
+                    
+                    if (Enum.TryParse(command, out Instructions instruction))
+                    {
+                        insts.Add((int) instruction);
+                    }
+                    else if (Enum.TryParse(command, out CardType cardType))
+                    {
+                        insts.Add((int) cardType);
+                    }
+                    else 
+                    {
+                        // Is Literal Integer
+                        insts.Add(command.ToInt());
+                    }
+                }
+
+                Instructions = insts;
+                Description = description;
+                               
             }
             
         }

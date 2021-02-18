@@ -17,6 +17,7 @@
     public enum Instructions
     {
         // Getters
+        Literal = 0,
         GetOwningCard,
         GetController,
         GetOpponent,
@@ -27,7 +28,6 @@
         GetSupport,
         
         // Control Flow
-        DiscardArgument, // Surely there is a better way?
         GoToEnd,
 
         // Match
@@ -38,7 +38,6 @@
         IfGreaterThan,
         
         // Setters
-        SetTitle,
         SetFaction,
         SetPower,
         
@@ -46,6 +45,8 @@
         Draw,
         Destroy, // Whether it is one or many cards, we will destroy them in a list
         DealDamage,
+        
+       
     }
 
 }
