@@ -46,7 +46,7 @@ namespace CardGame.Tests.Server
             private List<int> Instructions = new List<int>();
             public string Description = "";
 
-            public Skill CreateSkill(Card owner)
+            public Skill Build(Card owner)
             {
                 return new Skill(owner, Triggers, Instructions, Description);
             }
