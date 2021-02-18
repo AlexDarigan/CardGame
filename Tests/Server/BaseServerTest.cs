@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CardGame.Server;
 
 namespace CardGame.Tests.Server
@@ -41,13 +42,12 @@ namespace CardGame.Tests.Server
         protected class SkillBuilder
         {
             public List<Triggers> Triggers = new List<Triggers>();
-            public List<Instructions> Instructions = new List<Instructions>();
-            public Stack<object> Arguments = new Stack<object>();
+            public List<int> Instructions = new List<int>();
             public string Description = "";
 
             public Skill CreateSkill(Card owner)
             {
-                return new Skill(owner, Triggers, Instructions, Arguments, Description);
+                return new Skill(owner, Triggers, Instructions, Description);
             }
             
         }
