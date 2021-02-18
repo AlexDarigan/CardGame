@@ -167,7 +167,7 @@ namespace CardGame.Tests.Server.Actions
             skill.Add(Instructions.Count);
             skill.Add(Instructions.IsLessThan);
             skill.Add(Instructions.Literal);
-            skill.Add(3);
+            skill.Add(13);
             skill.Add(Instructions.If);
             skill.Add(Instructions.GetController);
             skill.Add(Instructions.Draw);
