@@ -15,16 +15,13 @@ namespace CardGame.Tests.Server.Actions
             Card support = Player1.Hand[0];
             support.CardType = CardType.Support;
 
-            // Create Skill
-            SkillBuilder skillBuilder = new SkillBuilder {Description = "Draw 2 Cards"};
-            skillBuilder.Triggers.Add(Triggers.Any);
-            skillBuilder.Add(Instructions.Literal);
-            skillBuilder.Add(2);
-            skillBuilder.Add(Instructions.GetController);
-            skillBuilder.Add(Instructions.Draw);
-            // skillBuilder.Arguments.Push(2);
-            Skill draw2Cards = skillBuilder.CreateSkill(support);
-            support.Skill = draw2Cards;
+            SkillBuilder skill = new SkillBuilder {Description = "Draw 2 Cards"};
+            skill.Triggers.Add(Triggers.Any);
+            skill.Add(Instructions.Literal);
+            skill.Add(2);
+            skill.Add(Instructions.GetController);
+            skill.Add(Instructions.Draw);
+            support.Skill = skill.Build(support);
 
             Match.SetFaceDown(Player1, support);
             Match.EndTurn(Player1);
@@ -41,15 +38,13 @@ namespace CardGame.Tests.Server.Actions
             support.CardType = CardType.Support;
 
             // Create Skill
-            SkillBuilder skillBuilder = new SkillBuilder {Description = "Draw 5 Cards"};
-            skillBuilder.Triggers.Add(Triggers.Any);
-            skillBuilder.Add(Instructions.Literal);
-            skillBuilder.Add(5);
-            skillBuilder.Add(Instructions.GetOpponent);
-            skillBuilder.Add(Instructions.Draw);
-            //skillBuilder.Arguments.Push(5);
-            Skill draw2Cards = skillBuilder.CreateSkill(support);
-            support.Skill = draw2Cards;
+            SkillBuilder skill = new SkillBuilder {Description = "Draw 5 Cards"};
+            skill.Triggers.Add(Triggers.Any);
+            skill.Add(Instructions.Literal);
+            skill.Add(5);
+            skill.Add(Instructions.GetOpponent);
+            skill.Add(Instructions.Draw);
+            support.Skill = skill.Build(support);
 
             Match.SetFaceDown(Player1, support);
             Match.EndTurn(Player1);
@@ -66,13 +61,12 @@ namespace CardGame.Tests.Server.Actions
             support.CardType = CardType.Support;
 
             // Create Skill
-            SkillBuilder skillBuilder = new SkillBuilder {Description = "Draw 5 Cards"};
-            skillBuilder.Triggers.Add(Triggers.Any);
-            skillBuilder.Add(Instructions.GetOpponent);
-            skillBuilder.Add(Instructions.GetUnits);
-            skillBuilder.Add(Instructions.Destroy);
-            Skill draw2Cards = skillBuilder.CreateSkill(support);
-            support.Skill = draw2Cards;
+            SkillBuilder skill = new SkillBuilder {Description = "Draw 5 Cards"};
+            skill.Triggers.Add(Triggers.Any);
+            skill.Add(Instructions.GetOpponent);
+            skill.Add(Instructions.GetUnits);
+            skill.Add(Instructions.Destroy);
+            support.Skill = skill.Build(support);
 
             // Play Cards
             Match.SetFaceDown(Player1, support);
@@ -102,14 +96,13 @@ namespace CardGame.Tests.Server.Actions
         {
             Card support = Player1.Hand[0];
             support.CardType = CardType.Support;
-            SkillBuilder skillBuilder = new SkillBuilder {Description = "Change this card's title to 'ChangedTitle'"};
-            skillBuilder.Triggers.Add(Triggers.Any);
-            skillBuilder.Add(Instructions.Literal);
-            skillBuilder.Add(Faction.Warrior);
-            skillBuilder.Add(Instructions.GetOwningCard);
-            skillBuilder.Add(Instructions.SetFaction);
-            Skill changeCardFaction = skillBuilder.CreateSkill(support);
-            support.Skill = changeCardFaction;
+            SkillBuilder skill = new SkillBuilder {Description = "Change this card's title to 'ChangedTitle'"};
+            skill.Triggers.Add(Triggers.Any);
+            skill.Add(Instructions.Literal);
+            skill.Add(Faction.Warrior);
+            skill.Add(Instructions.GetOwningCard);
+            skill.Add(Instructions.SetFaction);
+            support.Skill = skill.Build(support);
 
             Faction previousFaction = support.Faction;
             Match.SetFaceDown(Player1, support);
@@ -126,14 +119,13 @@ namespace CardGame.Tests.Server.Actions
         {
             Card support = Player1.Hand[0];
             support.CardType = CardType.Support;
-            SkillBuilder skillBuilder = new SkillBuilder {Description = "Change this card's title to 'ChangedTitle'"};
-            skillBuilder.Triggers.Add(Triggers.Any);
-            skillBuilder.Add(Instructions.Literal);
-            skillBuilder.Add(1000);
-            skillBuilder.Add(Instructions.GetOwningCard);
-            skillBuilder.Add(Instructions.SetPower);
-            Skill changeCardPower = skillBuilder.CreateSkill(support);
-            support.Skill = changeCardPower;
+            SkillBuilder skill = new SkillBuilder {Description = "Change this card's title to 'ChangedTitle'"};
+            skill.Triggers.Add(Triggers.Any);
+            skill.Add(Instructions.Literal);
+            skill.Add(1000);
+            skill.Add(Instructions.GetOwningCard);
+            skill.Add(Instructions.SetPower);
+            support.Skill = skill.Build(support);
 
             int previousPower = support.Power;
             Match.SetFaceDown(Player1, support);
@@ -144,10 +136,7 @@ namespace CardGame.Tests.Server.Actions
             Assert.IsNotEqual(previousPower, support);
         }
         
-        // Draw A Card When you have six or less cards in your hand
-        // Take Damage, When you have seven or more cards
-        // covers if/else
-        
+       
         public enum Path { Happy, Sad }
         [RunWith(Path.Happy)]
         [RunWith(Path.Sad)]
@@ -160,40 +149,35 @@ namespace CardGame.Tests.Server.Actions
 
             Card support = Player1.Hand[0];
             support.CardType = CardType.Support;
-            SkillBuilder skillBuilder = new SkillBuilder {Description = "If you have less than seven cards " +
+            SkillBuilder skill = new SkillBuilder {Description = "If you have less than seven cards " +
                                                                         "in your hand draw 2 cards else take 1000 damage"};
-            skillBuilder.Triggers.Add(Triggers.Any);
+            skill.Triggers.Add(Triggers.Any);
             
             // Jump Inst
-            skillBuilder.Add(Instructions.Literal);
-            skillBuilder.Add(5);
+            skill.Add(Instructions.Literal);
+            skill.Add(5);
             
             // Comparing Against
-            skillBuilder.Add(Instructions.Literal);
-            skillBuilder.Add(7);
+            skill.Add(Instructions.Literal);
+            skill.Add(7);
 
             // Hand Count
-            skillBuilder.Add(Instructions.GetController);
-            skillBuilder.Add(Instructions.GetHand);
-            skillBuilder.Add(Instructions.Count);
-            skillBuilder.Add(Instructions.IfLessThan);
-            skillBuilder.Add(Instructions.Literal);
-            skillBuilder.Add(5);
-            skillBuilder.Add(Instructions.GetController);
-            skillBuilder.Add(Instructions.Draw);
-            skillBuilder.Add(Instructions.GoToEnd);
+            skill.Add(Instructions.GetController);
+            skill.Add(Instructions.GetHand);
+            skill.Add(Instructions.Count);
+            skill.Add(Instructions.IfLessThan);
+            skill.Add(Instructions.Literal);
+            skill.Add(5);
+            skill.Add(Instructions.GetController);
+            skill.Add(Instructions.Draw);
+            skill.Add(Instructions.GoToEnd);
             
             // Else Branch
-            
-            // DiscardArgument is to clear arguments from the other branch we don't care about
-           // skillBuilder.Add(Instructions.DiscardArgument);
-            skillBuilder.Add(Instructions.Literal);
-            skillBuilder.Add(1000);
-            skillBuilder.Add(Instructions.GetController);
-            skillBuilder.Add(Instructions.DealDamage);
-            
-            Skill changeCardPower = skillBuilder.CreateSkill(support);
-            support.Skill = changeCardPower;
+            skill.Add(Instructions.Literal);
+            skill.Add(1000);
+            skill.Add(Instructions.GetController);
+            skill.Add(Instructions.DealDamage);
+            support.Skill = skill.Build(support);
 
             Match.SetFaceDown(Player1, support);
 
