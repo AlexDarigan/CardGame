@@ -39,8 +39,6 @@ namespace CardGame.Server
 
 		public void Activate(Card card)
 		{
-			// Make sure these are unique copies
-			//Stack<int> instructions = new Stack<int>(card.Skill.Instructions);
 			CustomStack instructions = new CustomStack(card.Skill.Instructions.ToList());
 			IList<Player> players = new List<Player>{card.Controller, card.Controller.Opponent};
 			List<Card> cards = new List<Card>();
@@ -140,10 +138,6 @@ namespace CardGame.Server
 						int power= (int) instructions.Pop();
 						SetPower(cards, power);
 					}
-						break;
-					case Instructions.DiscardArgument:
-						// Jumped In Control Flow so we discard Arguments we don't use
-						instructions.Pop();
 						break;
 					case Instructions.GoToEnd:
 						index = instructions.Count; // We could just do an early return?

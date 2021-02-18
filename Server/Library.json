@@ -10,8 +10,7 @@
     "Skill":  
       {
         "Triggers": ["Any"],
-        "Instructions": ["GetController", "Draw"],
-        "Arguments": [2],
+        "Instructions": ["Literal", 2,"GetController", "Draw"],
         "Description": "Draw 2 Cards"
       }
   }

@@ -9,16 +9,13 @@ namespace CardGame.Server
         public readonly Card Owner;
         public readonly IEnumerable<Triggers> Triggers;
         public readonly IEnumerable<int> Instructions;
-        public readonly Stack<object> Arguments;
         public readonly string Description;
 
-        public Skill(Card owner, IEnumerable<Triggers> triggers, IEnumerable<int> instructions, 
-            Stack<object> arguments, string description)
+        public Skill(Card owner, IEnumerable<Triggers> triggers, IEnumerable<int> instructions, string description)
         {
             Owner = owner;
             Triggers = triggers;
             Instructions = instructions;
-            Arguments = arguments;
             Description = description;
         }
     }

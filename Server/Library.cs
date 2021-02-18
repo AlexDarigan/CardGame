@@ -26,7 +26,7 @@ namespace CardGame.Server
             
             // Staying with one skill per card for the time being
             SkillInfo skillInfo = cardInfo.Skill;
-            card.Skill = new Skill(card, skillInfo.Triggers, skillInfo.Instructions, skillInfo.Arguments, skillInfo.Description);
+            card.Skill = new Skill(card, skillInfo.Triggers, skillInfo.Instructions, skillInfo.Description);
             cardRegister.Add(card);
             return card;
         }
@@ -57,11 +57,10 @@ namespace CardGame.Server
             // The Description Attribute is more of the sake of debugging rather than any practical application in game
             public readonly IEnumerable<Triggers> Triggers;
             public readonly IEnumerable<int> Instructions;
-            public readonly Stack<object> Arguments;
             public readonly string Description;
             
             [JsonConstructor]
-            public SkillInfo(IEnumerable<Triggers> triggers, IEnumerable<string> instructions, Stack<object> arguments, string description)
+            public SkillInfo(IEnumerable<Triggers> triggers, IEnumerable<string> instructions, string description)
             {
                 Triggers = triggers;
                 // We store all arguments as strings but they can exist in one of a number of enums or as a literal
@@ -95,10 +94,7 @@ namespace CardGame.Server
 
                 Instructions = insts;
                 Description = description;
-                
-                // Stack Reverses the Order, so we're calling a second constructor to reverse it back
-                Arguments = new Stack<object>(arguments);
-               
+                               
             }
             
         }
