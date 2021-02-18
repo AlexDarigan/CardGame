@@ -57,14 +57,10 @@ namespace CardGame.Server
 					}
 						break;
 					case Instructions.Destroy:
-					{
 						Destroy(cards);
-					}
 						break;
 					case Instructions.Count:
-					{
 						instructions.Push(cards.Count);
-					}
 						break;
 					case Instructions.IfLessThan:
 					{
@@ -92,34 +88,19 @@ namespace CardGame.Server
 						instructions.Push(1);
 						break;
 					case Instructions.GetDeck:
-					{
-						Player player = players[(int) instructions.Pop()];
-						cards.AddRange(player.Deck);
-					}
+						cards.AddRange(players[instructions.Pop()].Deck);
 						break;
 					case Instructions.GetGraveyard:
-					{
-						Player player = players[(int) instructions.Pop()];
-						cards.AddRange(player.Graveyard);
-					}
+						cards.AddRange(players[instructions.Pop()].Graveyard);
 						break;
 					case Instructions.GetHand:
-					{
-						Player player = players[(int) instructions.Pop()];
-						cards.AddRange(player.Hand);
-					}
+						cards.AddRange(players[instructions.Pop()].Hand);
 						break;
 					case Instructions.GetUnits:
-					{
-						Player player = players[(int) instructions.Pop()];
-						cards.AddRange(player.Units);
-					}
+						cards.AddRange(players[instructions.Pop()].Units);
 						break;
 					case Instructions.GetSupport:
-					{
-						Player player = players[(int) instructions.Pop()];
-						cards.AddRange(player.Supports);
-					}
+						cards.AddRange(players[instructions.Pop()].Supports);
 						break;
 					case Instructions.GetOwningCard:
 						// All Cards are stored in a list even if they're individual in case a further..
@@ -128,16 +109,10 @@ namespace CardGame.Server
 						cards.Add(card);
 						break;
 					case Instructions.SetFaction:
-					{
-						Faction faction = (Faction) instructions.Pop();
-						SetFaction(cards, faction);
-					}
+						SetFaction(cards, (Faction) instructions.Pop());
 						break;
 					case Instructions.SetPower:
-					{
-						int power= (int) instructions.Pop();
-						SetPower(cards, power);
-					}
+						SetPower(cards, instructions.Pop());
 						break;
 					case Instructions.GoToEnd:
 						index = instructions.Count; // We could just do an early return?
@@ -151,8 +126,7 @@ namespace CardGame.Server
 						break;
 					case Instructions.Literal:
 						index++;
-						int elem = instructions[index];
-						instructions.Push(elem);
+						instructions.Push(instructions[index]);
 						break;
 					default:
 						throw new ArgumentOutOfRangeException();
