@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using CardGame.Server;
 
 namespace CardGame.Tests.Server
@@ -42,12 +43,27 @@ namespace CardGame.Tests.Server
         protected class SkillBuilder
         {
             public List<Triggers> Triggers = new List<Triggers>();
-            public List<int> Instructions = new List<int>();
+            private List<int> Instructions = new List<int>();
             public string Description = "";
 
             public Skill CreateSkill(Card owner)
             {
                 return new Skill(owner, Triggers, Instructions, Description);
+            }
+
+            public void Add(Instructions instruction)
+            {
+                Instructions.Add((int) instruction);
+            }
+
+            public void Add(int literal)
+            {
+                Instructions.Add(literal);
+            }
+
+            public void Add(Faction faction)
+            {
+                Instructions.Add((int) faction);
             }
             
         }
