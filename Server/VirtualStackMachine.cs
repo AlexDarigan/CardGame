@@ -4,42 +4,12 @@ using System.Linq;
 
 namespace CardGame.Server
 {
-	public class CustomStack
-	{
-		private List<int> list; // = new List<int>();
-		public int Count => list.Count;
-
-		public CustomStack(List<int> _listx) // => //list = _listx;
-		{
-			list = _listx;
-		}
-
-		public int Pop()
-		{
-			int popped = list[list.Count - 1];
-			list.RemoveAt(list.Count - 1);
-			return popped;
-		}
-
-		public void Push(int i)
-		{
-			list.Add(i);
-		}
-		
-		public int this[int i] => list[i];
-	}
-	
 	public class VirtualStackMachine
 	{
-		/*
-		 * I was planning on grouping cards with a 0 to separate the values but suddenly realized if we store
-		 * this as int it might be too big and cause overflow.
-		 */
 		
-
 		public void Activate(Card card)
 		{
-			CustomStack instructions = new CustomStack(card.Skill.Instructions.ToList());
+			Stack instructions = new Stack(card.Skill.Instructions.ToList());
 			IList<Player> players = new List<Player>{card.Controller, card.Controller.Opponent};
 			List<Card> cards = new List<Card>();
 			
@@ -83,7 +53,7 @@ namespace CardGame.Server
 						}
 						else
 						{
-							index += jump;
+							index = jump;
 						}
 					}
 						break;
