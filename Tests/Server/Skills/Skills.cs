@@ -18,9 +18,11 @@ namespace CardGame.Tests.Server.Actions
             // Create Skill
             SkillBuilder skillBuilder = new SkillBuilder {Description = "Draw 2 Cards"};
             skillBuilder.Triggers.Add(Triggers.Any);
+            skillBuilder.Instructions.Add((int) Instructions.Literal);
+            skillBuilder.Instructions.Add(2);
             skillBuilder.Instructions.Add( (int) Instructions.GetController);
             skillBuilder.Instructions.Add( (int) Instructions.Draw);
-            skillBuilder.Arguments.Push(2);
+            // skillBuilder.Arguments.Push(2);
             Skill draw2Cards = skillBuilder.CreateSkill(support);
             support.Skill = draw2Cards;
 
@@ -41,9 +43,11 @@ namespace CardGame.Tests.Server.Actions
             // Create Skill
             SkillBuilder skillBuilder = new SkillBuilder {Description = "Draw 5 Cards"};
             skillBuilder.Triggers.Add(Triggers.Any);
+            skillBuilder.Instructions.Add((int) Instructions.Literal);
+            skillBuilder.Instructions.Add(5);
             skillBuilder.Instructions.Add( (int) Instructions.GetOpponent);
             skillBuilder.Instructions.Add( (int) Instructions.Draw);
-            skillBuilder.Arguments.Push(5);
+            //skillBuilder.Arguments.Push(5);
             Skill draw2Cards = skillBuilder.CreateSkill(support);
             support.Skill = draw2Cards;
 
@@ -91,28 +95,7 @@ namespace CardGame.Tests.Server.Actions
             Assert.DoesNotContain(unitB, Player2.Units);
         }
 
-        [Test]
-        public void Changes_Card_Title()
-        {
-            Card support = Player1.Hand[0];
-            support.CardType = CardType.Support;
-            SkillBuilder skillBuilder = new SkillBuilder {Description = "Change this card's title to 'Changed Title'"};
-            skillBuilder.Triggers.Add(Triggers.Any);
-            skillBuilder.Instructions.Add( (int) Instructions.GetOwningCard);
-            skillBuilder.Instructions.Add( (int) Instructions.SetTitle);
-            skillBuilder.Arguments.Push("Changed Title");
-            Skill changeCardTitle = skillBuilder.CreateSkill(support);
-            support.Skill = changeCardTitle;
-
-            string previousTitle = support.Title;
-            Match.SetFaceDown(Player1, support);
-            Match.EndTurn(Player1);
-            Match.EndTurn(Player2);
-            Match.Activate(Player1, support);
-            
-            Assert.IsEqual(support.Title, "Changed Title");
-            Assert.IsNotEqual(support.Title, previousTitle);
-        }
+     
         
         [Test]
         public void Changes_Card_Faction()
@@ -121,10 +104,10 @@ namespace CardGame.Tests.Server.Actions
             support.CardType = CardType.Support;
             SkillBuilder skillBuilder = new SkillBuilder {Description = "Change this card's title to 'ChangedTitle'"};
             skillBuilder.Triggers.Add(Triggers.Any);
+            skillBuilder.Instructions.Add((int) Instructions.Literal);
+            skillBuilder.Instructions.Add((int) Faction.Warrior);
             skillBuilder.Instructions.Add( (int) Instructions.GetOwningCard);
             skillBuilder.Instructions.Add( (int) Instructions.SetFaction);
-            // We store enums as strings in JSON
-            skillBuilder.Arguments.Push(Faction.Warrior.ToString());
             Skill changeCardFaction = skillBuilder.CreateSkill(support);
             support.Skill = changeCardFaction;
 
@@ -145,9 +128,10 @@ namespace CardGame.Tests.Server.Actions
             support.CardType = CardType.Support;
             SkillBuilder skillBuilder = new SkillBuilder {Description = "Change this card's title to 'ChangedTitle'"};
             skillBuilder.Triggers.Add(Triggers.Any);
+            skillBuilder.Instructions.Add((int) Instructions.Literal);
+            skillBuilder.Instructions.Add(1000);
             skillBuilder.Instructions.Add( (int) Instructions.GetOwningCard);
             skillBuilder.Instructions.Add( (int) Instructions.SetPower);
-            skillBuilder.Arguments.Push(1000);
             Skill changeCardPower = skillBuilder.CreateSkill(support);
             support.Skill = changeCardPower;
 
@@ -179,10 +163,22 @@ namespace CardGame.Tests.Server.Actions
             SkillBuilder skillBuilder = new SkillBuilder {Description = "If you have less than seven cards " +
                                                                         "in your hand draw 2 cards else take 1000 damage"};
             skillBuilder.Triggers.Add(Triggers.Any);
+            
+            // Jump Inst
+            skillBuilder.Instructions.Add((int) Instructions.Literal);
+            skillBuilder.Instructions.Add(5);
+            
+            // Comparing Against
+            skillBuilder.Instructions.Add((int) Instructions.Literal);
+            skillBuilder.Instructions.Add(7);
+
+            // Hand Count
             skillBuilder.Instructions.Add( (int) Instructions.GetController);
             skillBuilder.Instructions.Add( (int) Instructions.GetHand);
             skillBuilder.Instructions.Add( (int) Instructions.Count);
             skillBuilder.Instructions.Add( (int) Instructions.IfLessThan);
+            skillBuilder.Instructions.Add((int) Instructions.Literal);
+            skillBuilder.Instructions.Add(5);
             skillBuilder.Instructions.Add( (int) Instructions.GetController);
             skillBuilder.Instructions.Add( (int) Instructions.Draw);
             skillBuilder.Instructions.Add( (int) Instructions.GoToEnd);
@@ -190,18 +186,12 @@ namespace CardGame.Tests.Server.Actions
             // Else Branch
             
             // DiscardArgument is to clear arguments from the other branch we don't care about
-            skillBuilder.Instructions.Add( (int) Instructions.DiscardArgument);
+           // skillBuilder.Instructions.Add( (int) Instructions.DiscardArgument);
+            skillBuilder.Instructions.Add((int) Instructions.Literal);
+            skillBuilder.Instructions.Add(1000);
             skillBuilder.Instructions.Add( (int) Instructions.GetController);
             skillBuilder.Instructions.Add( (int) Instructions.DealDamage);
-
-            const int damage = 1000;
-            const int draw = 5;
-            const int jump = 3;
-            const int count = 7;
-            skillBuilder.Arguments.Push(damage);
-            skillBuilder.Arguments.Push(draw);
-            skillBuilder.Arguments.Push(jump);
-            skillBuilder.Arguments.Push(count);
+            
             Skill changeCardPower = skillBuilder.CreateSkill(support);
             support.Skill = changeCardPower;
 
@@ -223,11 +213,11 @@ namespace CardGame.Tests.Server.Actions
             
             if (path == Path.Happy)
             {
-                Assert.IsEqual(Player1.Hand.Count, previousHandCount + draw);
+                Assert.IsEqual(Player1.Hand.Count, previousHandCount + 5);
             }
             else
             {
-                Assert.IsEqual(Player1.Health, previousLife - damage);
+                Assert.IsEqual(Player1.Health, previousLife - 1000);
             }
         }
     }

@@ -17,7 +17,7 @@
     public enum Instructions
     {
         // Getters
-        GetOwningCard,
+        GetOwningCard = 0,
         GetController,
         GetOpponent,
         GetDeck,
@@ -46,6 +46,9 @@
         Draw,
         Destroy, // Whether it is one or many cards, we will destroy them in a list
         DealDamage,
+        
+        // Literal
+        Literal
     }
 
 }
