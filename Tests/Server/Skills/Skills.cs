@@ -18,10 +18,10 @@ namespace CardGame.Tests.Server.Actions
             // Create Skill
             SkillBuilder skillBuilder = new SkillBuilder {Description = "Draw 2 Cards"};
             skillBuilder.Triggers.Add(Triggers.Any);
-            skillBuilder.Instructions.Add((int) Instructions.Literal);
-            skillBuilder.Instructions.Add(2);
-            skillBuilder.Instructions.Add( (int) Instructions.GetController);
-            skillBuilder.Instructions.Add( (int) Instructions.Draw);
+            skillBuilder.Add(Instructions.Literal);
+            skillBuilder.Add(2);
+            skillBuilder.Add(Instructions.GetController);
+            skillBuilder.Add(Instructions.Draw);
             // skillBuilder.Arguments.Push(2);
             Skill draw2Cards = skillBuilder.CreateSkill(support);
             support.Skill = draw2Cards;
@@ -43,10 +43,10 @@ namespace CardGame.Tests.Server.Actions
             // Create Skill
             SkillBuilder skillBuilder = new SkillBuilder {Description = "Draw 5 Cards"};
             skillBuilder.Triggers.Add(Triggers.Any);
-            skillBuilder.Instructions.Add((int) Instructions.Literal);
-            skillBuilder.Instructions.Add(5);
-            skillBuilder.Instructions.Add( (int) Instructions.GetOpponent);
-            skillBuilder.Instructions.Add( (int) Instructions.Draw);
+            skillBuilder.Add(Instructions.Literal);
+            skillBuilder.Add(5);
+            skillBuilder.Add(Instructions.GetOpponent);
+            skillBuilder.Add(Instructions.Draw);
             //skillBuilder.Arguments.Push(5);
             Skill draw2Cards = skillBuilder.CreateSkill(support);
             support.Skill = draw2Cards;
@@ -68,9 +68,9 @@ namespace CardGame.Tests.Server.Actions
             // Create Skill
             SkillBuilder skillBuilder = new SkillBuilder {Description = "Draw 5 Cards"};
             skillBuilder.Triggers.Add(Triggers.Any);
-            skillBuilder.Instructions.Add( (int) Instructions.GetOpponent);
-            skillBuilder.Instructions.Add( (int) Instructions.GetUnits);
-            skillBuilder.Instructions.Add( (int) Instructions.Destroy);
+            skillBuilder.Add(Instructions.GetOpponent);
+            skillBuilder.Add(Instructions.GetUnits);
+            skillBuilder.Add(Instructions.Destroy);
             Skill draw2Cards = skillBuilder.CreateSkill(support);
             support.Skill = draw2Cards;
 
@@ -104,10 +104,10 @@ namespace CardGame.Tests.Server.Actions
             support.CardType = CardType.Support;
             SkillBuilder skillBuilder = new SkillBuilder {Description = "Change this card's title to 'ChangedTitle'"};
             skillBuilder.Triggers.Add(Triggers.Any);
-            skillBuilder.Instructions.Add((int) Instructions.Literal);
-            skillBuilder.Instructions.Add((int) Faction.Warrior);
-            skillBuilder.Instructions.Add( (int) Instructions.GetOwningCard);
-            skillBuilder.Instructions.Add( (int) Instructions.SetFaction);
+            skillBuilder.Add(Instructions.Literal);
+            skillBuilder.Add(Faction.Warrior);
+            skillBuilder.Add(Instructions.GetOwningCard);
+            skillBuilder.Add(Instructions.SetFaction);
             Skill changeCardFaction = skillBuilder.CreateSkill(support);
             support.Skill = changeCardFaction;
 
@@ -128,10 +128,10 @@ namespace CardGame.Tests.Server.Actions
             support.CardType = CardType.Support;
             SkillBuilder skillBuilder = new SkillBuilder {Description = "Change this card's title to 'ChangedTitle'"};
             skillBuilder.Triggers.Add(Triggers.Any);
-            skillBuilder.Instructions.Add((int) Instructions.Literal);
-            skillBuilder.Instructions.Add(1000);
-            skillBuilder.Instructions.Add( (int) Instructions.GetOwningCard);
-            skillBuilder.Instructions.Add( (int) Instructions.SetPower);
+            skillBuilder.Add(Instructions.Literal);
+            skillBuilder.Add(1000);
+            skillBuilder.Add(Instructions.GetOwningCard);
+            skillBuilder.Add(Instructions.SetPower);
             Skill changeCardPower = skillBuilder.CreateSkill(support);
             support.Skill = changeCardPower;
 
@@ -165,32 +165,32 @@ namespace CardGame.Tests.Server.Actions
             skillBuilder.Triggers.Add(Triggers.Any);
             
             // Jump Inst
-            skillBuilder.Instructions.Add((int) Instructions.Literal);
-            skillBuilder.Instructions.Add(5);
+            skillBuilder.Add(Instructions.Literal);
+            skillBuilder.Add(5);
             
             // Comparing Against
-            skillBuilder.Instructions.Add((int) Instructions.Literal);
-            skillBuilder.Instructions.Add(7);
+            skillBuilder.Add(Instructions.Literal);
+            skillBuilder.Add(7);
 
             // Hand Count
-            skillBuilder.Instructions.Add( (int) Instructions.GetController);
-            skillBuilder.Instructions.Add( (int) Instructions.GetHand);
-            skillBuilder.Instructions.Add( (int) Instructions.Count);
-            skillBuilder.Instructions.Add( (int) Instructions.IfLessThan);
-            skillBuilder.Instructions.Add((int) Instructions.Literal);
-            skillBuilder.Instructions.Add(5);
-            skillBuilder.Instructions.Add( (int) Instructions.GetController);
-            skillBuilder.Instructions.Add( (int) Instructions.Draw);
-            skillBuilder.Instructions.Add( (int) Instructions.GoToEnd);
+            skillBuilder.Add(Instructions.GetController);
+            skillBuilder.Add(Instructions.GetHand);
+            skillBuilder.Add(Instructions.Count);
+            skillBuilder.Add(Instructions.IfLessThan);
+            skillBuilder.Add(Instructions.Literal);
+            skillBuilder.Add(5);
+            skillBuilder.Add(Instructions.GetController);
+            skillBuilder.Add(Instructions.Draw);
+            skillBuilder.Add(Instructions.GoToEnd);
             
             // Else Branch
             
             // DiscardArgument is to clear arguments from the other branch we don't care about
-           // skillBuilder.Instructions.Add( (int) Instructions.DiscardArgument);
-            skillBuilder.Instructions.Add((int) Instructions.Literal);
-            skillBuilder.Instructions.Add(1000);
-            skillBuilder.Instructions.Add( (int) Instructions.GetController);
-            skillBuilder.Instructions.Add( (int) Instructions.DealDamage);
+           // skillBuilder.Add(Instructions.DiscardArgument);
+            skillBuilder.Add(Instructions.Literal);
+            skillBuilder.Add(1000);
+            skillBuilder.Add(Instructions.GetController);
+            skillBuilder.Add(Instructions.DealDamage);
             
             Skill changeCardPower = skillBuilder.CreateSkill(support);
             support.Skill = changeCardPower;
