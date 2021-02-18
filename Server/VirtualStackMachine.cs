@@ -13,34 +13,35 @@ namespace CardGame.Server
 		public void Activate(Card card)
 		{
 			// Make sure these are unique copies
-			IEnumerable<int> Instructions = card.Skill.Instructions;
+			Stack<int> instructions = new Stack<int>(new Stack<int>(card.Skill.Instructions));
+			//instructions.Reverse();
 			Stack<object> arguments = card.Skill.Arguments;
 			IList<Player> players = new List<Player>{card.Controller, card.Controller.Opponent};
-			List<Card> Cards = new List<Card>();
+			List<Card> cards = new List<Card>();
 			
-			for(int index = 0; index < Instructions.Count(); index++)
+			for(int index = 0; index < instructions.Count(); index++)
 			{
-				Instructions instruction = (Instructions) Instructions.ElementAt(index);
+				Instructions instruction = (Instructions) instructions.ElementAt(index);
 				switch (instruction)
 				{
-					case CardGame.Instructions.Draw:
+					case Instructions.Draw:
 					{
 						Player player = players[(int) arguments.Pop()];
 						int count = (int) arguments.Pop();
 						Draw(player, count);
 					}
 						break;
-					case CardGame.Instructions.Destroy:
+					case Instructions.Destroy:
 					{
-						Destroy(Cards);
+						Destroy(cards);
 					}
 						break;
-					case CardGame.Instructions.Count:
+					case Instructions.Count:
 					{
-						arguments.Push(Cards.Count);
+						arguments.Push(cards.Count);
 					}
 						break;
-					case CardGame.Instructions.IfLessThan:
+					case Instructions.IfLessThan:
 					{
 						int a = (int) arguments.Pop();
 						int b = (int) arguments.Pop();
@@ -57,76 +58,76 @@ namespace CardGame.Server
 						}
 					}
 						break;
-					case CardGame.Instructions.IfGreaterThan:
+					case Instructions.IfGreaterThan:
 						break;
-					case CardGame.Instructions.GetController:
+					case Instructions.GetController:
 						arguments.Push(0);
 						break;
-					case CardGame.Instructions.GetOpponent:
+					case Instructions.GetOpponent:
 						arguments.Push(1);
 						break;
-					case CardGame.Instructions.GetDeck:
+					case Instructions.GetDeck:
 					{
 						Player player = players[(int) arguments.Pop()];
-						Cards.AddRange(player.Deck);
+						cards.AddRange(player.Deck);
 					}
 						break;
-					case CardGame.Instructions.GetGraveyard:
+					case Instructions.GetGraveyard:
 					{
 						Player player = players[(int) arguments.Pop()];
-						Cards.AddRange(player.Graveyard);
+						cards.AddRange(player.Graveyard);
 					}
 						break;
-					case CardGame.Instructions.GetHand:
+					case Instructions.GetHand:
 					{
 						Player player = players[(int) arguments.Pop()];
-						Cards.AddRange(player.Hand);
+						cards.AddRange(player.Hand);
 					}
 						break;
-					case CardGame.Instructions.GetUnits:
+					case Instructions.GetUnits:
 					{
 						Player player = players[(int) arguments.Pop()];
-						Cards.AddRange(player.Units);
+						cards.AddRange(player.Units);
 					}
 						break;
-					case CardGame.Instructions.GetSupport:
+					case Instructions.GetSupport:
 					{
 						Player player = players[(int) arguments.Pop()];
-						Cards.AddRange(player.Supports);
+						cards.AddRange(player.Supports);
 					}
 						break;
-					case CardGame.Instructions.GetOwningCard:
+					case Instructions.GetOwningCard:
 						// All Cards are stored in a list even if they're individual in case a further..
 						// ..instruction requires to group a number of them together
 					   // arguments.Push(new List<Card>{card});
-						Cards.Add(card);
+						cards.Add(card);
 						break;
-					case CardGame.Instructions.SetTitle:
+					case Instructions.SetTitle:
 					{
 						string title = (string) arguments.Pop();
-						SetTitle(Cards, title);
+						SetTitle(cards, title);
 					}
 						break;
-					case CardGame.Instructions.SetFaction:
+					case Instructions.SetFaction:
 					{
 						Enum.TryParse((string) arguments.Pop(), out Faction faction);
-						SetFaction(Cards, faction);
+						SetFaction(cards, faction);
 					}
 						break;
-					case CardGame.Instructions.SetPower:
+					case Instructions.SetPower:
 					{
 						int power= (int) arguments.Pop();
-						SetPower(Cards, power);
+						SetPower(cards, power);
 					}
 						break;
-					case CardGame.Instructions.DiscardArgument:
+					case Instructions.DiscardArgument:
 						// Jumped In Control Flow so we discard Arguments we don't use
 						arguments.Pop();
 						break;
-					case CardGame.Instructions.GoToEnd:
-						index = Instructions.Count(); // We could just do an early return?
+					case Instructions.GoToEnd:
+						index = instructions.Count(); // We could just do an early return?
 						break;
-					case CardGame.Instructions.DealDamage:
+					case Instructions.DealDamage:
 					{
 						Player player = players[(int) arguments.Pop()];
 						int damage = (int) arguments.Pop();
