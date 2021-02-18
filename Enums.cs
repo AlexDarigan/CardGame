@@ -30,12 +30,19 @@
         // Control Flow
         GoToEnd,
 
-        // Match
-        Count,
+        // Math
+        Count, // Cards, Not Numbers
+
+        // Comparison
+        IsLessThan,
+        IsGreaterThan,
+        IsEqual,
+        IsNotEqual,
         
-        // Conditionals
-        IfLessThan,
-        IfGreaterThan,
+        // Boolean
+        If,
+        And,
+        Or,
         
         // Setters
         SetFaction,

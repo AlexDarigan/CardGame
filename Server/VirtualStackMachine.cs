@@ -62,24 +62,30 @@ namespace CardGame.Server
 					case Instructions.Count:
 						instructions.Push(cards.Count);
 						break;
-					case Instructions.IfLessThan:
+					case Instructions.IsLessThan:
 					{
+						const int isFalse = 0;
+						const int isTrue = 1;
 						int a = instructions.Pop();
 						int b = instructions.Pop();
+						instructions.Push(a < b ? isTrue : isFalse);
+					}
+						break;
+					case Instructions.If:
+					{
+						const int isTrue = 1;
+						// Should Jumps be Implicit?
 						int jump = instructions.Pop();
-						if (a < b)
+						int success = instructions.Pop();
+						if (success == isTrue)
 						{
-							// Do Nothing | Follow Until JUMP / GOTO / END
+							
 						}
 						else
 						{
-							// Jump To Next Index - 1
-							// - 1 is to account for the Index added by the for loop
 							index += jump;
 						}
 					}
-						break;
-					case Instructions.IfGreaterThan:
 						break;
 					case Instructions.GetController:
 						instructions.Push(0);
@@ -127,6 +133,51 @@ namespace CardGame.Server
 					case Instructions.Literal:
 						index++;
 						instructions.Push(instructions[index]);
+						break;
+					case Instructions.IsGreaterThan:
+					{
+						const int isFalse = 0;
+						const int isTrue = 1;
+						int a = instructions.Pop();
+						int b = instructions.Pop();
+						instructions.Push(a > b ? isTrue : isFalse);
+					}
+						break;
+					case Instructions.IsEqual:
+					{
+						const int isFalse = 0;
+						const int isTrue = 1;
+						int a = instructions.Pop();
+						int b = instructions.Pop();
+						instructions.Push(a == b ? isTrue : isFalse);
+					}
+						break;
+					case Instructions.IsNotEqual:
+					{
+						const int isFalse = 0;
+						const int isTrue = 1;
+						int a = instructions.Pop();
+						int b = instructions.Pop();
+						instructions.Push(a != b ? isTrue : isFalse);
+					}
+						break;
+					case Instructions.And:
+					{
+						const int isFalse = 0;
+						const int isTrue = 1;
+						int a = instructions.Pop();
+						int b = instructions.Pop();
+						instructions.Push(a == isTrue && b == isTrue ? isTrue : isFalse);
+					}
+						break;
+					case Instructions.Or:
+					{
+						const int isFalse = 0;
+						const int isTrue = 1;
+						int a = instructions.Pop();
+						int b = instructions.Pop();
+						instructions.Push(a == isTrue || b == isTrue ? isTrue : isFalse);
+					}
 						break;
 					default:
 						throw new ArgumentOutOfRangeException();
