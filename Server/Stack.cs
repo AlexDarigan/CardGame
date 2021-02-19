@@ -6,8 +6,13 @@ namespace CardGame.Server
     {
         private readonly List<int> _list;
         public int Count => _list.Count;
-
-        public Stack(List<int> list) => _list = list;
+        public readonly int MaxSize;
+        
+        public Stack(List<int> list)
+        {
+            _list = list;
+            MaxSize = _list.Count;
+        }
 
         public int Pop()
         {
@@ -17,6 +22,7 @@ namespace CardGame.Server
         }
 
         public void Push(int i) => _list.Add(i);
+        
         public int this[int i] => _list[i];
     }
     
