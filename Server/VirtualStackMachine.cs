@@ -81,12 +81,14 @@ namespace CardGame.Server
 		private void GetOwningCard() => _cards.Add(_activated);
 		private void GetController() => _stack.Push(0);
 		private void GetOpponent() => _stack.Push(1);
-		private void GetDeck() => _cards.AddRange(_players[_stack.Pop()].Deck);
-		private void GetHand() => _cards.AddRange(_players[_stack.Pop()].Hand);
-		private void GetUnits() =>	_cards.AddRange(_players[_stack.Pop()].Units);
-		private void GetSupports() => _cards.AddRange(_players[_stack.Pop()].Supports);
-		private void GetGraveyard() => _cards.AddRange(_players[_stack.Pop()].Graveyard);
+		private void GetDeck() => _cards.AddRange(GetPlayer().Deck);
+		private void GetHand() => _cards.AddRange(GetPlayer().Hand);
+		private void GetUnits() =>	_cards.AddRange(GetPlayer().Units);
+		private void GetSupports() => _cards.AddRange(GetPlayer().Supports);
+		private void GetGraveyard() => _cards.AddRange(GetPlayer().Graveyard);
 		private void Count() => _stack.Push(_cards.Count);
+		private Player GetPlayer() => _players[_stack.Pop()];
+
 		#endregion
 
 		#region Control Flow
