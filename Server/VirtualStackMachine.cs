@@ -95,18 +95,11 @@ namespace CardGame.Server
 
 		private void If()
 		{
-			const int isTrue = 1;
 			// Should Jumps be Implicit?
-			int jump = _stack.Pop();
+			const int isTrue = 1;
+			int jumpToElseBranch = _stack.Pop();
 			int success = _stack.Pop();
-			if (success == isTrue)
-			{
-        		
-			}
-			else
-			{
-				_index = jump;
-			}
+			_index = success == isTrue ? _index : jumpToElseBranch;
 		}
 		
 		private void GoToEnd() => _index = _maxSize;
