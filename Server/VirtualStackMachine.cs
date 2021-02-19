@@ -189,63 +189,21 @@ namespace CardGame.Server
 			foreach (Card card in _cards) { card.Power = power; }
 		}
 
-		private void GoToEnd()
-		{
-			_index = _maxSize;
-		}
+		private void GoToEnd() => _index = _maxSize;
+		private void Count() => _stack.Push(_cards.Count);
+		private void GetController() => _stack.Push(0);
+		private void GetOpponent() => _stack.Push(1);
+		private void GetDeck() => _cards.AddRange(_players[_stack.Pop()].Deck);
+		private void GetHand() => _cards.AddRange(_players[_stack.Pop()].Hand);
+		private void GetUnits() =>	_cards.AddRange(_players[_stack.Pop()].Units);
+		private void GetSupports() => _cards.AddRange(_players[_stack.Pop()].Supports);
+		private void GetGraveyard() => _cards.AddRange(_players[_stack.Pop()].Graveyard);
+		private void GetOwningCard() => _cards.Add(_activated);
 
-		private void Count()
-		{
-			_stack.Push(_cards.Count);
-		}
 
-		private void GetController()
-		{
-			_stack.Push(0);
-		}
-		
-		private void GetOpponent()
-		{
-			_stack.Push(1);
-		}
 
-		private void GetDeck()
-		{
-			_cards.AddRange(_players[_stack.Pop()].Deck);
-		}
-		
-		private void GetHand()
-		{
-			_cards.AddRange(_players[_stack.Pop()].Hand);
-		}
-		
-		private void GetUnits()
-		{
-			_cards.AddRange(_players[_stack.Pop()].Units);
-		}
-		
-		private void GetSupports()
-		{
-			_cards.AddRange(_players[_stack.Pop()].Supports);
-		}
-		
-		private void GetGraveyard()
-		{
-			_cards.AddRange(_players[_stack.Pop()].Graveyard);
-		}
 
-		private void GetOwningCard()
-		{
-			// All Cards are stored in a list even if they're individual in case a further..
-			// ..instruction requires to group a number of them together
-			// instructions.Push(new List<Card>{card});
-			_cards.Add(_activated);
-		}
-		
-		
-		
 
-		
 
 	}
 }
