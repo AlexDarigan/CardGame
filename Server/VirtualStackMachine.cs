@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
+using System.Threading;
 
 namespace CardGame.Server
 {
@@ -12,11 +13,12 @@ namespace CardGame.Server
 		private IList<Player> players;
 		List<Card> cards;
 		private Card Activated;
+		private int maxSize;
 
 		public void Activate(Card card)
 		{
 			Activated = card;
-			int maxSize = card.Skill.Instructions.Count();
+			maxSize = card.Skill.Instructions.Count();
 			instructions = new Stack(card.Skill.Instructions.ToList());
 			players = new List<Player> {card.Controller, card.Controller.Opponent};
 			cards = new List<Card>();
@@ -33,144 +35,85 @@ namespace CardGame.Server
 		{
 			switch (instruction)
 				{
-					
 					case Instructions.Draw:
-					{
-						Player player = players[(int) instructions.Pop()];
-						int count = (int) instructions.Pop();
-						Draw(player, count);
-					}
+						Draw();
 						break;
 					case Instructions.Destroy:
-						Destroy(cards);
+						Destroy();
 						break;
 					case Instructions.Count:
-						instructions.Push(cards.Count);
+						Count();
 						break;
 					case Instructions.IsLessThan:
-					{
-						const int isFalse = 0;
-						const int isTrue = 1;
-						int a = instructions.Pop();
-						int b = instructions.Pop();
-						instructions.Push(a < b ? isTrue : isFalse);
-					}
+						IsLessThan();
 						break;
 					case Instructions.If:
-					{
-						const int isTrue = 1;
-						// Should Jumps be Implicit?
-						int jump = instructions.Pop();
-						int success = instructions.Pop();
-						if (success == isTrue)
-						{
-							
-						}
-						else
-						{
-							index = jump;
-						}
-					}
+						If();
 						break;
 					case Instructions.GetController:
-						instructions.Push(0);
+						GetController();
 						break;
 					case Instructions.GetOpponent:
-						instructions.Push(1);
+						GetOpponent();
 						break;
 					case Instructions.GetDeck:
-						cards.AddRange(players[instructions.Pop()].Deck);
+						GetDeck();
 						break;
 					case Instructions.GetGraveyard:
-						cards.AddRange(players[instructions.Pop()].Graveyard);
+						GetGraveyard();
 						break;
 					case Instructions.GetHand:
-						cards.AddRange(players[instructions.Pop()].Hand);
+						GetHand();
 						break;
 					case Instructions.GetUnits:
-						cards.AddRange(players[instructions.Pop()].Units);
+						GetUnits();
 						break;
 					case Instructions.GetSupport:
-						cards.AddRange(players[instructions.Pop()].Supports);
+						GetSupports();
 						break;
 					case Instructions.GetOwningCard:
-						// All Cards are stored in a list even if they're individual in case a further..
-						// ..instruction requires to group a number of them together
-					   // instructions.Push(new List<Card>{card});
-						cards.Add(Activated);
+						GetOwningCard();
 						break;
 					case Instructions.SetFaction:
-						SetFaction(cards, (Faction) instructions.Pop());
+						SetFaction();
 						break;
 					case Instructions.SetPower:
-						SetPower(cards, instructions.Pop());
+						SetPower();
 						break;
 					case Instructions.GoToEnd:
-						index = instructions.Count; // We could just do an early return?
+						GoToEnd();
 						break;
 					case Instructions.DealDamage:
-					{
-						Player player = players[(int) instructions.Pop()];
-						int damage = (int) instructions.Pop();
-						player.Health -= damage;
-					}
+						DealDamage();
 						break;
 					case Instructions.Literal:
-						index++;
-						instructions.Push(instructions[index]);
+						Literal();
 						break;
 					case Instructions.IsGreaterThan:
-					{
-						const int isFalse = 0;
-						const int isTrue = 1;
-						int a = instructions.Pop();
-						int b = instructions.Pop();
-						instructions.Push(a > b ? isTrue : isFalse);
-					}
+						IsGreaterThan();
 						break;
 					case Instructions.IsEqual:
-					{
-						const int isFalse = 0;
-						const int isTrue = 1;
-						int a = instructions.Pop();
-						int b = instructions.Pop();
-						instructions.Push(a == b ? isTrue : isFalse);
-					}
+						IsEqual();
 						break;
 					case Instructions.IsNotEqual:
-					{
-						const int isFalse = 0;
-						const int isTrue = 1;
-						int a = instructions.Pop();
-						int b = instructions.Pop();
-						instructions.Push(a != b ? isTrue : isFalse);
-					}
+						IsNotEqual();
 						break;
 					case Instructions.And:
-					{
-						const int isFalse = 0;
-						const int isTrue = 1;
-						int a = instructions.Pop();
-						int b = instructions.Pop();
-						instructions.Push(a == isTrue && b == isTrue ? isTrue : isFalse);
-					}
+						And();
 						break;
 					case Instructions.Or:
-					{
-						const int isFalse = 0;
-						const int isTrue = 1;
-						int a = instructions.Pop();
-						int b = instructions.Pop();
-						instructions.Push(a == isTrue || b == isTrue ? isTrue : isFalse);
-					}
+						Or();
 						break;
 					default:
 						throw new ArgumentOutOfRangeException();
 				}
 		}
 
-		private void Draw(Player player, int count)
+		private void Draw()
 		{
+			Player player = players[instructions.Pop()];
+			int count = instructions.Pop();
+			
 			for (int i = 0; i < count; i++)
 			{
 				Card card = player.Deck[player.Deck.Count - 1];
@@ -179,7 +122,15 @@ namespace CardGame.Server
 			}
 		}
 
-		private void Destroy(IEnumerable<Card> cards)
+		private void DealDamage()
+		{
+			Player player = players[instructions.Pop()];
+			int damage = instructions.Pop();
+			player.Health -= damage;
+		}
+		
+
+		private void Destroy()
 		{
 			foreach (Card card in cards)
 			{
@@ -189,20 +140,151 @@ namespace CardGame.Server
 			}
 		}
 
-		private void SetTitle(IEnumerable<Card> cards, string title)
+		private void Literal()
 		{
-			foreach (Card card in cards) { card.Title = title; }
+			index++;
+			instructions.Push(instructions[index]);
+		}
+
+		private void IsGreaterThan()
+		{
+			const int isFalse = 0;
+            const int isTrue = 1;
+            int a = instructions.Pop();
+            int b = instructions.Pop();
+            instructions.Push(a > b ? isTrue : isFalse);
 		}
 		
-		private void SetFaction(IEnumerable<Card> cards, Faction faction)
+		private void IsLessThan()
 		{
+			const int isFalse = 0;
+			const int isTrue = 1;
+			int a = instructions.Pop();
+			int b = instructions.Pop();
+			instructions.Push(a < b ? isTrue : isFalse);
+		}
+
+		private void IsEqual()
+		{
+			const int isFalse = 0;
+			const int isTrue = 1;
+			int a = instructions.Pop();
+			int b = instructions.Pop();
+			instructions.Push(a == b ? isTrue : isFalse);
+		}
+
+		private void IsNotEqual()
+		{
+			const int isFalse = 0;
+			const int isTrue = 1;
+			int a = instructions.Pop();
+			int b = instructions.Pop();
+			instructions.Push(a != b ? isTrue : isFalse);
+		}
+
+		private void If()
+		{
+        	const int isTrue = 1;
+        	// Should Jumps be Implicit?
+        	int jump = instructions.Pop();
+        	int success = instructions.Pop();
+        	if (success == isTrue)
+        	{
+        		
+        	}
+        	else
+        	{
+        		index = jump;
+        	}
+        }
+		
+		private void And()
+		{
+			const int isFalse = 0;
+			const int isTrue = 1;
+			int a = instructions.Pop();
+			int b = instructions.Pop();
+			instructions.Push(a == isTrue && b == isTrue ? isTrue : isFalse);
+		}
+
+		private void Or()
+		{
+			const int isFalse = 0;
+			const int isTrue = 1;
+			int a = instructions.Pop();
+			int b = instructions.Pop();
+			instructions.Push(a == isTrue || b == isTrue ? isTrue : isFalse);
+		}
+		
+		private void SetFaction()
+		{
+			Faction faction = (Faction) instructions.Pop();
 			foreach (Card card in cards) { card.Faction = faction; }
 		}
 		
-		private void SetPower(IEnumerable<Card> cards, int power)
+		private void SetPower()
 		{
+			int power = instructions.Pop();
 			foreach (Card card in cards) { card.Power = power; }
 		}
+
+		private void GoToEnd()
+		{
+			index = maxSize;
+		}
+
+		private void Count()
+		{
+			instructions.Push(cards.Count);
+		}
+
+		private void GetController()
+		{
+			instructions.Push(0);
+		}
+		
+		private void GetOpponent()
+		{
+			instructions.Push(1);
+		}
+
+		private void GetDeck()
+		{
+			cards.AddRange(players[instructions.Pop()].Deck);
+		}
+		
+		private void GetHand()
+		{
+			cards.AddRange(players[instructions.Pop()].Hand);
+		}
+		
+		private void GetUnits()
+		{
+			cards.AddRange(players[instructions.Pop()].Units);
+		}
+		
+		private void GetSupports()
+		{
+			cards.AddRange(players[instructions.Pop()].Supports);
+		}
+		
+		private void GetGraveyard()
+		{
+			cards.AddRange(players[instructions.Pop()].Graveyard);
+		}
+
+		private void GetOwningCard()
+		{
+			// All Cards are stored in a list even if they're individual in case a further..
+			// ..instruction requires to group a number of them together
+			// instructions.Push(new List<Card>{card});
+			cards.Add(Activated);
+		}
+		
+		
+		
+
+		
 
 	}
 }
