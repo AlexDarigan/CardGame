@@ -12,63 +12,68 @@ namespace CardGame.Server
 		private IList<Player> _players;
 		private List<Card> _cards;
 		private Card _activated;
-		private Stack _instructions;
+		private Stack _stack;
 		private int _index = 0;
 		private int _maxSize;
 
 		public void Activate(Card card)
 		{
 			_activated = card;
-			_instructions = new Stack(card.Skill.Instructions.ToList());
-			_maxSize = _instructions.Count;
+			_stack = new Stack(card.Skill.Instructions.ToList());
+			_maxSize = _stack.Count;
 			_players = new List<Player> {card.Controller, card.Controller.Opponent};
 			_cards = new List<Card>();
 
 			for (_index = 0; _index < _maxSize; _index++)
 			{
-				int instruction = _instructions[_index];
+				int instruction = _stack[_index];
 				Action operation = GetOperation((Instructions) instruction);
 				operation();
 			}
 
 		}
 
-		private Action GetOperation(Instructions instruction)
+		private Action GetOperation(Instructions instruction) => instruction switch
 		{
-			return instruction switch
-			{
-				Instructions.Draw => Draw,
-				Instructions.Literal => Literal,
-				Instructions.GetOwningCard => GetOwningCard,
-				Instructions.GetController => GetController,
-				Instructions.GetOpponent => GetOpponent,
-				Instructions.GetDeck => GetDeck,
-				Instructions.GetGraveyard => GetGraveyard,
-				Instructions.GetHand => GetHand,
-				Instructions.GetUnits => GetUnits,
-				Instructions.GetSupport => GetSupports,
-				Instructions.GoToEnd => GoToEnd,
-				Instructions.Count => Count,
-				Instructions.IsLessThan => IsLessThan,
-				Instructions.IsGreaterThan => IsGreaterThan,
-				Instructions.IsEqual => IsEqual,
-				Instructions.IsNotEqual => IsNotEqual,
-				Instructions.If => If,
-				Instructions.And => And,
-				Instructions.Or => Or,
-				Instructions.SetFaction => SetFaction,
-				Instructions.SetPower => SetPower,
-				Instructions.Destroy => Destroy,
-				Instructions.DealDamage => DealDamage,
-				_ => throw new ArgumentOutOfRangeException(nameof(instruction), instruction, null)
-			};
+			// Getters
+			Instructions.Literal => Literal,
+			Instructions.GetOwningCard => GetOwningCard,
+			Instructions.GetController => GetController,
+			Instructions.GetOpponent => GetOpponent,
+			Instructions.GetDeck => GetDeck,
+			Instructions.GetGraveyard => GetGraveyard,
+			Instructions.GetHand => GetHand,
+			Instructions.GetUnits => GetUnits,
+			Instructions.GetSupport => GetSupports,
+			Instructions.Count => Count,
 			
-		}
+			// Control Flow
+			Instructions.If => If,
+			Instructions.GoToEnd => GoToEnd,
+
+			// Boolean
+			Instructions.IsLessThan => IsLessThan,
+			Instructions.IsGreaterThan => IsGreaterThan,
+			Instructions.IsEqual => IsEqual,
+			Instructions.IsNotEqual => IsNotEqual,
+			Instructions.And => And,
+			Instructions.Or => Or,
+			
+			// Actions
+			Instructions.SetFaction => SetFaction,
+			Instructions.SetPower => SetPower,
+			Instructions.Destroy => Destroy,
+			Instructions.DealDamage => DealDamage,
+			Instructions.Draw => Draw,
+			
+			// Out of Bounds
+			_ => throw new ArgumentOutOfRangeException(nameof(instruction), instruction, "No Valid Operation")
+		};
 
 		private void Draw()
 		{
-			Player player = _players[_instructions.Pop()];
-			int count = _instructions.Pop();
+			Player player = _players[_stack.Pop()];
+			int count = _stack.Pop();
 			
 			for (int i = 0; i < count; i++)
 			{
@@ -80,8 +85,8 @@ namespace CardGame.Server
 
 		private void DealDamage()
 		{
-			Player player = _players[_instructions.Pop()];
-			int damage = _instructions.Pop();
+			Player player = _players[_stack.Pop()];
+			int damage = _stack.Pop();
 			player.Health -= damage;
 		}
 		
@@ -99,51 +104,51 @@ namespace CardGame.Server
 		private void Literal()
 		{
 			_index++;
-			_instructions.Push(_instructions[_index]);
+			_stack.Push(_stack[_index]);
 		}
 
 		private void IsGreaterThan()
 		{
 			const int isFalse = 0;
             const int isTrue = 1;
-            int a = _instructions.Pop();
-            int b = _instructions.Pop();
-            _instructions.Push(a > b ? isTrue : isFalse);
+            int a = _stack.Pop();
+            int b = _stack.Pop();
+            _stack.Push(a > b ? isTrue : isFalse);
 		}
 		
 		private void IsLessThan()
 		{
 			const int isFalse = 0;
 			const int isTrue = 1;
-			int a = _instructions.Pop();
-			int b = _instructions.Pop();
-			_instructions.Push(a < b ? isTrue : isFalse);
+			int a = _stack.Pop();
+			int b = _stack.Pop();
+			_stack.Push(a < b ? isTrue : isFalse);
 		}
 
 		private void IsEqual()
 		{
 			const int isFalse = 0;
 			const int isTrue = 1;
-			int a = _instructions.Pop();
-			int b = _instructions.Pop();
-			_instructions.Push(a == b ? isTrue : isFalse);
+			int a = _stack.Pop();
+			int b = _stack.Pop();
+			_stack.Push(a == b ? isTrue : isFalse);
 		}
 
 		private void IsNotEqual()
 		{
 			const int isFalse = 0;
 			const int isTrue = 1;
-			int a = _instructions.Pop();
-			int b = _instructions.Pop();
-			_instructions.Push(a != b ? isTrue : isFalse);
+			int a = _stack.Pop();
+			int b = _stack.Pop();
+			_stack.Push(a != b ? isTrue : isFalse);
 		}
 
 		private void If()
 		{
         	const int isTrue = 1;
         	// Should Jumps be Implicit?
-        	int jump = _instructions.Pop();
-        	int success = _instructions.Pop();
+        	int jump = _stack.Pop();
+        	int success = _stack.Pop();
         	if (success == isTrue)
         	{
         		
@@ -158,29 +163,29 @@ namespace CardGame.Server
 		{
 			const int isFalse = 0;
 			const int isTrue = 1;
-			int a = _instructions.Pop();
-			int b = _instructions.Pop();
-			_instructions.Push(a == isTrue && b == isTrue ? isTrue : isFalse);
+			int a = _stack.Pop();
+			int b = _stack.Pop();
+			_stack.Push(a == isTrue && b == isTrue ? isTrue : isFalse);
 		}
 
 		private void Or()
 		{
 			const int isFalse = 0;
 			const int isTrue = 1;
-			int a = _instructions.Pop();
-			int b = _instructions.Pop();
-			_instructions.Push(a == isTrue || b == isTrue ? isTrue : isFalse);
+			int a = _stack.Pop();
+			int b = _stack.Pop();
+			_stack.Push(a == isTrue || b == isTrue ? isTrue : isFalse);
 		}
 		
 		private void SetFaction()
 		{
-			Faction faction = (Faction) _instructions.Pop();
+			Faction faction = (Faction) _stack.Pop();
 			foreach (Card card in _cards) { card.Faction = faction; }
 		}
 		
 		private void SetPower()
 		{
-			int power = _instructions.Pop();
+			int power = _stack.Pop();
 			foreach (Card card in _cards) { card.Power = power; }
 		}
 
@@ -191,42 +196,42 @@ namespace CardGame.Server
 
 		private void Count()
 		{
-			_instructions.Push(_cards.Count);
+			_stack.Push(_cards.Count);
 		}
 
 		private void GetController()
 		{
-			_instructions.Push(0);
+			_stack.Push(0);
 		}
 		
 		private void GetOpponent()
 		{
-			_instructions.Push(1);
+			_stack.Push(1);
 		}
 
 		private void GetDeck()
 		{
-			_cards.AddRange(_players[_instructions.Pop()].Deck);
+			_cards.AddRange(_players[_stack.Pop()].Deck);
 		}
 		
 		private void GetHand()
 		{
-			_cards.AddRange(_players[_instructions.Pop()].Hand);
+			_cards.AddRange(_players[_stack.Pop()].Hand);
 		}
 		
 		private void GetUnits()
 		{
-			_cards.AddRange(_players[_instructions.Pop()].Units);
+			_cards.AddRange(_players[_stack.Pop()].Units);
 		}
 		
 		private void GetSupports()
 		{
-			_cards.AddRange(_players[_instructions.Pop()].Supports);
+			_cards.AddRange(_players[_stack.Pop()].Supports);
 		}
 		
 		private void GetGraveyard()
 		{
-			_cards.AddRange(_players[_instructions.Pop()].Graveyard);
+			_cards.AddRange(_players[_stack.Pop()].Graveyard);
 		}
 
 		private void GetOwningCard()
