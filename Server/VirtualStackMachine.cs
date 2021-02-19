@@ -26,87 +26,42 @@ namespace CardGame.Server
 			for (index = 0; index < maxSize; index++)
 			{
 				Instructions instruction = (Instructions) instructions[index];
-				Execute(instruction);
+				Action operation = GetOperation(instruction);
+				operation();
 			}
 
 		}
-		
-		private void Execute(Instructions instruction)
+
+		private Action GetOperation(Instructions instruction)
 		{
-			switch (instruction)
-				{
-					case Instructions.Draw:
-						Draw();
-						break;
-					case Instructions.Destroy:
-						Destroy();
-						break;
-					case Instructions.Count:
-						Count();
-						break;
-					case Instructions.IsLessThan:
-						IsLessThan();
-						break;
-					case Instructions.If:
-						If();
-						break;
-					case Instructions.GetController:
-						GetController();
-						break;
-					case Instructions.GetOpponent:
-						GetOpponent();
-						break;
-					case Instructions.GetDeck:
-						GetDeck();
-						break;
-					case Instructions.GetGraveyard:
-						GetGraveyard();
-						break;
-					case Instructions.GetHand:
-						GetHand();
-						break;
-					case Instructions.GetUnits:
-						GetUnits();
-						break;
-					case Instructions.GetSupport:
-						GetSupports();
-						break;
-					case Instructions.GetOwningCard:
-						GetOwningCard();
-						break;
-					case Instructions.SetFaction:
-						SetFaction();
-						break;
-					case Instructions.SetPower:
-						SetPower();
-						break;
-					case Instructions.GoToEnd:
-						GoToEnd();
-						break;
-					case Instructions.DealDamage:
-						DealDamage();
-						break;
-					case Instructions.Literal:
-						Literal();
-						break;
-					case Instructions.IsGreaterThan:
-						IsGreaterThan();
-						break;
-					case Instructions.IsEqual:
-						IsEqual();
-						break;
-					case Instructions.IsNotEqual:
-						IsNotEqual();
-						break;
-					case Instructions.And:
-						And();
-						break;
-					case Instructions.Or:
-						Or();
-						break;
-					default:
-						throw new ArgumentOutOfRangeException();
-				}
+			return instruction switch
+			{
+				Instructions.Draw => Draw,
+				Instructions.Literal => Literal,
+				Instructions.GetOwningCard => GetOwningCard,
+				Instructions.GetController => GetController,
+				Instructions.GetOpponent => GetOpponent,
+				Instructions.GetDeck => GetDeck,
+				Instructions.GetGraveyard => GetGraveyard,
+				Instructions.GetHand => GetHand,
+				Instructions.GetUnits => GetUnits,
+				Instructions.GetSupport => GetSupports,
+				Instructions.GoToEnd => GoToEnd,
+				Instructions.Count => Count,
+				Instructions.IsLessThan => IsLessThan,
+				Instructions.IsGreaterThan => IsGreaterThan,
+				Instructions.IsEqual => IsEqual,
+				Instructions.IsNotEqual => IsNotEqual,
+				Instructions.If => If,
+				Instructions.And => And,
+				Instructions.Or => Or,
+				Instructions.SetFaction => SetFaction,
+				Instructions.SetPower => SetPower,
+				Instructions.Destroy => Destroy,
+				Instructions.DealDamage => DealDamage,
+				_ => throw new ArgumentOutOfRangeException(nameof(instruction), instruction, null)
+			};
+			
 		}
 
 		private void Draw()
