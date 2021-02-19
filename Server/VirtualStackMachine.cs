@@ -19,8 +19,8 @@ namespace CardGame.Server
 		public void Activate(Card card)
 		{
 			_activated = card;
-			_maxSize = card.Skill.Instructions.Count();
 			_instructions = new Stack(card.Skill.Instructions.ToList());
+			_maxSize = _instructions.Count;
 			_players = new List<Player> {card.Controller, card.Controller.Opponent};
 			_cards = new List<Card>();
 
