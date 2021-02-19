@@ -1,22 +1,37 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 
 namespace CardGame.Server
 {
 	public class VirtualStackMachine
 	{
-		
+		private int index = 0;
+		private Stack instructions;
+		private IList<Player> players;
+		List<Card> cards;
+		private Card Activated;
+
 		public void Activate(Card card)
 		{
-			Stack instructions = new Stack(card.Skill.Instructions.ToList());
-			IList<Player> players = new List<Player>{card.Controller, card.Controller.Opponent};
-			List<Card> cards = new List<Card>();
-			
-			for(int index = 0; index < card.Skill.Instructions.Count(); index++)
+			Activated = card;
+			int maxSize = card.Skill.Instructions.Count();
+			instructions = new Stack(card.Skill.Instructions.ToList());
+			players = new List<Player> {card.Controller, card.Controller.Opponent};
+			cards = new List<Card>();
+
+			for (index = 0; index < maxSize; index++)
 			{
 				Instructions instruction = (Instructions) instructions[index];
-				switch (instruction)
+				Execute(instruction);
+			}
+
+		}
+		
+		private void Execute(Instructions instruction)
+		{
+			switch (instruction)
 				{
 					
 					case Instructions.Draw:
@@ -82,7 +97,7 @@ namespace CardGame.Server
 						// All Cards are stored in a list even if they're individual in case a further..
 						// ..instruction requires to group a number of them together
 					   // instructions.Push(new List<Card>{card});
-						cards.Add(card);
+						cards.Add(Activated);
 						break;
 					case Instructions.SetFaction:
 						SetFaction(cards, (Faction) instructions.Pop());
@@ -152,7 +167,6 @@ namespace CardGame.Server
 					default:
 						throw new ArgumentOutOfRangeException();
 				}
-			}
 		}
 
 		private void Draw(Player player, int count)
