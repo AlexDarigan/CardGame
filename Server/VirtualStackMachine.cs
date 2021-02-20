@@ -108,59 +108,22 @@ namespace CardGame.Server
 
 		#region Boolean Operators
 
-		private void IsLessThan()
-		{
-			const int isFalse = 0;
-			const int isTrue = 1;
-			int a = _stack.Pop();
-			int b = _stack.Pop();
-			_stack.Push(a < b ? isTrue : isFalse);
-		}
-		private void IsGreaterThan()
-		{
-			const int isFalse = 0;
-			const int isTrue = 1;
-			int a = _stack.Pop();
-			int b = _stack.Pop();
-			_stack.Push(a > b ? isTrue : isFalse);
-		}
+		private void IsLessThan() => Compare((a, b) => a < b);
+		private void IsGreaterThan() =>	Compare((a, b) => a > b);
+		private void IsEqual() => Compare((a, b) => a == b);
+		private void IsNotEqual() => Compare((a, b) => a != b);
+		private void And() => Compare((a, b) => Convert.ToBoolean(a) && Convert.ToBoolean(b));
+		private void Or() => Compare((a, b) => Convert.ToBoolean(a) || Convert.ToBoolean(b));
 
-		private void IsEqual()
+		private void Compare(Func<int,int, bool> compare)
 		{
 			const int isFalse = 0;
 			const int isTrue = 1;
 			int a = _stack.Pop();
 			int b = _stack.Pop();
-			_stack.Push(a == b ? isTrue : isFalse);
-		}
-
-		private void IsNotEqual()
-		{
-			const int isFalse = 0;
-			const int isTrue = 1;
-			int a = _stack.Pop();
-			int b = _stack.Pop();
-			_stack.Push(a != b ? isTrue : isFalse);
+			_stack.Push(compare(a, b) ? isTrue : isFalse);
 		}
 		
-		private void And()
-		{
-			const int isFalse = 0;
-			const int isTrue = 1;
-			int a = _stack.Pop();
-			int b = _stack.Pop();
-			_stack.Push(a == isTrue && b == isTrue ? isTrue : isFalse);
-		}
-
-		private void Or()
-		{
-			const int isFalse = 0;
-			const int isTrue = 1;
-			int a = _stack.Pop();
-			int b = _stack.Pop();
-			_stack.Push(a == isTrue || b == isTrue ? isTrue : isFalse);
-		}
-
 		#endregion
 
 		#region Actions
