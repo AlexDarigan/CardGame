@@ -81,11 +81,13 @@ namespace CardGame.Server
 		private void GetOwningCard() => _cards.Add(_activated);
 		private void GetController() => _stack.Push(0);
 		private void GetOpponent() => _stack.Push(1);
-		private void GetDeck() => _cards.AddRange(GetPlayer().Deck);
-		private void GetHand() => _cards.AddRange(GetPlayer().Hand);
-		private void GetUnits() =>	_cards.AddRange(GetPlayer().Units);
-		private void GetSupports() => _cards.AddRange(GetPlayer().Supports);
-		private void GetGraveyard() => _cards.AddRange(GetPlayer().Graveyard);
+		private void GetDeck() => GetCards((p => p.Deck));
+		private void GetHand() => GetCards((p => p.Hand));
+		private void GetUnits() => GetCards((p => p.Units));
+		private void GetSupports() => GetCards(p => p.Supports);
+		private void GetGraveyard() => GetCards(p => p.Graveyard);
+		private void GetCards(Func<Player, IList<Card>> zone) => _cards.AddRange(zone(_players[_stack.Pop()]));
+
 		private void Count() => _stack.Push(_cards.Count);
 		private Player GetPlayer() => _players[_stack.Pop()];
 
