@@ -87,10 +87,7 @@ namespace CardGame.Server
 		private void GetSupports() => GetCards(p => p.Supports);
 		private void GetGraveyard() => GetCards(p => p.Graveyard);
 		private void GetCards(Func<Player, IList<Card>> zone) => _cards.AddRange(zone(_players[_stack.Pop()]));
-
 		private void Count() => _stack.Push(_cards.Count);
-		private Player GetPlayer() => _players[_stack.Pop()];
-
 		#endregion
 
 		#region Control Flow
