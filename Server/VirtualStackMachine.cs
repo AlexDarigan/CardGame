@@ -77,7 +77,6 @@ namespace CardGame.Server
 			_index++;
 			_stack.Push(_stack[_index]);
 		}
-		
 		private void GetOwningCard() => _cards.Add(_activated);
 		private void GetController() => _stack.Push(0);
 		private void GetOpponent() => _stack.Push(1);
@@ -89,7 +88,6 @@ namespace CardGame.Server
 		private void GetCards(Func<Player, IList<Card>> zone) => _cards.AddRange(zone(_players[_stack.Pop()]));
 		private void Count() => _stack.Push(_cards.Count);
 		#endregion
-
 		#region Control Flow
 
 		private void If()
@@ -104,9 +102,7 @@ namespace CardGame.Server
 		private void GoToEnd() => _index = _maxSize;
 
 		#endregion
-
 		#region Boolean Operators
-
 		private void IsLessThan() => Compare((a, b) => a < b);
 		private void IsGreaterThan() =>	Compare((a, b) => a > b);
 		private void IsEqual() => Compare((a, b) => a == b);
@@ -122,11 +118,8 @@ namespace CardGame.Server
 			int b = _stack.Pop();
 			_stack.Push(compare(a, b) ? isTrue : isFalse);
 		}
-		
 		#endregion
-
 		#region Actions
-
 		private void SetFaction()
 		{
 			Faction faction = (Faction) _stack.Pop();
@@ -168,7 +161,6 @@ namespace CardGame.Server
 				player.Hand.Add(card);
 			}
 		}
-
 		#endregion
 		
 		
