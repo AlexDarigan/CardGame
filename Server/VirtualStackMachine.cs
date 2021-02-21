@@ -39,11 +39,11 @@ namespace CardGame.Server
 				Instructions.GetOwningCard => () => _cards.Add(_activated),
 				Instructions.GetController => () => Push(0),
 				Instructions.GetOpponent => () => Push(1),
-				Instructions.GetDeck => () => GetCards(p => p.Deck),
-				Instructions.GetGraveyard => () => GetCards(p => p.Graveyard),
-				Instructions.GetHand => () => GetCards(p => p.Hand),
-				Instructions.GetUnits => () => GetCards(p => p.Units),
-				Instructions.GetSupport => () => GetCards(p => p.Supports),
+				Instructions.GetDeck => () => GetCards(GetPlayer().Deck),
+				Instructions.GetGraveyard => () => GetCards(GetPlayer().Graveyard),
+				Instructions.GetHand => () => GetCards(GetPlayer().Hand),
+				Instructions.GetUnits => () => GetCards(GetPlayer().Units),
+				Instructions.GetSupport => () => GetCards(GetPlayer().Supports),
 				Instructions.Count => () => Push(_cards.Count),
 
 				// Control Flow
@@ -79,9 +79,9 @@ namespace CardGame.Server
 			_index++;
 			_stack.Push(_stack[_index]);
 		}
-		private void GetCards(Func<Player, IList<Card>> zone) => _cards.AddRange(zone(_players[Pop()]));
+		private void GetCards(IEnumerable<Card> zone) => _cards.AddRange(zone);
+		private Player GetPlayer() => _players[Pop()];
 		
-
 		private void If()
 		{
 			// Should Jumps be Implicit?
