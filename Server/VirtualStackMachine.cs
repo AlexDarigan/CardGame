@@ -37,31 +37,31 @@ namespace CardGame.Server
 			{
 				// Getters
 				Instructions.Literal => Literal,
-				Instructions.GetOwningCard => GetOwningCard,
-				Instructions.GetController => GetController,
-				Instructions.GetOpponent => GetOpponent,
-				Instructions.GetDeck => GetDeck,
-				Instructions.GetGraveyard => GetGraveyard,
-				Instructions.GetHand => GetHand,
-				Instructions.GetUnits => GetUnits,
-				Instructions.GetSupport => GetSupports,
-				Instructions.Count => Count,
+				Instructions.GetOwningCard => () => _cards.Add(_activated),
+				Instructions.GetController => () => _stack.Push(0),
+				Instructions.GetOpponent => () => _stack.Push(1),
+				Instructions.GetDeck => () => GetCards(p => p.Deck),
+				Instructions.GetGraveyard => () => GetCards(p => p.Graveyard),
+				Instructions.GetHand => () => GetCards(p => p.Hand),
+				Instructions.GetUnits => () => GetCards(p => p.Units),
+				Instructions.GetSupport => () => GetCards(p => p.Supports),
+				Instructions.Count => () => _stack.Push(_cards.Count),
 
 				// Control Flow
 				Instructions.If => If,
-				Instructions.GoToEnd => GoToEnd,
+				Instructions.GoToEnd => () => _index = _maxSize,
 
 				// Boolean
-				Instructions.IsLessThan => IsLessThan,
-				Instructions.IsGreaterThan => IsGreaterThan,
-				Instructions.IsEqual => IsEqual,
-				Instructions.IsNotEqual => IsNotEqual,
-				Instructions.And => And,
-				Instructions.Or => Or,
+				Instructions.IsLessThan => () => Compare((a, b) => a < b),
+				Instructions.IsGreaterThan => () => Compare((a, b) => a > b),
+				Instructions.IsEqual => () => Compare((a, b) => a == b),
+				Instructions.IsNotEqual => () => Compare((a, b) => a != b),
+				Instructions.And => () => Compare((a, b) => Convert.ToBoolean(a) && Convert.ToBoolean(b)),
+				Instructions.Or => () => Compare((a, b) => Convert.ToBoolean(a) && Convert.ToBoolean(b)),
 
 				// Actions
-				Instructions.SetFaction => SetFaction,
-				Instructions.SetPower => SetPower,
+				Instructions.SetFaction => () => SetValue((card, val) => card.Faction = (Faction) val),
+				Instructions.SetPower => () => SetValue((card, val) => card.Power = val),
 				Instructions.Destroy => Destroy,
 				Instructions.DealDamage => DealDamage,
 				Instructions.Draw => Draw,
@@ -70,25 +70,14 @@ namespace CardGame.Server
 				_ => throw new ArgumentOutOfRangeException(nameof(instruction), instruction, "No Valid Operation")
 			};
 		}
-
-		#region Getters
+		
 		private void Literal()
 		{
 			_index++;
 			_stack.Push(_stack[_index]);
 		}
-		private void GetOwningCard() => _cards.Add(_activated);
-		private void GetController() => _stack.Push(0);
-		private void GetOpponent() => _stack.Push(1);
-		private void GetDeck() => GetCards((p => p.Deck));
-		private void GetHand() => GetCards((p => p.Hand));
-		private void GetUnits() => GetCards((p => p.Units));
-		private void GetSupports() => GetCards(p => p.Supports);
-		private void GetGraveyard() => GetCards(p => p.Graveyard);
 		private void GetCards(Func<Player, IList<Card>> zone) => _cards.AddRange(zone(_players[_stack.Pop()]));
-		private void Count() => _stack.Push(_cards.Count);
-		#endregion
-		#region Control Flow
+		
 
 		private void If()
 		{
@@ -99,17 +88,6 @@ namespace CardGame.Server
 			_index = success == isTrue ? _index : jumpToElseBranch;
 		}
 		
-		private void GoToEnd() => _index = _maxSize;
-
-		#endregion
-		#region Boolean Operators
-		private void IsLessThan() => Compare((a, b) => a < b);
-		private void IsGreaterThan() =>	Compare((a, b) => a > b);
-		private void IsEqual() => Compare((a, b) => a == b);
-		private void IsNotEqual() => Compare((a, b) => a != b);
-		private void And() => Compare((a, b) => Convert.ToBoolean(a) && Convert.ToBoolean(b));
-		private void Or() => Compare((a, b) => Convert.ToBoolean(a) || Convert.ToBoolean(b));
-
 		private void Compare(Func<int,int, bool> compare)
 		{
 			const int isFalse = 0;
@@ -118,20 +96,16 @@ namespace CardGame.Server
 			int b = _stack.Pop();
 			_stack.Push(compare(a, b) ? isTrue : isFalse);
 		}
-		#endregion
-		#region Actions
-		private void SetFaction()
+
+		private void SetValue(Action<Card,int> setter)
 		{
-			Faction faction = (Faction) _stack.Pop();
-			foreach (Card card in _cards) { card.Faction = faction; }
+			int popped = _stack.Pop();
+			foreach (Card card in _cards)
+			{
+				setter(card, popped);
+			}
 		}
-		
-		private void SetPower()
-		{
-			int power = _stack.Pop();
-			foreach (Card card in _cards) { card.Power = power; }
-		}
-		
+
 		private void Destroy()
 		{
 			foreach (Card card in _cards)
@@ -161,7 +135,6 @@ namespace CardGame.Server
 				player.Hand.Add(card);
 			}
 		}
-		#endregion
 		
 		
 		
