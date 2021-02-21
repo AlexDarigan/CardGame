@@ -24,8 +24,7 @@ namespace CardGame.Server
 
 			for (_index = 0; _index < _maxSize; _index++)
 			{
-				int instruction = _stack[_index];
-				Action operation = GetOperation((Instructions) instruction);
+				Action operation = GetOperation(Next(_index));
 				operation();
 			}
 
@@ -38,14 +37,14 @@ namespace CardGame.Server
 				// Getters
 				Instructions.Literal => Literal,
 				Instructions.GetOwningCard => () => _cards.Add(_activated),
-				Instructions.GetController => () => _stack.Push(0),
-				Instructions.GetOpponent => () => _stack.Push(1),
+				Instructions.GetController => () => Push(0),
+				Instructions.GetOpponent => () => Push(1),
 				Instructions.GetDeck => () => GetCards(p => p.Deck),
 				Instructions.GetGraveyard => () => GetCards(p => p.Graveyard),
 				Instructions.GetHand => () => GetCards(p => p.Hand),
 				Instructions.GetUnits => () => GetCards(p => p.Units),
 				Instructions.GetSupport => () => GetCards(p => p.Supports),
-				Instructions.Count => () => _stack.Push(_cards.Count),
+				Instructions.Count => () => Push(_cards.Count),
 
 				// Control Flow
 				Instructions.If => If,
@@ -70,21 +69,25 @@ namespace CardGame.Server
 				_ => throw new ArgumentOutOfRangeException(nameof(instruction), instruction, "No Valid Operation")
 			};
 		}
+
+		private int Pop() => _stack.Pop();
+		private void Push(int i) => _stack.Push(i);
+		private Instructions Next(int i) => (Instructions) _stack[i];
 		
 		private void Literal()
 		{
 			_index++;
 			_stack.Push(_stack[_index]);
 		}
-		private void GetCards(Func<Player, IList<Card>> zone) => _cards.AddRange(zone(_players[_stack.Pop()]));
+		private void GetCards(Func<Player, IList<Card>> zone) => _cards.AddRange(zone(_players[Pop()]));
 		
 
 		private void If()
 		{
 			// Should Jumps be Implicit?
 			const int isTrue = 1;
-			int jumpToElseBranch = _stack.Pop();
-			int success = _stack.Pop();
+			int jumpToElseBranch = Pop();
+			int success = Pop();
 			_index = success == isTrue ? _index : jumpToElseBranch;
 		}
 		
@@ -92,14 +95,14 @@ namespace CardGame.Server
 		{
 			const int isFalse = 0;
 			const int isTrue = 1;
-			int a = _stack.Pop();
-			int b = _stack.Pop();
+			int a = Pop();
+			int b = Pop();
 			_stack.Push(compare(a, b) ? isTrue : isFalse);
 		}
 
 		private void SetValue(Action<Card,int> setter)
 		{
-			int popped = _stack.Pop();
+			int popped = Pop();
 			foreach (Card card in _cards)
 			{
 				setter(card, popped);
@@ -118,15 +121,15 @@ namespace CardGame.Server
 
 		private void DealDamage()
 		{
-			Player player = _players[_stack.Pop()];
-			int damage = _stack.Pop();
+			Player player = _players[Pop()];
+			int damage = Pop();
 			player.Health -= damage;
 		}
 		
 		private void Draw()
 		{
-			Player player = _players[_stack.Pop()];
-			int count = _stack.Pop();
+			Player player = _players[Pop()];
+			int count = Pop();
 			
 			for (int i = 0; i < count; i++)
 			{
