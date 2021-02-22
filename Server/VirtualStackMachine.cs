@@ -48,16 +48,17 @@ namespace CardGame.Server
 				Instructions.Count => () => Push(_cards.Count),
 
 				// Control Flow
-				Instructions.If => If,
+				Instructions.If => () => If(Pop(), Convert.ToBoolean(Pop())),
 				Instructions.GoToEnd => () => _index = _maxSize,
-
+				
 				// Boolean
-				Instructions.IsLessThan => () => Compare((a, b) => a < b),
-				Instructions.IsGreaterThan => () => Compare((a, b) => a > b),
-				Instructions.IsEqual => () => Compare((a, b) => a == b),
-				Instructions.IsNotEqual => () => Compare((a, b) => a != b),
-				Instructions.And => () => Compare((a, b) => Convert.ToBoolean(a) && Convert.ToBoolean(b)),
-				Instructions.Or => () => Compare((a, b) => Convert.ToBoolean(a) && Convert.ToBoolean(b)),
+				// 0 = false, 1 = true
+				Instructions.IsLessThan => () => Push(Pop() < Pop()!? 1: 0),
+				Instructions.IsGreaterThan => () => Push(Pop() < Pop()!? 1: 0),
+				Instructions.IsEqual => () => Push(Pop() < Pop()!? 1: 0),
+				Instructions.IsNotEqual => () => Push(Pop() < Pop()!? 1: 0),
+				Instructions.And => () => Push(Pop() == 1 && Pop() == 1? 1: 0),
+				Instructions.Or => () => Push(Pop() == 1 || Pop() == 1? 1: 0),
 
 				// Actions
 				Instructions.SetFaction => () => SetValue((card, val) => card.Faction = (Faction) val, Pop()),
@@ -82,24 +83,7 @@ namespace CardGame.Server
 		}
 		private void GetCards(IEnumerable<Card> zone) => _cards.AddRange(zone);
 		private Player GetPlayer() => _players[Pop()];
-		
-		private void If()
-		{
-			// Should Jumps be Implicit?
-			const int isTrue = 1;
-			int jumpToElseBranch = Pop();
-			int success = Pop();
-			_index = success == isTrue ? _index : jumpToElseBranch;
-		}
-		
-		private void Compare(Func<int,int, bool> compare)
-		{
-			const int isFalse = 0;
-			const int isTrue = 1;
-			int a = Pop();
-			int b = Pop();
-			_stack.Push(compare(a, b) ? isTrue : isFalse);
-		}
+		private void If(int jumpToElseBranch, bool condition) => _index = condition ? _index : jumpToElseBranch;
 
 		private void SetValue(Action<Card, int> setter, int value) => _cards.ForEach(card => setter(card, value));
 		
