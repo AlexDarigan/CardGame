@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 
 namespace CardGame.Server
 {
@@ -59,8 +60,8 @@ namespace CardGame.Server
 				Instructions.Or => () => Compare((a, b) => Convert.ToBoolean(a) && Convert.ToBoolean(b)),
 
 				// Actions
-				Instructions.SetFaction => () => SetValue((card, val) => card.Faction = (Faction) val),
-				Instructions.SetPower => () => SetValue((card, val) => card.Power = val),
+				Instructions.SetFaction => () => SetValue((card, val) => card.Faction = (Faction) val, Pop()),
+				Instructions.SetPower => () => SetValue((card, val) => card.Power = val, Pop()),
 				Instructions.Destroy => Destroy,
 				Instructions.DealDamage => DealDamage,
 				Instructions.Draw => Draw,
@@ -100,15 +101,8 @@ namespace CardGame.Server
 			_stack.Push(compare(a, b) ? isTrue : isFalse);
 		}
 
-		private void SetValue(Action<Card,int> setter)
-		{
-			int popped = Pop();
-			foreach (Card card in _cards)
-			{
-				setter(card, popped);
-			}
-		}
-
+		private void SetValue(Action<Card, int> setter, int value) => _cards.ForEach(card => setter(card, value));
+		
 		private void Destroy()
 		{
 			foreach (Card card in _cards)
