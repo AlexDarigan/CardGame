@@ -36,7 +36,7 @@ namespace CardGame.Server
 			return instruction switch
 			{
 				// Getters
-				Instructions.Literal => Literal,
+				Instructions.Literal => () => Push(_stack[++_index]),
 				Instructions.GetOwningCard => () => _cards.Add(_activated),
 				Instructions.GetController => () => Push(0),
 				Instructions.GetOpponent => () => Push(1),
@@ -75,16 +75,9 @@ namespace CardGame.Server
 		private int Pop() => _stack.Pop();
 		private void Push(int i) => _stack.Push(i);
 		private Instructions Next(int i) => (Instructions) _stack[i];
-		
-		private void Literal()
-		{
-			_index++;
-			_stack.Push(_stack[_index]);
-		}
 		private void GetCards(IEnumerable<Card> zone) => _cards.AddRange(zone);
 		private Player GetPlayer() => _players[Pop()];
 		private void If(int jumpToElseBranch, bool condition) => _index = condition ? _index : jumpToElseBranch;
-
 		private void SetValue(Action<Card, int> setter, int value) => _cards.ForEach(card => setter(card, value));
 		
 		private void Destroy()
