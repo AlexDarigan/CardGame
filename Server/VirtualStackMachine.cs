@@ -52,13 +52,13 @@ namespace CardGame.Server
 				Instructions.GoToEnd => () => _index = _maxSize,
 				
 				// Boolean
-				// 0 = false, 1 = true
-				Instructions.IsLessThan => () => Push(Pop() < Pop()!? 1: 0),
-				Instructions.IsGreaterThan => () => Push(Pop() < Pop()!? 1: 0),
-				Instructions.IsEqual => () => Push(Pop() < Pop()!? 1: 0),
-				Instructions.IsNotEqual => () => Push(Pop() < Pop()!? 1: 0),
-				Instructions.And => () => Push(Pop() == 1 && Pop() == 1? 1: 0),
-				Instructions.Or => () => Push(Pop() == 1 || Pop() == 1? 1: 0),
+				// ReSharper disable EqualExpressionComparison
+				Instructions.IsLessThan => () => Push(Pop() < Pop()),
+				Instructions.IsGreaterThan => () => Push(Pop() > Pop()),
+				Instructions.IsEqual => () => Push(Pop() == Pop()),
+				Instructions.IsNotEqual => () => Push(Pop() != Pop()),
+				Instructions.And => () => Push(Pop() == 1 && Pop() == 1),
+				Instructions.Or => () => Push(Pop() == 1 || Pop() == 1),
 
 				// Actions
 				Instructions.SetFaction => () => SetValue((card, val) => card.Faction = (Faction) val, Pop()),
@@ -74,6 +74,7 @@ namespace CardGame.Server
 
 		private int Pop() => _stack.Pop();
 		private void Push(int i) => _stack.Push(i);
+		private void Push(bool i) => Push(Convert.ToInt32(i));
 		private Instructions Next(int i) => (Instructions) _stack[i];
 		private void GetCards(IEnumerable<Card> zone) => _cards.AddRange(zone);
 		private Player GetPlayer() => _players[Pop()];
