@@ -1,9 +1,9 @@
 extends Tree
 tool
 
-const FUNCTION: Texture = preload("res://addons/WAT/assets/function.png")
-const PASSED_ICON: Texture = preload("res://addons/WAT/assets/passed.png")
-const FAILED_ICON: Texture = preload("res://addons/WAT/assets/failed.png")
+var FUNCTION_ICON: Texture
+var PASSED_ICON: Texture
+var FAILED_ICON: Texture
 const PASSED: Color = Color(0, 1, 0, 1)
 const FAILED: Color = Color(1, 1, 1, 1)
 signal calculated
@@ -42,7 +42,7 @@ func display(cases: Array) -> void:
 			method.set_icon(0, _icon(m.success))
 			_cache.append(method)
 			_mega_cache.append(method)
-			method.add_button(0, FUNCTION)
+			method.add_button(0, FUNCTION_ICON)
 			method.set_tooltip(0, "Click icon to show test method in editor")
 			method.set_meta("path", c.path)
 			method.set_meta("context", m.context)
@@ -92,3 +92,10 @@ func collapse_all() -> void:
 func expand_failures() -> void:
 	for item in _mega_cache:
 		item.collapsed = true if item.get_icon(0) == PASSED_ICON else false
+
+# Loads scaled assets like icons and fonts
+func _setup_editor_assets(assets_registry):
+	FUNCTION_ICON = assets_registry.load_asset("assets/function.png")
+	PASSED_ICON = assets_registry.load_asset("assets/passed.png")
+	FAILED_ICON = assets_registry.load_asset("assets/failed.png")
+
