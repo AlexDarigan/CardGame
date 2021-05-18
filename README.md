@@ -74,22 +74,14 @@
 
 ## [ ] Battle System
 
-    TODO
+    // We have a simple battle system implemented already
+    // We should probably focus on making a minimal GUI right now
+    // Also I wonder what happens if we treat networking as a singleton?..
+    // ..(so we don't have to worry about client-side pathing)
 
-## Future Milestones
-
-    These are significant in size and are too far in the future to accurately talk about immediatly.
-
-    - Link System
-      - [ ] Add Activate Support Card
-      - [ ] A Support can be activated during either player's turn
-      - [ ] A Support cannot be activated the turn it is set
-
-
-
-    - GUI
-    - Custom Rules
-
+## [ ] Primitive GUI
+## [ ] Battle System
+## [ ] Link System
     
     
 

@@ -17,6 +17,8 @@ namespace CardGame.Server
 
 		public void Activate(Card card)
 		{
+			// All of this data could likely be stored in some sort of stateful struct (so we can have more than one
+			// ..card going at a time)
 			_activated = card;
 			_stack = new Stack(card.Skill.Instructions.ToList());
 			_maxSize = _stack.Count;
