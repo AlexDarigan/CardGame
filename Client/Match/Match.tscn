@@ -1,19 +1,14 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Client/KenVector Bold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Client/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Client/Opponent.tscn" type="PackedScene" id=3]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=2]
 size = 12
 font_data = ExtResource( 1 )
 
-[node name="Match" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 20.0
@@ -26,14 +21,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Left" type="ColorRect" parent="HBoxContainer"]
+[node name="Left" type="ColorRect" parent="."]
 margin_right = 100.0
 margin_bottom = 320.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_vertical = 3
 color = Color( 0.705882, 0.156863, 0.156863, 1 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Left"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Left"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -44,14 +39,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer/Left/VBoxContainer"]
+[node name="CardImage" type="ColorRect" parent="Left/VBoxContainer"]
 margin_right = 90.0
 margin_bottom = 125.0
 rect_min_size = Vector2( 0, 125 )
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="ColorRect2" type="ColorRect" parent="HBoxContainer/Left/VBoxContainer"]
+[node name="CardText" type="ColorRect" parent="Left/VBoxContainer"]
 margin_top = 129.0
 margin_right = 90.0
 margin_bottom = 310.0
@@ -59,7 +54,14 @@ rect_min_size = Vector2( 0, 125 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Middle" type="ColorRect" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="Left/VBoxContainer/CardText"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Middle" type="ColorRect" parent="."]
 margin_left = 120.0
 margin_right = 480.0
 margin_bottom = 320.0
@@ -67,15 +69,18 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0.266667, 0.262745, 0.72549, 1 )
 
-[node name="Zones" type="ColorRect" parent="HBoxContainer/Middle"]
+[node name="Zones" type="ColorRect" parent="Middle"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 20.0
 margin_top = 20.0
 margin_right = -20.0
 margin_bottom = -20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Zones" type="VBoxContainer" parent="HBoxContainer/Middle/Zones"]
+[node name="Zones" type="VBoxContainer" parent="Middle/Zones"]
 margin_left = 20.0
 margin_top = 6.0
 margin_right = 240.0
@@ -84,7 +89,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EnemySupport" type="HBoxContainer" parent="HBoxContainer/Middle/Zones/Zones"]
+[node name="EnemySupport" type="HBoxContainer" parent="Middle/Zones/Zones" groups=[
+"Enemy",
+]]
 margin_right = 220.0
 margin_bottom = 60.0
 custom_constants/separation = 5
@@ -92,7 +99,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone0" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/EnemySupport"]
+[node name="Zone0" type="ColorRect" parent="Middle/Zones/Zones/EnemySupport"]
 margin_right = 40.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 40, 60 )
@@ -103,7 +110,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone1" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/EnemySupport"]
+[node name="Zone1" type="ColorRect" parent="Middle/Zones/Zones/EnemySupport"]
 margin_left = 45.0
 margin_right = 85.0
 margin_bottom = 60.0
@@ -115,7 +122,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone2" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/EnemySupport"]
+[node name="Zone2" type="ColorRect" parent="Middle/Zones/Zones/EnemySupport"]
 margin_left = 90.0
 margin_right = 130.0
 margin_bottom = 60.0
@@ -127,7 +134,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone3" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/EnemySupport"]
+[node name="Zone3" type="ColorRect" parent="Middle/Zones/Zones/EnemySupport"]
 margin_left = 135.0
 margin_right = 175.0
 margin_bottom = 60.0
@@ -139,7 +146,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone4" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/EnemySupport"]
+[node name="Zone4" type="ColorRect" parent="Middle/Zones/Zones/EnemySupport"]
 margin_left = 180.0
 margin_right = 220.0
 margin_bottom = 60.0
@@ -151,7 +158,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EnemyUnits" type="HBoxContainer" parent="HBoxContainer/Middle/Zones/Zones"]
+[node name="EnemyUnits" type="HBoxContainer" parent="Middle/Zones/Zones" groups=[
+"Enemy",
+]]
 margin_top = 64.0
 margin_right = 220.0
 margin_bottom = 124.0
@@ -160,7 +169,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone0" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/EnemyUnits"]
+[node name="Zone0" type="ColorRect" parent="Middle/Zones/Zones/EnemyUnits"]
 margin_right = 40.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 40, 60 )
@@ -171,7 +180,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone1" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/EnemyUnits"]
+[node name="Zone1" type="ColorRect" parent="Middle/Zones/Zones/EnemyUnits"]
 margin_left = 45.0
 margin_right = 85.0
 margin_bottom = 60.0
@@ -183,7 +192,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone2" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/EnemyUnits"]
+[node name="Zone2" type="ColorRect" parent="Middle/Zones/Zones/EnemyUnits"]
 margin_left = 90.0
 margin_right = 130.0
 margin_bottom = 60.0
@@ -195,7 +204,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone3" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/EnemyUnits"]
+[node name="Zone3" type="ColorRect" parent="Middle/Zones/Zones/EnemyUnits"]
 margin_left = 135.0
 margin_right = 175.0
 margin_bottom = 60.0
@@ -207,7 +216,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone4" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/EnemyUnits"]
+[node name="Zone4" type="ColorRect" parent="Middle/Zones/Zones/EnemyUnits"]
 margin_left = 180.0
 margin_right = 220.0
 margin_bottom = 60.0
@@ -219,7 +228,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/Middle/Zones/Zones"]
+[node name="HSeparator" type="HSeparator" parent="Middle/Zones/Zones"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 128.0
 margin_right = 220.0
@@ -227,7 +236,9 @@ margin_bottom = 138.0
 rect_min_size = Vector2( 0, 10 )
 size_flags_horizontal = 3
 
-[node name="PlayerUnits" type="HBoxContainer" parent="HBoxContainer/Middle/Zones/Zones"]
+[node name="PlayerUnits" type="HBoxContainer" parent="Middle/Zones/Zones" groups=[
+"Player",
+]]
 margin_top = 142.0
 margin_right = 220.0
 margin_bottom = 202.0
@@ -236,7 +247,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone0" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/PlayerUnits"]
+[node name="Zone0" type="ColorRect" parent="Middle/Zones/Zones/PlayerUnits"]
 margin_right = 40.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 40, 60 )
@@ -247,7 +258,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone1" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/PlayerUnits"]
+[node name="Zone1" type="ColorRect" parent="Middle/Zones/Zones/PlayerUnits"]
 margin_left = 45.0
 margin_right = 85.0
 margin_bottom = 60.0
@@ -259,7 +270,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone2" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/PlayerUnits"]
+[node name="Zone2" type="ColorRect" parent="Middle/Zones/Zones/PlayerUnits"]
 margin_left = 90.0
 margin_right = 130.0
 margin_bottom = 60.0
@@ -271,7 +282,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone3" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/PlayerUnits"]
+[node name="Zone3" type="ColorRect" parent="Middle/Zones/Zones/PlayerUnits"]
 margin_left = 135.0
 margin_right = 175.0
 margin_bottom = 60.0
@@ -283,7 +294,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone4" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/PlayerUnits"]
+[node name="Zone4" type="ColorRect" parent="Middle/Zones/Zones/PlayerUnits"]
 margin_left = 180.0
 margin_right = 220.0
 margin_bottom = 60.0
@@ -295,7 +306,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PlayerSupport" type="HBoxContainer" parent="HBoxContainer/Middle/Zones/Zones"]
+[node name="PlayerSupport" type="HBoxContainer" parent="Middle/Zones/Zones" groups=[
+"Player",
+]]
 margin_top = 206.0
 margin_right = 220.0
 margin_bottom = 266.0
@@ -304,7 +317,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone0" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/PlayerSupport"]
+[node name="Zone0" type="ColorRect" parent="Middle/Zones/Zones/PlayerSupport"]
 margin_right = 40.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 40, 60 )
@@ -315,7 +328,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone1" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/PlayerSupport"]
+[node name="Zone1" type="ColorRect" parent="Middle/Zones/Zones/PlayerSupport"]
 margin_left = 45.0
 margin_right = 85.0
 margin_bottom = 60.0
@@ -327,7 +340,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone2" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/PlayerSupport"]
+[node name="Zone2" type="ColorRect" parent="Middle/Zones/Zones/PlayerSupport"]
 margin_left = 90.0
 margin_right = 130.0
 margin_bottom = 60.0
@@ -339,7 +352,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone3" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/PlayerSupport"]
+[node name="Zone3" type="ColorRect" parent="Middle/Zones/Zones/PlayerSupport"]
 margin_left = 135.0
 margin_right = 175.0
 margin_bottom = 60.0
@@ -351,7 +364,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Zone4" type="ColorRect" parent="HBoxContainer/Middle/Zones/Zones/PlayerSupport"]
+[node name="Zone4" type="ColorRect" parent="Middle/Zones/Zones/PlayerSupport"]
 margin_left = 180.0
 margin_right = 220.0
 margin_bottom = 60.0
@@ -363,7 +376,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Stacks" type="VBoxContainer" parent="HBoxContainer/Middle/Zones"]
+[node name="Stacks" type="VBoxContainer" parent="Middle/Zones"]
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -375,7 +388,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EnemyDiscard" type="ColorRect" parent="HBoxContainer/Middle/Zones/Stacks"]
+[node name="EnemyDiscard" type="ColorRect" parent="Middle/Zones/Stacks" groups=[
+"Enemy",
+]]
 margin_top = 12.0
 margin_right = 40.0
 margin_bottom = 72.0
@@ -387,7 +402,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EnemyDeck" type="ColorRect" parent="HBoxContainer/Middle/Zones/Stacks"]
+[node name="EnemyDeck" type="ColorRect" parent="Middle/Zones/Stacks" groups=[
+"Enemy",
+]]
 margin_top = 75.0
 margin_right = 40.0
 margin_bottom = 135.0
@@ -399,14 +416,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/Middle/Zones/Stacks"]
+[node name="HSeparator" type="HSeparator" parent="Middle/Zones/Stacks"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 138.0
 margin_right = 40.0
 margin_bottom = 142.0
 size_flags_horizontal = 3
 
-[node name="PlayerDiscard" type="ColorRect" parent="HBoxContainer/Middle/Zones/Stacks"]
+[node name="PlayerDiscard" type="ColorRect" parent="Middle/Zones/Stacks" groups=[
+"Player",
+]]
 margin_top = 145.0
 margin_right = 40.0
 margin_bottom = 205.0
@@ -418,7 +437,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PlayerDeck" type="ColorRect" parent="HBoxContainer/Middle/Zones/Stacks"]
+[node name="PlayerDeck" type="ColorRect" parent="Middle/Zones/Stacks" groups=[
+"Player",
+]]
 margin_top = 208.0
 margin_right = 40.0
 margin_bottom = 268.0
@@ -430,25 +451,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Top" type="ColorRect" parent="HBoxContainer/Middle"]
+[node name="EnemyHand" type="HBoxContainer" parent="Middle" groups=[
+"Enemy",
+]]
 anchor_right = 1.0
 margin_top = -60.0
 rect_min_size = Vector2( 0, 60 )
-color = Color( 0.792157, 0.0588235, 0.0588235, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+alignment = 1
 
-[node name="Bottom" type="ColorRect" parent="HBoxContainer/Middle"]
+[node name="PlayerHand" type="HBoxContainer" parent="Middle" groups=[
+"Player",
+]]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 0, 60 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+alignment = 1
 
-[node name="Right" type="ColorRect" parent="HBoxContainer"]
+[node name="Right" type="ColorRect" parent="."]
 margin_left = 500.0
 margin_right = 600.0
 margin_bottom = 320.0
@@ -456,7 +476,9 @@ rect_min_size = Vector2( 100, 0 )
 size_flags_vertical = 3
 color = Color( 0.713726, 0.568627, 0.568627, 1 )
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer/Right"]
+[node name="EnemyHealth" type="ColorRect" parent="Right" groups=[
+"Enemy",
+]]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -469,11 +491,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="HBoxContainer/Right/ColorRect"]
+[node name="Label" type="Label" parent="Right/EnemyHealth"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 2.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "8000"
 align = 1
@@ -482,7 +504,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorRect2" type="ColorRect" parent="HBoxContainer/Right"]
+[node name="PlayerHealth" type="ColorRect" parent="Right" groups=[
+"Player",
+]]
 anchor_right = 1.0
 margin_left = 5.0
 margin_top = 5.0
@@ -492,11 +516,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label2" type="Label" parent="HBoxContainer/Right/ColorRect2"]
+[node name="Label2" type="Label" parent="Right/PlayerHealth"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 2.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "8000"
 align = 1
@@ -504,3 +528,12 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Cards" type="Node" parent="."]
+
+[node name="Opponent" parent="Cards" instance=ExtResource( 3 )]
+
+[node name="Player" parent="Cards" instance=ExtResource( 2 )]
+
+[editable path="Cards/Opponent"]
+[editable path="Cards/Player"]

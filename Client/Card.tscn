@@ -1,0 +1,80 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Client/KenVector Bold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Client/carnage.jpg" type="Texture" id=2]
+[ext_resource path="res://Client/Element01_512_48.png" type="Texture" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 6
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 1 )
+
+[node name="Card" type="Button"]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.6677
+margin_top = 13.4929
+margin_right = -583.332
+margin_bottom = -286.507
+rect_min_size = Vector2( 40, 60 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color( 1, 0.678431, 0, 1 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -9.8597
+margin_right = -1.14441e-05
+margin_bottom = 0.140297
+rect_min_size = Vector2( 0, 10 )
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TrapIcon" type="TextureRect" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -5.0
+margin_top = -10.0
+margin_right = 5.0
+mouse_filter = 2
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Power" type="Label" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -10.0
+margin_bottom = 2.0
+custom_fonts/font = SubResource( 1 )
+text = "5000"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

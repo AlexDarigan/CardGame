@@ -1,0 +1,13 @@
+[gd_scene format=2]
+
+[node name="Player" type="Node"]
+
+[node name="Hand" type="Node" parent="."]
+
+[node name="Units" type="Node" parent="."]
+
+[node name="Support" type="Node" parent="."]
+
+[node name="Deck" type="Node" parent="."]
+
+[node name="Discard" type="Node" parent="."]
