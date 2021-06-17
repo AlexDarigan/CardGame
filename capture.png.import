@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/carnage.jpg-cf574042ca58c01fa0a3a4af6924cd3e.stex"
+path="res://.import/capture.png-50b4d512703d14659c2db26b70948641.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Client/carnage.jpg"
-dest_files=[ "res://.import/carnage.jpg-cf574042ca58c01fa0a3a4af6924cd3e.stex" ]
+source_file="res://capture.png"
+dest_files=[ "res://.import/capture.png-50b4d512703d14659c2db26b70948641.stex" ]
 
 [params]
 
