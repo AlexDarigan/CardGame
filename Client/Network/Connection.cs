@@ -43,9 +43,9 @@ namespace CardGame.Client
 		public void CreateRoom(string roomName)
 		{
 			Room room = (Room) RoomScene.Instance();
-			AddChild(room);
 			room.Name = roomName;
 			room.CustomMultiplayer = CustomMultiplayer;
+			AddChild(room, true);
 		}
 
 		public override void _Process(float delta)
