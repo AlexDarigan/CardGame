@@ -6,6 +6,7 @@ func _input(event) -> void:
 		match event.scancode:
 			KEY_F:
 				OS.window_fullscreen = not OS.window_fullscreen
+				OS.window_size = Vector2(1920, 1080)
 			KEY_1:
 				OS.window_size = Vector2(1920, 1080)
 			KEY_2:
