@@ -4,20 +4,21 @@ namespace CardGame.Client
 {
 	public class Room: Node
 	{
-		// TODO
-		// Connect Participant Models with Participant Views
-		// Basic Commands (Start, Draw, Deploy, Set, Attack, Activate, End, Win/Lose)
-		// Include SFX/GFX
-		// Basic Input Controller
-		// Cards
-		// Card Library
-		// Deck Loading
-		// Command Queue! (Use emit_signal/event/callv trick)
-		// Command Objects
-		// MultiplayerScript (avoid direct RPCs)
 		
+		// TODO (REWRITE)
+		// 1 - Add Card Data
+		// 2 - Add Card Scene
+		// 3 - Add Player/Rival View
+		// 4 - Add Player/Rival ModelController
+		// 5 - Connect Controller To Views
+		// 6 - Load Deck
+		// 7 - Register Cards && Add To Cards Node && Add To Player Deck
+		// 8 - Draw Starting Hand / Basic Command Queue
+		// 9 - Add Basic Input Controller / Multiplayer Commands
+		//		...Draw, Deploy, Set, Activate, Destroy, Discard, End, Win, Lose
+		// 10 - Add Commands for Draw/Deploy/Set/Activate/Destroy/Discard/End/Win/Lose
+		// Etc -> Add SFX, ParticleFX, Tests, Hooks for Testing
 		
-		[Export()]
 		private Spatial Table;
 		private readonly object MultiplayerInterface;
 		private readonly object CommandQueue;
