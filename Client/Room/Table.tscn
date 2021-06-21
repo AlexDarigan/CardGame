@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Client/Assets/Models/Table.obj" type="ArrayMesh" id=1]
+
+[node name="Table" type="Spatial"]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.406737, 0.913545, 0, -0.913545, 0.406737, 10, 20, 17.5 )
+
+[node name="Table" type="MeshInstance" parent="."]
+mesh = ExtResource( 1 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+material/5 = null
+
+[node name="Player" type="Node" parent="."]
+
+[node name="Rival" type="Node" parent="."]
