@@ -1,0 +1,72 @@
+[gd_scene format=2]
+
+[node name="Rival" type="Node"]
+
+[node name="Units" type="Node" parent="."]
+
+[node name="0" type="Position3D" parent="Units"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.05, -3 )
+
+[node name="1" type="Position3D" parent="Units"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.05, -3 )
+
+[node name="2" type="Position3D" parent="Units"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.05, -3 )
+
+[node name="3" type="Position3D" parent="Units"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, -3 )
+
+[node name="4" type="Position3D" parent="Units"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.05, -3 )
+
+[node name="Support" type="Node" parent="."]
+
+[node name="0" type="Position3D" parent="Support"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.05, -7 )
+
+[node name="1" type="Position3D" parent="Support"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.05, -7 )
+
+[node name="2" type="Position3D" parent="Support"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.05, -7 )
+
+[node name="3" type="Position3D" parent="Support"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, -7 )
+
+[node name="4" type="Position3D" parent="Support"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.05, -7 )
+
+[node name="Deck" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -7.5 )
+
+[node name="Discard" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -2.5 )
+
+[node name="Hand" type="Node" parent="."]
+
+[node name="0" type="Position3D" parent="Hand"]
+transform = Transform( -1, 8.74228e-08, 0, -7.33189e-08, -0.838671, -0.544639, -4.76139e-08, -0.544639, 0.838671, -9, 6, -7.5 )
+
+[node name="1" type="Position3D" parent="Hand"]
+transform = Transform( -1, 8.74228e-08, 0, -7.33189e-08, -0.838671, -0.544639, -4.76139e-08, -0.544639, 0.838671, -6.75, 6, -7.5 )
+
+[node name="2" type="Position3D" parent="Hand"]
+transform = Transform( -1, 8.74228e-08, 0, -7.33189e-08, -0.838671, -0.544639, -4.76139e-08, -0.544639, 0.838671, -4.5, 6, -7.5 )
+
+[node name="3" type="Position3D" parent="Hand"]
+transform = Transform( -1, 8.74228e-08, 0, -7.33189e-08, -0.838671, -0.544639, -4.76139e-08, -0.544639, 0.838671, -2.25, 6, -7.5 )
+
+[node name="4" type="Position3D" parent="Hand"]
+transform = Transform( -1, 8.74228e-08, 0, -7.33189e-08, -0.838671, -0.544639, -4.76139e-08, -0.544639, 0.838671, 0, 6, -7.5 )
+
+[node name="5" type="Position3D" parent="Hand"]
+transform = Transform( -1, 8.74228e-08, 0, -7.33189e-08, -0.838671, -0.544639, -4.76139e-08, -0.544639, 0.838671, 2.25, 6, -7.5 )
+
+[node name="6" type="Position3D" parent="Hand"]
+transform = Transform( -1, 8.74228e-08, 0, -7.33189e-08, -0.838671, -0.544639, -4.76139e-08, -0.544639, 0.838671, 4.5, 6, -7.5 )
+
+[node name="7" type="Position3D" parent="Hand"]
+transform = Transform( -1, 8.74228e-08, 0, -7.33189e-08, -0.838671, -0.544639, -4.76139e-08, -0.544639, 0.838671, 6.75, 6, -7.5 )
+
+[node name="8" type="Position3D" parent="Hand"]
+transform = Transform( -1, 8.74228e-08, 0, -7.33189e-08, -0.838671, -0.544639, -4.76139e-08, -0.544639, 0.838671, 9, 6, -7.5 )

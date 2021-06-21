@@ -18,8 +18,7 @@ namespace CardGame.Client
 		
 		
 		[Export()]
-		//private readonly PackedScene TableScene;
-		private readonly Spatial Table;
+		private Spatial Table;
 		private readonly object MultiplayerInterface;
 		private readonly object CommandQueue;
 		private readonly object Library;
@@ -28,8 +27,9 @@ namespace CardGame.Client
 		
 		public override void _Ready()
 		{
+			
 			RpcId(Server, "OnClientReady");
-			//AddChild(TableScene.Instance());
+			Table = GetNode<Spatial>("Table");
 		}
 		
 	}

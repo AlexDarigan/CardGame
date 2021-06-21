@@ -62,5 +62,5 @@ enabled=PoolStringArray( "res://addons/WAT/plugin.cfg" )
 
 [rendering]
 
-quality/filters/use_fxaa=true
+quality/filters/msaa=3
 environment/default_environment="res://default_env.tres"
