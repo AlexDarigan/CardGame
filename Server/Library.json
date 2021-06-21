@@ -2,10 +2,10 @@
   "NullCard": 
   { "Title": "Null Card", "CardType": "Null", "Faction":  "Null", "Power": 0, "Skills": {} },
   
-  "Alpha001":
-  { "Title": "Dungeon Guide", "CardType": "Unit", "Faction": "Warrior", "Power": 2000, "Skills": {} },
+  "AlphaBioShocker":
+  { "Title": "BioShocker", "CardType": "Unit", "Faction": "Warrior", "Power": 2000, "Skills": {} },
   
-  "Alpha002": 
+  "AlphaDrawTest": 
   { "Title": "Quest Reward", "CardType": "Support", "Faction": "Null", "Power": 0,
     "Skill":  
       {

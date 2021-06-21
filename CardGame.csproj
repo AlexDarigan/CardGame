@@ -1,9 +1,11 @@
 <Project Sdk="Godot.NET.Sdk/3.3.0">
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Client\Card\Card.tscn" />
+    <Content Include="Client\Library\Library.json" />
     <Content Include="README.md" />
     <Content Include="Server\Library.json" />
   </ItemGroup>

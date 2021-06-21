@@ -30,7 +30,7 @@ namespace CardGame.Client
 		{
 			
 			RpcId(Server, "OnClientReady");
-			Table = GetNode<Spatial>("Table");
+			//Table = GetNode<Spatial>("Table");
 		}
 		
 	}

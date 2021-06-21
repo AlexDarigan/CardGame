@@ -1,4 +1,5 @@
 using System;
+using CardGame.Client;
 using Godot;
 
 namespace CardGame

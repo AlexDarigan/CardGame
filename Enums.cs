@@ -5,8 +5,8 @@
     public enum SetCodes
     {
         NullCard = 0,
-        Alpha001,
-        Alpha002
+        AlphaBioShocker = 1,
+        AlphaDrawTest = 2
     }
 
     public enum Triggers
