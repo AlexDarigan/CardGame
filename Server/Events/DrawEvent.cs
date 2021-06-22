@@ -16,11 +16,9 @@ namespace CardGame.Server
 
         public override void QueueOnClients(Enqueue queue)
         {
-            queue(Controller.Id, Command, Controller.Id, Card.Id);
+            const bool isClient = true;
+            queue(Controller.Id, Command, isClient, Card.Id);
+            queue(Controller.Opponent.Id, Command, !isClient, -1);
         }
     }
 }
-//private void Queue(int player, CommandId commandId, params object[] args)
-//{
-   // RpcId(player, "Queue", commandId, args);
-//}

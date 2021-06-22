@@ -11,7 +11,12 @@ namespace CardGame.Client
         private readonly PackedScene CardScene = (PackedScene) GD.Load("res://Client/Card/Card.tscn");
         private readonly Dictionary<int, Card> _register = new();
         public Card this[int id] => _register[id];
-        
+
+        public override void _Ready()
+        {
+            Add(-1, SetCodes.NullCard);
+        }
+
         public void Add(int id, SetCodes setCodes)
         {
             CardInfo info = Library.Cards[setCodes];
@@ -24,6 +29,7 @@ namespace CardGame.Client
             card.Text = info.Text;
             card.Art = (Texture) GD.Load($"res://Client/Assets/CardArt/{info.Art}.png");
             _register[id] = card;
+            card.Translation = new Vector3(0, -3, 0);
         }
 
     }

@@ -14,11 +14,10 @@ namespace CardGame.Client
 		public override void _Ready()
 		{
 			Deck = GetNode <Position3D> ("Deck");
-			Deck = GetNode <Position3D> ("Discard");
+			Discard = GetNode <Position3D> ("Discard");
 			Hand = GetNode <Node>("Hand");
 			Units = GetNode <Node>("Units");
 			Support = GetNode <Node>("Support");
-
 		}
 	}
 }

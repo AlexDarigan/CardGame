@@ -17,6 +17,5 @@ script = ExtResource( 1 )
 [node name="SFX" type="AudioStreamPlayer" parent="."]
 
 [node name="Cards" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0 )
 
 [node name="GUI" parent="." instance=ExtResource( 3 )]

@@ -32,6 +32,10 @@ namespace CardGame.Server
 		{
 			// Update Card/Player State Information
 			// Execute Queued Events
+			foreach (int id in _players.Keys)
+			{
+				RpcId(id, "Update");
+			}
 		}
 
 		private void Queue(int player, CommandId commandId, params object[] args)
@@ -51,7 +55,8 @@ namespace CardGame.Server
 
 			foreach (var player in _players)
 			{
-				Queue(player.Key, CommandId.LoadDeck,
+				const bool isClient = true;
+				Queue(player.Key, CommandId.LoadDeck, isClient,
 					player.Value.Deck.ToDictionary(card => card.Id, card => card.SetCodes));
 			}
 			

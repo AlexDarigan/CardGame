@@ -31,12 +31,14 @@ namespace CardGame.Client
 		private Player Player;
 		private Player Rival;
 		private Register Register;
+		private Tween GFX;
 		private const int Server = 1;
 
 		public override void _Ready()
 		{
 			Table = GetNode<Spatial>("Table");
 			Register = GetNode<Register>("Cards");
+			GFX = GetNode<Tween>("GFX");
 			Player = new Player((Participant) Table.GetNode("Player"));
 			Rival = new Player((Participant) Table.GetNode("Rival"));
 			RpcId(Server, "OnClientReady");
@@ -46,30 +48,33 @@ namespace CardGame.Client
 		public void Queue(CommandId commandId, params object[] args)
 		{
 			CommandQueue.Enqueue((Command) Call(commandId.ToString(), args));
-			Console.WriteLine(commandId.ToString());
 		}
 
 		[Puppet]
-		public void Update()
+		public async void Update()
 		{
-			Console.WriteLine("Update Not Implemented");
+			while (CommandQueue.Count > 0)
+			{
+				await CommandQueue.Dequeue().Execute(GFX);
+			}
 		}
 
-		private Command LoadDeck(Dictionary<int, SetCodes> deck) => new LoadDeck(Player, deck, Register);
-		private Command Draw(int playerId, int cardId) => new Draw(Player, Register[cardId]);
+		private Command LoadDeck(bool isClient, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(isClient), deck, Register);
+		private Command Draw(bool isClient, int cardId) => new Draw(GetPlayer(isClient), Register[cardId]);
+		private Player GetPlayer(bool isClient) => isClient ? Player : Rival;
 
 
 	}
 
 	public class Player
 	{
-		private readonly Participant Zones;
+		public readonly Participant Zones;
 		private int Health = 8000;
 		public IList<Card> Deck = new List<Card>();
-		private IList<Card> Discard = new List<Card>();
-		private IList<Card> Hand = new List<Card>();
-		private IList<Card> Units = new List<Card>();
-		private IList<Card> Support = new List<Card>();
+		public IList<Card> Discard = new List<Card>();
+		public IList<Card> Hand = new List<Card>();
+		public IList<Card> Units = new List<Card>();
+		public IList<Card> Support = new List<Card>();
 
 		public Player(Participant zones)
 		{
@@ -79,10 +84,14 @@ namespace CardGame.Client
 
 	public abstract class Command: Object
 	{
+
 		// Commands are required to be Godot Objects otherwise we can't use .Call()
 		protected Command()
 		{
+			AddUserSignal("NullCommand");
 		}
+
+		public abstract SignalAwaiter Execute(Tween gfx);
 	}
 
 	public class LoadDeck : Command
@@ -103,6 +112,13 @@ namespace CardGame.Client
 				player.Deck.Add(register[pair.Key]);
 			}
 		}
+
+
+		public override SignalAwaiter Execute(Tween gfx)
+		{ 
+			CallDeferred("emit_signal", "NullCommand");
+			return ToSignal(this, "NullCommand");
+		}
 	}
 
 	public class Draw: Command
@@ -114,7 +130,31 @@ namespace CardGame.Client
 		{
 			_player = player;
 			Card = card;
-			Console.WriteLine($"{player} drew card {Card.Id}: {Card}");
+		}
+		
+		public override SignalAwaiter Execute(Tween gfx)
+		{
+			gfx.RemoveAll();
+			
+			if (_player.Zones.Name == "Rival")
+			{
+			 	CallDeferred("emit_signal", "NullCommand");
+			 	return ToSignal(this, "NullCommand");
+			}
+			
+			Spatial source = _player.Zones.Deck.GetNode<Spatial>($"{_player.Deck.Count - 1}");
+			Position3D destination = _player.Zones.Hand.GetNode<Position3D>($"{_player.Hand.Count}");
+			
+			_player.Deck.Remove(Card);
+			_player.Hand.Add(Card);
+			source.Visible = false; // We're effectively replacing the marker with a real card
+
+			const float duration = 0.25f; //1 - (_player.Hand.Count * 0.1f);
+			gfx.InterpolateProperty(Card, "translation", source.Translation, destination.Translation,  duration);
+			gfx.InterpolateProperty(Card, "rotation_degrees", source.RotationDegrees, destination.RotationDegrees, duration);
+			
+			gfx.Start();
+			return ToSignal(gfx, "tween_all_completed");
 		}
 	}
 }
