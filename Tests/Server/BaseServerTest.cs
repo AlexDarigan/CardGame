@@ -23,6 +23,11 @@ namespace CardGame.Tests.Server
         {
             
         }
+        
+        private void Queue(int id, CommandId command, params object[] args)
+        {
+            
+        }
 
         public override void Start()
         {
@@ -37,7 +42,7 @@ namespace CardGame.Tests.Server
             Player1 = new Player(1, _deckList);
             Player2 = new Player(2, _deckList);
             Cards = new CardRegister();
-            Match = new Match(Player1, Player2, Cards, Update);
+            Match = new Match(Player1, Player2, Cards, Update, Queue);
         }
         
         protected class SkillBuilder

@@ -39,11 +39,12 @@ namespace CardGame.Server
             }
         }
 
-        public void Draw()
+        public DrawEvent Draw()
         {
             Card card = Deck[Deck.Count - 1];
             Deck.Remove(card);
             Hand.Add(card);
+            return new DrawEvent(card);
         }
 
         public void Deploy(Card unit)

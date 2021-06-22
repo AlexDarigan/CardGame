@@ -7,6 +7,8 @@ using Godot;
 
 namespace CardGame.Server
 {
+	public delegate void Enqueue(int id, CommandId command, params object[] args);
+
 	public class Room: Node
 	{
 		private readonly Match _match;
@@ -23,7 +25,7 @@ namespace CardGame.Server
 		{
 			_players[player1.Id] = player1;
 			_players[player2.Id] = player2;
-			_match = new Match(player1, player2, _cards, Update);
+			_match = new Match(player1, player2, _cards, Update, Queue);
 		}
 
 		private void Update()

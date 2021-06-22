@@ -15,16 +15,19 @@ namespace CardGame.Server
 		 */
 
 		private readonly VirtualStackMachine _virtualStackMachine = new VirtualStackMachine();
+		// May be an idea
 		private readonly Action Update;
+		private readonly Enqueue Queue;
 		private Player TurnPlayer;
 		private bool _isGameOver;
-		public Match(Player player1, Player player2, CardRegister cardRegister, Action update)
+		public Match(Player player1, Player player2, CardRegister cardRegister, Action update, Enqueue queue)
 		{
 			player1.Opponent = player2;
 			player2.Opponent = player1;
 			player1.LoadDeck(cardRegister);
 			player2.LoadDeck(cardRegister);
 			Update = update;
+			Queue = queue;
 		}
 
 		public void Begin(List<Player> players)
@@ -33,7 +36,8 @@ namespace CardGame.Server
 			{
 				for (int i = 0; i < 7; i++)
 				{
-					player.Draw();
+					DrawEvent draw = player.Draw();
+					draw.QueueOnClients(Queue);
 				}
 			}
 

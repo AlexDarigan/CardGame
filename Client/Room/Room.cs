@@ -56,7 +56,8 @@ namespace CardGame.Client
 		}
 
 		private Command LoadDeck(Dictionary<int, SetCodes> deck) => new LoadDeck(Player, deck, Register);
-		
+		private Command Draw(int playerId, int cardId) => new Draw(Player, Register[cardId]);
+
 
 	}
 
@@ -101,6 +102,19 @@ namespace CardGame.Client
 				register.Add(pair.Key, pair.Value);
 				player.Deck.Add(register[pair.Key]);
 			}
+		}
+	}
+
+	public class Draw: Command
+	{
+		private readonly Player _player;
+		private readonly Card Card;
+
+		public Draw(Player player, Card card)
+		{
+			_player = player;
+			Card = card;
+			Console.WriteLine($"{player} drew card {Card.Id}: {Card}");
 		}
 	}
 }
