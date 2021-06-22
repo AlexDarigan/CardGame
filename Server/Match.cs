@@ -24,18 +24,21 @@ namespace CardGame.Server
 			player2.Opponent = player1;
 			player1.LoadDeck(cardRegister);
 			player2.LoadDeck(cardRegister);
-			
-			// This is not the most pleasing, maybe be better to do it as player.draw(count)?
-			foreach (Player player in new List<Player>{player1, player2})
+			Update = update;
+		}
+
+		public void Begin(List<Player> players)
+		{
+			foreach (Player player in players)
 			{
 				for (int i = 0; i < 7; i++)
 				{
 					player.Draw();
 				}
 			}
-			TurnPlayer = player1;
+
+			TurnPlayer = players[0];
 			TurnPlayer.State = Player.States.Idle;
-			Update = update;
 		}
 		
 		public void Draw(Player player)

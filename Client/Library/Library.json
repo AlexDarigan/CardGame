@@ -1,4 +1,6 @@
 ﻿{
-  "0": {"Title":  "NullCard", "CardType": 0, "Text":  "", "Art": "BioShocker" ,"Power": 2000},
-  "1": {"Title": "BioShocker", "CardType": 1, "Text": "Shocker Punch!","Art": "BioShocker", "Power": 2000}
+  "NullCard": {"Title":  "NullCard", "CardType": 0, "Text":  "", "Art": "BioShocker" ,"Power": 2000},
+  "AlphaBioShocker": {"Title": "BioShocker", "CardType": 1, "Text": "Shocker Punch!","Art": "BioShocker", "Power": 2000},
+  "AlphaDrawTest": {"Title": "Quest Reward", "CardType": 2, "Text": "Draw 2 Cards","Art": "BioShocker", "Power": 0}
+
 }

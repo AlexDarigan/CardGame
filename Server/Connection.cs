@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 
@@ -29,6 +30,7 @@ namespace CardGame.Server
         [Master]
         public void OnNetworkPeerConnected(IEnumerable<SetCodes> deckList)
         {
+            GD.Print(deckList.ToList().Count);
             Queue.Enqueue(new Player(CustomMultiplayer.GetRpcSenderId(), deckList));
         }
 

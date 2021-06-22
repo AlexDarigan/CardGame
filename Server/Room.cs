@@ -28,7 +28,13 @@ namespace CardGame.Server
 
 		private void Update()
 		{
-			
+			// Update Card/Player State Information
+			// Execute Queued Events
+		}
+
+		private void Queue(int player, CommandId commandId, params object[] args)
+		{
+			RpcId(player, "Queue", commandId, args);
 		}
 		
 
@@ -40,6 +46,15 @@ namespace CardGame.Server
 			{
 				return;
 			}
+
+			foreach (var player in _players)
+			{
+				Queue(player.Key, CommandId.LoadDeck,
+					player.Value.Deck.ToDictionary(card => card.Id, card => card.SetCodes));
+			}
+			
+			_match.Begin(_players.Values.ToList());
+
 			
 			// Since all of our work is done in the constructor we will be ready to push our events here
 			// (With that in mind, should we queue everything serverside and only push it once when ready to update?..
