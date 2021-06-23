@@ -3,18 +3,18 @@ using Godot;
 
 namespace CardGame.Client
 {
-	public class Participant: Node
+	public class Participant: Spatial
 	{
-		public Position3D Deck { get; private set; }
-		public Position3D Discard { get; private set; }
+		public Node Deck { get; private set; }
+		public Spatial Discard { get; private set; }
 		public Node Hand { get; private set; }
 		public Node Units { get; private set; }
 		public Node Support { get; private set; }
 
 		public override void _Ready()
 		{
-			Deck = GetNode <Position3D> ("Deck");
-			Discard = GetNode <Position3D> ("Discard");
+			Deck = GetNode <Node> ("Deck");
+			Discard = GetNode <Spatial> ("Discard");
 			Hand = GetNode <Node>("Hand");
 			Units = GetNode <Node>("Units");
 			Support = GetNode <Node>("Support");

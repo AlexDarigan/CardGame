@@ -9,6 +9,7 @@ namespace CardGame.Client
 {
 	public class Connection : Node
 	{
+		
 		private readonly PackedScene RoomScene = GD.Load<PackedScene>("res://Client/Room/Room.tscn");
 		private const string ServerAddress = "127.0.0.1";
 		private const int ServerPort = 5000;

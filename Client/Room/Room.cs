@@ -7,7 +7,7 @@ using Object = Godot.Object;
 
 namespace CardGame.Client
 {
-	public class Room : Node
+	public class Room : Spatial
 	{
 
 		// TODO (REWRITE)
@@ -33,6 +33,7 @@ namespace CardGame.Client
 		private Player Rival;
 		private Register Register;
 		private Tween GFX;
+		private Control GUI;
 		private const int Server = 1;
 
 		public override void _Ready()
@@ -40,6 +41,7 @@ namespace CardGame.Client
 			Table = GetNode<Spatial>("Table");
 			Register = GetNode<Register>("Cards");
 			GFX = GetNode<Tween>("GFX");
+			GUI = GetNode<Control>("GUI");
 			Player = new Player((Participant) Table.GetNode("Player"), true);
 			Rival = new Player((Participant) Table.GetNode("Rival"), false);
 			RpcId(Server, "OnClientReady");
@@ -154,7 +156,7 @@ namespace CardGame.Client
 			gfx.RemoveAll();
 			
 			Spatial source = _player.Zones.Deck.GetNode<Spatial>($"{_player.Deck.Count - 1}");
-			Position3D destination = _player.Zones.Hand.GetNode<Position3D>($"{_player.Hand.Count}");
+			Spatial destination = _player.Zones.Hand.GetNode<Spatial>($"{_player.Hand.Count}");
 			
 			_player.Deck.Remove(card);
 			_player.Hand.Add(card);

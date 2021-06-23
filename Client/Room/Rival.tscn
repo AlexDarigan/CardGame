@@ -3,10 +3,10 @@
 [ext_resource path="res://Client/Room/Participant.cs" type="Script" id=1]
 [ext_resource path="res://Client/Card/Card.tscn" type="PackedScene" id=2]
 
-[node name="Rival" type="Node"]
+[node name="Rival" type="Spatial"]
 script = ExtResource( 1 )
 
-[node name="Units" type="Node" parent="."]
+[node name="Units" type="Spatial" parent="."]
 
 [node name="0" type="Position3D" parent="Units"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.05, -3 )
@@ -23,7 +23,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, -3 )
 [node name="4" type="Position3D" parent="Units"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.05, -3 )
 
-[node name="Support" type="Node" parent="."]
+[node name="Support" type="Spatial" parent="."]
 
 [node name="0" type="Position3D" parent="Support"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.05, -7 )
@@ -43,7 +43,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.05, -7 )
 [node name="Discard" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -2.5 )
 
-[node name="Deck" type="Position3D" parent="."]
+[node name="Deck" type="Spatial" parent="."]
 
 [node name="0" parent="Deck" instance=ExtResource( 2 )]
 transform = Transform( -1, 2.62268e-09, 0, -8.74228e-08, -0.03, 0, 0, 0, 1.5, 8, 0, -7.5 )
@@ -165,7 +165,7 @@ transform = Transform( -1, 2.62268e-09, 0, -8.74228e-08, -0.03, 0, 0, 0, 1.5, 8,
 [node name="39" parent="Deck" instance=ExtResource( 2 )]
 transform = Transform( -1, 2.62268e-09, 0, -8.74228e-08, -0.03, 0, 0, 0, 1.5, 8, 1.17, -7.5 )
 
-[node name="Hand" type="Node" parent="."]
+[node name="Hand" type="Spatial" parent="."]
 
 [node name="0" type="Position3D" parent="Hand"]
 transform = Transform( -1, 8.74228e-08, 0, -7.33189e-08, -0.838671, -0.544639, -4.76139e-08, -0.544639, 0.838671, -9, 6, -7.5 )
