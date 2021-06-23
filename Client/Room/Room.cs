@@ -108,29 +108,16 @@ namespace CardGame.Client
 		{
 			_player = player;
 			_deck = deck;
-
-			// We execute this command immediately so cards exist for future incoming commands..
-			// ..possibly this suggests we should separate this from add/register_card option?
-			if (deck.Count == 0)
+		
+			// We execute this on instantiation because other commands will require the cards to exist to work
+			// properly (however maybe we can investigate yielding constructors?)
+			foreach (KeyValuePair<int, SetCodes> pair in deck)
 			{
-				// LoadOpponentDeck
-				for (int index = -1; index > -41; index--)
-				{
-					_player.Deck.Add(register.GetNullCard());
-				}
-			}
-
-			else
-			{
-				foreach (KeyValuePair<int, SetCodes> pair in deck)
-				{
-					register.Add(pair.Key, pair.Value);
-					player.Deck.Add(register[pair.Key]);
-				}
+				register.Add(pair.Key, pair.Value);
+				player.Deck.Add(register[pair.Key]);
 			}
 		}
-
-
+		
 		public override SignalAwaiter Execute(Tween gfx)
 		{ 
 			CallDeferred("emit_signal", "NullCommand");

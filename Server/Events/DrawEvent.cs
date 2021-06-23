@@ -16,7 +16,6 @@ namespace CardGame.Server
 
         public override void QueueOnClients(Enqueue queue)
         {
-            const bool isClient = true;
             queue(Controller.Id, Command, isClient, Card.Id);
             queue(Controller.Opponent.Id, Command, !isClient, -1);
         }

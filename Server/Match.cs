@@ -20,24 +20,24 @@ namespace CardGame.Server
 		private readonly Enqueue Queue;
 		private Player TurnPlayer;
 		private bool _isGameOver;
+		private readonly CardRegister CardRegister;
 		public Match(Player player1, Player player2, CardRegister cardRegister, Action update, Enqueue queue)
 		{
-			player1.Opponent = player2;
-			player2.Opponent = player1;
-			player1.LoadDeck(cardRegister);
-			player2.LoadDeck(cardRegister);
 			Update = update;
 			Queue = queue;
+			CardRegister = cardRegister;
+			player1.Opponent = player2;
+			player2.Opponent = player1;
 		}
 
 		public void Begin(List<Player> players)
 		{
 			foreach (Player player in players)
 			{
+				player.LoadDeck(CardRegister).QueueOnClients(Queue);
 				for (int i = 0; i < 7; i++)
 				{
-					DrawEvent draw = player.Draw();
-					draw.QueueOnClients(Queue);
+					player.Draw().QueueOnClients(Queue);
 				}
 			}
 

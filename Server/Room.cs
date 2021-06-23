@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using Godot;
-using Godot.Collections;
 
 
 namespace CardGame.Server
@@ -52,15 +52,6 @@ namespace CardGame.Server
 			{
 				return;
 			}
-
-			foreach (var player in _players)
-			{
-				const bool isClient = true;
-				Queue(player.Key, CommandId.LoadDeck, isClient,
-					player.Value.Deck.ToDictionary(card => card.Id, card => card.SetCodes));
-				Queue(player.Key, CommandId.LoadDeck, !isClient, new Dictionary<int, SetCodes>());
-			}
-			
 			_match.Begin(_players.Values.ToList());
 
 			

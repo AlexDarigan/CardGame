@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace CardGame.Server
 {
@@ -30,16 +31,19 @@ namespace CardGame.Server
             DeckList = deckList;
         }
 
-        public void LoadDeck(CardRegister cardRegister)
+        public Event LoadDeck(CardRegister cardRegister)
         {
             foreach (SetCodes setCode in DeckList)
             {
                 Card card = Library.Create(this, cardRegister, setCode);
                 Deck.Add(card);
             }
+            
+            return new LoadDeckEvent(this, 
+                Deck.ToDictionary(card => card.Id, card => card.SetCodes));
         }
-
-        public DrawEvent Draw()
+        
+        public Event Draw()
         {
             Card card = Deck[Deck.Count - 1];
             Deck.Remove(card);
