@@ -9,7 +9,7 @@ namespace CardGame.Client
         private readonly Player _player;
         private readonly Dictionary<int, SetCodes> _deck;
 
-        public LoadDeck(Player player, Dictionary<int, SetCodes> deck, Register register)
+        public LoadDeck(Player player, Dictionary<int, SetCodes> deck, Action<int, SetCodes> createCard, IReadOnlyDictionary<int, Card> cards)
         {
             _player = player;
             _deck = deck;
@@ -18,14 +18,11 @@ namespace CardGame.Client
             // properly (however maybe we can investigate yielding constructors?)
             foreach (KeyValuePair<int, SetCodes> pair in deck)
             {
-                register.Add(pair.Key, pair.Value);
-                player.Deck.Add(register[pair.Key]);
+                createCard(pair.Key, pair.Value);
+                player.Deck.Add(cards[pair.Key]);
             }
         }
 		
-        public override void Execute(Tween gfx)
-        {
-           // gfx.RemoveAll();
-        }
+        public override void Execute(Tween gfx) { }
     }
 }

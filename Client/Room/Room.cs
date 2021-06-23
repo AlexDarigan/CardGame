@@ -20,20 +20,20 @@ namespace CardGame.Client
 
 		// NOTE: We'll be using a lot of scattered code inside here before sorting it out later
 		[Signal] public delegate void Updated();
+		private readonly PackedScene CardScene = (PackedScene) GD.Load("res://Client/Card/Card.tscn");
+		private readonly Dictionary<int, Card> cards = new();
 		private Spatial Table;
 		private readonly Queue<Command> CommandQueue = new();
-		private readonly object InputController;
-		public Player Player { get; private set; }
-		public Player Rival { get; private set; }
-		private Register Register;
 		private Tween GFX;
 		private Control GUI;
 		private const int Server = 1;
+		
+		public Player Player { get; private set; }
+		public Player Rival { get; private set; }
 
 		public override void _Ready()
 		{
 			Table = GetNode<Spatial>("Table");
-			Register = GetNode<Register>("Cards");
 			GFX = GetNode<Tween>("GFX");
 			GUI = GetNode<Control>("GUI");
 			Player = new Player((Participant) Table.GetNode("Player"), true);
@@ -69,10 +69,37 @@ namespace CardGame.Client
 			RpcId(Server, "Deploy", card.Id);
 		}
 
-		private Command LoadDeck(bool isClient, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(isClient), deck, Register);
-		private Command Draw(bool isClient, int cardId) => new Draw(GetPlayer(isClient), Register[cardId]);
-		private Command Deploy(bool isClient, int cardId) => new Deploy(GetPlayer(isClient), Register[cardId]);
+		// We can likely make the LoadDeck Command More Implicit
+		private Command LoadDeck(bool isClient, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(isClient), deck, CreateCard, cards);
+		private Command Draw(bool isClient, int cardId) => new Draw(GetPlayer(isClient), GetCard(cardId));
+		private Command Deploy(bool isClient, int cardId) => new Deploy(GetPlayer(isClient), GetCard(cardId));
 		private Player GetPlayer(bool isClient) => isClient ? Player : Rival;
+
+		private Card GetCard(int id, SetCodes setCode = SetCodes.NullCard)
+		{
+			if (cards.ContainsKey(id)) { return cards[id]; }
+			
+			CreateCard(id, setCode);
+			return cards[id];
+		}
+		
+		private void CreateCard(int id, SetCodes setCodes)
+		{
+			CardInfo info = Library.Cards[setCodes];
+			Card card = (Card) CardScene.Instance();
+			GetNode<Spatial>("Cards").AddChild(card);
+			card.Name = $"{id}_{info.Title}";
+			card.Id = id;
+			card.Title = info.Title;
+			card.Power = info.Power;
+			card.CardType = info.CardType;
+			card.Text = info.Text;
+			card.Art = (Texture) GD.Load($"res://Client/Assets/CardArt/{info.Art}.png");
+			cards[id] = card;
+			card.Translation = new Vector3(0, -3, 0);
+			//card.GetNode<Area>("Area").Connect("mouse_entered", this, nameof(OnMouseEnterCard), new Array{ card });
+			//card.GetNode<Area>("Area").Connect("mouse_exited", this, nameof(OnMouseExitCard), new Array{ card });
+		}
 
 
 	}
