@@ -32,14 +32,26 @@ namespace CardGame.Client
             card.GetNode<Area>("Area").Connect("mouse_exited", this, nameof(OnMouseExitCard), new Array{ card });
         }
 
+        // Store here temp
+        private Card CurrentCard;
         public void OnMouseEnterCard(Card card)
         {
+            CurrentCard = card;
             Console.WriteLine($"Mouse entered {card.Id}: {card.Name}");
         }
 
         public void OnMouseExitCard(Card card)
         {
+            CurrentCard = null;
             Console.WriteLine($"Mouse exited {card.Id}: {card.Name}");
+        }
+
+        public override void _Process(float delta)
+        {
+            if (Input.IsMouseButtonPressed((int)ButtonList.Left) && CurrentCard is not null)
+            {
+                GetParent<Room>().Deploy(CurrentCard);
+            }
         }
     }
 }

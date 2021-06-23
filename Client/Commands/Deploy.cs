@@ -21,7 +21,7 @@ namespace CardGame.Client
             Spatial destination = _player.Zones.Units.GetNode<Spatial>($"{_player.Units.Count}");
             _player.Hand.Remove(Card);
             _player.Units.Add(Card);
-            const float duration = 0.25f;
+            const float duration = .35f;
             gfx.InterpolateProperty(card, "translation", card.Translation, destination.Translation,  duration);
             gfx.InterpolateProperty(card, "rotation_degrees", card.RotationDegrees, destination.RotationDegrees, duration);
         }
