@@ -35,7 +35,7 @@ namespace CardGame.Client
 			Array<SetCodes> deckList = new Array<SetCodes>();
 			for (int i = 0; i < 40; i++)
 			{
-				deckList.Add(SetCodes.NullCard);
+				deckList.Add(SetCodes.AlphaBioShocker);
 			}
 			RpcId(1, "OnNetworkPeerConnected", deckList);
 		}

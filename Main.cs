@@ -6,17 +6,18 @@ namespace CardGame
 {
 	public class Main : Node
 	{
-		private int rooms = 0;
+		
+		[Signal] public delegate void GameBegun();
 		[Export()] private bool Room1IsVisible;
 		[Export()] private bool Room2IsVisible;
 		private Room Room1;
 		private Room Room2;
+		private int rooms = 0;
+
 		
 		public override void _Ready()
 		{
 			GetTree().Connect("node_added", this, nameof(OnNodeAdded));
-			Console.WriteLine("Hello World");
-			GD.Print("Hello World");
 		}
 
 		public void OnNodeAdded(Node node)
@@ -36,7 +37,12 @@ namespace CardGame
 			room.Visible = visible;
 			room.GetNode<Control>("GUI").Visible = visible;
 			Console.WriteLine($"{node.Name} added");
-			if (rooms == 2) { GetTree().Disconnect("node_added", this, nameof(OnNodeAdded)); }
+			
+			if (rooms != 2) return;
+			
+			GetTree().Disconnect("node_added", this, nameof(OnNodeAdded));
+			EmitSignal(nameof(GameBegun));
+			Console.WriteLine("Emitting Signal");
 		}
 		
 		public override void _Input(InputEvent gameEvent)

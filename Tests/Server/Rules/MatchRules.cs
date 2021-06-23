@@ -19,7 +19,7 @@ namespace CardGame.Tests.Server.Rules
         [Test]
         public void They_Draw_In_A_NonIdle_State()
         {
-            Player1.State = Player.States.Passive;
+            Player1.State = States.Passive;
             Match.Draw(Player1);
             Assert.IsTrue(Player1.Disqualified);
         }
@@ -35,7 +35,7 @@ namespace CardGame.Tests.Server.Rules
         [Test]
         public void They_Deploy_During_Their_Turn_In_A_NonIdle_State()
         {
-            Player1.State = Player.States.Passive;
+            Player1.State = States.Passive;
             Match.Deploy(Player1, Player1.Hand[0]);
             Assert.IsTrue(Player1.Disqualified);
         }
@@ -63,7 +63,7 @@ namespace CardGame.Tests.Server.Rules
         {
             Card card = Player1.Hand[0];
             card.CardType = CardType.Support;
-            Player1.State = Player.States.Passive;
+            Player1.State = States.Passive;
             Match.SetFaceDown(Player1, card);
             Assert.IsTrue(Player1.Disqualified);
         }
@@ -124,7 +124,7 @@ namespace CardGame.Tests.Server.Rules
             Match.EndTurn(Player1);
             Match.Deploy(Player2, defender);
             Match.EndTurn(Player2);
-            Player1.State = Player.States.Passive;
+            Player1.State = States.Passive;
             Match.DeclareAttack(Player1, attacker, defender);
             Assert.IsTrue(Player1.Disqualified);
         }
@@ -178,7 +178,7 @@ namespace CardGame.Tests.Server.Rules
             Match.Deploy(Player1, attacker);
             Match.EndTurn(Player1);
             Match.EndTurn(Player2);
-            Player1.State = Player.States.Passive;
+            Player1.State = States.Passive;
             Match.DeclareDirectAttack(Player1, attacker);
             Assert.IsTrue(Player1.Disqualified);
         }
@@ -231,7 +231,7 @@ namespace CardGame.Tests.Server.Rules
         [Test]
         public void They_End_Their_Turn_In_A_NonIdle_State()
         {
-            Player1.State = Player.States.Passive;
+            Player1.State = States.Passive;
             Match.EndTurn(Player1);
             Assert.IsTrue(Player1.Disqualified);
         }

@@ -11,26 +11,18 @@ namespace CardGame.Client
 	{
 
 		// TODO (REWRITE)
-		// 1 - Add Card Data // DONE
-		// 2 - Add Card Scene // DONE
-		// 3 - Add Player/Rival View // DONE
-		// 4 - Add Player/Rival ModelController // DONE
-		// 5 - Connect Controller To Views // DONE
-		// 6 - Load Deck // Register Cards
-		// 7 - Register Cards && Add To Cards Node && Add To Player Deck // DONE
-		// 8.5 - Add DebugOption to switch between screens (otherwise everything will double up).
-		// 8 - Draw Starting Hand / Basic Command Queue // DONE
 		// 9 - Add Basic Input Controller / Multiplayer Commands
 		//		...Draw, Deploy, Set, Activate, Destroy, Discard, End, Win, Lose
 		// 10 - Add Commands for Draw/Deploy/Set/Activate/Destroy/Discard/End/Win/Lose
 		// Etc -> Add SFX, ParticleFX, Tests, Hooks for Testing
 
 		// NOTE: We'll be using a lot of scattered code inside here before sorting it out later
+		[Signal] public delegate void Updated();
 		private Spatial Table;
 		private readonly Queue<Command> CommandQueue = new();
 		private readonly object InputController;
-		private Player Player;
-		private Player Rival;
+		public Player Player { get; private set; }
+		public Player Rival { get; private set; }
 		private Register Register;
 		private Tween GFX;
 		private Control GUI;
@@ -56,14 +48,22 @@ namespace CardGame.Client
 		[Puppet]
 		public async void Update()
 		{
-			while (CommandQueue.Count > 0)
-			{
-				await CommandQueue.Dequeue().Execute(GFX);
-			}
+			while (CommandQueue.Count > 0) { await CommandQueue.Dequeue().Execute(GFX); }
+			EmitSignal(nameof(Updated));
+		}
+
+		[Puppet]
+		public void SetState(States state) => Player.State = state;
+
+		[Puppet]
+		public void Deploy(Card card)
+		{
+			RpcId(Server, "Deploy", card);
 		}
 
 		private Command LoadDeck(bool isClient, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(isClient), deck, Register);
 		private Command Draw(bool isClient, int cardId) => new Draw(GetPlayer(isClient), Register[cardId]);
+		private Command Deploy(bool isClient, int cardId) => new Deploy(GetPlayer(isClient), Register[cardId]);
 		private Player GetPlayer(bool isClient) => isClient ? Player : Rival;
 
 
@@ -71,6 +71,7 @@ namespace CardGame.Client
 
 	public class Player
 	{
+		public States State;
 		public readonly bool isClient;
 		public readonly Participant Zones;
 		private int Health = 8000;
@@ -157,4 +158,36 @@ namespace CardGame.Client
 			return ToSignal(gfx, "tween_all_completed");
 		}
 	}
+
+	public class Deploy : Command
+	{
+		private readonly Player _player;
+		private readonly Card Card;
+
+		public Deploy(Player player, Card card)
+		{
+			_player = player;
+			Card = card;
+		}
+		
+		public override SignalAwaiter Execute(Tween gfx)
+		{
+			Card card = _player.isClient ? Card : _player.Hand.Last();
+			gfx.RemoveAll();
+
+			Spatial destination = _player.Zones.Units.GetNode<Spatial>($"{_player.Units.Count}");
+
+			_player.Hand.Remove(Card);
+			_player.Units.Add(Card);
+			
+			const float duration = 0.25f;
+			gfx.InterpolateProperty(card, "translation", card.Translation, destination.Translation,  duration);
+			gfx.InterpolateProperty(card, "rotation_degrees", card.RotationDegrees, destination.RotationDegrees, duration);
+				
+			gfx.Start();
+			return ToSignal(gfx, "tween_all_completed");
+		}
+	}
 }
+
+

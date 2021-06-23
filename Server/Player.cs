@@ -11,7 +11,6 @@ namespace CardGame.Server
      */
     public class Player
     {
-        public enum States { Idle, Passive, Loser, Winner }
         public readonly int Id;
         public Player Opponent;
         public bool Ready = false;
@@ -51,11 +50,12 @@ namespace CardGame.Server
             return new DrawEvent(card);
         }
 
-        public void Deploy(Card unit)
+        public Event Deploy(Card unit)
         {
             Hand.Remove(unit);
             Units.Add(unit);
             unit.Zone = Units;
+            return new DeployEvent(this, unit);
         }
 
         public void SetFaceDown(Card support)

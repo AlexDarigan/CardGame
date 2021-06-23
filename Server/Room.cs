@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using CardGame.Client;
 using Godot;
 
 
@@ -34,6 +35,7 @@ namespace CardGame.Server
 			// Execute Queued Events
 			foreach (int id in _players.Keys)
 			{
+				RpcId(id, "SetState", _players[id].State);
 				RpcId(id, "Update");
 			}
 		}
@@ -59,6 +61,12 @@ namespace CardGame.Server
 			// (With that in mind, should we queue everything serverside and only push it once when ready to update?..
 			// ..arguably that could help with some peekAhead methods on client-side for better queueing).
 			Update();
+		}
+
+		[Master]
+		public void Deploy(int cardId)
+		{
+			_match.Deploy(_players[Multiplayer.GetRpcSenderId()], _cards[cardId]);
 		}
 
 		[Master]

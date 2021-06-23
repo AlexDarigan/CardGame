@@ -20,8 +20,8 @@ namespace CardGame.Tests.Server.Conclusion
             
             Match.EndTurn(Player1);
             Assert.IsEqual(Player2.Deck.Count, 0);
-            Assert.IsEqual(Player2.State, Player.States.Loser);
-            Assert.IsEqual(Player1.State, Player.States.Winner);
+            Assert.IsEqual(Player2.State, States.Loser);
+            Assert.IsEqual(Player1.State, States.Winner);
         }
         
         

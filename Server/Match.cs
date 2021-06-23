@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Godot;
 
@@ -32,6 +33,7 @@ namespace CardGame.Server
 
 		public void Begin(List<Player> players)
 		{
+			// Could place this directly inside room (we'd remove the register dependency for a start)
 			foreach (Player player in players)
 			{
 				player.LoadDeck(CardRegister).QueueOnClients(Queue);
@@ -42,12 +44,12 @@ namespace CardGame.Server
 			}
 
 			TurnPlayer = players[0];
-			TurnPlayer.State = Player.States.Idle;
+			TurnPlayer.State = States.Idle;
 		}
 		
 		public void Draw(Player player)
 		{
-			if (player.State != Player.States.Idle || player != TurnPlayer)
+			if (player.State != States.Idle || player != TurnPlayer)
 			{
 				Disqualify(player);
 				return;
@@ -64,19 +66,19 @@ namespace CardGame.Server
 
 		public void Deploy(Player player, Card unit)
 		{
-			if (player.State != Player.States.Idle || player != TurnPlayer || unit.CardType != CardType.Unit)
+			if (player.State != States.Idle || player != TurnPlayer || unit.CardType != CardType.Unit)
 			{
 				Disqualify(player);
 				return;
 			}
 
-			player.Deploy(unit);
+			player.Deploy(unit).QueueOnClients(Queue);
 			Update();
 		}
 
 		public void DeclareAttack(Player player, Card attacker, Card defender)
 		{
-			if (player.State != Player.States.Idle || !player.Units.Contains(attacker) ||
+			if (player.State != States.Idle || !player.Units.Contains(attacker) ||
 				!player.Opponent.Units.Contains(defender) || !attacker.IsReady)
 			{
 				Disqualify(player);
@@ -104,7 +106,7 @@ namespace CardGame.Server
 		
 		public void DeclareDirectAttack(Player player, Card attacker)
 		{
-			if (player.State != Player.States.Idle || !player.Units.Contains(attacker) ||
+			if (player.State != States.Idle || !player.Units.Contains(attacker) ||
 				player.Opponent.Units.Count != 0 || !attacker.IsReady)
 			{
 				Disqualify(player);
@@ -117,7 +119,7 @@ namespace CardGame.Server
 
 		public void SetFaceDown(Player player, Card support)
 		{
-			if (player.State != Player.States.Idle || player != TurnPlayer || support.CardType != CardType.Support)
+			if (player.State != States.Idle || player != TurnPlayer || support.CardType != CardType.Support)
 			{
 				Disqualify(player);
 				return;
@@ -129,7 +131,7 @@ namespace CardGame.Server
 
 		public void Activate(Player player, Card support)
 		{
-			if (player.State != Player.States.Idle || !player.Supports.Contains(support))
+			if (player.State != States.Idle || !player.Supports.Contains(support))
 			{
 				Disqualify(player);
 				return;
@@ -142,15 +144,15 @@ namespace CardGame.Server
 		
 		public void EndTurn(Player player)
 		{
-			if (player.State != Player.States.Idle || player != TurnPlayer)
+			if (player.State != States.Idle || player != TurnPlayer)
 			{
 				Disqualify(player);
 				return;
 			}
 			
 			TurnPlayer = TurnPlayer.Opponent;
-			TurnPlayer.State = Player.States.Idle;
-			TurnPlayer.Opponent.State = Player.States.Passive;
+			TurnPlayer.State = States.Idle;
+			TurnPlayer.Opponent.State = States.Passive;
 			Draw(TurnPlayer);
 			foreach (Card card in player.Units) { card.IsReady = true; }
 			foreach (Card card in player.Supports) { card.IsReady = true; }
@@ -165,12 +167,13 @@ namespace CardGame.Server
 				return;
 			}
 			player.Disqualified = true;
+			Debug.WriteLine($"Disqualified {player}");
 		}
 
 		private void GameOver(Player winner, Player loser)
 		{
-			winner.State = Player.States.Winner;
-			loser.State = Player.States.Loser;
+			winner.State = States.Winner;
+			loser.State = States.Loser;
 			_isGameOver = true;
 			Update();
 		}
