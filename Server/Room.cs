@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using Godot;
+using Godot.Collections;
 
 
 namespace CardGame.Server
@@ -12,7 +12,7 @@ namespace CardGame.Server
 	public class Room: Node
 	{
 		private readonly Match _match;
-		private readonly Dictionary<int, Player> _players = new Dictionary<int, Player>();
+		private readonly System.Collections.Generic.Dictionary<int, Player> _players = new System.Collections.Generic.Dictionary<int, Player>();
 		private readonly CardRegister _cards = new CardRegister();
 	 
 		public Room()
@@ -58,6 +58,7 @@ namespace CardGame.Server
 				const bool isClient = true;
 				Queue(player.Key, CommandId.LoadDeck, isClient,
 					player.Value.Deck.ToDictionary(card => card.Id, card => card.SetCodes));
+				Queue(player.Key, CommandId.LoadDeck, !isClient, new Dictionary<int, SetCodes>());
 			}
 			
 			_match.Begin(_players.Values.ToList());

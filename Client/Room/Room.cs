@@ -17,8 +17,9 @@ namespace CardGame.Client
 		// 4 - Add Player/Rival ModelController // DONE
 		// 5 - Connect Controller To Views // DONE
 		// 6 - Load Deck // Register Cards
-		// 7 - Register Cards && Add To Cards Node && Add To Player Deck
-		// 8 - Draw Starting Hand / Basic Command Queue
+		// 7 - Register Cards && Add To Cards Node && Add To Player Deck // DONE
+		// 8.5 - Add DebugOption to switch between screens (otherwise everything will double up).
+		// 8 - Draw Starting Hand / Basic Command Queue // DONE
 		// 9 - Add Basic Input Controller / Multiplayer Commands
 		//		...Draw, Deploy, Set, Activate, Destroy, Discard, End, Win, Lose
 		// 10 - Add Commands for Draw/Deploy/Set/Activate/Destroy/Discard/End/Win/Lose
@@ -39,8 +40,8 @@ namespace CardGame.Client
 			Table = GetNode<Spatial>("Table");
 			Register = GetNode<Register>("Cards");
 			GFX = GetNode<Tween>("GFX");
-			Player = new Player((Participant) Table.GetNode("Player"));
-			Rival = new Player((Participant) Table.GetNode("Rival"));
+			Player = new Player((Participant) Table.GetNode("Player"), true);
+			Rival = new Player((Participant) Table.GetNode("Rival"), false);
 			RpcId(Server, "OnClientReady");
 		}
 		
@@ -68,6 +69,7 @@ namespace CardGame.Client
 
 	public class Player
 	{
+		public readonly bool isClient;
 		public readonly Participant Zones;
 		private int Health = 8000;
 		public IList<Card> Deck = new List<Card>();
@@ -76,9 +78,10 @@ namespace CardGame.Client
 		public IList<Card> Units = new List<Card>();
 		public IList<Card> Support = new List<Card>();
 
-		public Player(Participant zones)
+		public Player(Participant zones, bool _isClient)
 		{
 			Zones = zones;
+			isClient = _isClient;
 		}
 	}
 
@@ -106,10 +109,22 @@ namespace CardGame.Client
 
 			// We execute this command immediately so cards exist for future incoming commands..
 			// ..possibly this suggests we should separate this from add/register_card option?
-			foreach (KeyValuePair<int, SetCodes> pair in deck)
+			if (deck.Count == 0)
 			{
-				register.Add(pair.Key, pair.Value);
-				player.Deck.Add(register[pair.Key]);
+				// LoadOpponentDeck
+				for (int index = -1; index > -41; index--)
+				{
+					_player.Deck.Add(register.GetNullCard());
+				}
+			}
+
+			else
+			{
+				foreach (KeyValuePair<int, SetCodes> pair in deck)
+				{
+					register.Add(pair.Key, pair.Value);
+					player.Deck.Add(register[pair.Key]);
+				}
 			}
 		}
 
@@ -134,24 +149,20 @@ namespace CardGame.Client
 		
 		public override SignalAwaiter Execute(Tween gfx)
 		{
+			// Our rival doesn't have a real card, so we need to make a local check lest we end up moving the same card around 
+			Card card = _player.isClient ? Card : _player.Deck.Last();
 			gfx.RemoveAll();
-			
-			if (_player.Zones.Name == "Rival")
-			{
-			 	CallDeferred("emit_signal", "NullCommand");
-			 	return ToSignal(this, "NullCommand");
-			}
 			
 			Spatial source = _player.Zones.Deck.GetNode<Spatial>($"{_player.Deck.Count - 1}");
 			Position3D destination = _player.Zones.Hand.GetNode<Position3D>($"{_player.Hand.Count}");
 			
-			_player.Deck.Remove(Card);
-			_player.Hand.Add(Card);
+			_player.Deck.Remove(card);
+			_player.Hand.Add(card);
 			source.Visible = false; // We're effectively replacing the marker with a real card
 
-			const float duration = 0.25f; //1 - (_player.Hand.Count * 0.1f);
-			gfx.InterpolateProperty(Card, "translation", source.Translation, destination.Translation,  duration);
-			gfx.InterpolateProperty(Card, "rotation_degrees", source.RotationDegrees, destination.RotationDegrees, duration);
+			const float duration = 0.25f;
+			gfx.InterpolateProperty(card, "translation", source.Translation, destination.Translation,  duration);
+			gfx.InterpolateProperty(card, "rotation_degrees", source.RotationDegrees, destination.RotationDegrees, duration);
 			
 			gfx.Start();
 			return ToSignal(gfx, "tween_all_completed");
