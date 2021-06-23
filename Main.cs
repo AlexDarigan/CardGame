@@ -36,13 +36,11 @@ namespace CardGame
 			bool visible = rooms == 1 ? Room1IsVisible: Room2IsVisible;
 			room.Visible = visible;
 			room.GetNode<Control>("GUI").Visible = visible;
-			Console.WriteLine($"{node.Name} added");
 			
 			if (rooms != 2) return;
 			
 			GetTree().Disconnect("node_added", this, nameof(OnNodeAdded));
 			EmitSignal(nameof(GameBegun));
-			Console.WriteLine("Emitting Signal");
 		}
 		
 		public override void _Input(InputEvent gameEvent)

@@ -18,8 +18,8 @@ namespace CardGame.Server
         {
             Card card = new Card(cardRegister.Count, owner);
             CardInfo cardInfo = Cards[setCode];
+            card.SetCodes = setCode;
             card.Title = cardInfo.Title;
-            card.SetCodes = cardInfo.SetCode;
             card.CardType = cardInfo.CardType;
             card.Faction = cardInfo.Faction;
             card.Power = cardInfo.Power;
