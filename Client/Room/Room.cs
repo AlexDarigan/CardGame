@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
-using Object = Godot.Object;
 
 namespace CardGame.Client
 {
@@ -85,107 +81,6 @@ namespace CardGame.Client
 		{
 			Zones = zones;
 			isClient = _isClient;
-		}
-	}
-
-	public abstract class Command: Object
-	{
-
-		// Commands are required to be Godot Objects otherwise we can't use .Call()
-		protected Command()
-		{
-			AddUserSignal("NullCommand");
-		}
-
-		public abstract SignalAwaiter Execute(Tween gfx);
-	}
-
-	public class LoadDeck : Command
-	{
-		private readonly Player _player;
-		private readonly Dictionary<int, SetCodes> _deck;
-
-		public LoadDeck(Player player, Dictionary<int, SetCodes> deck, Register register)
-		{
-			_player = player;
-			_deck = deck;
-		
-			// We execute this on instantiation because other commands will require the cards to exist to work
-			// properly (however maybe we can investigate yielding constructors?)
-			foreach (KeyValuePair<int, SetCodes> pair in deck)
-			{
-				register.Add(pair.Key, pair.Value);
-				player.Deck.Add(register[pair.Key]);
-			}
-		}
-		
-		public override SignalAwaiter Execute(Tween gfx)
-		{ 
-			CallDeferred("emit_signal", "NullCommand");
-			return ToSignal(this, "NullCommand");
-		}
-	}
-
-	public class Draw: Command
-	{
-		private readonly Player _player;
-		private readonly Card Card;
-
-		public Draw(Player player, Card card)
-		{
-			_player = player;
-			Card = card;
-		}
-		
-		public override SignalAwaiter Execute(Tween gfx)
-		{
-			// Our rival doesn't have a real card, so we need to make a local check lest we end up moving the same card around 
-			Card card = _player.isClient ? Card : _player.Deck.Last();
-			gfx.RemoveAll();
-			
-			Spatial source = _player.Zones.Deck.GetNode<Spatial>($"{_player.Deck.Count - 1}");
-			Spatial destination = _player.Zones.Hand.GetNode<Spatial>($"{_player.Hand.Count}");
-			
-			_player.Deck.Remove(card);
-			_player.Hand.Add(card);
-			source.Visible = false; // We're effectively replacing the marker with a real card
-
-			const float duration = 0.25f;
-			gfx.InterpolateProperty(card, "translation", source.Translation, destination.Translation,  duration);
-			gfx.InterpolateProperty(card, "rotation_degrees", source.RotationDegrees, destination.RotationDegrees, duration);
-			
-			gfx.Start();
-			return ToSignal(gfx, "tween_all_completed");
-		}
-	}
-
-	public class Deploy : Command
-	{
-		private readonly Player _player;
-		private readonly Card Card;
-
-		public Deploy(Player player, Card card)
-		{
-			_player = player;
-			Card = card;
-		}
-		
-		public override SignalAwaiter Execute(Tween gfx)
-		{
-			Card card = _player.isClient ? Card : _player.Hand.Last();
-			gfx.RemoveAll();
-
-			Spatial destination = _player.Zones.Units.GetNode<Spatial>($"{_player.Units.Count}");
-
-			_player.Hand.Remove(Card);
-			_player.Units.Add(Card);
-			
-			const float duration = 0.25f;
-			gfx.InterpolateProperty(card, "translation", card.Translation, destination.Translation,  duration);
-			gfx.InterpolateProperty(card, "rotation_degrees", card.RotationDegrees, destination.RotationDegrees, duration);
-				
-			gfx.Start();
-			return ToSignal(gfx, "tween_all_completed");
 		}
 	}
 }
