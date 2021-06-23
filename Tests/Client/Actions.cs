@@ -20,7 +20,7 @@ namespace CardGame.Tests.Client
         // Requires Multiplayer Interface
         // ...Will require an InputInterface eventually
 
-        [Test]
+        //[Test]
         public async void RoomsExist()
         { 
             Node mainScene = MainScene.Instance();
@@ -46,9 +46,10 @@ namespace CardGame.Tests.Client
             Assert.IsEqual(room.Player.Hand.Count, 7);
             Assert.IsEqual(room.Player.Deck.Count, 33);
             await ToSignal(UntilTimeout(3f), YIELD);
-            Card card = room.Player.Hand[0];
+            Card card = room.Player.Hand[3];
             room.Deploy(card);
             await ToSignal(UntilSignal(room, nameof(Room.Updated), 2.0f), YIELD);
+            await ToSignal(UntilTimeout(5.0f), YIELD);
             Assert.IsEqual(room.Player.Units.Count, 1, "Card was deployed");
             mainScene.Free();
         }

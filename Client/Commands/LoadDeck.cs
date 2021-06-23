@@ -23,10 +23,9 @@ namespace CardGame.Client
             }
         }
 		
-        public override SignalAwaiter Execute(Tween gfx)
-        { 
-            CallDeferred("emit_signal", "NullCommand");
-            return ToSignal(this, "NullCommand");
+        public override void Execute(Tween gfx)
+        {
+           // gfx.RemoveAll();
         }
     }
 }

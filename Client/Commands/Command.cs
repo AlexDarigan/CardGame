@@ -11,6 +11,6 @@ namespace CardGame.Client
             AddUserSignal("NullCommand");
         }
 
-        public abstract SignalAwaiter Execute(Tween gfx);
+        public abstract void Execute(Tween gfx);
     }
 }

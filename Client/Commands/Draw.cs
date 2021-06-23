@@ -14,11 +14,11 @@ namespace CardGame.Client
             Card = card;
         }
 		
-        public override SignalAwaiter Execute(Tween gfx)
+        public override void Execute(Tween gfx)
         {
             // Our rival doesn't have a real card, so we need to make a local check lest we end up moving the same card around 
             Card card = _player.isClient ? Card : _player.Deck.Last();
-            gfx.RemoveAll();
+          //  gfx.RemoveAll();
 			
             Spatial source = _player.Zones.Deck.GetNode<Spatial>($"{_player.Deck.Count - 1}");
             Spatial destination = _player.Zones.Hand.GetNode<Spatial>($"{_player.Hand.Count}");
@@ -30,9 +30,7 @@ namespace CardGame.Client
             const float duration = 0.25f;
             gfx.InterpolateProperty(card, "translation", source.Translation, destination.Translation,  duration);
             gfx.InterpolateProperty(card, "rotation_degrees", source.RotationDegrees, destination.RotationDegrees, duration);
-			
-            gfx.Start();
-            return ToSignal(gfx, "tween_all_completed");
+
         }
     }
 }

@@ -6,6 +6,12 @@ namespace CardGame.Client
 	public class Room : Spatial
 	{
 
+		// BUG
+		// Our client-side deploy looks garbage
+		// Card is in wrong place
+		// Ideas: 1 await is not working properly
+		// Ideas 2: Something is resetting position
+		// Idea 3: Deck is reversed
 		// TODO (REWRITE)
 		// 9 - Add Basic Input Controller / Multiplayer Commands
 		//		...Draw, Deploy, Set, Activate, Destroy, Discard, End, Win, Lose
@@ -44,7 +50,13 @@ namespace CardGame.Client
 		[Puppet]
 		public async void Update()
 		{
-			while (CommandQueue.Count > 0) { await CommandQueue.Dequeue().Execute(GFX); }
+			while (CommandQueue.Count > 0)
+			{
+				GFX.RemoveAll();
+				CommandQueue.Dequeue().Execute(GFX);
+				GFX.Start();
+				await ToSignal(GFX, "tween_all_completed");
+			}
 			EmitSignal(nameof(Updated));
 		}
 
@@ -54,7 +66,7 @@ namespace CardGame.Client
 		[Puppet]
 		public void Deploy(Card card)
 		{
-			RpcId(Server, "Deploy", card);
+			RpcId(Server, "Deploy", card.Id);
 		}
 
 		private Command LoadDeck(bool isClient, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(isClient), deck, Register);

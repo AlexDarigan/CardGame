@@ -1,4 +1,7 @@
-﻿namespace CardGame.Server
+﻿using System;
+using Godot;
+
+namespace CardGame.Server
 {
     public class DeployEvent: Event
     {
