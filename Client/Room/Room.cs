@@ -42,7 +42,7 @@ namespace CardGame.Client
 			GUI = GetNode<Control>("GUI");
 			Player = Table.GetNode<Participant>("Player");//new Player((Participant) Table.GetNode("Player"), true);
 			Rival = Table.GetNode<Participant>("Rival");//new Player((Participant) Table.GetNode("Rival"), false);
-			Player.isClient = true;
+			Player.IsClient = true;
 			RpcId(Server, "OnClientReady");
 		}
 		

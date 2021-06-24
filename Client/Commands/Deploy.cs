@@ -17,7 +17,7 @@ namespace CardGame.Client
 		
         public override void Execute(Tween gfx)
         {
-            Card card = _player.isClient ? Card : _player.Hand.Last();
+            Card card = _player.IsClient ? Card : _player.Hand.Last();
             Location source = _player.Hand.Remove(Card);
             Location destination = _player.Units.Add(Card);
             const float duration = .35f;
