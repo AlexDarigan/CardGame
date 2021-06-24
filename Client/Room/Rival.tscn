@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Client/Room/Participant.cs" type="Script" id=1]
+[ext_resource path="res://Client/Room/ParticipantFactory.cs" type="Script" id=1]
 [ext_resource path="res://Client/Card/Card.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Client/Room/Zone.cs" type="Script" id=3]
 

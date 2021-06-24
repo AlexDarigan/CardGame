@@ -40,9 +40,11 @@ namespace CardGame.Client
 			Table = GetNode<Spatial>("Table");
 			GFX = GetNode<Tween>("GFX");
 			GUI = GetNode<Control>("GUI");
-			Player = Table.GetNode<Participant>("Player");//new Player((Participant) Table.GetNode("Player"), true);
-			Rival = Table.GetNode<Participant>("Rival");//new Player((Participant) Table.GetNode("Rival"), false);
-			Player.IsClient = true;
+			
+			Player = Table.GetNode<ParticipantFactory>("Player").GetParticipant();
+			
+			Rival = Table.GetNode<ParticipantFactory>("Rival").GetParticipant();
+			
 			RpcId(Server, "OnClientReady");
 		}
 		
@@ -66,8 +68,8 @@ namespace CardGame.Client
 		[Puppet] public void Set(Card card) => RpcId(Server, "Set", card.Id);
 		[Puppet] public void Pass() => RpcId(Server, "Pass");
 		[Puppet] public void EndTurn() => RpcId(Server, "EndTurn");
-		
-		private Command LoadDeck(bool isClient, System.Collections.Generic.Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(isClient), deck, CreateCard);
+
+		private Command LoadDeck(bool isClient, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(isClient), deck, CreateCard);
 		private Command Draw(bool isClient, int cardId) => new Draw(GetPlayer(isClient), GetCard(cardId));
 		private Command Deploy(bool isClient, int cardId) => new Deploy(GetPlayer(isClient), GetCard(cardId));
 		private Participant GetPlayer(bool isClient) => isClient ? Player : Rival;
