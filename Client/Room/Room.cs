@@ -42,11 +42,8 @@ namespace CardGame.Client
 		}
 		
 		[Puppet]
-		public void Queue(CommandId commandId, params object[] args)
-		{
-			CommandQueue.Enqueue((Command) Call(commandId.ToString(), args));
-		}
-
+		public void Queue(CommandId commandId, params object[] args) => CommandQueue.Enqueue((Command) Call(commandId.ToString(), args));
+		
 		[Puppet]
 		public async void Update()
 		{
@@ -59,31 +56,20 @@ namespace CardGame.Client
 			}
 			EmitSignal(nameof(Updated));
 		}
-
-		[Puppet]
-		public void SetState(States state) => Player.State = state;
-
-		[Puppet]
-		public void Deploy(Card card)
-		{
-			RpcId(Server, "Deploy", card.Id);
-		}
-
-		// We can likely make the LoadDeck Command More Implicit
-		private Command LoadDeck(bool isClient, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(isClient), deck, CreateCard, cards);
+		
+		[Puppet] public void SetState(States state) => Player.State = state;
+		[Puppet] public void Deploy(Card card) => RpcId(Server, "Deploy", card.Id);
+		[Puppet] public void Set(Card card) => RpcId(Server, "Set", card.Id);
+		[Puppet] public void Pass() => RpcId(Server, "Pass");
+		[Puppet] public void EndTurn() => RpcId(Server, "EndTurn");
+		
+		private Command LoadDeck(bool isClient, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(isClient), deck, CreateCard);
 		private Command Draw(bool isClient, int cardId) => new Draw(GetPlayer(isClient), GetCard(cardId));
 		private Command Deploy(bool isClient, int cardId) => new Deploy(GetPlayer(isClient), GetCard(cardId));
 		private Player GetPlayer(bool isClient) => isClient ? Player : Rival;
-
-		private Card GetCard(int id, SetCodes setCode = SetCodes.NullCard)
-		{
-			if (cards.ContainsKey(id)) { return cards[id]; }
-			
-			CreateCard(id, setCode);
-			return cards[id];
-		}
+		private Card GetCard(int id, SetCodes setCode = SetCodes.NullCard) => cards.ContainsKey(id) ? cards[id] : CreateCard(id, setCode);
 		
-		private void CreateCard(int id, SetCodes setCodes)
+		private Card CreateCard(int id, SetCodes setCodes)
 		{
 			CardInfo info = Library.Cards[setCodes];
 			Card card = (Card) CardScene.Instance();
@@ -99,7 +85,14 @@ namespace CardGame.Client
 			card.Translation = new Vector3(0, -3, 0);
 			//card.GetNode<Area>("Area").Connect("mouse_entered", this, nameof(OnMouseEnterCard), new Array{ card });
 			//card.GetNode<Area>("Area").Connect("mouse_exited", this, nameof(OnMouseExitCard), new Array{ card });
+			return card;
 		}
+		
+		/*
+		 * OnInput()
+		 * if input is doubleclicked left mouse button and current card != null
+		 * onCardClicked(currentCard) switch against card state
+		 */
 
 
 	}

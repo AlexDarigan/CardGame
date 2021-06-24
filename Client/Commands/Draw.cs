@@ -18,18 +18,19 @@ namespace CardGame.Client
         {
             // Our rival doesn't have a real card, so we need to make a local check lest we end up moving the same card around 
             Card card = _player.isClient ? Card : _player.Deck.Last();
-          //  gfx.RemoveAll();
-			
             Spatial source = _player.Zones.Deck.GetNode<Spatial>($"{_player.Deck.Count - 1}");
             Spatial destination = _player.Zones.Hand.GetNode<Spatial>($"{_player.Hand.Count}");
 			
             _player.Deck.Remove(card);
             _player.Hand.Add(card);
-            source.Visible = false; // We're effectively replacing the marker with a real card
-
-            const float duration = 0.25f;
-            gfx.InterpolateProperty(card, "translation", source.Translation, destination.Translation,  duration);
-            gfx.InterpolateProperty(card, "rotation_degrees", source.RotationDegrees, destination.RotationDegrees, duration);
+            source.Visible = false; 
+            
+            // The tween can look weird if we don't prepare beforehand
+            card.Translation = source.Translation;
+            card.RotationDegrees = source.RotationDegrees;
+            const float duration = .35f;
+            gfx.InterpolateProperty(card, "translation", card.Translation, destination.Translation, duration);
+            gfx.InterpolateProperty(card, "rotation_degrees", card.RotationDegrees, destination.RotationDegrees, duration);
 
         }
     }
