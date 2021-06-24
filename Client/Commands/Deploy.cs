@@ -6,10 +6,10 @@ namespace CardGame.Client
 {
     public class Deploy : Command
     {
-        private readonly Player _player;
+        private readonly Participant _player;
         private readonly Card Card;
 
-        public Deploy(Player player, Card card)
+        public Deploy(Participant player, Card card)
         {
             _player = player;
             Card = card;
@@ -18,12 +18,11 @@ namespace CardGame.Client
         public override void Execute(Tween gfx)
         {
             Card card = _player.isClient ? Card : _player.Hand.Last();
-            Spatial destination = _player.Zones.Units.GetNode<Spatial>($"{_player.Units.Count}");
-            _player.Hand.Remove(Card);
-            _player.Units.Add(Card);
+            Location source = _player.Hand.Remove(Card);
+            Location destination = _player.Units.Add(Card);
             const float duration = .35f;
-            gfx.InterpolateProperty(card, "translation", card.Translation, destination.Translation,  duration);
-            gfx.InterpolateProperty(card, "rotation_degrees", card.RotationDegrees, destination.RotationDegrees, duration);
+            gfx.InterpolateProperty(card, "translation", source.Translation, destination.Translation,  duration);
+            gfx.InterpolateProperty(card, "rotation_degrees",  source.RotationDegrees, destination.RotationDegrees, duration);
         }
     }
 }

@@ -5,19 +5,22 @@ namespace CardGame.Client
 {
 	public class Participant: Spatial
 	{
-		public Node Deck { get; private set; }
-		public Spatial Discard { get; private set; }
-		public Node Hand { get; private set; }
-		public Node Units { get; private set; }
-		public Node Support { get; private set; }
+		public States State;
+		public bool isClient = false;
+		public int Health = 8000;
+		public Zone Deck { get; private set; }
+		public Zone Discard { get; private set; }
+		public Zone Hand { get; private set; }
+		public Zone Units { get; private set; }
+		public Zone Support { get; private set; }
 
 		public override void _Ready()
 		{
-			Deck = GetNode <Node> ("Deck");
-			Discard = GetNode <Spatial> ("Discard");
-			Hand = GetNode <Node>("Hand");
-			Units = GetNode <Node>("Units");
-			Support = GetNode <Node>("Support");
+			Deck = GetNode <Zone> ("Deck");
+			Discard = GetNode <Zone> ("Discard");
+			Hand = GetNode <Zone>("Hand");
+			Units = GetNode <Zone>("Units");
+			Support = GetNode <Zone>("Support");
 		}
 	}
 }

@@ -30,21 +30,23 @@ namespace CardGame.Client
 		private Control GUI;
 		private const int Server = 1;
 		
-		public Player Player { get; private set; }
-		public Player Rival { get; private set; }
+		public Participant Player { get; private set; }
+		private Participant Rival { get; set; }
+		private Card CurrentCard;
+
 
 		public override void _Ready()
 		{
 			Table = GetNode<Spatial>("Table");
 			GFX = GetNode<Tween>("GFX");
 			GUI = GetNode<Control>("GUI");
-			Player = new Player((Participant) Table.GetNode("Player"), true);
-			Rival = new Player((Participant) Table.GetNode("Rival"), false);
+			Player = Table.GetNode<Participant>("Player");//new Player((Participant) Table.GetNode("Player"), true);
+			Rival = Table.GetNode<Participant>("Rival");//new Player((Participant) Table.GetNode("Rival"), false);
+			Player.isClient = true;
 			RpcId(Server, "OnClientReady");
 		}
 		
-		[Puppet]
-		public void Queue(CommandId commandId, params object[] args) => CommandQueue.Enqueue((Command) Call(commandId.ToString(), args));
+		[Puppet] public void Queue(CommandId commandId, params object[] args) => CommandQueue.Enqueue((Command) Call(commandId.ToString(), args));
 		
 		[Puppet]
 		public async void Update()
@@ -68,10 +70,9 @@ namespace CardGame.Client
 		private Command LoadDeck(bool isClient, System.Collections.Generic.Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(isClient), deck, CreateCard);
 		private Command Draw(bool isClient, int cardId) => new Draw(GetPlayer(isClient), GetCard(cardId));
 		private Command Deploy(bool isClient, int cardId) => new Deploy(GetPlayer(isClient), GetCard(cardId));
-		private Player GetPlayer(bool isClient) => isClient ? Player : Rival;
+		private Participant GetPlayer(bool isClient) => isClient ? Player : Rival;
 		private Card GetCard(int id, SetCodes setCode = SetCodes.NullCard) => cards.ContainsKey(id) ? cards[id] : CreateCard(id, setCode);
 
-		private Card CurrentCard;
 		private Card CreateCard(int id, SetCodes setCodes)
 		{
 			CardInfo info = Library.Cards[setCodes];
@@ -106,26 +107,6 @@ namespace CardGame.Client
 		{
 			// Switch against Card State
 			Console.WriteLine($"{CurrentCard} pressed");
-		}
-		
-	}
-
-	public class Player
-	{
-		public States State;
-		public readonly bool isClient;
-		public readonly Participant Zones;
-		private int Health = 8000;
-		public IList<Card> Deck = new List<Card>();
-		public IList<Card> Discard = new List<Card>();
-		public IList<Card> Hand = new List<Card>();
-		public IList<Card> Units = new List<Card>();
-		public IList<Card> Support = new List<Card>();
-
-		public Player(Participant zones, bool _isClient)
-		{
-			Zones = zones;
-			isClient = _isClient;
 		}
 	}
 }

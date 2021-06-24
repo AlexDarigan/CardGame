@@ -6,10 +6,10 @@ namespace CardGame.Client
 {
     public class LoadDeck : Command
     {
-        private readonly Player _player;
+        private readonly Participant _player;
         private readonly Dictionary<int, SetCodes> _deck;
 
-        public LoadDeck(Player player, Dictionary<int, SetCodes> deck, Func<int, SetCodes, Card> createCard)
+        public LoadDeck(Participant player, Dictionary<int, SetCodes> deck, Func<int, SetCodes, Card> createCard)
         {
             _player = player;
             _deck = deck;
