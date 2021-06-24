@@ -10,7 +10,7 @@ namespace CardGame.Client
 		public CardType CardType;
 		private SpatialMaterial CardFace;
 		public int Power;
-		
+
 		public Texture Art { set { CardFace.AlbedoTexture = value; CardFace.EmissionTexture = value; } }
 		
 		public override void _Ready()

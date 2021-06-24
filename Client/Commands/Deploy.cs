@@ -21,8 +21,8 @@ namespace CardGame.Client
             Location source = _player.Hand.Remove(Card);
             Location destination = _player.Units.Add(Card);
             const float duration = .35f;
-            gfx.InterpolateProperty(card, "translation", source.Translation, destination.Translation,  duration);
-            gfx.InterpolateProperty(card, "rotation_degrees",  source.RotationDegrees, destination.RotationDegrees, duration);
+            gfx.InterpolateProperty(card, Translation, source.Translation, destination.Translation,  duration);
+            gfx.InterpolateProperty(card, RotationDegrees,  source.RotationDegrees, destination.RotationDegrees, duration);
         }
     }
 }

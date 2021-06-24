@@ -24,8 +24,8 @@ namespace CardGame.Client
             card.Translation = source.Translation;
             card.RotationDegrees = source.RotationDegrees;
             const float duration = .35f;
-            gfx.InterpolateProperty(card, "translation", card.Translation, destination.Translation, duration);
-            gfx.InterpolateProperty(card, "rotation_degrees", card.RotationDegrees, destination.RotationDegrees, duration);
+            gfx.InterpolateProperty(card, Translation, card.Translation, destination.Translation, duration);
+            gfx.InterpolateProperty(card, RotationDegrees, card.RotationDegrees, destination.RotationDegrees, duration);
 
         }
     }

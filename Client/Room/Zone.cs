@@ -27,8 +27,6 @@ namespace CardGame.Client
 
         public Location Remove(Card card)
         {
-            Console.WriteLine($"Location Count: {_locations.Count}");
-            Console.WriteLine($"Cards count: {_cards.Count}");
             Location location = _locations[_cards.Count - 1];
             _cards.Remove(card);
             return location;
