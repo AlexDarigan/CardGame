@@ -70,22 +70,10 @@ namespace CardGame.Client
 		private Participant GetPlayer(bool isClient) => isClient ? _player : _rival;
 		private Card GetCard(int id, SetCodes setCode = SetCodes.NullCard) => _cards.ContainsKey(id) ? _cards[id] : CreateCard(id, setCode);
 
-		private Card CreateCard(int id, SetCodes setCodes)
+		private Card CreateCard(int id, SetCodes setCode)
 		{
-			CardInfo info = Library.Cards[setCodes];
-			Card card = (Card) _cardScene.Instance();
-			Cards.AddChild(card);
-			
-			card.Name = $"{id}_{info.Title}";
-			card.Id = id;
-			card.Title = info.Title;
-			card.Power = info.Power;
-			card.CardType = info.CardType;
-			card.Text = info.Text;
-			card.Art = (Texture) GD.Load($"res://Client/Assets/CardArt/{info.Art}.png");
-			
+			Card card = Library.GetCard(Cards, setCode, id);
 			_cards[id] = card;
-			card.Translation = new Vector3(0, -3, 0);
 			card.GetNode<Area>("Area").Connect("mouse_entered", this, nameof(OnMouseEnterCard), new Array{ card });
 			card.GetNode<Area>("Area").Connect("mouse_exited", this, nameof(OnMouseExitCard), new Array{ card });
 			return card;

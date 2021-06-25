@@ -8,8 +8,8 @@ namespace CardGame.Client
 		public string Title;
 		public string Text;
 		public CardType CardType;
-		private SpatialMaterial CardFace;
 		public int Power;
+		private SpatialMaterial CardFace;
 
 		public Texture Art { set { CardFace.AlbedoTexture = value; CardFace.EmissionTexture = value; } }
 		
