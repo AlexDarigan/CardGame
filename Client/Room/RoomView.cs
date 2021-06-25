@@ -64,13 +64,13 @@ namespace CardGame.Client
 		{
 			Card card = Library.GetCard(Cards, setCode, id);
 			_cards[id] = card;
-			card.Connect(nameof(Card.OnCardEntered), this, nameof(OnMouseEnterCard));
-			card.Connect(nameof(Card.OnCardExited), this, nameof(OnMouseExitCard));
+			card.Connect(nameof(Card.OnCardEntered), this, nameof(OnCardEntered));
+			card.Connect(nameof(Card.OnCardExited), this, nameof(OnCardExited));
 			return card;
 		}
 
-		public void OnMouseEnterCard(Card card) { _currentCard = card; }
-		public void OnMouseExitCard(Card card) { if (_currentCard == card) { _currentCard = null; } }
+		public void OnCardEntered(Card card) { _currentCard = card; }
+		public void OnCardExited(Card card) { if (_currentCard == card) { _currentCard = null; } }
 
 		public override void _Input(InputEvent input)
 		{
