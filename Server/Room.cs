@@ -37,7 +37,6 @@ namespace CardGame.Server
 				{
 					if (card.Controller.Id != id) continue;
 					card.Update();
-					Console.WriteLine($"State of card is {card.CardState}");
 					RpcId(id, "UpdateCard", card.Id, card.CardState);
 				}
 				

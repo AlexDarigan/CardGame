@@ -16,7 +16,13 @@ namespace CardGame.Client
 		
 			// We execute this on instantiation because other commands will require the cards to exist to work
 			// properly (however maybe we can investigate yielding constructors?)
-			foreach (KeyValuePair<int, SetCodes> pair in deck) { _player.Deck.Add(createCard(pair.Key, pair.Value)); }
+			foreach (KeyValuePair<int, SetCodes> pair in deck)
+			{
+				Card card = createCard(pair.Key, pair.Value);
+				Location location = _player.Deck.Add(card);
+				card.Translation = location.Translation;
+				card.RotationDegrees = location.RotationDegrees;
+			}
 		}
 		
 		protected override void Setup(Tween gfx) { }

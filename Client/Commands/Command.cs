@@ -8,9 +8,6 @@ namespace CardGame.Client
     // Commands are required to be Godot Objects otherwise we can't use .Call()
     public abstract class Command: Object
     {
-
-        protected const string Translation = "Translation";
-        protected const string RotationDegrees = "RotationDegrees";
         protected Command()
         {
             AddUserSignal("NullCommand");

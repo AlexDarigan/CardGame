@@ -34,12 +34,7 @@ namespace CardGame.Client
 			View.GetNode<Area>("Area").Connect("mouse_exited", this, nameof(OnMouseEntered));
 		}
 
-		public void Update(CardState state)
-		{
-			Console.WriteLine($"Setting card state to {state}");
-			CardState = state;
-		}
-
+		public void Update(CardState state) =>	CardState = state;
 		public void OnMouseEntered() => EmitSignal(nameof(OnCardEntered), this);
 		public void OnMouseExited() => EmitSignal(nameof(OnCardExited), this);
 

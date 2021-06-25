@@ -21,29 +21,14 @@ namespace CardGame.Client
         
         public Location Add(Card card)
         {
-            _view.GetChild<Spatial>(Count).Visible = true;
             _cards.Add(card);
             return _locations[Count - 1];
         }
 
-        public Location Remove(Card card)
-        {
-            Location location = _locations[_cards.Count - 1];
-            _cards.Remove(card);
-            _view.GetChild<Spatial>(Count).Visible = false;
-            return location;
-        }
-        
+        public void Remove(Card card) => _cards.Remove(card);
         public Card this[int index] => _cards[index];
-        public IEnumerator<Card> GetEnumerator()
-        {
-            return _cards.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public IEnumerator<Card> GetEnumerator() => _cards.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     public class Location

@@ -18,14 +18,11 @@ namespace CardGame.Client
         {
             // Our rival doesn't have a real card, so we need to make a local check lest we end up moving the same card around 
             Card card = _player.IsClient ? Card : _player.Deck.Last();
-            Location source = _player.Deck.Remove(card);
+            _player.Deck.Remove(card);
             Location destination = _player.Hand.Add(card);
-            //_player.Deck.Top.Visible = false;
-            card.Translation = source.Translation;
-            card.RotationDegrees = source.RotationDegrees;
             const float duration = .35f;
-            gfx.InterpolateProperty(card, Translation, card.Translation, destination.Translation, duration);
-            gfx.InterpolateProperty(card, RotationDegrees, card.RotationDegrees, destination.RotationDegrees, duration);
+            gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation, duration);
+            gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), card.RotationDegrees, destination.RotationDegrees, duration);
 
         }
     }
