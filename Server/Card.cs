@@ -7,6 +7,7 @@ namespace CardGame.Server
     public class Card
     {
         public readonly int Id;
+        public CardState CardState = CardState.None;
         public SetCodes SetCodes;
         public CardType CardType;
         public Faction Faction;
@@ -16,13 +17,21 @@ namespace CardGame.Server
         public int Power;
         public bool IsReady = false;
         public Skill Skill;
-        public IList<Card> Zone;
+        public Zone Zone;
 
         public Card(int id, Player owner)
         {
             Id = id;
             Owner = owner;
             Controller = owner;
+        }
+
+        public void Update()
+        {
+            if (Zone == Controller.Hand)
+            {
+                
+            }
         }
     }
 }

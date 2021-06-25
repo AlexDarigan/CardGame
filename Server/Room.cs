@@ -31,12 +31,6 @@ namespace CardGame.Server
 
 		private void Update()
 		{
-			// Update Card/Player State Information
-			// Execute Queued Events
-			foreach (Card card in _cards)
-			{
-				//card.Update(() => {});
-			}
 			foreach (int id in _players.Keys)
 			{
 				RpcId(id, "SetState", _players[id].State);

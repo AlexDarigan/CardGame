@@ -13,7 +13,30 @@ namespace CardGame.Client
 		// 10 - Add Commands for Draw/Deploy/Set/Activate/Destroy/Discard/End/Win/Lose
 		// Etc -> Add SFX, ParticleFX, Tests, Hooks for Testing
 
-		// NOTE: We'll be using a lot of scattered code inside here before sorting it out later
+		// BASIC INPUT SYSTEM
+		
+		// ACTIONS
+		// ..Deploy
+		// ..Set
+		// ..Activate
+		// ..AttackUnit
+		// ..AttackPlayer
+		// ..PassPlay
+		// ..EndTurn
+		// NOTE: Focus on simplest first? (Pass/End)
+		
+		// PRE-REQUISITES
+		// ..PlayerState
+		// ..CardState
+		// ..CardUpdate
+		// ..Targets for Activation/Attack
+		
+		// MUSINGS
+		// ..Should we change zones to be selectable?
+		// ..Does positioning benefit us?
+		// ..It makes sense considering how our zones look
+		
+		
 		[Signal] public delegate void Updated();
 		private EventHandler UpdatedX;
 		private readonly Node Cards;
@@ -84,6 +107,25 @@ namespace CardGame.Client
 		{
 			// Switch against Card State
 			Console.WriteLine($"{_currentCard} pressed");
+			switch (_currentCard.CardState)
+			{
+				case CardState.Deploy:
+					// Deploy
+					// RpcId
+					break;
+				case CardState.AttackUnit:
+					break;
+				case CardState.AttackPlayer:
+					break;
+				case CardState.Set:
+					// Set
+					// RpcId
+					break;
+				case CardState.Activate:
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
 		}
 	}
 }

@@ -16,11 +16,11 @@ namespace CardGame.Server
         public Player Opponent;
         public bool Ready = false;
         public readonly IEnumerable<SetCodes> DeckList;
-        public readonly List<Card> Deck = new List<Card>();
-        public readonly List<Card> Graveyard = new List<Card>();
-        public readonly List<Card> Hand = new List<Card>();
-        public readonly List<Card> Units = new List<Card>();
-        public readonly List<Card> Supports = new List<Card>();
+        public readonly Zone Deck = new();
+        public readonly Zone Graveyard = new();
+        public readonly Zone Hand = new();
+        public readonly Zone Units = new();
+        public readonly Zone Supports = new();
         public States State = States.Passive;
         public bool Disqualified = false;
         public int Health = 8000;

@@ -1,6 +1,7 @@
 using System;
 using CardGame.Server;
 using Godot;
+using JetBrains.Annotations;
 using Object = Godot.Object;
 
 namespace CardGame.Client
@@ -18,6 +19,7 @@ namespace CardGame.Client
 		public string Text;
 		public int Power;
 		public CardType CardType;
+		public CardState CardState = CardState.None;
 		public Texture Art { set { _face.AlbedoTexture = value; _face.EmissionTexture = value; } }
 		public Vector3 Translation { get => View.Translation; set => View.Translation = value; }
 		public Vector3 RotationDegrees { get => View.RotationDegrees; set => View.RotationDegrees = value; }
