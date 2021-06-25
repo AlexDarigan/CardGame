@@ -64,8 +64,8 @@ namespace CardGame.Client
 		{
 			Card card = Library.GetCard(Cards, setCode, id);
 			_cards[id] = card;
-			//card.GetNode<Area>("Area").Connect("mouse_entered", this, nameof(OnMouseEnterCard), new Array{ card });
-			//card.GetNode<Area>("Area").Connect("mouse_exited", this, nameof(OnMouseExitCard), new Array{ card });
+			card.Connect(nameof(Card.OnCardEntered), this, nameof(OnMouseEnterCard));
+			card.Connect(nameof(Card.OnCardExited), this, nameof(OnMouseExitCard));
 			return card;
 		}
 

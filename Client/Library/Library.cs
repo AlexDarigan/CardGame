@@ -6,9 +6,9 @@ namespace CardGame.Client
 {
     public static class Library
     {
-        private static readonly PackedScene _cardScene = (PackedScene) GD.Load("res://Client/Card/CardTemplate.tscn");
+        private static readonly PackedScene _cardScene = (PackedScene) GD.Load("res://Client/Card/CardView.tscn");
         private const string JsonCardsFilePath = @"Client/Library/Library.json";
-        public static readonly ReadOnlyDictionary<SetCodes, CardInfo> Cards =
+        private static readonly ReadOnlyDictionary<SetCodes, CardInfo> Cards =
             JsonConvert.DeserializeObject<ReadOnlyDictionary<SetCodes,
                 CardInfo>>(System.IO.File.ReadAllText(JsonCardsFilePath));
         
@@ -39,5 +39,6 @@ namespace CardGame.Client
         }
 
         public (CardType, string, Texture, string, int) GetData() => (_cardType, _title, _art, _text, _power);
+
     }
 }
