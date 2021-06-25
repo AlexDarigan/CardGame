@@ -37,6 +37,7 @@ namespace CardGame.Server
 				{
 					if (card.Controller.Id != id) continue;
 					card.Update();
+					Console.WriteLine($"State of card is {card.CardState}");
 					RpcId(id, "UpdateCard", card.Id, card.CardState);
 				}
 				
@@ -67,16 +68,8 @@ namespace CardGame.Server
 			Update();
 		}
 
-		[Master]
-		public void Deploy(int cardId)
-		{
-			_match.Deploy(_players[Multiplayer.GetRpcSenderId()], _cards[cardId]);
-		}
-
-		[Master]
-		public void EndTurn(int playerId)
-		{
-			_match.EndTurn(_players[playerId]);
-		}
+		[Master] public void Deploy(int cardId) =>_match.Deploy(_players[Multiplayer.GetRpcSenderId()], _cards[cardId]);
+		[Master] public void Set(int cardId) =>_match.SetFaceDown(_players[Multiplayer.GetRpcSenderId()], _cards[cardId]);
+		[Master] public void EndTurn(int playerId) => _match.EndTurn(_players[playerId]); 
 	}
 }

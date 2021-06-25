@@ -108,19 +108,20 @@ namespace CardGame.Client
 		private void OnCardPressed()
 		{
 			// Switch against Card State
+			Console.WriteLine(_currentCard.CardState);
 			Console.WriteLine($"{_currentCard} pressed");
 			switch (_currentCard.CardState)
 			{
 				case CardState.Deploy:
-					// Deploy
-					// RpcId
+					RpcId(Server, "Deploy", _currentCard.Id);
+					_player.State = States.Passive;
 					break;
 				case CardState.AttackUnit:
 					break;
 				case CardState.AttackPlayer:
 					break;
 				case CardState.Set:
-					// Set
+					RpcId(Server, "Set", _currentCard.Id);
 					// RpcId
 					break;
 				case CardState.Activate:

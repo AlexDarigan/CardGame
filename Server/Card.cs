@@ -29,8 +29,8 @@ namespace CardGame.Server
         public void Update()
         {
             CardState = CardState.None;
-            if (Zone == Controller.Hand && CardType is CardType.Unit && Controller.State == States.IdleTurnPlayer) { CardState = CardState.Deploy; }
-            if (Zone == Controller.Hand && CardType is CardType.Support && Controller.State == States.IdleTurnPlayer) { CardState = CardState.Set; }
+            if (Controller.Hand.Contains(this) && CardType is CardType.Unit && Controller.State == States.IdleTurnPlayer) { CardState = CardState.Deploy; }
+            if (Controller.Hand.Contains(this) && CardType is CardType.Support && Controller.State == States.IdleTurnPlayer) { CardState = CardState.Set; }
         }
     }
 }
