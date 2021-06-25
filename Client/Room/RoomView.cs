@@ -1,18 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Godot;
-using Array = Godot.Collections.Array;
-using Object = Godot.Object;
 
 namespace CardGame.Client
 {
-	public class RoomFactory : Spatial
-	{
-		public Room GetRoom(string name, MultiplayerAPI multiplayerApi)
-		{
-			return new Room(this, name, multiplayerApi);
-		}
-	}
+	public class RoomView : Spatial { }
 	public class Room : Node
 	{
 		// TODO (REWRITE)
@@ -23,9 +15,7 @@ namespace CardGame.Client
 
 		// NOTE: We'll be using a lot of scattered code inside here before sorting it out later
 		[Signal] public delegate void Updated();
-
 		private EventHandler UpdatedX;
-		private readonly PackedScene _cardScene = (PackedScene) GD.Load("res://Client/Card/Card.tscn");
 		private readonly Node Cards;
 		private readonly Dictionary<int, Card> _cards = new();
 		private readonly Queue<Command> _commandQueue = new();
@@ -74,8 +64,8 @@ namespace CardGame.Client
 		{
 			Card card = Library.GetCard(Cards, setCode, id);
 			_cards[id] = card;
-			card.GetNode<Area>("Area").Connect("mouse_entered", this, nameof(OnMouseEnterCard), new Array{ card });
-			card.GetNode<Area>("Area").Connect("mouse_exited", this, nameof(OnMouseExitCard), new Array{ card });
+			//card.GetNode<Area>("Area").Connect("mouse_entered", this, nameof(OnMouseEnterCard), new Array{ card });
+			//card.GetNode<Area>("Area").Connect("mouse_exited", this, nameof(OnMouseExitCard), new Array{ card });
 			return card;
 		}
 

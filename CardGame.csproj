@@ -33,7 +33,6 @@
     <Content Include="Client\Assets\Numbers\Impact\9.png.import" />
     <Content Include="Client\Assets\Textures\CardBack.png" />
     <Content Include="Client\Assets\Textures\CardBack.png.import" />
-    <Content Include="Client\Card\Card.tscn" />
     <Content Include="Client\Library\Library.json" />
     <Content Include="README.md" />
     <Content Include="Server\Library.json" />

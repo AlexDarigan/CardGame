@@ -4,7 +4,7 @@
 [ext_resource path="res://Client/Assets/CardArt/BioShocker.png" type="Texture" id=2]
 [ext_resource path="res://Client/Assets/Numbers/Impact/0.png" type="Texture" id=3]
 [ext_resource path="res://Client/Assets/Numbers/Impact/5.png" type="Texture" id=4]
-[ext_resource path="res://Client/Card/Card.cs" type="Script" id=5]
+[ext_resource path="res://Client/Card/CardView.cs" type="Script" id=5]
 
 [sub_resource type="PlaneMesh" id=1]
 
@@ -35,7 +35,7 @@ emission_texture = ExtResource( 1 )
 
 [sub_resource type="BoxShape" id=7]
 
-[node name="Card" type="Spatial"]
+[node name="CardView" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 0.03, 0, 0, 0, 1.5, 0, 0, 0 )
 script = ExtResource( 5 )
 
