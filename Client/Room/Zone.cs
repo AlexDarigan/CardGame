@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Godot;
+using JetBrains.Annotations;
 
 namespace CardGame.Client
 {
@@ -26,6 +27,20 @@ namespace CardGame.Client
         }
 
         public void Remove(Card card) => _cards.Remove(card);
+
+        public void Sort(Tween gfx)
+        {
+            // Mainly for our hand on deploy/set
+            for (int i = 0; i < _cards.Count; i++)
+            {
+                Card card = _cards[i];
+                Location location = _locations[i];
+                if (card.Translation != location.Translation)
+                {
+                    gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, location.Translation, .1f);
+                }
+            }
+        }
         public Card this[int index] => _cards[index];
         public IEnumerator<Card> GetEnumerator() => _cards.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

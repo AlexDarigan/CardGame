@@ -23,6 +23,8 @@ namespace CardGame.Client
             const float duration = .35f;
             gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation,  duration);
             gfx.InterpolateProperty(card, nameof(Card.RotationDegrees),  Card.RotationDegrees, destination.RotationDegrees, duration);
+            //gfx.InterpolateCallback(_player.Hand, .6f, nameof(Zone.Sort));
+            _player.Hand.Sort(gfx);
         }
     }
 }
