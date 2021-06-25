@@ -43,8 +43,8 @@ namespace CardGame.Tests.Client
 			Participant player1 = (Participant) room1.Get("_player");
 			await ToSignal(UntilSignal(room1, nameof(Room.Updated), 2.0f), YIELD);
 			Assert.IsTrue(player1 is not null, nameof(player1));
-			Room room = player1.State == States.Idle ? room1 : room2;
-			Assert.IsEqual(player1.State, States.Idle, "Player is Idle");
+			Room room = player1.State == States.IdleTurnPlayer ? room1 : room2;
+			Assert.IsEqual(player1.State, States.IdleTurnPlayer, "Player is Idle");
 			Assert.IsEqual(player1.Hand.Count, 7);
 			Assert.IsEqual(player1.Deck.Count, 33);
 			await ToSignal(UntilTimeout(3f), YIELD);

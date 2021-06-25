@@ -33,7 +33,8 @@ namespace CardGame.Client
 			View.GetNode<Area>("Area").Connect("mouse_entered", this, nameof(OnMouseEntered));
 			View.GetNode<Area>("Area").Connect("mouse_exited", this, nameof(OnMouseEntered));
 		}
-
+		
+		public void Update(CardState state) => CardState = state;
 		public void OnMouseEntered() => EmitSignal(nameof(OnCardEntered), this);
 		public void OnMouseExited() => EmitSignal(nameof(OnCardExited), this);
 

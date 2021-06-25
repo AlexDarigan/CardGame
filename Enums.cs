@@ -62,7 +62,7 @@
         Deploy
     }
     
-    public enum States { Idle, Passive, Loser, Winner }
+    public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner }
     public enum CardState { None, Deploy, AttackUnit, AttackPlayer, Set, Activate }
 
     

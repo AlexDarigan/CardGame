@@ -33,8 +33,14 @@ namespace CardGame.Server
 		{
 			foreach (int id in _players.Keys)
 			{
-				RpcId(id, "SetState", _players[id].State);
-				RpcId(id, "Update");
+				foreach (Card card in _cards)
+				{
+					if (card.Controller.Id != id) continue;
+					card.Update();
+					RpcId(id, "UpdateCard", card.Id, card.CardState);
+				}
+				
+				RpcId(id, "Update", _players[id].State);
 			}
 		}
 

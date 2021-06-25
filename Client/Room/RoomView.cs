@@ -58,6 +58,7 @@ namespace CardGame.Client
 			_gui = view.GetNode<Control>("GUI");
 			_player = new Participant(view.GetNode<Node>("Table/Player"));
 			_rival = new Participant(view.GetNode<Node>("Table/Rival"));
+			Connect(nameof(Updated), _player, nameof(Participant.Update));
 		}
 
 		public override void _Ready() => RpcId(Server, "OnClientReady"); 
@@ -65,13 +66,14 @@ namespace CardGame.Client
 		[Puppet] public void Queue(CommandId commandId, params object[] args) => _commandQueue.Enqueue((Command) Call(commandId.ToString(), args));
 		
 		[Puppet]
-		public async void Update()
+		public async void Update(States states)
 		{
 			while (_commandQueue.Count > 0) { await _commandQueue.Dequeue().Execute(_gfx); }
-			EmitSignal(nameof(Updated));
+			EmitSignal(nameof(Updated), states);
 		}
 		
-		[Puppet] public void SetState(States state) => _player.State = state;
+		[Puppet] public void UpdateCard(int id, CardState state) => _cards[id].Update(state);
+		
 		[Puppet] public void Deploy(Card card) => RpcId(Server, "Deploy", card.Id);
 		[Puppet] public void Set(Card card) => RpcId(Server, "Set", card.Id);
 		[Puppet] public void Pass() => RpcId(Server, "Pass");
@@ -122,6 +124,8 @@ namespace CardGame.Client
 					// RpcId
 					break;
 				case CardState.Activate:
+					break;
+				case CardState.None:
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

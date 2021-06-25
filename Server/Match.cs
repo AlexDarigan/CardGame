@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Godot;
+using Newtonsoft.Json.Converters;
 
 namespace CardGame.Server
 {
@@ -19,7 +20,6 @@ namespace CardGame.Server
 		// May be an idea
 		private readonly Action Update;
 		private readonly Enqueue Queue;
-		private Player TurnPlayer;
 		private bool _isGameOver;
 		private readonly CardRegister CardRegister;
 		public Match(Player player1, Player player2, CardRegister cardRegister, Action update, Enqueue queue)
@@ -43,13 +43,12 @@ namespace CardGame.Server
 				}
 			}
 
-			TurnPlayer = players[0];
-			TurnPlayer.State = States.Idle;
+			players[0].State = States.IdleTurnPlayer;
 		}
 		
 		public void Draw(Player player)
 		{
-			if (player.State != States.Idle || player != TurnPlayer)
+			if (player.State != States.IdleTurnPlayer)
 			{
 				Disqualify(player);
 				return;
@@ -66,7 +65,7 @@ namespace CardGame.Server
 
 		public void Deploy(Player player, Card unit)
 		{
-			if (player.State != States.Idle || player != TurnPlayer || unit.CardType != CardType.Unit)
+			if (unit.CardState != CardState.Deploy)
 			{
 				Disqualify(player);
 				return;
@@ -78,7 +77,7 @@ namespace CardGame.Server
 
 		public void DeclareAttack(Player player, Card attacker, Card defender)
 		{
-			if (player.State != States.Idle || !player.Units.Contains(attacker) ||
+			if (player.State != States.IdleTurnPlayer || !player.Units.Contains(attacker) ||
 				!player.Opponent.Units.Contains(defender) || !attacker.IsReady)
 			{
 				Disqualify(player);
@@ -106,7 +105,7 @@ namespace CardGame.Server
 		
 		public void DeclareDirectAttack(Player player, Card attacker)
 		{
-			if (player.State != States.Idle || !player.Units.Contains(attacker) ||
+			if (player.State != States.IdleTurnPlayer || !player.Units.Contains(attacker) ||
 				player.Opponent.Units.Count != 0 || !attacker.IsReady)
 			{
 				Disqualify(player);
@@ -119,7 +118,7 @@ namespace CardGame.Server
 
 		public void SetFaceDown(Player player, Card support)
 		{
-			if (player.State != States.Idle || player != TurnPlayer || support.CardType != CardType.Support)
+			if (support.CardType != CardType.Support)
 			{
 				Disqualify(player);
 				return;
@@ -131,7 +130,7 @@ namespace CardGame.Server
 
 		public void Activate(Player player, Card support)
 		{
-			if (player.State != States.Idle || !player.Supports.Contains(support))
+			if (player.State != States.IdleTurnPlayer || !player.Supports.Contains(support))
 			{
 				Disqualify(player);
 				return;
@@ -144,16 +143,15 @@ namespace CardGame.Server
 		
 		public void EndTurn(Player player)
 		{
-			if (player.State != States.Idle || player != TurnPlayer)
+			if (player.State != States.IdleTurnPlayer)
 			{
 				Disqualify(player);
 				return;
 			}
 			
-			TurnPlayer = TurnPlayer.Opponent;
-			TurnPlayer.State = States.Idle;
-			TurnPlayer.Opponent.State = States.Passive;
-			Draw(TurnPlayer);
+			player.State = States.Passive;
+			player.Opponent.State = States.IdleTurnPlayer;
+			Draw(player);
 			foreach (Card card in player.Units) { card.IsReady = true; }
 			foreach (Card card in player.Supports) { card.IsReady = true; }
 			Update();

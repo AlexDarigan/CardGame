@@ -19,5 +19,7 @@ namespace CardGame.Client
 			IsClient = view.Name == "Player";
 			foreach (Node zone in view.GetChildren()) { Set(zone.Name, new Zone(zone)); }
 		}
+
+		public void Update(States state) => State = state;
 	}
 }
