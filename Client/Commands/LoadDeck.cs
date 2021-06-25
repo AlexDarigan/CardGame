@@ -19,6 +19,6 @@ namespace CardGame.Client
 			foreach (KeyValuePair<int, SetCodes> pair in deck) { _player.Deck.Add(createCard(pair.Key, pair.Value)); }
 		}
 		
-		public override void Execute(Tween gfx) { }
+		protected override void Setup(Tween gfx) { }
 	}
 }

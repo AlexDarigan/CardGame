@@ -5,22 +5,23 @@ using Godot;
 
 namespace CardGame.Client
 {
-    public class Zone: Spatial, IEnumerable<Card>
+    public class Zone: Godot.Object, IEnumerable<Card>
     {
+        private readonly Node _view;
         private readonly List<Card> _cards = new();
         private readonly List<Location> _locations = new();
-        public Spatial Top => GetChild<Spatial>(Count);
-
         public int Count => _cards.Count;
         public Location NextLocation => _locations[Count - 1];
 
-        public override void _Ready()
+        public Zone(Node view)
         {
-            foreach (Spatial location in GetChildren()) { _locations.Add(new Location(location.Translation, location.RotationDegrees)); }
+            _view = view;
+            foreach (Spatial location in _view.GetChildren()) { _locations.Add(new Location(location.Translation, location.RotationDegrees)); }
         }
-
+        
         public Location Add(Card card)
         {
+            _view.GetChild<Spatial>(Count).Visible = true;
             _cards.Add(card);
             return _locations[Count - 1];
         }
@@ -29,6 +30,7 @@ namespace CardGame.Client
         {
             Location location = _locations[_cards.Count - 1];
             _cards.Remove(card);
+            _view.GetChild<Spatial>(Count).Visible = false;
             return location;
         }
         

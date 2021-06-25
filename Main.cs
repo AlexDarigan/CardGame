@@ -10,8 +10,8 @@ namespace CardGame
 		[Signal] public delegate void GameBegun();
 		[Export()] private bool Room1IsVisible;
 		[Export()] private bool Room2IsVisible;
-		private Room Room1;
-		private Room Room2;
+		private RoomFactory Room1;
+		private RoomFactory Room2;
 		private int rooms = 0;
 
 		
@@ -22,7 +22,7 @@ namespace CardGame
 
 		public void OnNodeAdded(Node node)
 		{
-			if (node is not Room room) return;
+			if (node is not RoomFactory room) return;
 			rooms++;
 			switch (rooms)
 			{

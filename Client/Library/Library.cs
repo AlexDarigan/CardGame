@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.CodeDom;
+using System.Collections.ObjectModel;
 using Godot;
 using Newtonsoft.Json;
 using File = System.IO.File;
@@ -13,7 +15,6 @@ namespace CardGame.Client
             JsonConvert.DeserializeObject<ReadOnlyDictionary<SetCodes,
                 CardInfo>>(File.ReadAllText(JsonCardsFilePath));
     }
-    
     public readonly struct CardInfo
     {
         public readonly CardType CardType;

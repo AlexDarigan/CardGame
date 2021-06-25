@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace CardGame.Server
 {
-    public class CardRegister
+    public class CardRegister: IEnumerable<Card>
     {
         /*
          * Our card register keeps a list of cards in the current game. In the player.LoadDeck function we get
@@ -12,12 +13,11 @@ namespace CardGame.Server
          */
         private readonly List<Card> Cards = new List<Card>();
         public int Count => Cards.Count;
-
-        public void Add(Card card)
-        {
-            Cards.Add(card);
-        }
-
+        public void Add(Card card) => Cards.Add(card);
         public Card this[int i] => Cards[i];
+        public IEnumerator<Card> GetEnumerator() => Cards.GetEnumerator();
+        
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        
     }
 }

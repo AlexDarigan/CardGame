@@ -15,7 +15,7 @@ namespace CardGame.Client
             Card = card;
         }
 		
-        public override void Execute(Tween gfx)
+        protected override void Setup(Tween gfx)
         {
             Card card = _player.IsClient ? Card : _player.Hand.Last();
             Location source = _player.Hand.Remove(Card);

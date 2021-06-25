@@ -1,15 +1,7 @@
 using Godot;
-using JetBrains.Annotations;
 
 namespace CardGame.Client
 {
-	[UsedImplicitly]
-	public class ParticipantFactory : Spatial
-	{
-		[Export()] public readonly bool IsClient;
-		public Participant GetParticipant() => new Participant(this, IsClient);
-	}
-	
 	public class Participant: Object
 	{
 		public int Health = 8000;
@@ -22,10 +14,10 @@ namespace CardGame.Client
 		public readonly Zone Units = null;
 		public readonly Zone Support = null;
 
-		public Participant(Node view, bool isClient)
+		public Participant(Node view)
 		{
-			IsClient = isClient;
-			foreach (Zone zone in view.GetChildren()) { Set(zone.Name, zone); }
+			IsClient = view.Name == "Player";
+			foreach (Node zone in view.GetChildren()) { Set(zone.Name, new Zone(zone)); }
 		}
 	}
 }
