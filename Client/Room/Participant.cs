@@ -22,10 +22,7 @@ namespace CardGame.Client
 		{
 			Declare = declare;
 			IsClient = view.Name == "Player";
-			foreach (Node zone in view.GetChildren())
-			{
-				Set(zone.Name, new Zone(zone));
-			}
+			foreach (Node zone in view.GetChildren()) { Set(zone.Name, new Zone(zone)); }
 		}
 
 		public void Update(States state) => State = state;
@@ -35,7 +32,7 @@ namespace CardGame.Client
 			switch (pressed.CardState)
 			{
 				case CardState.Deploy:
-					Declare("Deploy", pressed.Id);
+					Declare(CommandId.Deploy, pressed.Id);
 					State = States.Passive;
 					break;
 				case CardState.AttackUnit:
@@ -43,8 +40,7 @@ namespace CardGame.Client
 				case CardState.AttackPlayer:
 					break;
 				case CardState.Set:
-					Console.WriteLine("Sending State");
-					Declare("SetFaceDown", pressed.Id);
+					Declare(CommandId.SetFaceDown, pressed.Id);
 					State = States.Passive;
 					break;
 				case CardState.Activate:

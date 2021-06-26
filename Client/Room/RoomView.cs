@@ -38,7 +38,7 @@ namespace CardGame.Client
 		
 		
 		[Signal] public delegate void Updated();
-		public delegate void Declaration(string action, params object[] args);
+		public delegate void Declaration(CommandId commandId, params object[] args);
 		private readonly Node Cards;
 		private readonly Dictionary<int, Card> _cards = new();
 		private readonly Queue<Command> _commandQueue = new();
@@ -55,7 +55,7 @@ namespace CardGame.Client
 			Cards = view.GetNode<Node>("Cards");
 			_gfx = view.GetNode<Tween>("GFX");
 			_gui = view.GetNode<Control>("GUI");
-			_player = new Participant(view.GetNode<Node>("Table/Player"), (action,args) => RpcId(Server, action, args));
+			_player = new Participant(view.GetNode<Node>("Table/Player"), (commandId,args) => RpcId(Server, commandId.ToString(), args));
 			_rival = new Participant(view.GetNode<Node>("Table/Rival"), delegate{  });
 			Connect(nameof(Updated), _player, nameof(Participant.Update));
 		}
