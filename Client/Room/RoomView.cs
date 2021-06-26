@@ -38,6 +38,7 @@ namespace CardGame.Client
 		
 		
 		[Signal] public delegate void Updated();
+		public delegate void Declaration(string action, params object[] args);
 		private readonly Node Cards;
 		private readonly Dictionary<int, Card> _cards = new();
 		private readonly Queue<Command> _commandQueue = new();
@@ -46,7 +47,6 @@ namespace CardGame.Client
 		private readonly Participant _player;
 		private readonly Participant _rival;
 		private const int Server = 1;
-		private Card _currentCard;
 
 		public Room(Node view, string name, MultiplayerAPI multiplayerApi)
 		{
@@ -55,8 +55,8 @@ namespace CardGame.Client
 			Cards = view.GetNode<Node>("Cards");
 			_gfx = view.GetNode<Tween>("GFX");
 			_gui = view.GetNode<Control>("GUI");
-			_player = new Participant(view.GetNode<Node>("Table/Player"));
-			_rival = new Participant(view.GetNode<Node>("Table/Rival"));
+			_player = new Participant(view.GetNode<Node>("Table/Player"), (action,args) => RpcId(Server, action, args));
+			_rival = new Participant(view.GetNode<Node>("Table/Rival"), delegate{  });
 			Connect(nameof(Updated), _player, nameof(Participant.Update));
 		}
 
@@ -73,20 +73,15 @@ namespace CardGame.Client
 		
 		[Puppet] public void UpdateCard(int id, CardState state) => _cards[id].Update(state);
 		
-		[Puppet] public void Deploy(Card card) => RpcId(Server, "Deploy", card.Id);
-		[Puppet] public void Set(Card card) => RpcId(Server, "Set", card.Id);
+		[Puppet] private void Deploy(Card card) => RpcId(Server, "Deploy", card.Id);
+		[Puppet] private void Set(Card card) => RpcId(Server, "Set", card.Id);
 		[Puppet] public void Pass() => RpcId(Server, "Pass");
 		[Puppet] public void EndTurn() => RpcId(Server, "EndTurn");
 
 		private Command LoadDeck(bool isClient, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(isClient), deck, CreateCard);
 		private Command Draw(bool isClient, int cardId) => new Draw(GetPlayer(isClient), GetCard(cardId));
 		private Command Deploy(bool isClient, int cardId) => new Deploy(GetPlayer(isClient), GetCard(cardId));
-		private Command SetFaceDown(bool isClient, int cardId)
-		{
-			Console.WriteLine("Calling SetFaceDown");
-			return new Set(GetPlayer(isClient), GetCard(cardId));
-		}
-
+		private Command SetFaceDown(bool isClient, int cardId) => new Set(GetPlayer(isClient), GetCard(cardId));
 		private Participant GetPlayer(bool isClient) => isClient ? _player : _rival;
 		private Card GetCard(int id, SetCodes setCode = SetCodes.NullCard) => _cards.ContainsKey(id) ? _cards[id] : CreateCard(id, setCode);
 
@@ -94,49 +89,8 @@ namespace CardGame.Client
 		{
 			Card card = Library.GetCard(Cards, setCode, id);
 			_cards[id] = card;
-			card.Connect(nameof(Card.OnCardEntered), this, nameof(OnCardEntered));
-			card.Connect(nameof(Card.OnCardExited), this, nameof(OnCardExited));
+			card.CardPressed += _player.OnCardPressed;
 			return card;
-		}
-
-		public void OnCardEntered(Card card) { _currentCard = card; }
-		public void OnCardExited(Card card) { if (_currentCard == card) { _currentCard = null; } }
-
-		public override void _Input(InputEvent input)
-		{
-			if (input is InputEventMouseButton {Doubleclick: true, ButtonIndex: (int) ButtonList.Left} && _currentCard is not null)
-			{
-				OnCardPressed();
-			}
-		}
-
-		private void OnCardPressed()
-		{
-			// Switch against Card State
-			Console.WriteLine(_currentCard.CardState);
-			Console.WriteLine($"{_currentCard} pressed");
-			switch (_currentCard.CardState)
-			{
-				case CardState.Deploy:
-					RpcId(Server, "Deploy", _currentCard.Id);
-					_player.State = States.Passive;
-					break;
-				case CardState.AttackUnit:
-					break;
-				case CardState.AttackPlayer:
-					break;
-				case CardState.Set:
-					Console.WriteLine("Sending State");
-					RpcId(Server, "SetFaceDown", _currentCard.Id);
-					_player.State = States.Passive;
-					break;
-				case CardState.Activate:
-					break;
-				case CardState.None:
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
 		}
 	}
 }

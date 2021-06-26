@@ -11,7 +11,7 @@
 		"tags": [
 
 		],
-		"passing": false
+		"passing": true
 	},
 	"res://Tests/Integration/ConnectionTest.cs": {
 		"path": "res://Tests/Integration/ConnectionTest.cs",

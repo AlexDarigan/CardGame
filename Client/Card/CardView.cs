@@ -1,24 +1,19 @@
-using System;
-using CardGame.Server;
 using Godot;
-using JetBrains.Annotations;
 using Object = Godot.Object;
 
 namespace CardGame.Client
 {
 	public class CardView: Spatial { }
-	
 	public class Card: Object
 	{
-		[Signal] public delegate void OnCardEntered();
-		[Signal] public delegate void OnCardExited();
+		public delegate void Pressed(Card pressed);
+		public event Pressed CardPressed;
 		private readonly CardView _view;
 		private readonly SpatialMaterial _face;
 		public readonly int Id;
 		private string _title;
 		private string _text;
 		private int _power;
-		private CardType _cardType;
 		public CardState CardState = CardState.None;
 		private Texture Art { set { _face.AlbedoTexture = value; _face.EmissionTexture = value; } }
 		public Vector3 Translation { get => _view.Translation; set => _view.Translation = value; }
@@ -29,15 +24,19 @@ namespace CardGame.Client
 			Id = id;
 			_view = view;
 			_face = (SpatialMaterial) view.GetNode<MeshInstance>("Face").GetSurfaceMaterial(0);
-			(_cardType, _title, Art, _text, _power) = info;
-			_view.GetNode<Area>("Area").Connect("mouse_entered", this, nameof(OnMouseEntered));
-			_view.GetNode<Area>("Area").Connect("mouse_exited", this, nameof(OnMouseEntered));
-			_view.GetNode<Spatial>("Power").Visible = _cardType == CardType.Unit;
+			CardType cardType;
+			(cardType, _title, Art, _text, _power) = info;
+			_view.GetNode<Area>("Area").Connect("input_event", this, nameof(OnInputEvent));
+			_view.GetNode<Spatial>("Power").Visible = cardType == CardType.Unit;
 		}
 
 		public void Update(CardState state) =>	CardState = state;
-		public void OnMouseEntered() => EmitSignal(nameof(OnCardEntered), this);
-		public void OnMouseExited() => EmitSignal(nameof(OnCardExited), this);
+
+		public void OnInputEvent(Node camera, InputEvent input, Vector3 click_pos, Vector3 click_normal, int shapeIdx)
+		{
+			if (input is InputEventMouseButton {ButtonIndex: (int) ButtonList.Left, Doubleclick: true}) { CardPressed?.Invoke(this); }
+		}
+	
 
 	}
 }
