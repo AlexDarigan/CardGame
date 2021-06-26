@@ -20,13 +20,8 @@ namespace CardGame.Client
 		public override void _Ready()
 		{
 			Error err = Client.CreateClient(ServerAddress, ServerPort);
-			if (err != Error.Ok)
-			{
-				GD.PushError(err.ToString());
-			}
-
-			CustomMultiplayer = new MultiplayerAPI {NetworkPeer = Client};
-			CustomMultiplayer.SetRootNode(this);
+			if (err != Error.Ok) { GD.PushError(err.ToString()); }
+			CustomMultiplayer = new MultiplayerAPI {NetworkPeer = Client, RootNode = this};
 			CustomMultiplayer.Connect("connected_to_server", this, nameof(OnConnectedToServer));
 		}
 
@@ -43,20 +38,13 @@ namespace CardGame.Client
 		[Puppet]
 		public void CreateRoom(string roomName)
 		{
-			RoomView RoomView = (RoomView) RoomScene.Instance();
-			AddChild(RoomView);
-			Room room = new Room(RoomView, roomName, CustomMultiplayer);
+			RoomView roomView = (RoomView) RoomScene.Instance();
+			AddChild(roomView);
+			Room room = new Room(roomView, roomName, CustomMultiplayer);
 			AddChild(room, true);
 		}
 
-		public override void _Process(float delta)
-		{
-			if (CustomMultiplayer.HasNetworkPeer())
-			{
-				CustomMultiplayer.Poll();
-			}
-		}
-
+		public override void _Process(float delta) { if (CustomMultiplayer.HasNetworkPeer()) { CustomMultiplayer.Poll(); } }
 		public override void _ExitTree()
 		{
 			Client?.CloseConnection();

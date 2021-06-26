@@ -38,7 +38,14 @@ namespace CardGame.Client
             _power = power;
         }
 
-        public (CardType, string, Texture, string, int) GetData() => (_cardType, _title, _art, _text, _power);
+        public void Deconstruct(out CardType cardType, out string title, out Texture art, out string text, out int power)
+        {
+            cardType = _cardType;
+            title = _title;
+            art = _art;
+            text = _text;
+            power = _power;
+        }
 
     }
 }

@@ -6,7 +6,7 @@
 
 [node name="Main" type="Node"]
 script = ExtResource( 1 )
-Room1IsVisible = true
+_room1IsVisible = true
 
 [node name="Server" type="Node" parent="."]
 script = ExtResource( 2 )

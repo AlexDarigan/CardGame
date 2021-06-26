@@ -38,7 +38,6 @@ namespace CardGame.Client
 		
 		
 		[Signal] public delegate void Updated();
-		private EventHandler UpdatedX;
 		private readonly Node Cards;
 		private readonly Dictionary<int, Card> _cards = new();
 		private readonly Queue<Command> _commandQueue = new();

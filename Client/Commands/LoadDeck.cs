@@ -19,9 +19,10 @@ namespace CardGame.Client
 			foreach (KeyValuePair<int, SetCodes> pair in deck)
 			{
 				Card card = createCard(pair.Key, pair.Value);
-				Location location = _player.Deck.Add(card);
-				card.Translation = location.Translation;
-				card.RotationDegrees = location.RotationDegrees;
+				_player.Deck.Add(card);
+				Location destination = _player.Deck.Destination;
+				card.Translation = destination.Translation;
+				card.RotationDegrees = destination.RotationDegrees;
 			}
 		}
 		

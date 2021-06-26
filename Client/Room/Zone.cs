@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using JetBrains.Annotations;
 
@@ -8,39 +9,20 @@ namespace CardGame.Client
 {
     public class Zone: Godot.Object, IEnumerable<Card>
     {
-        private readonly Node _view;
         private readonly List<Card> _cards = new();
-        private readonly List<Location> _locations = new();
+        public readonly IReadOnlyList<Location> Locations;
         public int Count => _cards.Count;
-        public Location NextLocation => _locations[Count - 1];
-
-        public Zone(Node view)
-        {
-            _view = view;
-            foreach (Spatial location in _view.GetChildren()) { _locations.Add(new Location(location.Translation, location.RotationDegrees)); }
-        }
+        public Location Destination => Locations[_cards.Count - 1];
         
-        public Location Add(Card card)
+        public Zone(Node view) => Locations = (from Spatial location in view.GetChildren() select new Location(location.Translation, location.RotationDegrees)).ToList();
+
+        public void Add(Card card)
         {
             _cards.Add(card);
-            return _locations[Count - 1];
+            //return Locations[Count - 1];
         }
 
         public void Remove(Card card) => _cards.Remove(card);
-
-        public void Sort(Tween gfx)
-        {
-            // Mainly for our hand on deploy/set
-            for (int i = 0; i < _cards.Count; i++)
-            {
-                Card card = _cards[i];
-                Location location = _locations[i];
-                if (card.Translation != location.Translation)
-                {
-                    gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, location.Translation, .1f);
-                }
-            }
-        }
         public Card this[int index] => _cards[index];
         public IEnumerator<Card> GetEnumerator() => _cards.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

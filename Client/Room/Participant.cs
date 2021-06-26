@@ -1,4 +1,6 @@
+using System;
 using Godot;
+using Object = Godot.Object;
 
 namespace CardGame.Client
 {
@@ -7,7 +9,6 @@ namespace CardGame.Client
 		public int Health = 8000;
 		public States State;
 		public readonly bool IsClient;
-		
 		public readonly Zone Deck = null;
 		public readonly Zone Discard = null;
 		public readonly Zone Hand = null;

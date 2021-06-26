@@ -18,13 +18,13 @@ namespace CardGame.Client
         protected override void Setup(Tween gfx)
         {
             Card card = _player.IsClient ? Card : _player.Hand.Last();
-             _player.Hand.Remove(Card);
-            Location destination = _player.Units.Add(Card);
+            _player.Hand.Remove(Card);
+            _player.Units.Add(Card);
+            Location destination = _player.Units.Destination;
             const float duration = .35f;
             gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation,  duration);
             gfx.InterpolateProperty(card, nameof(Card.RotationDegrees),  Card.RotationDegrees, destination.RotationDegrees, duration);
-            //gfx.InterpolateCallback(_player.Hand, .6f, nameof(Zone.Sort));
-            _player.Hand.Sort(gfx);
+            SortHand(gfx, _player);
         }
     }
 }
