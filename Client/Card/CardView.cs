@@ -32,6 +32,7 @@ namespace CardGame.Client
 			(_cardType, _title, Art, _text, _power) = info;
 			_view.GetNode<Area>("Area").Connect("mouse_entered", this, nameof(OnMouseEntered));
 			_view.GetNode<Area>("Area").Connect("mouse_exited", this, nameof(OnMouseEntered));
+			_view.GetNode<Spatial>("Power").Visible = _cardType == CardType.Unit;
 		}
 
 		public void Update(CardState state) =>	CardState = state;

@@ -1,16 +1,13 @@
-﻿using System;
-using Godot;
-
-namespace CardGame.Server
+﻿namespace CardGame.Server
 {
-    public class DeployEvent: Event
+    public class SetEvent: Event
     {
         private readonly Player Controller;
         private readonly Card Card;
 
-        public DeployEvent(Player controller, Card card)
+        public SetEvent(Player controller, Card card)
         {
-            Command = CommandId.Deploy;
+            Command = CommandId.SetFaceDown;
             Controller = controller;
             Card = card;
         }
@@ -18,8 +15,6 @@ namespace CardGame.Server
         public override void QueueOnClients(Enqueue queue)
         {
             queue(Controller.Id, Command, isClient, Card.Id);
-            
-            // This should create the card on the Opponent's side
             queue(Controller.Opponent.Id, Command, !isClient, -1);
         }
     }

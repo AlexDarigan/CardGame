@@ -68,7 +68,7 @@ namespace CardGame.Server
 		}
 
 		[Master] public void Deploy(int cardId) =>_match.Deploy(_players[Multiplayer.GetRpcSenderId()], _cards[cardId]);
-		[Master] public void Set(int cardId) =>_match.SetFaceDown(_players[Multiplayer.GetRpcSenderId()], _cards[cardId]);
+		[Master] public void SetFaceDown(int cardId) =>_match.SetFaceDown(_players[Multiplayer.GetRpcSenderId()], _cards[cardId]);
 		[Master] public void EndTurn(int playerId) => _match.EndTurn(_players[playerId]); 
 	}
 }

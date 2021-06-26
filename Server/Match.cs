@@ -118,13 +118,15 @@ namespace CardGame.Server
 
 		public void SetFaceDown(Player player, Card support)
 		{
+			Console.WriteLine("Setting FaceDown");
 			if (support.CardType != CardType.Support)
 			{
+				Console.WriteLine("Disqulified");
 				Disqualify(player);
 				return;
 			}
 
-			player.SetFaceDown(support);
+			player.SetFaceDown(support).QueueOnClients(Queue);
 			Update();
 		}
 

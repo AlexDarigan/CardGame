@@ -5,7 +5,7 @@
   "AlphaBioShocker":
   { "Title": "BioShocker", "CardType": "Unit", "Faction": "Warrior", "Power": 2000, "Skills": {} },
   
-  "AlphaDrawTest": 
+  "AlphaQuestReward": 
   { "Title": "Quest Reward", "CardType": "Support", "Faction": "Null", "Power": 0,
     "Skill":  
       {

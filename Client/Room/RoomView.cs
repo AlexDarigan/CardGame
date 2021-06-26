@@ -81,6 +81,12 @@ namespace CardGame.Client
 		private Command LoadDeck(bool isClient, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(isClient), deck, CreateCard);
 		private Command Draw(bool isClient, int cardId) => new Draw(GetPlayer(isClient), GetCard(cardId));
 		private Command Deploy(bool isClient, int cardId) => new Deploy(GetPlayer(isClient), GetCard(cardId));
+		private Command SetFaceDown(bool isClient, int cardId)
+		{
+			Console.WriteLine("Calling SetFaceDown");
+			return new Set(GetPlayer(isClient), GetCard(cardId));
+		}
+
 		private Participant GetPlayer(bool isClient) => isClient ? _player : _rival;
 		private Card GetCard(int id, SetCodes setCode = SetCodes.NullCard) => _cards.ContainsKey(id) ? _cards[id] : CreateCard(id, setCode);
 
@@ -120,8 +126,9 @@ namespace CardGame.Client
 				case CardState.AttackPlayer:
 					break;
 				case CardState.Set:
-					RpcId(Server, "Set", _currentCard.Id);
-					// RpcId
+					Console.WriteLine("Sending State");
+					RpcId(Server, "SetFaceDown", _currentCard.Id);
+					_player.State = States.Passive;
 					break;
 				case CardState.Activate:
 					break;

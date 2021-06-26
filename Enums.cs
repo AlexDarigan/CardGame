@@ -6,7 +6,7 @@
     {
         NullCard = 0,
         AlphaBioShocker = 1,
-        AlphaDrawTest = 2
+        AlphaQuestReward = 2
     }
 
     public enum Triggers
@@ -59,7 +59,8 @@
     {
         LoadDeck,
         Draw,
-        Deploy
+        Deploy,
+        SetFaceDown
     }
     
     public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner }

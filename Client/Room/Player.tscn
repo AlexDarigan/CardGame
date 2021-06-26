@@ -22,19 +22,19 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.05, 3 )
 [node name="Support" type="Spatial" parent="."]
 
 [node name="0" type="Position3D" parent="Support"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.05, 7 )
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -8, 0.05, 7 )
 
 [node name="1" type="Position3D" parent="Support"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.05, 7 )
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -5, 0.05, 7 )
 
 [node name="2" type="Position3D" parent="Support"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.05, 7 )
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -2, 0.05, 7 )
 
 [node name="3" type="Position3D" parent="Support"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, 7 )
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 1, 0.05, 7 )
 
 [node name="4" type="Position3D" parent="Support"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.05, 7 )
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 4, 0.05, 7 )
 
 [node name="Discard" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 2.5 )

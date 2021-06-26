@@ -27,10 +27,11 @@ namespace CardGame.Client
 
 		public void OnConnectedToServer()
 		{
-			Array<SetCodes> deckList = new Array<SetCodes>();
-			for (int i = 0; i < 40; i++)
+			Array<SetCodes> deckList = new();
+			for (int i = 0; i < 20; i++)
 			{
 				deckList.Add(SetCodes.AlphaBioShocker);
+				deckList.Add(SetCodes.AlphaQuestReward);
 			}
 			RpcId(1, "OnNetworkPeerConnected", deckList);
 		}

@@ -59,10 +59,12 @@ namespace CardGame.Server
             return new DeployEvent(this, unit);
         }
 
-        public void SetFaceDown(Card support)
+        public Event SetFaceDown(Card support)
         {
             Hand.Remove(support);
             Supports.Add(support);
+            support.Zone = Supports;
+            return new SetEvent(this, support);
         }
 
     }
