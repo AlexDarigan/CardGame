@@ -77,6 +77,8 @@ namespace CardGame.Tests.Server.Actions
             Card unitB = Player2.Hand[1];
             unitA.CardType = CardType.Unit;
             unitB.CardType = CardType.Unit;
+            unitA.CardState = CardState.Deploy;
+            unitB.CardState = CardState.Deploy;
             Match.Deploy(Player2, unitA);
             Match.Deploy(Player2, unitB);
             Match.EndTurn(Player2);

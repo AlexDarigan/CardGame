@@ -31,6 +31,10 @@ namespace CardGame.Server
             CardState = CardState.None;
             if (Controller.Hand.Contains(this) && CardType is CardType.Unit && Controller.State == States.IdleTurnPlayer) { CardState = CardState.Deploy; }
             if (Controller.Hand.Contains(this) && CardType is CardType.Support && Controller.State == States.IdleTurnPlayer) { CardState = CardState.Set; }
+            if (Controller.Units.Contains(this) && IsReady && Controller.State == States.IdleTurnPlayer) { CardState = CardState.AttackUnit; }
+            if (Controller.Units.Contains(this) && IsReady 
+                                                && Controller.State == States.IdleTurnPlayer 
+                                                && Controller.Opponent.Units.Count == 0) { CardState = CardState.AttackUnit; }
         }
     }
 }

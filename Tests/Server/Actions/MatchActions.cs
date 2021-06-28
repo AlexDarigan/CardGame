@@ -31,6 +31,7 @@ namespace CardGame.Tests.Server.Actions
             int handCountBeforeDeploy = Player1.Hand.Count;
             Card unit = Player1.Hand[0];
             unit.CardType = CardType.Unit;
+            unit.CardState = CardState.Deploy;
             Match.Deploy(Player1, unit);
             Assert.IsEqual(Player1.Units.Count, unitCountBeforeDeploy + 1, 
                 "Their owners unit count is increased by 1");
@@ -45,6 +46,7 @@ namespace CardGame.Tests.Server.Actions
             int handCountBeforeDeploy = Player1.Hand.Count;
             Card support = Player1.Hand[0];
             support.CardType = CardType.Support;
+            support.CardState = CardState.Set;
             Match.SetFaceDown(Player1, support);
             Assert.IsEqual(Player1.Supports.Count, supportCountBeforeDeploy + 1, 
                 "Their owners support count is increased by 1");

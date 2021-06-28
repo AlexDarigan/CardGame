@@ -50,6 +50,7 @@ namespace CardGame.Server
 		{
 			if (player.State != States.IdleTurnPlayer)
 			{
+				Console.WriteLine($"{player} state is {player.State.ToString()}");
 				Disqualify(player);
 				return;
 			}
@@ -70,18 +71,22 @@ namespace CardGame.Server
 				Disqualify(player);
 				return;
 			}
-
+			
+			Console.WriteLine("Deploying?");
 			player.Deploy(unit).QueueOnClients(Queue);
 			Update();
 		}
 
 		public void DeclareAttack(Player player, Card attacker, Card defender)
 		{
-			if (player.State != States.IdleTurnPlayer || !player.Units.Contains(attacker) ||
-				!player.Opponent.Units.Contains(defender) || !attacker.IsReady)
+			if (attacker.CardState != CardState.AttackUnit)
 			{
 				Disqualify(player);
 				return;
+			}
+			else
+			{
+				Console.WriteLine("Can Attack Unit");
 			}
 
 			static void DamageCalculation(Card winner, Card loser)
@@ -105,8 +110,7 @@ namespace CardGame.Server
 		
 		public void DeclareDirectAttack(Player player, Card attacker)
 		{
-			if (player.State != States.IdleTurnPlayer || !player.Units.Contains(attacker) ||
-				player.Opponent.Units.Count != 0 || !attacker.IsReady)
+			if (attacker.CardState != CardState.AttackPlayer)
 			{
 				Disqualify(player);
 				return;
@@ -119,9 +123,10 @@ namespace CardGame.Server
 		public void SetFaceDown(Player player, Card support)
 		{
 			Console.WriteLine("Setting FaceDown");
-			if (support.CardType != CardType.Support)
+			if (support.CardState != CardState.Set)
 			{
-				Console.WriteLine("Disqulified");
+				Console.WriteLine("Disqualified");
+				Console.WriteLine(support.CardType);
 				Disqualify(player);
 				return;
 			}
@@ -153,7 +158,7 @@ namespace CardGame.Server
 			
 			player.State = States.Passive;
 			player.Opponent.State = States.IdleTurnPlayer;
-			Draw(player);
+			Draw(player.Opponent);
 			foreach (Card card in player.Units) { card.IsReady = true; }
 			foreach (Card card in player.Supports) { card.IsReady = true; }
 			Update();
