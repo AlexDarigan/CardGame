@@ -11,7 +11,7 @@ namespace CardGame.Tests.Server.Initialization
             return "Server";
         }
 
-        public override void Start()
+        public void Start()
         {
             AddChild(Server);
         }
@@ -28,7 +28,7 @@ namespace CardGame.Tests.Server.Initialization
             Assert.IsTrue(Server.IsServer);
         }
 
-        public override void End()
+        public void End()
         {
             RemoveChild(Server);
             Server.Free();

@@ -6,7 +6,7 @@ namespace CardGame.Tests.Server.Conclusion
      * Game Over Tests test to make sure our victory and lose conditions are working accurately
      */
     
-    public class GameOver: BaseTest
+    public class GameOver: BaseServerTest
     {
         [Test]
         public void A_Player_Tries_To_Draw_From_A_Deck_With_No_Cards_Left()

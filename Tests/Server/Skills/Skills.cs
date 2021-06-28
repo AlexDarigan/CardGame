@@ -7,7 +7,7 @@ using Godot;
 
 namespace CardGame.Tests.Server.Actions
 {
-    public class Skills : BaseTest
+    public class Skills : BaseServerTest
     {
         [Test]
         public void Controller_Draws_2_Cards()
@@ -134,76 +134,6 @@ namespace CardGame.Tests.Server.Actions
             Match.Activate(Player1, support);
             Assert.IsEqual(1000, support.Power);
             Assert.IsNotEqual(previousPower, support);
-        }
-        
-       
-        public enum Path { Happy, Sad }
-        [RunWith(Path.Happy)]
-        [RunWith(Path.Sad)]
-        [Test]
-        public void If_Hand_Count_Is_Less_Than_Seven_Draw_5_Cards_Else_Take_1000_Damage(Path path)
-        {
-            Describe(path == Path.Happy
-                ? "Draw 5 cards if you have less than 7 cards in your hand else take 1000 damage (Happy Path)"
-                : "Draw 5 cards if you have less than 7 cards in your hand else take 1000 damage (Sad Path)");
-
-            Card support = Player1.Hand[0];
-            support.CardType = CardType.Support;
-            SkillBuilder skill = new SkillBuilder {Description = "If you have less than seven cards " +
-                                                                        "in your hand draw 2 cards else take 1000 damage"};
-            skill.Triggers.Add(Triggers.Any);
-            
-            // Jump Inst
-            skill.Add(Instructions.Literal);
-            skill.Add(5);
-            
-            // Comparing Against
-            skill.Add(Instructions.Literal);
-            skill.Add(7);
-
-            // Hand Count
-            skill.Add(Instructions.GetController);
-            skill.Add(Instructions.GetHand);
-            skill.Add(Instructions.Count);
-            skill.Add(Instructions.IsLessThan);
-            skill.Add(Instructions.Literal);
-            skill.Add(13);
-            skill.Add(Instructions.If);
-            skill.Add(Instructions.GetController);
-            skill.Add(Instructions.Draw);
-            skill.Add(Instructions.GoToEnd);
-            
-            // Else Branch
-            skill.Add(Instructions.Literal);
-            skill.Add(1000);
-            skill.Add(Instructions.GetController);
-            skill.Add(Instructions.DealDamage);
-            support.Skill = skill.Build(support);
-
-            Match.SetFaceDown(Player1, support);
-
-            if (path == Path.Happy)
-            {
-                Card support2 = Player1.Hand[1];
-                support2.CardType = CardType.Support;
-                Match.SetFaceDown(Player1, support2);
-            }
-
-            Match.EndTurn(Player1);
-            Match.EndTurn(Player2);
-            
-            int previousLife = Player1.Health;
-            int previousHandCount = Player1.Hand.Count;
-            Match.Activate(Player1, support);
-            
-            if (path == Path.Happy)
-            {
-                Assert.IsEqual(Player1.Hand.Count, previousHandCount + 5);
-            }
-            else
-            {
-                Assert.IsEqual(Player1.Health, previousLife - 1000);
-            }
         }
     }
 }

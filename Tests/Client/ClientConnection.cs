@@ -1,4 +1,5 @@
-﻿using ServerConn = CardGame.Server.Connection;
+﻿using System.Threading.Tasks;
+using ServerConn = CardGame.Server.Connection;
 using ClientConn = CardGame.Client.Connection;
 
 namespace CardGame.Tests.Client
@@ -13,16 +14,16 @@ namespace CardGame.Tests.Client
         private readonly ServerConn Server = new ServerConn();
         private readonly ClientConn Client = new ClientConn();
 
-        public override void Start()
+        public void Start()
         {
             AddChild(Server);
             AddChild(Client);
         }
 
         [Test]
-        public async void Is_Live()
+        public async Task Is_Live()
         {
-            await ToSignal(UntilTimeout(0.5), YIELD);
+            await UntilTimeout(0.5);
             Assert.IsTrue(Client.IsLive);
         }
 
@@ -32,7 +33,7 @@ namespace CardGame.Tests.Client
             Assert.IsTrue(Client.IsClient);
         }
 
-        public override void End()
+        public void End()
         {
             RemoveChild(Client);
             RemoveChild(Server);

@@ -2,7 +2,7 @@
 
 namespace CardGame.Tests.Server.Scenarios
 {
-    public class MatchScenario: BaseTest
+    public class MatchScenario: BaseServerTest
     {
         /*
          * Match Scenario Tests are Tests that contains a sequence of actions that we want to test in order to ensure

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -6,7 +8,7 @@ using CardGame.Server;
 
 namespace CardGame.Tests.Server
 {
-    public class BaseTest: WAT.Test
+    public class BaseServerTest: WAT.Test
     {
         /*
          * Basic Custom Test For Our Server Tests. It handles basic initialization. We can be sure it won't ever get
@@ -14,7 +16,7 @@ namespace CardGame.Tests.Server
          * because we can just modify the cards on demand for our tests which exist in a controlled environment.
          */
         
-        private readonly List<SetCodes> _deckList = new List<SetCodes>();
+        protected readonly List<SetCodes> _deckList = new List<SetCodes>();
         protected Player Player1;
         protected Player Player2;
         protected Match Match;
@@ -30,20 +32,22 @@ namespace CardGame.Tests.Server
             
         }
 
-        public override void Start()
+        public void Start()
         {
+            Console.WriteLine("Hello");
             for (int i = 0; i < 40; i++)
             {
                 _deckList.Add(SetCodes.NullCard);
             }
         }
 
-        public override void Pre()
+        public void Pre()
         {
             Player1 = new Player(1, _deckList);
             Player2 = new Player(2, _deckList);
             Cards = new CardRegister();
             Match = new Match(Player1, Player2, Cards, Update, Queue);
+            Match.Begin(new List<Player>{Player1, Player2});
         }
         
         protected class SkillBuilder

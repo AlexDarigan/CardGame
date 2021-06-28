@@ -3,7 +3,7 @@ using CardGame.Server;
 
 namespace CardGame.Tests.Server.Actions
 {
-    public class MatchActions: BaseTest
+    public class MatchActions: BaseServerTest
     {
         /*
          * Our MATCH RULES Test dealt with what would get a player disqualified but we still need to add the positive

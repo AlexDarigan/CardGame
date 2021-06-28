@@ -30,7 +30,7 @@ namespace CardGame.Tests.Client
 		}
 		
 		[Test]
-		public async void OnGameStart()
+		public async Task OnGameStart()
 		{
 			await Update();
 			Assert.IsEqual(P1.State, States.IdleTurnPlayer, "Player 1 is Idle Turn Player");
@@ -42,7 +42,7 @@ namespace CardGame.Tests.Client
 		}
 
 		[Test]
-		public async void DeployAction()
+		public async Task DeployAction()
 		{
 			Card card = P1.Hand.ToList().Where(c => (CardState) c.Get("CardState") == CardState.Deploy).ElementAt(0);
 			P1.OnCardPressed(card);
@@ -51,7 +51,7 @@ namespace CardGame.Tests.Client
 		}
 		
 		[Test]
-		public async void SetAction()
+		public async Task SetAction()
 		{
 			// We'll have to inject decks into here somewhere
 			Card card = P1.Hand.ToList().Where(c => (CardState) c.Get("CardState") == CardState.Set).ElementAt(0);

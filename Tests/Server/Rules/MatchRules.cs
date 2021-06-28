@@ -2,7 +2,7 @@
 
 namespace CardGame.Tests.Server.Rules
 {
-    public class MatchRules: BaseTest
+    public class MatchRules: BaseServerTest
     {
         /*
          * We care about the rules in this test. We want to see if our rule checks are working correctly and

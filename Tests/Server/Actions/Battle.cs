@@ -3,7 +3,7 @@ using CardGame.Server;
 
 namespace CardGame.Tests.Server.Actions
 {
-    public class Battle: BaseTest
+    public class Battle: BaseServerTest
     {
         [Test]
         public void When_A_Unit_Attacks_Directly()

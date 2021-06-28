@@ -2,7 +2,7 @@
 
 namespace CardGame.Tests.Server.Actions
 {
-    public class PlayerAction: BaseTest
+    public class PlayerAction: BaseServerTest
     {
         /*
          * We do not care about rules enforcement in this test. We just want to check what happens when

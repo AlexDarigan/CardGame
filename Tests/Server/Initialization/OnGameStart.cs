@@ -2,7 +2,7 @@
 
 namespace CardGame.Tests.Server.Initialization
 {
-    public class OnGameStart: BaseTest
+    public class OnGameStart: BaseServerTest
     {
       
         public override string Title()
