@@ -5,9 +5,12 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using CardGame.Server;
+using Godot;
 
 namespace CardGame.Tests.Server
 {
+    [Start(nameof(Start))]
+    [Pre(nameof(Pre))]
     public class BaseServerTest: WAT.Test
     {
         /*
@@ -34,6 +37,7 @@ namespace CardGame.Tests.Server
 
         public void Start()
         {
+            GD.Print("Hello World");
             Console.WriteLine("Hello");
             for (int i = 0; i < 40; i++)
             {

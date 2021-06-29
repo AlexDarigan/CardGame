@@ -2,6 +2,8 @@
 
 namespace CardGame.Tests.Server.Initialization
 {
+    [Start(nameof(Start))]
+    [End(nameof(End))]
     public class ServerConnection: WAT.Test
     {
         private readonly Connection Server = new Connection();

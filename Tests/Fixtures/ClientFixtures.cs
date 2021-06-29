@@ -4,6 +4,8 @@ using Godot;
 
 namespace CardGame.Tests.Fixtures
 {
+	[Pre(nameof(Pre))]
+	[Post(nameof(Post))]
 	public class ClientFixtures: WAT.Test
 	{
 		// NOTE: Make sure we don't time out too early in Yielding

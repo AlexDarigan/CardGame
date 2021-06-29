@@ -4,6 +4,7 @@ class_name WATTest
 const COMPLETED: String = "completed"
 const TEST: bool = true
 const YIELD: String = "finished"
+const Executed: String = "executed"
 signal described
 signal completed
 signal executed
@@ -37,7 +38,7 @@ func run():
 		for hook in ["pre", "execute", "post"]:
 			yield(call_function(hook, cursor), COMPLETED)
 	yield(call_function("end"), COMPLETED)
-	emit_signal("executed")
+	emit_signal(Executed)
 	
 func call_function(function, cursor = 0):
 	var s = call(function) if function != "execute" else execute(cursor)
@@ -126,23 +127,25 @@ func until_signal(emitter: Object, event: String, time_limit: float) -> Node:
 
 func until_timeout(time_limit: float) -> Node:
 	return _yielder.until_timeout(time_limit)
-	
-func methods() -> PoolStringArray:
-	# In future, this may be done in a container else where
-	var output: PoolStringArray = []
-	for method in get_method_list():
-		if method.name.begins_with("test"):
-			output.append(method.name)
-	return output
-	
+		
 func get_results() -> Dictionary:
 	_case.calculate()
 	var results: Dictionary = _case.to_dictionary()
 	_case.free()
 	return results
+	
+func get_test_methods() -> Array:
+	var methods: Array = []
+	for method in get_script().get_script_method_list():
+		if method.name.begins_with("test"):
+			methods.append(method.name)
+	return methods
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		_registry.clear()
 		_registry.free()
 		_watcher.clear()
+
+static func _is_wat_test():
+	return true

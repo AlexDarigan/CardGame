@@ -5,6 +5,8 @@ using ClientConn = CardGame.Client.Connection;
 
 namespace CardGame.Tests.Integration
 {
+    [Start(nameof(Start))]
+    [End(nameof(End))]
     public class ConnectionTest: WAT.Test
     {
         private readonly ServerConn Server = new ServerConn();
@@ -32,9 +34,9 @@ namespace CardGame.Tests.Integration
             await UntilTimeout(0.5);
             Assert.IsType<CardGame.Server.Room>(Server.GetChild(0), 
                 "When the second client joins a room is created on the server");
-            Assert.IsType<CardGame.Client.Room>(Client1.GetChild(0),
+            Assert.IsType<CardGame.Client.Room>(Client1.GetNode("1"),
                 "And A Room is created on Client 1");
-            Assert.IsType<CardGame.Client.Room>(Client2.GetChild(0),
+            Assert.IsType<CardGame.Client.Room>(Client2.GetNode("1"),
                 "And A Room is created on Client 2");
             Assert.IsEqual(Client1.GetChild(0).Name, Client2.GetChild(0).Name, 
                 "The Client Rooms share the same name");

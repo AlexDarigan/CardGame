@@ -55,9 +55,9 @@ namespace CardGame.Tests.Client
 		{
 			// We'll have to inject decks into here somewhere
 			Card card = P1.Hand.ToList().Where(c => (CardState) c.Get("CardState") == CardState.Set).ElementAt(0);
-			P2.OnCardPressed(card);
+			P1.OnCardPressed(card);
 			await Update();
-			Assert.IsEqual(P1.Support.Count, 1, "Card was deployed");
+			Assert.IsEqual(P1.Support.Count, 1, "Card was set");
 		}
 
 		

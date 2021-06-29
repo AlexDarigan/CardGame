@@ -78,24 +78,6 @@ func _update(testdir: TestDirectory) -> void:
 			if not test.methods.empty():
 				testdir.tests.append(test)
 				_all_tests += test.get_tests()
-				
-		elif _is_valid_mono_test(absolute_path):
-			var test: TestScript = _get_test_script(testdir.path, absolute_path)
-			# We add a direct reference to the test tag array so when we modify
-			# ..it elsewhere we the update is sent here automatically
-			_tag_metadata[test.path] = test.tags
-			
-			# Add To Tag Object In Our Tag Dictionary
-			for tag in test.tags:
-				if tag in Settings.tags():
-					tags[tag].tests.append(test)
-				else:
-					push_warning("Tag %s does not exist in WAT Settings")
-					# Push an add check here to auto-add it?
-			
-			if not test.methods.empty():
-				testdir.tests.append(test)
-				_all_tests += test.get_tests()
 
 		relative_path = dir.get_next()
 	dir.list_dir_end()
@@ -105,30 +87,21 @@ func _update(testdir: TestDirectory) -> void:
 		_update(subdir)
 			
 func _is_valid_test(p: String) -> bool:
-	var base: String = "res://addons/WAT/core/test/test.gd"
-	return p.ends_with(".gd") and p != base and load(p).get("TEST")
-	
-func _is_valid_mono_test(p: String) -> bool:
-	var base: String = "res://addons/WAT/mono/Test.cs"
-	return p.ends_with(".cs") and p != base and load(p).new().get("TEST")
+	return (( p.ends_with(".gd") and p != "res://addons/WAT/test/test.gd" or
+		  p.ends_with(".cs") and p != "res://addons/WAT/mono/Test.cs" or
+		  p.ends_with(".gdc") and p != "res://addons/WAT/test/test.gdc") and
+		  load(p).call("_is_wat_test"))
 	
 func _get_test_script(dir: String, path: String) -> TestScript:
 	var gdscript: Script = load(path)
-	var test: TestScript = TestScript.new(dir, path, load(path))
-	if _tag_metadata.has(test.gdscript.resource_path):
-		test.tags = _tag_metadata[test.gdscript.resource_path]
-	if test.gdscript is GDScript:
-		for method in test.gdscript.get_script_method_list():
-			if method.name.begins_with("test"):
-				test.method_names.append(method.name)
-				test.methods.append(TestMethod.new(dir, test.path, test.gdscript, method.name))
-		test.yield_time = YieldCalculator.calculate_yield_time(test.gdscript, test.method_names.size())
-	elif test.gdscript is CSharpScript:
-		var methods = test.gdscript.new().GetTestMethods()
-		for m in methods:
-			test.method_names.append(m)
-			test.methods.append(TestMethod.new(dir, test.path, test.gdscript, m))
-		test.yield_time = 0
+	var test: TestScript = TestScript.new(dir, path)
+	if _tag_metadata.has(gdscript.resource_path):
+		test.tags = _tag_metadata[gdscript.resource_path]
+		
+	for method in gdscript.new().get_test_methods():
+		test.method_names.append(method)
+		test.methods.append(TestMethod.new(dir, test.path, method))
+		test.yield_time = YieldCalculator.calculate_yield_time(gdscript, test.method_names.size())
 	return test
 	
 func add_test_to_tag(test: TestScript, tag: String) -> void:
@@ -158,6 +131,3 @@ func _on_filesystem_changed(source: String, destination: String = "") -> void:
 	for path in [source, destination]:
 		if _is_in_test_directory(path):
 			has_been_changed = true
-	
-# get_failures()
-# get_metadata()

@@ -1,94 +1,167 @@
 #nullable enable
 using Godot;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Godot.Collections;
+using JetBrains.Annotations;
+using Array = Godot.Collections.Array;
 using Object = Godot.Object;
 
 namespace WAT 
 {
-	
 	public class Test : Node
 	{
-		[AttributeUsage(AttributeTargets.Method)] protected class TestAttribute: Attribute { }
-		[Signal] public delegate void executed();
-		[Signal] public delegate void Described();
+		[AttributeUsage(AttributeTargets.Class)] 
+		protected class HookAttribute : Attribute
+		{
+			public readonly string Method;
+			protected HookAttribute(string method) => Method = method;
+		}
 
-		private const string YIELD = "finished";
-		private const bool TEST = true;
+		[AttributeUsage(AttributeTargets.Method)]
+		protected class DescriptionAttribute : Attribute
+		{
+			public readonly string Description;
+			public DescriptionAttribute(string description) { Description = description; }
+		}
+		
+		[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+		protected class TestAttribute : Attribute
+		{
+			public readonly object[] Arguments = new object[0];
+			public TestAttribute() {}
+			public TestAttribute(params object[] args) { Arguments = args; }
+		}
+		
+		protected class StartAttribute : HookAttribute { public StartAttribute(string method) : base(method) { } }
+		protected class PreAttribute : HookAttribute { public PreAttribute(string method) : base(method) { } }
+		protected class PostAttribute : HookAttribute { public PostAttribute(string method) : base(method) { } }
+		protected class EndAttribute : HookAttribute { public EndAttribute(string method) : base(method) { } }
+		
+		
+		
+		[Signal] public delegate void Described();
+		[Signal] public delegate void TestExecuted();
+		private string Executed => nameof(TestExecuted);
 		private const int Recorder = 0; // Apparently we require the C# Version
 		private Godot.Collections.Array _methods = new Godot.Collections.Array();
-		private Object _case;
+		private Object? _case;
 		private static readonly GDScript Any = GD.Load<GDScript>("res://addons/WAT/test/any.gd");
 		private readonly Reference _watcher = (Reference) GD.Load<GDScript>("res://addons/WAT/test/watcher.gd").New();
 		private readonly Object _registry = (Object) GD.Load<GDScript>("res://addons/WAT/double/registry.gd").New();
-		protected readonly Node Direct = (Node) GD.Load<GDScript>("res://addons/WAT/double/factory.gd").New();
+		//protected readonly Node Direct = (Node) GD.Load<GDScript>("res://addons/WAT/double/factory.gd").New();
 		protected readonly Timer Yielder = (Timer) GD.Load<GDScript>("res://addons/WAT/test/yielder.gd").New();
-		protected Assertions Assert = new Assertions();
+		protected readonly Assertions Assert = new Assertions();
+		private Type Type;
 
 		public Test()
 		{
 			
 		}
-		public Test setup(Dictionary<string, object> metadata)
+		
+		public override void _Ready()
 		{
-			_methods = metadata["methods"] is string[] method
-				? new Godot.Collections.Array { string.Join("", method) }
-				: (Godot.Collections.Array) metadata["methods"];
-			
-			_case = (Object) GD.Load<GDScript>("res://addons/WAT/test/case.gd").New(this, metadata);
-			return this;
+			//Direct.Set("registry", _registry);
+			Assert.Connect(nameof(Assertions.asserted), _case, "_on_asserted");
+			Connect(nameof(Described), _case, "_on_test_method_described");
+			//AddChild(Direct);
+			AddChild(Yielder);
 		}
 
-		// ReSharper disable once InconsistentNaming
 		public async void run()
 		{
-			int cursor = 0;
-			await Execute("Start")!;
-			while (cursor < _methods.Count)
+			MethodInfo? start = GetTestHook(typeof(StartAttribute));
+			MethodInfo? pre = GetTestHook(typeof(PreAttribute));
+			MethodInfo? post = GetTestHook(typeof(PostAttribute));
+			MethodInfo? end = GetTestHook(typeof(EndAttribute));
+			await CallTestHook(start);
+			foreach (ExecutableTest test in GenerateTestMethods())
 			{
-				string currentMethod = (string) _methods[cursor];
-				_case.Call("add_method", currentMethod);
-				await Execute("Pre")!;
-				await Execute(currentMethod)!;
-				await Execute("Post")!;
-				cursor++;
+				_case.Call("add_method", test.Method.Name);
+				await CallTestHook(pre);
+				await Execute(test)!;
+				await CallTestHook(post);
 			}
 
-			await Execute("End")!;
-			EmitSignal(nameof(executed));
+			await CallTestHook(end);
+			EmitSignal(Executed);
 		}
 
-		private async Task? Execute(string method)
+		private MethodInfo? GetTestHook(Type attributeType)
 		{
-			if (GetType().GetMethod(method)?.Invoke(this, null) is Task task) { await task; }
+			if (Attribute.IsDefined(GetType(), attributeType) && 
+				Attribute.GetCustomAttribute(GetType(), attributeType) is HookAttribute hookAttribute)
+			{
+				return GetType().GetMethod(hookAttribute.Method);
+			}
+			return null;
 		}
-		
-		protected void Describe(string description) {EmitSignal(nameof(Described), description);}
-		private string title() { return Title(); }
+
+		private async Task CallTestHook(MethodInfo? hook) { if (hook?.Invoke(this, null) is Task task) { await task; } }
+
+		private async Task Execute(ExecutableTest test)
+		{
+			if (test.Method.GetCustomAttribute(typeof(DescriptionAttribute)) is DescriptionAttribute description) { EmitSignal(nameof(Described), description.Description); }
+			if (test.Method.Invoke(this, test.Arguments) is Task task) { await task; }
+		}
 		public virtual string Title() { return GetType().Name; }
 
-		protected SignalAwaiter UntilTimeout(double time)
-		{
-			return ToSignal((Timer) Yielder.Call("until_timeout", time), YIELD);
-		}
+		protected SignalAwaiter UntilTimeout(double time) { return ToSignal((Timer) Yielder.Call("until_timeout", time), "finished"); }
 
 		protected SignalAwaiter UntilSignal(Godot.Object emitter, string signal, double time)
 		{
 			_watcher.Call("watch", emitter, signal);
-			return ToSignal((Timer) Yielder.Call("until_signal", time, emitter, signal), YIELD);
+			return ToSignal((Timer) Yielder.Call("until_signal", time, emitter, signal), "finished");
 		}
-		public override void _Ready()
+		
+		protected void Watch(Godot.Object emitter, string signal) { _watcher.Call("watch", emitter, signal); }
+		protected void UnWatch(Godot.Object emitter, string signal) { _watcher.Call("unwatch", emitter, signal); }
+		
+		public void Simulate(Node obj, int times, float delta)
 		{
-			Direct.Set("registry", _registry);
-			Assert.Connect(nameof(Assertions.asserted), _case, "_on_asserted");
-			Connect(nameof(Described), _case, "_on_test_method_described");
-			AddChild(Direct);
-			AddChild(Yielder);
+			for (int i = 0; i < times; i++)
+			{
+				if (obj.HasMethod("_Process")) { obj._Process(delta); }
+				if (obj.HasMethod("_PhysicsProcess")) { obj._PhysicsProcess(delta); }
+				foreach (Node kid in obj.GetChildren()) { Simulate(kid, 1, delta); }
+			}
 		}
 
+		private IEnumerable<ExecutableTest> GenerateTestMethods()
+		{
+			return (from methodInfo in GetType().GetMethods().Where(info => _methods.Contains(info.Name))
+				let tests = Attribute.GetCustomAttributes(methodInfo)
+					.OfType<TestAttribute>()
+				from attribute in tests
+				select new ExecutableTest(methodInfo, attribute.Arguments)).ToList();
+		}
+		
+		private class ExecutableTest
+		{
+			public readonly MethodInfo Method;
+			public readonly object[] Arguments;
+
+			public ExecutableTest(MethodInfo method, object[] arguments)
+			{
+				Method = method;
+				Arguments = arguments;
+			}
+		}
+		
+		[UsedImplicitly]
+		public Array get_test_methods()
+		{
+			return new Array
+			(GetType().GetMethods().
+				Where(m => m.IsDefined(typeof(TestAttribute))).
+				Select(m => (string) m.Name).ToList());
+		}
+		
 		public Dictionary get_results()
 		{
 			_case.Call("calculate"); // #")
@@ -96,15 +169,23 @@ namespace WAT
 			_case.Free();
 			return results;
 		}
-
-		protected void Watch(Godot.Object emitter, string signal) { _watcher.Call("watch", emitter, signal); }
-		protected void UnWatch(Godot.Object emitter, string signal) { _watcher.Call("unwatch", emitter, signal); }
 		
-		private Array<string> GetTestMethods()
+		public Test setup(Godot.Collections.Dictionary<string, object> metadata)
 		{
-			return new Array<string>(GetType().GetMethods()
-				.Where(m => m.IsDefined(typeof(TestAttribute)))
-				.Select(info => info.Name).ToList());
+			_methods = metadata["methods"] is string[] method
+				? new Array{string.Join("", method) }
+				: (Array) metadata["methods"];
+			
+			GD.Print(_methods.Count);
+			_case = (Object) GD.Load<GDScript>("res://addons/WAT/test/case.gd").New(this, metadata);
+			return this;
 		}
+		
+		private string title() { return Title(); }
+		
+		[Signal] public delegate void executed();
+		private static bool _is_wat_test() => true;
+
+
 	}
 }

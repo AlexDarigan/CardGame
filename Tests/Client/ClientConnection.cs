@@ -2,8 +2,11 @@
 using ServerConn = CardGame.Server.Connection;
 using ClientConn = CardGame.Client.Connection;
 
+
 namespace CardGame.Tests.Client
 {
+    [Start(nameof(Start))]
+    [End(nameof(End))]
     public class ClientConnection: WAT.Test
     {
         public override string Title()
