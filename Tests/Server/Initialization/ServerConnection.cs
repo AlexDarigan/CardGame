@@ -2,16 +2,12 @@
 
 namespace CardGame.Tests.Server.Initialization
 {
+    [Title("Server")]
     [Start(nameof(Start))]
     [End(nameof(End))]
     public class ServerConnection: WAT.Test
     {
         private readonly Connection Server = new Connection();
-
-        public override string Title()
-        {
-            return "Server";
-        }
 
         public void Start()
         {

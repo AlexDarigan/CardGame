@@ -5,6 +5,7 @@ using ClientConn = CardGame.Client.Connection;
 
 namespace CardGame.Tests.Integration
 {
+    [Title("Given A Live Server")]
     [Start(nameof(Start))]
     [End(nameof(End))]
     public class ConnectionTest: WAT.Test
@@ -12,12 +13,7 @@ namespace CardGame.Tests.Integration
         private readonly ServerConn Server = new ServerConn();
         private readonly ClientConn Client1 = new ClientConn();
         private readonly ClientConn Client2 = new ClientConn();
-
-        public override string Title()
-        {
-            return "Given A Live Server";
-        }
-
+        
         public void Start()
         {
             AddChild(Server);

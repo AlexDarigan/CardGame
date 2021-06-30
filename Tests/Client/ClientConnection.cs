@@ -5,15 +5,11 @@ using ClientConn = CardGame.Client.Connection;
 
 namespace CardGame.Tests.Client
 {
+    [Title("Client")]
     [Start(nameof(Start))]
     [End(nameof(End))]
     public class ClientConnection: WAT.Test
     {
-        public override string Title()
-        {
-            return "Client";
-        }
-
         private readonly ServerConn Server = new ServerConn();
         private readonly ClientConn Client = new ClientConn();
 

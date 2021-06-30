@@ -2,14 +2,9 @@
 
 namespace CardGame.Tests.Server.Initialization
 {
+    [Title("When a game starts")]
     public class OnGameStart: BaseServerTest
     {
-      
-        public override string Title()
-        {
-            return "When a game starts";
-        }
-        
         [Test]
         public void Player_Decks_Contain_33_Cards()
         {

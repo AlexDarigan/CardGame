@@ -7,7 +7,6 @@ const YIELD: String = "finished"
 const Executed: String = "executed"
 signal described
 signal completed
-signal executed
 
 var rerun_method: bool
 var p: Dictionary
@@ -23,10 +22,10 @@ var _registry = preload("res://addons/WAT/double/registry.gd").new()
 var _yielder: Timer = preload("res://addons/WAT/test/yielder.gd").new()
 var _case
 var _methods = []
-
-func setup(metadata: Dictionary) -> Node:
-	_methods = metadata["methods"]
-	_case = preload("res://addons/WAT/test/case.gd").new(self, metadata)
+		
+func setup(directory = "", filepath = "", methods = []):
+	_methods = methods
+	_case = preload("res://addons/WAT/test/case.gd").new(directory, filepath, title(), self)
 	return self
 
 func run():
@@ -38,7 +37,7 @@ func run():
 		for hook in ["pre", "execute", "post"]:
 			yield(call_function(hook, cursor), COMPLETED)
 	yield(call_function("end"), COMPLETED)
-	emit_signal(Executed)
+	get_parent().get_results(get_results())
 	
 func call_function(function, cursor = 0):
 	var s = call(function) if function != "execute" else execute(cursor)
@@ -63,9 +62,9 @@ func _ready() -> void:
 	asserts.connect("asserted", self, "_on_last_assertion")
 	add_child(direct)
 	add_child(_yielder)
-	print(_yielder)
 	connect("described", _case, "_on_test_method_described")
 	asserts.connect("asserted", _case, "_on_asserted")
+	run()
 
 func start():
 	pass
