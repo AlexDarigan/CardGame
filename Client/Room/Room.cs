@@ -4,7 +4,8 @@ using Godot;
 
 namespace CardGame.Client
 {
-	//public class Room : Spatial { }
+	public delegate void Declaration(CommandId commandId, params object[] args);
+	public delegate void Update();
 	public class Room : Node
 	{
 		// TODO (REWRITE)
@@ -16,8 +17,6 @@ namespace CardGame.Client
 		// BASIC INPUT SYSTEM
 		
 		// ACTIONS
-		// ..Deploy
-		// ..Set
 		// ..Activate
 		// ..AttackUnit
 		// ..AttackPlayer
@@ -36,9 +35,8 @@ namespace CardGame.Client
 		// ..Does positioning benefit us?
 		// ..It makes sense considering how our zones look
 		
-		
 		[Signal] public delegate void Updated();
-		public delegate void Declaration(CommandId commandId, params object[] args);
+		
 		private readonly Node Cards;
 		private readonly Dictionary<int, Card> _cards = new();
 		private readonly Queue<Command> _commandQueue = new();
@@ -58,7 +56,6 @@ namespace CardGame.Client
 			_gui = view.GetNode<Control>("GUI");
 			_player = new Participant(view.GetNode<Node>("Table/Player"), (commandId,args) => RpcId(Server, commandId.ToString(), args));
 			_rival = new Participant(view.GetNode<Node>("Table/Rival"), delegate{  });
-			Connect(nameof(Updated), _player, nameof(Participant.Update));
 		}
 
 		public override void _Ready() => RpcId(Server, "OnClientReady"); 
@@ -69,6 +66,7 @@ namespace CardGame.Client
 		public async void Update(States states)
 		{
 			while (_commandQueue.Count > 0) { await _commandQueue.Dequeue().Execute(_gfx); }
+			_player.Update(states);
 			EmitSignal(nameof(Updated), states);
 		}
 		

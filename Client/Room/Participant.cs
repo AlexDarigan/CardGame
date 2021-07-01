@@ -1,28 +1,31 @@
 using System;
-using System.Xml;
 using Godot;
 using Object = Godot.Object;
 
 namespace CardGame.Client
 {
-	public class Participant : Object
+	public class Participant
 	{
 		public int Health = 8000;
 		public States State;
 		public readonly bool IsClient;
-		public readonly Zone Deck = null;
-		public readonly Zone Discard = null;
-		public readonly Zone Hand = null;
-		public readonly Zone Units = null;
-		public readonly Zone Support = null;
-		public readonly Room.Declaration Declare;
+		public readonly Zone Deck;
+		public readonly Zone Discard;
+		public readonly Zone Hand;
+		public readonly Zone Units;
+		public readonly Zone Support;
+		public readonly Declaration Declare;
 
 
-		public Participant(Node view, Room.Declaration declare)
+		public Participant(Node view, Declaration declare)
 		{
 			Declare = declare;
 			IsClient = view.Name == "Player";
-			foreach (Node zone in view.GetChildren()) { Set(zone.Name, new Zone(zone)); }
+			Deck = new Zone(view.GetNode<Spatial>("Deck"));
+			Discard = new Zone(view.GetNode<Spatial>("Discard"));
+			Hand = new Zone(view.GetNode<Spatial>("Hand"));
+			Units = new Zone(view.GetNode<Spatial>("Units"));
+			Support = new Zone(view.GetNode<Spatial>("Support"));
 		}
 
 		public void Update(States state) => State = state;

@@ -37,12 +37,7 @@ namespace CardGame.Client
 		}
 
 		[Puppet]
-		public void CreateRoom(string roomName)
-		{
-			Spatial roomView = (Spatial) RoomScene.Instance();
-			Room room = new Room(roomView, roomName, CustomMultiplayer);
-			AddChild(room, true);
-		}
+		public void CreateRoom(string roomName) { AddChild(new Room((Spatial) RoomScene.Instance(), roomName, CustomMultiplayer), true); }
 
 		public override void _Process(float delta) { if (CustomMultiplayer.HasNetworkPeer()) { CustomMultiplayer.Poll(); } }
 		public override void _ExitTree()
