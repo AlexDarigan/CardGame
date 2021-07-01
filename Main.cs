@@ -12,8 +12,8 @@ namespace CardGame
 		[Signal] public delegate void RoomsUpdated();
 		[Export()] private bool _room1IsVisible = false;
 		[Export()] private bool _room2IsVisible = false;
-		private RoomView _room1;
-		private RoomView _room2;
+		private Room _room1;
+		private Room _room2;
 		private int _rooms = 0;
 		private int _roomUpdates = 0;
 
@@ -27,21 +27,19 @@ namespace CardGame
 		{
 			switch (node)
 			{
-				case RoomView roomView:
+				case Room room:
 				{
 					_rooms++;
+					room.Connect(nameof(Room.Updated), this, nameof(OnRoomUpdated));
 					// ReSharper disable once ConvertIfStatementToSwitchStatement
-					if (_rooms == 1) _room1 = roomView;
-					if (_rooms == 2) _room2 = roomView;
+					if (_rooms == 1) _room1 = room;
+					if (_rooms == 2) _room2 = room;
 					bool visible = _rooms == 1 ? _room1IsVisible : _room2IsVisible;
-					roomView.Visible = visible;
+					room.GetChild<Spatial>(0).Visible = visible;
 					if (_rooms != 2) return;
 					EmitSignal(nameof(GameBegun));
 					break;
 				}
-				case Room room:
-					room.Connect(nameof(Room.Updated), this, nameof(OnRoomUpdated));
-					break;
 			}
 		}
 		
@@ -53,8 +51,8 @@ namespace CardGame
 			{
 				case KeyList.S:
 				{
-					SetVisibility(_room1);
-					SetVisibility(_room2);
+					SetVisibility(_room1.GetChild<Spatial>(0));
+					SetVisibility(_room2.GetChild<Spatial>(0));
 					break;
 				}
 			}

@@ -39,8 +39,7 @@ namespace CardGame.Client
 		[Puppet]
 		public void CreateRoom(string roomName)
 		{
-			RoomView roomView = (RoomView) RoomScene.Instance();
-			AddChild(roomView);
+			Spatial roomView = (Spatial) RoomScene.Instance();
 			Room room = new Room(roomView, roomName, CustomMultiplayer);
 			AddChild(room, true);
 		}

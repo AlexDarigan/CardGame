@@ -4,7 +4,7 @@ using Godot;
 
 namespace CardGame.Client
 {
-	public class RoomView : Spatial { }
+	//public class Room : Spatial { }
 	public class Room : Node
 	{
 		// TODO (REWRITE)
@@ -50,6 +50,7 @@ namespace CardGame.Client
 
 		public Room(Node view, string name, MultiplayerAPI multiplayerApi)
 		{
+			AddChild(view);
 			Name = name;
 			CustomMultiplayer = multiplayerApi;
 			Cards = view.GetNode<Node>("Cards");
