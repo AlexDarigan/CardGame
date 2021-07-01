@@ -13,15 +13,8 @@ namespace CardGame.Client
         public readonly IReadOnlyList<Location> Locations;
         public int Count => _cards.Count;
         public Location Destination => Locations[_cards.Count - 1];
-        
         public Zone(Node view) => Locations = (from Spatial location in view.GetChildren() select new Location(location.Translation, location.RotationDegrees)).ToList();
-
-        public void Add(Card card)
-        {
-            _cards.Add(card);
-            //return Locations[Count - 1];
-        }
-
+        public void Add(Card card) => _cards.Add(card);
         public void Remove(Card card) => _cards.Remove(card);
         public Card this[int index] => _cards[index];
         public IEnumerator<Card> GetEnumerator() => _cards.GetEnumerator();

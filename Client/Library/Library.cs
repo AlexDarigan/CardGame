@@ -8,16 +8,10 @@ namespace CardGame.Client
     {
         private static readonly PackedScene _cardScene = (PackedScene) GD.Load("res://Client/Card/CardView.tscn");
         private const string JsonCardsFilePath = @"Client/Library/Library.json";
-        private static readonly ReadOnlyDictionary<SetCodes, CardInfo> Cards =
+        public static readonly ReadOnlyDictionary<SetCodes, CardInfo> Cards =
             JsonConvert.DeserializeObject<ReadOnlyDictionary<SetCodes,
                 CardInfo>>(System.IO.File.ReadAllText(JsonCardsFilePath));
-        
-        public static Card GetCard(Node cards, SetCodes setCode, int id)
-        {
-            CardView cardView = (CardView) _cardScene.Instance(); //.GetCard();
-            cards.AddChild(cardView);
-            return new Card(Cards[setCode], cardView, id) {Translation = new Vector3(0, -3, 0)};
-        }
+      
     }
     
     public readonly struct CardInfo

@@ -3,12 +3,11 @@ using Object = Godot.Object;
 
 namespace CardGame.Client
 {
-	public class CardView: Spatial { }
 	public class Card: Object
 	{
 		public delegate void Pressed(Card pressed);
 		public event Pressed CardPressed;
-		private readonly CardView _view;
+		private readonly Spatial view;
 		private readonly SpatialMaterial _face;
 		public readonly int Id;
 		private string _title;
@@ -16,18 +15,18 @@ namespace CardGame.Client
 		private int _power;
 		public CardState CardState = CardState.None;
 		private Texture Art { set { _face.AlbedoTexture = value; _face.EmissionTexture = value; } }
-		public Vector3 Translation { get => _view.Translation; set => _view.Translation = value; }
-		public Vector3 RotationDegrees { get => _view.RotationDegrees; set => _view.RotationDegrees = value; }
+		public Vector3 Translation { get => view.Translation; set => view.Translation = value; }
+		public Vector3 RotationDegrees { get => view.RotationDegrees; set => view.RotationDegrees = value; }
 
-		public Card(CardInfo info, CardView view, int id)
+		public Card(CardInfo info, Spatial view, int id)
 		{
 			Id = id;
-			_view = view;
+			this.view = view;
 			_face = (SpatialMaterial) view.GetNode<MeshInstance>("Face").GetSurfaceMaterial(0);
 			CardType cardType;
 			(cardType, _title, Art, _text, _power) = info;
-			_view.GetNode<Area>("Area").Connect("input_event", this, nameof(OnInputEvent));
-			_view.GetNode<Spatial>("Power").Visible = cardType == CardType.Unit;
+			this.view.GetNode<Area>("Area").Connect("input_event", this, nameof(OnInputEvent));
+			this.view.GetNode<Spatial>("Power").Visible = cardType == CardType.Unit;
 		}
 
 		public void Update(CardState state) =>	CardState = state;
