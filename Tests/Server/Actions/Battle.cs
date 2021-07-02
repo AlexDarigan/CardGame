@@ -16,6 +16,7 @@ namespace CardGame.Tests.Server.Actions
             Match.EndTurn(Player1);
             Match.EndTurn(Player2);
             int healthBeforeDirectAttack = Player2.Health;
+            Assert.IsEqual(attacker.CardState, CardState.AttackPlayer, "Attacker can attack directly");
             Match.DeclareDirectAttack(Player1, attacker);
             Assert.IsEqual(Player2.Health, healthBeforeDirectAttack - attacker.Power,
                 "Then the defending player loses life equal to the Unit's Attack");

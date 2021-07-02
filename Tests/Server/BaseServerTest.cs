@@ -34,7 +34,7 @@ namespace CardGame.Tests.Server
         {
             GD.Print("Hello World");
             Console.WriteLine("Hello");
-            for (int i = 0; i < 40; i++) _deckList.Add(SetCodes.NullCard);
+            for (int i = 0; i < 40; i++) _deckList.Add(SetCodes.AlphaBioShocker);
         }
 
         public void Pre()
