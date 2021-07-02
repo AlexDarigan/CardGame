@@ -30,11 +30,11 @@ namespace CardGame.Server
             DeckList = deckList;
         }
 
-        public Event LoadDeck(CardRegister cardRegister)
+        public Event LoadDeck(Cards cards)
         {
             foreach (SetCodes setCode in DeckList)
             {
-                Card card = Library.Create(this, cardRegister, setCode);
+                Card card = cards.CreateCard(setCode, this);
                 Deck.Add(card);
             }
 

@@ -17,7 +17,7 @@ namespace CardGame.Tests.Server
          */
 
         protected readonly List<SetCodes> _deckList = new();
-        private CardRegister Cards;
+        private Cards Cards;
         protected Match Match;
         protected Player Player1;
         protected Player Player2;
@@ -41,7 +41,7 @@ namespace CardGame.Tests.Server
         {
             Player1 = new Player(1, _deckList);
             Player2 = new Player(2, _deckList);
-            Cards = new CardRegister();
+            Cards = new Cards();
             Match = new Match(Player1, Player2, Cards, Update, Queue);
             Match.Begin(new List<Player> {Player1, Player2});
         }

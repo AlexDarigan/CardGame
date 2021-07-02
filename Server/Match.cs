@@ -14,7 +14,7 @@ namespace CardGame.Server
          */
 
         private readonly VirtualStackMachine _virtualStackMachine = new();
-        private readonly CardRegister CardRegister;
+        private readonly Cards _cards;
 
         private readonly Enqueue Queue;
 
@@ -22,11 +22,11 @@ namespace CardGame.Server
         private readonly Action _update;
         private bool _isGameOver;
 
-        public Match(Player player1, Player player2, CardRegister cardRegister, Action update, Enqueue queue)
+        public Match(Player player1, Player player2, Cards cards, Action update, Enqueue queue)
         {
             _update = update;
             Queue = queue;
-            CardRegister = cardRegister;
+            _cards = cards;
             player1.Opponent = player2;
             player2.Opponent = player1;
         }
@@ -36,7 +36,7 @@ namespace CardGame.Server
             // Could place this directly inside room (we'd remove the register dependency for a start)
             foreach (Player player in players)
             {
-                player.LoadDeck(CardRegister).QueueOnClients(Queue);
+                player.LoadDeck(_cards).QueueOnClients(Queue);
                 for (int i = 0; i < 7; i++) player.Draw().QueueOnClients(Queue);
             }
 
@@ -127,7 +127,7 @@ namespace CardGame.Server
 
         private void Update()
         {
-            foreach (Card card in CardRegister) { card.Update(); }
+            foreach (Card card in _cards) { card.Update(); }
             _update();
         }
 

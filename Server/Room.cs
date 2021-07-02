@@ -9,7 +9,7 @@ namespace CardGame.Server
 
     public class Room : Node
     {
-        private readonly CardRegister _cards = new();
+        private readonly Cards _cards = new();
         private readonly Match _match;
         private readonly Dictionary<int, Player> _players = new();
 
