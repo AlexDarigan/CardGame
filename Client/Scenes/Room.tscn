@@ -16,3 +16,4 @@
 [node name="Cards" type="Spatial" parent="."]
 
 [node name="GUI" parent="." instance=ExtResource( 3 )]
+mouse_filter = 2
