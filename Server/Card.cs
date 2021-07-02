@@ -26,12 +26,17 @@ namespace CardGame.Server
 
         public void Update()
         {
-            //CardState = CardState.None;
-            if (Controller.Hand.Contains(this) && CardType is CardType.Unit && Controller.State == States.IdleTurnPlayer) { CardState = CardState.Deploy; }
-            else if (Controller.Hand.Contains(this) && CardType is CardType.Support && Controller.State == States.IdleTurnPlayer) { CardState = CardState.Set;}
-            else if (Controller.Units.Contains(this) && IsReady && Controller.State == States.IdleTurnPlayer && Controller.Opponent.Units.Count > 0) { CardState = CardState.AttackUnit;}
-            else if (Controller.Units.Contains(this) && IsReady && Controller.State == States.IdleTurnPlayer && Controller.Opponent.Units.Count == 0) { CardState = CardState.AttackPlayer; }
+            if (Controller.State != States.IdleTurnPlayer) { CardState = CardState.None; }
+            else if (CanBeDeployed()) { CardState = CardState.Deploy; }
+            else if (CanBeSetFaceDown()) { CardState = CardState.Set;}
+            else if (CanAttackUnit()) { CardState = CardState.AttackUnit;}
+            else if (CanAttackPlayer()) { CardState = CardState.AttackPlayer; }
             else { CardState = CardState.None; }
         }
+
+        private bool CanBeDeployed() => Controller.Hand.Contains(this) && CardType is CardType.Unit;
+        private bool CanBeSetFaceDown() => Controller.Hand.Contains(this) && CardType is CardType.Support;
+        private bool CanAttackUnit() => Controller.Units.Contains(this) && IsReady && Controller.Opponent.Units.Count > 0;
+        private bool CanAttackPlayer() => Controller.Units.Contains(this) && IsReady && Controller.Opponent.Units.Count == 0;
     }
 }
