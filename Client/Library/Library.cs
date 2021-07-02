@@ -6,7 +6,6 @@ namespace CardGame.Client
 {
     public static class Library
     {
-        private static readonly PackedScene _cardScene = (PackedScene) GD.Load("res://Client/Card/CardView.tscn");
         private const string JsonCardsFilePath = @"Client/Library/Library.json";
         public static readonly ReadOnlyDictionary<SetCodes, CardInfo> Cards =
             JsonConvert.DeserializeObject<ReadOnlyDictionary<SetCodes,

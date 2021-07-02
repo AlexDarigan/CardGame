@@ -71,7 +71,6 @@ namespace CardGame.Client
 		}
 		
 		[Puppet] public void UpdateCard(int id, CardState state) => _cards[id].Update(state);
-		
 		[Puppet] private void Deploy(Card card) => RpcId(Server, "Deploy", card.Id);
 		[Puppet] private void Set(Card card) => RpcId(Server, "Set", card.Id);
 		[Puppet] public void Pass() => RpcId(Server, "Pass");
