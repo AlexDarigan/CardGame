@@ -6,6 +6,7 @@
 [node name="Room" type="Spatial"]
 
 [node name="Table" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0333014, -4.76837e-07, 0.0138941 )
 
 [node name="GFX" type="Tween" parent="."]
 
