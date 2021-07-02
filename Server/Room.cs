@@ -12,12 +12,7 @@ namespace CardGame.Server
         private readonly Cards _cards = new();
         private readonly Match _match;
         private readonly Dictionary<int, Player> _players = new();
-
-        public Room()
-        {
-            // I believe an empty constructor is required in Godot Classes that have non-empty constructor(s)
-            // ..for the sake of some Godot callbacks
-        }
+        public Room() { /* Required By Godot Engine Callbacks */ }
 
         public Room(Player player1, Player player2)
         {
@@ -25,13 +20,10 @@ namespace CardGame.Server
             _players[player2.Id] = player2;
             _match = new Match(player1, player2, _cards, Update, Queue);
         }
-
-        // TODO: I am an idiot
-        // We're using a MockUpdate that doesn't do anything for us in Tests which is why everything is failing..
-        // ..we should move all of the non-rpc stuff here down to Match instead.
+        
         private void Update()
         {
-            Console.WriteLine($"Cards count {_cards.Count}");
+            // Requires Some Work
             foreach (int id in _players.Keys)
             {
                 foreach (Card card in _cards)
@@ -44,12 +36,8 @@ namespace CardGame.Server
             }
         }
 
-        private void Queue(int player, CommandId commandId, params object[] args)
-        {
-            RpcId(player, "Queue", commandId, args);
-        }
-
-
+        private void Queue(int player, CommandId commandId, params object[] args) { RpcId(player, "Queue", commandId, args); }
+        
         [Master]
         public void OnClientReady()
         {
