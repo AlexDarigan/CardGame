@@ -31,6 +31,7 @@ namespace CardGame.Tests.Client
         public async Task OnGameStart()
         {
             await Update();
+            
             Assert.IsEqual(P1.State, States.IdleTurnPlayer, "Player 1 is Idle Turn Player");
             Assert.IsEqual(P2.State, States.Passive, "Player 2 is Passive");
             Assert.IsEqual(P1.Hand.Count, 7, "Player 1 hand count is 7");

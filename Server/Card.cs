@@ -26,13 +26,12 @@ namespace CardGame.Server
 
         public void Update()
         {
-            Console.WriteLine("Updating!");
             //CardState = CardState.None;
             if (Controller.Hand.Contains(this) && CardType is CardType.Unit && Controller.State == States.IdleTurnPlayer) { CardState = CardState.Deploy; }
             else if (Controller.Hand.Contains(this) && CardType is CardType.Support && Controller.State == States.IdleTurnPlayer) { CardState = CardState.Set;}
             else if (Controller.Units.Contains(this) && IsReady && Controller.State == States.IdleTurnPlayer && Controller.Opponent.Units.Count > 0) { CardState = CardState.AttackUnit;}
             else if (Controller.Units.Contains(this) && IsReady && Controller.State == States.IdleTurnPlayer && Controller.Opponent.Units.Count == 0) { CardState = CardState.AttackPlayer; }
-            else {}
+            else { CardState = CardState.None; }
         }
     }
 }
