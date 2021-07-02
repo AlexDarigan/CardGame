@@ -1,8 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Client/Assets/Models/Table.obj" type="ArrayMesh" id=1]
-[ext_resource path="res://Client/Room/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Client/Room/Rival.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Client/Scenes/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Client/Scenes/Rival.tscn" type="PackedScene" id=3]
+
 
 [node name="Table" type="Spatial"]
 

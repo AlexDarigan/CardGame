@@ -9,8 +9,6 @@ namespace CardGame.Client
 {
 	public class Connection : Node
 	{
-		
-		private readonly PackedScene RoomScene = GD.Load<PackedScene>("res://Client/Room/Room.tscn");
 		private const string ServerAddress = "127.0.0.1";
 		private const int ServerPort = 5000;
 		private readonly NetworkedMultiplayerENet Client = new NetworkedMultiplayerENet();
@@ -37,7 +35,7 @@ namespace CardGame.Client
 		}
 
 		[Puppet]
-		public void CreateRoom(string roomName) { AddChild(new Room((Spatial) RoomScene.Instance(), roomName, CustomMultiplayer), true); }
+		public void CreateRoom(string roomName) { AddChild(new Room(Scenes.Room(), roomName, CustomMultiplayer), true); }
 
 		public override void _Process(float delta) { if (CustomMultiplayer.HasNetworkPeer()) { CustomMultiplayer.Poll(); } }
 		public override void _ExitTree()
