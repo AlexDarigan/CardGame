@@ -50,7 +50,7 @@ namespace CardGame.Client
 			AddChild(view);
 			Name = name;
 			CustomMultiplayer = multiplayerApi;
-			_cards = view.GetNode<Cards>("Cards");
+			_cards = new Cards(view.GetNode<Spatial>("Cards"));
 			_gfx = view.GetNode<Tween>("GFX");
 			_gui = view.GetNode<Control>("GUI");
 			_player = new Participant(view.GetNode<Node>("Table/Player"), (commandId,args) => RpcId(Server, commandId.ToString(), args));
