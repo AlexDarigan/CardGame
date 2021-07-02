@@ -4,7 +4,6 @@
 [ext_resource path="res://Client/Scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Client/Scenes/Rival.tscn" type="PackedScene" id=3]
 
-
 [node name="Table" type="Spatial"]
 
 [node name="Camera" type="Camera" parent="."]

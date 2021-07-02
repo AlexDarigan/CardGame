@@ -36,7 +36,10 @@ namespace CardGame
                     if (_rooms == 1) _room1 = room;
                     if (_rooms == 2) _room2 = room;
                     bool visible = _rooms == 1 ? _room1IsVisible : _room2IsVisible;
-                    room.GetChild<Spatial>(0).Visible = visible;
+
+                    room.GetNode<Spatial>("Room").Visible = visible;
+                    room.GetNode<Control>("Room/GUI").Visible = visible;
+ 
                     if (_rooms != 2) return;
                     EmitSignal(nameof(GameBegun));
                     break;
@@ -52,17 +55,17 @@ namespace CardGame
             {
                 case KeyList.S:
                 {
-                    SetVisibility(_room1.GetChild<Spatial>(0));
-                    SetVisibility(_room2.GetChild<Spatial>(0));
+                    SetVisibility(_room1);
+                    SetVisibility(_room2);
                     break;
                 }
             }
         }
 
-        private static void SetVisibility(Spatial room)
+        private static void SetVisibility(Room room)
         {
-            room.Visible = !room.Visible;
-            room.GetNode<Control>("GUI").Visible = !room.GetNode<Control>("GUI").Visible;
+            room.GetNode<Spatial>("Room").Visible = !room.GetNode<Spatial>("Room").Visible;
+            room.GetNode<Control>("Room/GUI").Visible = !room.GetNode<Control>("Room/GUI").Visible;
         }
 
         public void OnRoomUpdated(States states)

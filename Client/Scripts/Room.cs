@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Godot;
+using Godot.Collections;
 
 namespace CardGame.Client
 {
@@ -9,7 +10,6 @@ namespace CardGame.Client
 
     public class Room : Node
     {
-        
         [Signal] public delegate void Updated();
 
         private const int Server = 1;
@@ -22,7 +22,8 @@ namespace CardGame.Client
 
         public Room(Node view, string name, MultiplayerAPI multiplayerApi)
         {
-            AddChild(view);
+            AddChild(view, true);
+            //view.Name = "Room";
             Name = name;
             CustomMultiplayer = multiplayerApi;
             _cards = new Cards(view.GetNode<Spatial>("Cards"));
@@ -33,6 +34,8 @@ namespace CardGame.Client
             _rival = new Participant(view.GetNode<Node>("Table/Rival"), delegate { });
             _cards.Player = _player;
             GD.Print("Room Created");
+            _gui.GetNode<Button>("Menu/EndTurn");
+            _gui.GetNode<Label>("ID").Text = multiplayerApi.GetNetworkUniqueId().ToString();
         }
 
         public override void _Ready() => RpcId(Server, "OnClientReady");
@@ -42,12 +45,13 @@ namespace CardGame.Client
         {
             while (_commandQueue.Count > 0) await _commandQueue.Dequeue().Execute(_gfx);
             _player.Update(states);
+            _gui.GetNode<Label>("State").Text = states.ToString();
             EmitSignal(nameof(Updated), states); 
         }
         
         [Puppet] public void Queue(CommandId commandId, params object[] args) => _commandQueue.Enqueue((Command) Call(commandId.ToString(), args)); 
         [Puppet] public void UpdateCard(int id, CardState state) => _cards[id].Update(state); 
-        private Command LoadDeck(bool who, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(who), deck, _cards.GetCard); 
+        private Command LoadDeck(bool who, System.Collections.Generic.Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(who), deck, _cards.GetCard); 
         private Command Draw(bool who, int id) => new Draw(GetPlayer(who), GetCard(id)); 
         private Command Deploy(bool who, int id) => new Deploy(GetPlayer(who), GetCard(id)); 
         private Command SetFaceDown(bool who, int id) => new Set(GetPlayer(who), GetCard(id)); 
