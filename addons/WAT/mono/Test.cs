@@ -1,143 +1,166 @@
 #nullable enable
-using Godot;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Godot;
 using Godot.Collections;
-using JetBrains.Annotations;
-using Array = Godot.Collections.Array;
 using Object = Godot.Object;
 
-namespace WAT 
+namespace WAT
 {
-	[Start(nameof(Blank))]
-	[Pre(nameof(Blank))]
-	[Post(nameof(Blank))]
-	[End(nameof(Blank))]
-	public partial class Test : Node
-	{
-		[Signal] public delegate void Described();
-		private const int Recorder = 0; // Apparently we require the C# Version
-		private IEnumerable<Executable> _methods = null!;
-		private Object _case = null!;
-		private static readonly GDScript TestCase = GD.Load<GDScript>("res://addons/WAT/test/case.gd");
-		private static readonly GDScript Any = GD.Load<GDScript>("res://addons/WAT/test/any.gd");
-		private readonly Reference _watcher = (Reference) GD.Load<GDScript>("res://addons/WAT/test/watcher.gd").New();
-		private readonly Object _registry = (Object) GD.Load<GDScript>("res://addons/WAT/double/registry.gd").New();
-		//protected readonly Node Direct = (Node) GD.Load<GDScript>("res://addons/WAT/double/factory.gd").New();
-		protected readonly Timer Yielder = (Timer) GD.Load<GDScript>("res://addons/WAT/test/yielder.gd").New();
-		protected readonly Assertions Assert = new Assertions();
-		private readonly Type _type;
+    [Start(nameof(Blank))]
+    [Pre(nameof(Blank))]
+    [Post(nameof(Blank))]
+    [End(nameof(Blank))]
+    public partial class Test : Node
+    {
+        [Signal]
+        public delegate void Described();
 
-		protected Test() { _type = GetType(); }
-		private void Blank() { }
+        private const int Recorder = 0; // Apparently we require the C# Version
+        private static readonly GDScript TestCase = GD.Load<GDScript>("res://addons/WAT/test/case.gd");
+        private static readonly GDScript Any = GD.Load<GDScript>("res://addons/WAT/test/any.gd");
+        private readonly Object _registry = (Object) GD.Load<GDScript>("res://addons/WAT/double/registry.gd").New();
+        private readonly Type _type;
+        private readonly Reference _watcher = (Reference) GD.Load<GDScript>("res://addons/WAT/test/watcher.gd").New();
 
-		public override void _Ready()
-		{
-			//Direct.Set("registry", _registry);
-			Assert.Connect(nameof(Assertions.asserted), _case, "_on_asserted");
-			Connect(nameof(Described), _case, "_on_test_method_described");
-			//AddChild(Direct);
-			AddChild(Yielder);
-			CallDeferred(nameof(Run));
-		}
+        protected readonly Assertions Assert = new();
 
-		private async void Run()
-		{
-			// Can we do this in _Ready?
-			MethodInfo start = GetTestHook(typeof(StartAttribute));
-			MethodInfo pre = GetTestHook(typeof(PreAttribute));
-			MethodInfo post = GetTestHook(typeof(PostAttribute));
-			MethodInfo end = GetTestHook(typeof(EndAttribute));
-			await CallTestHook(start);
-			foreach (Executable test in _methods)
-			{
-				_case.Call("add_method", test.Method.Name);
-				await CallTestHook(pre);
-				await Execute(test)!;
-				await CallTestHook(post);
-			}
+        //protected readonly Node Direct = (Node) GD.Load<GDScript>("res://addons/WAT/double/factory.gd").New();
+        protected readonly Timer Yielder = (Timer) GD.Load<GDScript>("res://addons/WAT/test/yielder.gd").New();
+        private Object _case = null!;
+        private IEnumerable<Executable> _methods = null!;
 
-			await CallTestHook(end);
-			GetParent().Call("get_results", GetResults());
-		}
-		
-		private string Title()
-		{
-			if (!Attribute.IsDefined(_type, typeof(TitleAttribute))) return _type.Name;
-			TitleAttribute title = (TitleAttribute) Attribute.GetCustomAttribute(_type, typeof(TitleAttribute));
-			return title.Title;
-		}
+        protected Test()
+        {
+            _type = GetType();
+        }
 
-		private MethodInfo GetTestHook(Type attributeType)
-		{
-			HookAttribute hook = (HookAttribute) Attribute.GetCustomAttribute(_type, attributeType);
-			return _type.GetMethod(hook.Method)!;
-		}
+        private void Blank()
+        {
+        }
 
-		private async Task CallTestHook(MethodInfo hook)
-		{
-			if (hook?.Invoke(this, null) is Task task) { await task; } else { await Task.Run((() => { })); }
-		}
+        public override void _Ready()
+        {
+            //Direct.Set("registry", _registry);
+            Assert.Connect(nameof(Assertions.asserted), _case, "_on_asserted");
+            Connect(nameof(Described), _case, "_on_test_method_described");
+            //AddChild(Direct);
+            AddChild(Yielder);
+            CallDeferred(nameof(Run));
+        }
 
-		private async Task Execute(Executable test)
-		{
-			if (test.Method.GetCustomAttribute(typeof(DescriptionAttribute)) is DescriptionAttribute description) { EmitSignal(nameof(Described), description.Description); }
-			if (test.Method.Invoke(this, test.Arguments) is Task task) { await task; }
-			else { await Task.Run((() => { })); }
-		}
+        private async void Run()
+        {
+            // Can we do this in _Ready?
+            MethodInfo start = GetTestHook(typeof(StartAttribute));
+            MethodInfo pre = GetTestHook(typeof(PreAttribute));
+            MethodInfo post = GetTestHook(typeof(PostAttribute));
+            MethodInfo end = GetTestHook(typeof(EndAttribute));
+            await CallTestHook(start);
+            foreach (Executable test in _methods)
+            {
+                _case.Call("add_method", test.Method.Name);
+                await CallTestHook(pre);
+                await Execute(test)!;
+                await CallTestHook(post);
+            }
 
-		protected SignalAwaiter UntilTimeout(double time) { return ToSignal((Timer) Yielder.Call("until_timeout", time), "finished"); }
+            await CallTestHook(end);
+            GetParent().Call("get_results", GetResults());
+        }
 
-		protected SignalAwaiter UntilSignal(Godot.Object emitter, string signal, double time)
-		{
-			_watcher.Call("watch", emitter, signal);
-			return ToSignal((Timer) Yielder.Call("until_signal", time, emitter, signal), "finished");
-		}
-		
-		protected void Watch(Godot.Object emitter, string signal) { _watcher.Call("watch", emitter, signal); }
-		protected void UnWatch(Godot.Object emitter, string signal) { _watcher.Call("unwatch", emitter, signal); }
-		
-		public void Simulate(Node obj, int times, float delta)
-		{
-			for (int i = 0; i < times; i++)
-			{
-				if (obj.HasMethod("_Process")) { obj._Process(delta); }
-				if (obj.HasMethod("_PhysicsProcess")) { obj._PhysicsProcess(delta); }
-				foreach (Node kid in obj.GetChildren()) { Simulate(kid, 1, delta); }
-			}
-		}
+        private string Title()
+        {
+            if (!Attribute.IsDefined(_type, typeof(TitleAttribute))) return _type.Name;
+            TitleAttribute title = (TitleAttribute) Attribute.GetCustomAttribute(_type, typeof(TitleAttribute));
+            return title.Title;
+        }
 
-		private IEnumerable<Executable> GenerateTestMethods(IEnumerable<string> names)
-		{
-			return (from methodInfo in _type.GetMethods().Where(info => names.Contains(info.Name))
-				let tests = Attribute.GetCustomAttributes(methodInfo)
-					.OfType<TestAttribute>()
-				from attribute in tests
-				select new Executable(methodInfo, attribute.Arguments)).ToList();
-		}
-		
-		private Dictionary GetResults()
-		{
-			_case.Call("calculate"); // #")
-			Dictionary results = (Dictionary) _case.Call("to_dictionary");
-			_case.Free();
-			return results;
-		}
-		
-		private class Executable
-		{
-			public readonly MethodInfo Method;
-			public readonly object[] Arguments;
+        private MethodInfo GetTestHook(Type attributeType)
+        {
+            HookAttribute hook = (HookAttribute) Attribute.GetCustomAttribute(_type, attributeType);
+            return _type.GetMethod(hook.Method)!;
+        }
 
-			public Executable(MethodInfo method, object[] arguments)
-			{
-				Method = method;
-				Arguments = arguments;
-			}
-		}
-	}
+        private async Task CallTestHook(MethodInfo hook)
+        {
+            if (hook?.Invoke(this, null) is Task task)
+                await task;
+            else
+                await Task.Run(() => { });
+        }
+
+        private async Task Execute(Executable test)
+        {
+            if (test.Method.GetCustomAttribute(typeof(DescriptionAttribute)) is DescriptionAttribute description)
+                EmitSignal(nameof(Described), description.Description);
+            if (test.Method.Invoke(this, test.Arguments) is Task task)
+                await task;
+            else
+                await Task.Run(() => { });
+        }
+
+        protected SignalAwaiter UntilTimeout(double time)
+        {
+            return ToSignal((Timer) Yielder.Call("until_timeout", time), "finished");
+        }
+
+        protected SignalAwaiter UntilSignal(Object emitter, string signal, double time)
+        {
+            _watcher.Call("watch", emitter, signal);
+            return ToSignal((Timer) Yielder.Call("until_signal", time, emitter, signal), "finished");
+        }
+
+        protected void Watch(Object emitter, string signal)
+        {
+            _watcher.Call("watch", emitter, signal);
+        }
+
+        protected void UnWatch(Object emitter, string signal)
+        {
+            _watcher.Call("unwatch", emitter, signal);
+        }
+
+        public void Simulate(Node obj, int times, float delta)
+        {
+            for (int i = 0; i < times; i++)
+            {
+                if (obj.HasMethod("_Process")) obj._Process(delta);
+                if (obj.HasMethod("_PhysicsProcess")) obj._PhysicsProcess(delta);
+                foreach (Node kid in obj.GetChildren()) Simulate(kid, 1, delta);
+            }
+        }
+
+        private IEnumerable<Executable> GenerateTestMethods(IEnumerable<string> names)
+        {
+            return (from methodInfo in _type.GetMethods().Where(info => names.Contains(info.Name))
+                let tests = Attribute.GetCustomAttributes(methodInfo)
+                    .OfType<TestAttribute>()
+                from attribute in tests
+                select new Executable(methodInfo, attribute.Arguments)).ToList();
+        }
+
+        private Dictionary GetResults()
+        {
+            _case.Call("calculate"); // #")
+            Dictionary results = (Dictionary) _case.Call("to_dictionary");
+            _case.Free();
+            return results;
+        }
+
+        private class Executable
+        {
+            public readonly object[] Arguments;
+            public readonly MethodInfo Method;
+
+            public Executable(MethodInfo method, object[] arguments)
+            {
+                Method = method;
+                Arguments = arguments;
+            }
+        }
+    }
 }

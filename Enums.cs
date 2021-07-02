@@ -1,7 +1,18 @@
 ﻿namespace CardGame
 {
-    public enum CardType { Null, Unit, Support }
-    public enum Faction { Null, Warrior }
+    public enum CardType
+    {
+        Null,
+        Unit,
+        Support
+    }
+
+    public enum Faction
+    {
+        Null,
+        Warrior
+    }
+
     public enum SetCodes
     {
         NullCard = 0,
@@ -26,7 +37,7 @@
         GetHand,
         GetUnits,
         GetSupport,
-        
+
         // Control Flow
         GoToEnd,
 
@@ -38,21 +49,21 @@
         IsGreaterThan,
         IsEqual,
         IsNotEqual,
-        
+
         // Boolean
         If,
         And,
         Or,
-        
+
         // Setters
         SetFaction,
         SetPower,
-        
+
         // Actions
         // These should double up as Commands Types
         Draw,
         Destroy, // Whether it is one or many cards, we will destroy them in a list
-        DealDamage,
+        DealDamage
     }
 
     public enum CommandId
@@ -62,9 +73,23 @@
         Deploy,
         SetFaceDown
     }
-    
-    public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner }
-    public enum CardState { None, Deploy, AttackUnit, AttackPlayer, Set, Activate }
 
-    
+    public enum States
+    {
+        IdleTurnPlayer,
+        Active,
+        Passive,
+        Loser,
+        Winner
+    }
+
+    public enum CardState
+    {
+        None,
+        Deploy,
+        AttackUnit,
+        AttackPlayer,
+        Set,
+        Activate
+    }
 }

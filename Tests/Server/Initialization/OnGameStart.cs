@@ -3,7 +3,7 @@
 namespace CardGame.Tests.Server.Initialization
 {
     [Title("When a game starts")]
-    public class OnGameStart: BaseServerTest
+    public class OnGameStart : BaseServerTest
     {
         [Test]
         public void Player_Decks_Contain_33_Cards()
@@ -28,7 +28,5 @@ namespace CardGame.Tests.Server.Initialization
                            Player1.Hand.All(card => card.SetCodes == SetCodes.NullCard);
             Assert.IsTrue(success);
         }
-
-        
     }
 }

@@ -1,9 +1,9 @@
 ﻿namespace CardGame.Server
 {
-    public class SetEvent: Event
+    public class SetEvent : Event
     {
-        private readonly Player Controller;
         private readonly Card Card;
+        private readonly Player Controller;
 
         public SetEvent(Player controller, Card card)
         {
@@ -11,7 +11,7 @@
             Controller = controller;
             Card = card;
         }
-        
+
         public override void QueueOnClients(Enqueue queue)
         {
             queue(Controller.Id, Command, isClient, Card.Id);

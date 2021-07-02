@@ -1,7 +1,4 @@
-﻿using System;
-using CardGame.Server;
-using System.Collections.Generic;
-using Godot;
+﻿using CardGame.Server;
 
 //using Godot.Collections;
 
@@ -15,7 +12,7 @@ namespace CardGame.Tests.Server.Actions
             Card support = Player1.Hand[0];
             support.CardType = CardType.Support;
 
-            SkillBuilder skill = new SkillBuilder {Description = "Draw 2 Cards"};
+            SkillBuilder skill = new() {Description = "Draw 2 Cards"};
             skill.Triggers.Add(Triggers.Any);
             skill.Add(Instructions.Literal);
             skill.Add(2);
@@ -38,7 +35,7 @@ namespace CardGame.Tests.Server.Actions
             support.CardType = CardType.Support;
 
             // Create Skill
-            SkillBuilder skill = new SkillBuilder {Description = "Draw 5 Cards"};
+            SkillBuilder skill = new() {Description = "Draw 5 Cards"};
             skill.Triggers.Add(Triggers.Any);
             skill.Add(Instructions.Literal);
             skill.Add(5);
@@ -61,7 +58,7 @@ namespace CardGame.Tests.Server.Actions
             support.CardType = CardType.Support;
 
             // Create Skill
-            SkillBuilder skill = new SkillBuilder {Description = "Draw 5 Cards"};
+            SkillBuilder skill = new() {Description = "Draw 5 Cards"};
             skill.Triggers.Add(Triggers.Any);
             skill.Add(Instructions.GetOpponent);
             skill.Add(Instructions.GetUnits);
@@ -91,14 +88,13 @@ namespace CardGame.Tests.Server.Actions
             Assert.DoesNotContain(unitB, Player2.Units);
         }
 
-     
-        
+
         [Test]
         public void Changes_Card_Faction()
         {
             Card support = Player1.Hand[0];
             support.CardType = CardType.Support;
-            SkillBuilder skill = new SkillBuilder {Description = "Change this card's title to 'ChangedTitle'"};
+            SkillBuilder skill = new() {Description = "Change this card's title to 'ChangedTitle'"};
             skill.Triggers.Add(Triggers.Any);
             skill.Add(Instructions.Literal);
             skill.Add(Faction.Warrior);
@@ -111,17 +107,17 @@ namespace CardGame.Tests.Server.Actions
             Match.EndTurn(Player1);
             Match.EndTurn(Player2);
             Match.Activate(Player1, support);
-            
+
             Assert.IsEqual(support.Faction.ToString(), Faction.Warrior.ToString());
             Assert.IsNotEqual(support.Faction.ToString(), previousFaction);
         }
-        
+
         [Test]
         public void Changes_Card_Power()
         {
             Card support = Player1.Hand[0];
             support.CardType = CardType.Support;
-            SkillBuilder skill = new SkillBuilder {Description = "Change this card's title to 'ChangedTitle'"};
+            SkillBuilder skill = new() {Description = "Change this card's title to 'ChangedTitle'"};
             skill.Triggers.Add(Triggers.Any);
             skill.Add(Instructions.Literal);
             skill.Add(1000);

@@ -1,75 +1,76 @@
-using System;
 using CardGame.Client;
 using Godot;
-using JetBrains.Annotations;
-using File = System.IO.File;
 
 namespace CardGame
 {
-	public class Main : Node
-	{
-		[Signal] public delegate void GameBegun();
-		[Signal] public delegate void RoomsUpdated();
-		[Export()] private bool _room1IsVisible = false;
-		[Export()] private bool _room2IsVisible = false;
-		private Room _room1;
-		private Room _room2;
-		private int _rooms = 0;
-		private int _roomUpdates = 0;
+    public class Main : Node
+    {
+        [Signal]
+        public delegate void GameBegun();
 
-		
-		public override void _Ready()
-		{
-			GetTree().Connect("node_added", this, nameof(OnNodeAdded));
-		}
+        [Signal]
+        public delegate void RoomsUpdated();
 
-		public void OnNodeAdded(Node node)
-		{
-			switch (node)
-			{
-				case Room room:
-				{
-					_rooms++;
-					room.Connect(nameof(Room.Updated), this, nameof(OnRoomUpdated));
-					// ReSharper disable once ConvertIfStatementToSwitchStatement
-					if (_rooms == 1) _room1 = room;
-					if (_rooms == 2) _room2 = room;
-					bool visible = _rooms == 1 ? _room1IsVisible : _room2IsVisible;
-					room.GetChild<Spatial>(0).Visible = visible;
-					if (_rooms != 2) return;
-					EmitSignal(nameof(GameBegun));
-					break;
-				}
-			}
-		}
-		
-		public override void _Input(InputEvent gameEvent)
-		{
-			if (gameEvent is not InputEventKey {Pressed: true} key) return;
-			// ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
-			switch ((KeyList) key.Scancode)
-			{
-				case KeyList.S:
-				{
-					SetVisibility(_room1.GetChild<Spatial>(0));
-					SetVisibility(_room2.GetChild<Spatial>(0));
-					break;
-				}
-			}
-		}
+        private Room _room1;
+        [Export] private bool _room1IsVisible;
+        private Room _room2;
+        [Export] private bool _room2IsVisible;
+        private int _rooms;
+        private int _roomUpdates;
 
-		private static void SetVisibility(Spatial room)
-		{
-			room.Visible = !room.Visible;
-			room.GetNode<Control>("GUI").Visible = !room.GetNode<Control>("GUI").Visible;
-		}
 
-		public void OnRoomUpdated(States states)
-		{
-			_roomUpdates++;
-			if (_roomUpdates != 2) return;
-			_roomUpdates = 0;
-			EmitSignal(nameof(RoomsUpdated));
-		}
-	}
+        public override void _Ready()
+        {
+            GetTree().Connect("node_added", this, nameof(OnNodeAdded));
+        }
+
+        public void OnNodeAdded(Node node)
+        {
+            switch (node)
+            {
+                case Room room:
+                {
+                    _rooms++;
+                    room.Connect(nameof(Room.Updated), this, nameof(OnRoomUpdated));
+                    // ReSharper disable once ConvertIfStatementToSwitchStatement
+                    if (_rooms == 1) _room1 = room;
+                    if (_rooms == 2) _room2 = room;
+                    bool visible = _rooms == 1 ? _room1IsVisible : _room2IsVisible;
+                    room.GetChild<Spatial>(0).Visible = visible;
+                    if (_rooms != 2) return;
+                    EmitSignal(nameof(GameBegun));
+                    break;
+                }
+            }
+        }
+
+        public override void _Input(InputEvent gameEvent)
+        {
+            if (gameEvent is not InputEventKey {Pressed: true} key) return;
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            switch ((KeyList) key.Scancode)
+            {
+                case KeyList.S:
+                {
+                    SetVisibility(_room1.GetChild<Spatial>(0));
+                    SetVisibility(_room2.GetChild<Spatial>(0));
+                    break;
+                }
+            }
+        }
+
+        private static void SetVisibility(Spatial room)
+        {
+            room.Visible = !room.Visible;
+            room.GetNode<Control>("GUI").Visible = !room.GetNode<Control>("GUI").Visible;
+        }
+
+        public void OnRoomUpdated(States states)
+        {
+            _roomUpdates++;
+            if (_roomUpdates != 2) return;
+            _roomUpdates = 0;
+            EmitSignal(nameof(RoomsUpdated));
+        }
+    }
 }

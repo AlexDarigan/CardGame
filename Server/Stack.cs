@@ -5,14 +5,17 @@ namespace CardGame.Server
     public class Stack
     {
         private readonly List<int> _list;
-        public int Count => _list.Count;
         public readonly int MaxSize;
-        
+
         public Stack(List<int> list)
         {
             _list = list;
             MaxSize = _list.Count;
         }
+
+        public int Count => _list.Count;
+
+        public int this[int i] => _list[i];
 
         public int Pop()
         {
@@ -21,9 +24,9 @@ namespace CardGame.Server
             return popped;
         }
 
-        public void Push(int i) => _list.Add(i);
-        
-        public int this[int i] => _list[i];
+        public void Push(int i)
+        {
+            _list.Add(i);
+        }
     }
-    
 }

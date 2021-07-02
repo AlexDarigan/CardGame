@@ -1,13 +1,14 @@
 ﻿using CardGame.Server;
+using WAT;
 
 namespace CardGame.Tests.Server.Initialization
 {
     [Title("Server")]
     [Start(nameof(Start))]
     [End(nameof(End))]
-    public class ServerConnection: WAT.Test
+    public class ServerConnection : Test
     {
-        private readonly Connection Server = new Connection();
+        private readonly Connection Server = new();
 
         public void Start()
         {

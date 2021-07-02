@@ -1,11 +1,8 @@
-﻿using System;
-using Godot;
-using Godot.Collections;
-using Object = Godot.Object;
+﻿using Godot.Collections;
 
 namespace WAT
 {
-    public class Utility: Assertion
+    public class Utility : Assertion
     {
         public static Dictionary Fail(string context)
         {

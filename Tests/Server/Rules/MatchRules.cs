@@ -2,7 +2,7 @@
 
 namespace CardGame.Tests.Server.Rules
 {
-    public class MatchRules: BaseServerTest
+    public class MatchRules : BaseServerTest
     {
         /*
          * We care about the rules in this test. We want to see if our rule checks are working correctly and
@@ -15,7 +15,7 @@ namespace CardGame.Tests.Server.Rules
             Match.Draw(Player2);
             Assert.IsTrue(Player2.Disqualified);
         }
-        
+
         [Test]
         public void They_Draw_In_A_NonIdle_State()
         {
@@ -23,15 +23,14 @@ namespace CardGame.Tests.Server.Rules
             Match.Draw(Player1);
             Assert.IsTrue(Player1.Disqualified);
         }
-        
+
         [Test]
         public void They_Deploy_During_Their_Opponents_Turn()
         {
-            
             Match.Deploy(Player2, Player2.Hand[0]);
             Assert.IsTrue(Player2.Disqualified);
         }
-        
+
         [Test]
         public void They_Deploy_During_Their_Turn_In_A_NonIdle_State()
         {
@@ -39,7 +38,7 @@ namespace CardGame.Tests.Server.Rules
             Match.Deploy(Player1, Player1.Hand[0]);
             Assert.IsTrue(Player1.Disqualified);
         }
-        
+
         [Test]
         public void They_Deploy_A_NonUnit_Card()
         {
@@ -48,7 +47,7 @@ namespace CardGame.Tests.Server.Rules
             Match.Deploy(Player1, card);
             Assert.IsTrue(Player1.Disqualified);
         }
-        
+
         [Test]
         public void They_Set_A_Support_FaceDown_During_Their_Opponents_Turn()
         {
@@ -57,7 +56,7 @@ namespace CardGame.Tests.Server.Rules
             Match.SetFaceDown(Player2, card);
             Assert.IsTrue(Player2.Disqualified);
         }
-        
+
         [Test]
         public void They_Set_A_Support_FaceDown_During_Their_Turn_In_A_NonIdle_State()
         {
@@ -68,7 +67,7 @@ namespace CardGame.Tests.Server.Rules
             Assert.IsTrue(Player1.Disqualified);
         }
 
-        
+
         [Test]
         public void They_Set_A_NonSupport_Card_FaceDown()
         {
@@ -77,7 +76,7 @@ namespace CardGame.Tests.Server.Rules
             Match.SetFaceDown(Player1, card);
             Assert.IsTrue(Player1.Disqualified);
         }
-        
+
         [Test]
         public void They_Activate_A_Card_That_Is_Not_On_Their_Field()
         {
@@ -86,7 +85,7 @@ namespace CardGame.Tests.Server.Rules
             Match.Activate(Player1, card);
             Assert.IsTrue(Player1.Disqualified);
         }
-        
+
         [Test]
         public void They_Activate_A_Card_That_In_A_State_That_Is_Not_Idle_Or_Active()
         {
@@ -112,7 +111,7 @@ namespace CardGame.Tests.Server.Rules
             Match.DeclareAttack(Player1, attacker, defender);
             Assert.IsTrue(Player1.Disqualified);
         }
-        
+
         [Test]
         public void They_Declare_An_Attack_When_They_Are_In_A_NonIdle_State()
         {
@@ -128,7 +127,7 @@ namespace CardGame.Tests.Server.Rules
             Match.DeclareAttack(Player1, attacker, defender);
             Assert.IsTrue(Player1.Disqualified);
         }
-        
+
         [Test]
         public void They_Declare_An_Attack_With_An_Unready_Unit()
         {
@@ -157,7 +156,7 @@ namespace CardGame.Tests.Server.Rules
             Match.DeclareAttack(Player1, attacker, defender);
             Assert.IsTrue(Player1.Disqualified);
         }
-        
+
         [Test]
         public void They_Declare_A_Direct_Attack_When_They_Are_Not_The_Turn_Player()
         {
@@ -169,7 +168,7 @@ namespace CardGame.Tests.Server.Rules
             Match.DeclareDirectAttack(Player1, attacker);
             Assert.IsTrue(Player1.Disqualified);
         }
-        
+
         [Test]
         public void They_Declare_A_Direct_Attack_When_They_Are_In_A_NonIdle_State()
         {
@@ -182,7 +181,7 @@ namespace CardGame.Tests.Server.Rules
             Match.DeclareDirectAttack(Player1, attacker);
             Assert.IsTrue(Player1.Disqualified);
         }
-        
+
         [Test]
         public void They_Declare_A_Direct_Attack_With_An_Unready_Unit()
         {
@@ -220,14 +219,14 @@ namespace CardGame.Tests.Server.Rules
             Match.DeclareDirectAttack(Player1, attacker);
             Assert.IsTrue(Player1.Disqualified);
         }
-        
+
         [Test]
         public void They_End_Their_Turn_During_Their_Opponents_Turn()
         {
             Match.EndTurn(Player2);
             Assert.IsTrue(Player2.Disqualified);
         }
-        
+
         [Test]
         public void They_End_Their_Turn_In_A_NonIdle_State()
         {

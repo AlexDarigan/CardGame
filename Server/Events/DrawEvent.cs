@@ -1,13 +1,10 @@
-﻿using System;
-using Godot;
-
-namespace CardGame.Server
+﻿namespace CardGame.Server
 {
-    public class DrawEvent: Event
+    public class DrawEvent : Event
     {
-        private readonly Player Controller;
         private readonly Card Card;
-        
+        private readonly Player Controller;
+
         public DrawEvent(Card card)
         {
             Command = CommandId.Draw;

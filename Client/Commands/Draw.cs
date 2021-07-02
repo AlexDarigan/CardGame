@@ -3,7 +3,7 @@ using Godot;
 
 namespace CardGame.Client
 {
-    public class Draw: Command
+    public class Draw : Command
     {
         private readonly Participant _player;
         private readonly Card Card;
@@ -13,7 +13,7 @@ namespace CardGame.Client
             _player = player;
             Card = card;
         }
-		
+
         protected override void Setup(Tween gfx)
         {
             // Our rival doesn't have a real card, so we need to make a local check lest we end up moving the same card around 
@@ -22,9 +22,10 @@ namespace CardGame.Client
             _player.Hand.Add(card);
             Location destination = _player.Hand.Destination;
             const float duration = .35f;
-            gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation, duration, Tween.TransitionType.Linear,Tween.EaseType.In);
-            gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), card.RotationDegrees, destination.RotationDegrees, duration);
-
+            gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation, duration,
+                Tween.TransitionType.Linear, Tween.EaseType.In);
+            gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), card.RotationDegrees,
+                destination.RotationDegrees, duration);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using WAT;
 using ServerConn = CardGame.Server.Connection;
 using ClientConn = CardGame.Client.Connection;
 
@@ -8,10 +9,10 @@ namespace CardGame.Tests.Client
     [Title("Client")]
     [Start(nameof(Start))]
     [End(nameof(End))]
-    public class ClientConnection: WAT.Test
+    public class ClientConnection : Test
     {
-        private readonly ServerConn Server = new ServerConn();
-        private readonly ClientConn Client = new ClientConn();
+        private readonly ClientConn Client = new();
+        private readonly ServerConn Server = new();
 
         public void Start()
         {

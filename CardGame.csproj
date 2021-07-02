@@ -8,6 +8,7 @@
     <Content Include="Client\Assets\CardArt\BioShocker.png.import" />
     <Content Include="Client\Assets\Font\Kenney Bold.ttf" />
     <Content Include="Client\Assets\Font\KenneyBoldGUI.tres" />
+    <Content Include="Client\Assets\Library.json" />
     <Content Include="Client\Assets\Models\Table.mtl" />
     <Content Include="Client\Assets\Models\Table.obj" />
     <Content Include="Client\Assets\Models\Table.obj.import" />
@@ -33,7 +34,6 @@
     <Content Include="Client\Assets\Numbers\Impact\9.png.import" />
     <Content Include="Client\Assets\Textures\CardBack.png" />
     <Content Include="Client\Assets\Textures\CardBack.png.import" />
-    <Content Include="Client\Library\Library.json" />
     <Content Include="README.md" />
     <Content Include="Server\Library.json" />
   </ItemGroup>
@@ -41,5 +41,14 @@
     <PackageReference Include="JetBrains.Annotations" Version="2021.2.0-eap2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="xunit.core" Version="2.4.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Client\Scenes" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Client\Network\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Client\Network\**" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace CardGame.Server
@@ -12,18 +11,18 @@ namespace CardGame.Server
      */
     public class Player
     {
-        public readonly int Id;
-        public Player Opponent;
-        public bool Ready = false;
-        public readonly IEnumerable<SetCodes> DeckList;
         public readonly Zone Deck = new();
+        public readonly IEnumerable<SetCodes> DeckList;
         public readonly Zone Graveyard = new();
         public readonly Zone Hand = new();
-        public readonly Zone Units = new();
+        public readonly int Id;
         public readonly Zone Supports = new();
-        public States State = States.Passive;
+        public readonly Zone Units = new();
         public bool Disqualified = false;
         public int Health = 8000;
+        public Player Opponent;
+        public bool Ready = false;
+        public States State = States.Passive;
 
         public Player(int id, IEnumerable<SetCodes> deckList)
         {
@@ -40,9 +39,8 @@ namespace CardGame.Server
             }
 
             return new LoadDeckEvent(this, Deck.ToDictionary(card => card.Id, card => card.SetCodes));
-
         }
-        
+
         public Event Draw()
         {
             Card card = Deck[Deck.Count - 1];
@@ -66,6 +64,5 @@ namespace CardGame.Server
             support.Zone = Supports;
             return new SetEvent(this, support);
         }
-
     }
 }

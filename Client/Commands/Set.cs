@@ -3,7 +3,7 @@ using Godot;
 
 namespace CardGame.Client
 {
-    public class Set: Command
+    public class Set : Command
     {
         private readonly Participant _player;
         private readonly Card Card;
@@ -13,7 +13,7 @@ namespace CardGame.Client
             _player = player;
             Card = card;
         }
-		
+
         protected override void Setup(Tween gfx)
         {
             Card card = _player.IsClient ? Card : _player.Hand.Last();
@@ -21,8 +21,10 @@ namespace CardGame.Client
             _player.Support.Add(Card);
             Location destination = _player.Support.Destination;
             const float duration = .35f;
-            gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation,  duration);
-            gfx.InterpolateProperty(card, nameof(Card.RotationDegrees),  Card.RotationDegrees, destination.RotationDegrees, duration);
+            gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation,
+                duration);
+            gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), Card.RotationDegrees,
+                destination.RotationDegrees, duration);
             SortHand(gfx, _player);
         }
     }
