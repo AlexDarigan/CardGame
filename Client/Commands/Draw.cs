@@ -22,7 +22,7 @@ namespace CardGame.Client
             _player.Hand.Add(card);
             Location destination = _player.Hand.Destination;
             const float duration = .35f;
-            gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation, duration);
+            gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation, duration, Tween.TransitionType.Linear,Tween.EaseType.In);
             gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), card.RotationDegrees, destination.RotationDegrees, duration);
 
         }

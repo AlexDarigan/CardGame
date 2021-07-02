@@ -7,7 +7,7 @@ namespace CardGame.Client
 	public class Participant
 	{
 		public int Health = 8000;
-		public States State;
+		public States State = States.Passive;
 		public readonly bool IsClient;
 		public readonly Zone Deck;
 		public readonly Zone Discard;
@@ -32,6 +32,7 @@ namespace CardGame.Client
 
 		public void OnCardPressed(Card pressed)
 		{
+			if (State == States.Passive) { return; }
 			switch (pressed.CardState)
 			{
 				case CardState.Deploy:
