@@ -7,11 +7,9 @@ namespace CardGame.Client
 {
     public static class Library
     {
-        private const string JsonCardsFilePath = @"Client/Assets/Library.json";
-
         public static readonly ReadOnlyDictionary<SetCodes, CardInfo> Cards =
             JsonConvert.DeserializeObject<ReadOnlyDictionary<SetCodes,
-                CardInfo>>(File.ReadAllText(JsonCardsFilePath));
+                CardInfo>>(File.ReadAllText(Assets.Library));
     }
 
     public readonly struct CardInfo
@@ -27,7 +25,7 @@ namespace CardGame.Client
         {
             _cardType = cardType;
             _title = title;
-            _art = (Texture) GD.Load($"res://Client/Assets/CardArt/{art}.png");
+            _art = Assets.GetArt(art);
             _text = text;
             _power = power;
         }

@@ -4,36 +4,6 @@
     <LangVersion>9</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Client\Assets\CardArt\BioShocker.png" />
-    <Content Include="Client\Assets\CardArt\BioShocker.png.import" />
-    <Content Include="Client\Assets\Font\Kenney Bold.ttf" />
-    <Content Include="Client\Assets\Font\KenneyBoldGUI.tres" />
-    <Content Include="Client\Assets\Library.json" />
-    <Content Include="Client\Assets\Models\Table.mtl" />
-    <Content Include="Client\Assets\Models\Table.obj" />
-    <Content Include="Client\Assets\Models\Table.obj.import" />
-    <Content Include="Client\Assets\Numbers\Impact\0.png" />
-    <Content Include="Client\Assets\Numbers\Impact\0.png.import" />
-    <Content Include="Client\Assets\Numbers\Impact\1.png" />
-    <Content Include="Client\Assets\Numbers\Impact\1.png.import" />
-    <Content Include="Client\Assets\Numbers\Impact\2.png" />
-    <Content Include="Client\Assets\Numbers\Impact\2.png.import" />
-    <Content Include="Client\Assets\Numbers\Impact\3.png" />
-    <Content Include="Client\Assets\Numbers\Impact\3.png.import" />
-    <Content Include="Client\Assets\Numbers\Impact\4.png" />
-    <Content Include="Client\Assets\Numbers\Impact\4.png.import" />
-    <Content Include="Client\Assets\Numbers\Impact\5.png" />
-    <Content Include="Client\Assets\Numbers\Impact\5.png.import" />
-    <Content Include="Client\Assets\Numbers\Impact\6.png" />
-    <Content Include="Client\Assets\Numbers\Impact\6.png.import" />
-    <Content Include="Client\Assets\Numbers\Impact\7.png" />
-    <Content Include="Client\Assets\Numbers\Impact\7.png.import" />
-    <Content Include="Client\Assets\Numbers\Impact\8.png" />
-    <Content Include="Client\Assets\Numbers\Impact\8.png.import" />
-    <Content Include="Client\Assets\Numbers\Impact\9.png" />
-    <Content Include="Client\Assets\Numbers\Impact\9.png.import" />
-    <Content Include="Client\Assets\Textures\CardBack.png" />
-    <Content Include="Client\Assets\Textures\CardBack.png.import" />
     <Content Include="README.md" />
     <Content Include="Server\Library.json" />
   </ItemGroup>
@@ -45,9 +15,21 @@
   <ItemGroup>
     <Compile Remove="Client\Network\**" />
     <Compile Remove="Client\Scenes\**" />
+    <Compile Remove="Client\Commands\**" />
+    <Compile Remove="Client\Assets\CardArt\**" />
+    <Compile Remove="Client\Assets\Numbers\**" />
+    <Compile Remove="Client\Assets\Textures\**" />
+    <Compile Remove="Client\Assets\Models\**" />
+    <Compile Remove="Client\Assets\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Client\Network\**" />
     <EmbeddedResource Remove="Client\Scenes\**" />
+    <EmbeddedResource Remove="Client\Commands\**" />
+    <EmbeddedResource Remove="Client\Assets\CardArt\**" />
+    <EmbeddedResource Remove="Client\Assets\Numbers\**" />
+    <EmbeddedResource Remove="Client\Assets\Textures\**" />
+    <EmbeddedResource Remove="Client\Assets\Models\**" />
+    <EmbeddedResource Remove="Client\Assets\**" />
   </ItemGroup>
 </Project>
