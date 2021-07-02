@@ -4,7 +4,6 @@ using JetBrains.Annotations;
 
 namespace CardGame.Client
 {
-    [UsedImplicitly]
     public class Cards: Spatial
     {
         private readonly Dictionary<int, Card> _cards = new();

@@ -4,6 +4,7 @@
     <LangVersion>9</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Client\Scripts\Library.json" />
     <Content Include="README.md" />
     <Content Include="Server\Library.json" />
   </ItemGroup>
@@ -21,6 +22,8 @@
     <Compile Remove="Client\Assets\Textures\**" />
     <Compile Remove="Client\Assets\Models\**" />
     <Compile Remove="Client\Assets\**" />
+    <Compile Remove="Client\Scripts\Register.cs" />
+    <Compile Remove="Debug\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Client\Network\**" />
@@ -31,5 +34,6 @@
     <EmbeddedResource Remove="Client\Assets\Textures\**" />
     <EmbeddedResource Remove="Client\Assets\Models\**" />
     <EmbeddedResource Remove="Client\Assets\**" />
+    <EmbeddedResource Remove="Debug\**" />
   </ItemGroup>
 </Project>

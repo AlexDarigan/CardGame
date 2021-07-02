@@ -18,7 +18,7 @@ namespace CardGame.Server
     
     public readonly struct CardInfo
     {
-        public readonly SetCodes SetCode;
+     //   public readonly SetCodes SetCode;
         public readonly CardType CardType;
         public readonly string Title;
         public readonly Faction Faction;
@@ -26,10 +26,10 @@ namespace CardGame.Server
         public readonly SkillInfo Skill;
 
         [JsonConstructor]
-        public CardInfo(SetCodes setCode, CardType cardType, Faction faction, string title, int power,
+        public CardInfo(CardType cardType, Faction faction, string title, int power,
             SkillInfo skill)
         {
-            SetCode = setCode;
+//            SetCode = setCode;
             CardType = cardType;
             Faction = faction;
             Title = title;

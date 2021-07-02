@@ -1,10 +1,9 @@
 using System;
 using Godot;
-using Object = Godot.Object;
 
 namespace CardGame.Client
 {
-    public class Participant: Object
+    public class Participant: Godot.Object
     {
         public readonly Zone Deck;
         public readonly Declaration Declare;

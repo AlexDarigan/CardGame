@@ -29,6 +29,7 @@ namespace CardGame.Server
                 foreach (Card card in _cards)
                 {
                     if (card.Controller.Id != id) continue;
+                   // Console.WriteLine();
                     RpcId(id, "UpdateCard", card.Id, card.CardState);
                 }
 
@@ -44,30 +45,10 @@ namespace CardGame.Server
             _players[CustomMultiplayer.GetRpcSenderId()].Ready = true;
             if (_players.Values.Any(player => !player.Ready)) return;
             _match.Begin(_players.Values.ToList());
-
-
-            // Since all of our work is done in the constructor we will be ready to push our events here
-            // (With that in mind, should we queue everything serverside and only push it once when ready to update?..
-            // ..arguably that could help with some peekAhead methods on client-side for better queueing).
-           
         }
 
-        [Master]
-        public void Deploy(int cardId)
-        {
-            _match.Deploy(_players[Multiplayer.GetRpcSenderId()], _cards[cardId]);
-        }
-
-        [Master]
-        public void SetFaceDown(int cardId)
-        {
-            _match.SetFaceDown(_players[Multiplayer.GetRpcSenderId()], _cards[cardId]);
-        }
-
-        [Master]
-        public void EndTurn()
-        {
-            _match.EndTurn(_players[Multiplayer.GetRpcSenderId()]);
-        }
+        [Master] public void Deploy(int cardId) => _match.Deploy(_players[Multiplayer.GetRpcSenderId()], _cards[cardId]); 
+        [Master] public void SetFaceDown(int cardId) => _match.SetFaceDown(_players[Multiplayer.GetRpcSenderId()], _cards[cardId]);
+        [Master] public void EndTurn() => _match.EndTurn(_players[Multiplayer.GetRpcSenderId()]); 
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Godot;
-using Godot.Collections;
 
 namespace CardGame.Client
 {

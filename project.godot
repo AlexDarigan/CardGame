@@ -42,12 +42,12 @@ Display=8
 [application]
 
 config/name="CardGame"
-run/main_scene="res://Main.tscn"
+run/main_scene="res://Global/Main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-Debug="*res://debug.gd"
+Debug="*res://Global/debug.gd"
 
 [display]
 

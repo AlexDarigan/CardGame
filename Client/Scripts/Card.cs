@@ -1,4 +1,6 @@
+using System;
 using Godot;
+using Object = Godot.Object;
 
 namespace CardGame.Client
 {

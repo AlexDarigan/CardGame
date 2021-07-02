@@ -13,7 +13,7 @@ namespace CardGame.Tests.Fixtures
 	public class ClientFixtures : Test
 	{
 		// NOTE: Make sure we don't time out too early in Yielding
-		private readonly PackedScene _mainScene = GD.Load<PackedScene>("res://Main.tscn");
+		private readonly PackedScene _mainScene = GD.Load<PackedScene>("res://Global/Main.tscn");
 		private Room _room1;
 		private Room _room2;
 		protected Node GameScene;
