@@ -20,11 +20,12 @@ namespace CardGame.Client
         private readonly Participant _player;
         private readonly Participant _rival;
 
+        private Room() { /* Required By Godot */ }
+
         public Room(Node view, string name, MultiplayerAPI multiplayerApi)
         {
-            AddChild(view, true);
-            //view.Name = "Room";
             Name = name;
+            AddChild(view, true);
             CustomMultiplayer = multiplayerApi;
             _cards = new Cards(view.GetNode<Spatial>("Cards"));
             _gfx = view.GetNode<Tween>("GFX");
