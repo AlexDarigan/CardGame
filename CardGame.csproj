@@ -43,12 +43,11 @@
     <PackageReference Include="xunit.core" Version="2.4.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Client\Scenes" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="Client\Network\**" />
+    <Compile Remove="Client\Scenes\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Client\Network\**" />
+    <EmbeddedResource Remove="Client\Scenes\**" />
   </ItemGroup>
 </Project>
