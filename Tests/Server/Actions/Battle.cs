@@ -6,12 +6,24 @@ namespace CardGame.Tests.Server.Actions
     public class Battle : BaseServerTest
     {
         [Test]
+        public void Stateful()
+        {
+            Card attacker = Player1.Hand[0];
+            Assert.IsEqual(Player1.State, States.IdleTurnPlayer, "Player is Idle Turn Player");
+            Assert.Contains(attacker, Player1.Hand, "Player Hand contains Attacker");
+            Assert.IsEqual(attacker.Controller, Player1, "Player is attackers controller");
+            Assert.IsEqual(attacker.CardType, CardType.Unit, "Attacker is Unit");
+            Assert.IsEqual(attacker.CardState, CardState.Deploy, "Attack state is Deploy");
+        }
+        
+        [Test]
         public void When_A_Unit_Attacks_Directly()
         {
             Card attacker = Player1.Hand[0];
-            attacker.CardType = CardType.Unit;
-            attacker.CardState = CardState.Deploy;
             attacker.Power = 1000;
+            Assert.IsEqual(attacker.CardState, CardState.Deploy);
+            Console.WriteLine(Player1.State);
+            Console.WriteLine(Player2.State);
             Match.Deploy(Player1, attacker);
             Match.EndTurn(Player1);
             Match.EndTurn(Player2);

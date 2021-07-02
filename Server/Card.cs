@@ -1,4 +1,6 @@
-﻿namespace CardGame.Server
+﻿using System;
+
+namespace CardGame.Server
 {
     public class Card
     {
@@ -24,17 +26,13 @@
 
         public void Update()
         {
-            CardState = CardState.None;
-            if (Controller.Hand.Contains(this) && CardType is CardType.Unit &&
-                Controller.State == States.IdleTurnPlayer) CardState = CardState.Deploy;
-            if (Controller.Hand.Contains(this) && CardType is CardType.Support &&
-                Controller.State == States.IdleTurnPlayer) CardState = CardState.Set;
-            if (Controller.Units.Contains(this) && IsReady && Controller.State == States.IdleTurnPlayer)
-                CardState = CardState.AttackUnit;
-            if (Controller.Units.Contains(this) && IsReady
-                                                && Controller.State == States.IdleTurnPlayer
-                                                && Controller.Opponent.Units.Count == 0)
-                CardState = CardState.AttackUnit;
+            Console.WriteLine("Updating!");
+            //CardState = CardState.None;
+            if (Controller.Hand.Contains(this) && CardType is CardType.Unit && Controller.State == States.IdleTurnPlayer) { CardState = CardState.Deploy; }
+            else if (Controller.Hand.Contains(this) && CardType is CardType.Support && Controller.State == States.IdleTurnPlayer) { CardState = CardState.Set;}
+            else if (Controller.Units.Contains(this) && IsReady && Controller.State == States.IdleTurnPlayer && Controller.Opponent.Units.Count > 0) { CardState = CardState.AttackUnit;}
+            else if (Controller.Units.Contains(this) && IsReady && Controller.State == States.IdleTurnPlayer && Controller.Opponent.Units.Count == 0) { CardState = CardState.AttackPlayer; }
+            else {}
         }
     }
 }

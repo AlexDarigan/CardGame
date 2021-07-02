@@ -19,12 +19,12 @@ namespace CardGame.Server
         private readonly Enqueue Queue;
 
         // May be an idea
-        private readonly Action Update;
+        private readonly Action _update;
         private bool _isGameOver;
 
         public Match(Player player1, Player player2, CardRegister cardRegister, Action update, Enqueue queue)
         {
-            Update = update;
+            _update = update;
             Queue = queue;
             CardRegister = cardRegister;
             player1.Opponent = player2;
@@ -41,6 +41,7 @@ namespace CardGame.Server
             }
 
             players[0].State = States.IdleTurnPlayer;
+            Update();
         }
 
         public void Draw(Player player)
@@ -77,7 +78,6 @@ namespace CardGame.Server
 
             if (attacker.Power > defender.Power) { DamageCalculation(attacker, defender); }
             else if (defender.Power > attacker.Power) { DamageCalculation(defender, attacker); }
-
             Update();
         }
 
@@ -121,8 +121,14 @@ namespace CardGame.Server
                 // The Player States are already invalid at this point so no reason to force the disqualification
                 return false;
             player.Disqualified = true;
-            Debug.WriteLine($"Disqualified {player} for {reason}");
+            if(condition) {Debug.WriteLine($"Disqualified {player} for {reason}");}
             return condition;
+        }
+
+        private void Update()
+        {
+            foreach (Card card in CardRegister) { card.Update(); }
+            _update();
         }
 
         private void GameOver(Player winner, Player loser)
@@ -130,7 +136,7 @@ namespace CardGame.Server
             winner.State = States.Winner;
             loser.State = States.Loser;
             _isGameOver = true;
-            Update();
+            _update();
         }
     }
 }
