@@ -16,6 +16,8 @@ namespace CardGame.Client
         private readonly Cards _cards;
         private readonly Queue<Command> _commandQueue = new();
         private readonly Tween _gfx;
+        private readonly AudioStreamPlayer _sfx;
+        private readonly AudioStreamPlayer _bgm;
         private readonly Control _gui;
         private readonly Participant _player;
         private readonly Participant _rival;
@@ -25,16 +27,24 @@ namespace CardGame.Client
         public Room(Node view, string name, MultiplayerAPI multiplayerApi)
         {
             Name = name;
-            AddChild(view, true);
             CustomMultiplayer = multiplayerApi;
-            _cards = new Cards(view.GetNode<Spatial>("Cards"));
-            _gfx = view.GetNode<Tween>("GFX");
+        
+            _gfx = new Tween();
+            _sfx = new AudioStreamPlayer();
+            _bgm = new AudioStreamPlayer();
+            _cards = new Cards();
+            
+            foreach (Node child in new []{view, _gfx, _sfx, _bgm, _cards}) { AddChild(child); }
+            
             _gui = view.GetNode<Control>("GUI");
+            
             _player = new Participant(view.GetNode<Node>("Table/Player"),
                 (commandId, args) => RpcId(Server, commandId.ToString(), args));
+            
             _rival = new Participant(view.GetNode<Node>("Table/Rival"), delegate { });
+            
             _cards.Player = _player;
-            GD.Print("Room Created");
+            
             _gui.GetNode<Button>("Menu/EndTurn");
             _gui.GetNode<Label>("ID").Text = multiplayerApi.GetNetworkUniqueId().ToString();
         }

@@ -8,13 +8,5 @@
 [node name="Table" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0333014, -4.76837e-07, 0.0138941 )
 
-[node name="GFX" type="Tween" parent="."]
-
-[node name="BGM" type="AudioStreamPlayer" parent="."]
-
-[node name="SFX" type="AudioStreamPlayer" parent="."]
-
-[node name="Cards" type="Spatial" parent="."]
-
 [node name="GUI" parent="." instance=ExtResource( 3 )]
 mouse_filter = 2
