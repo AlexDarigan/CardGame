@@ -34,18 +34,16 @@ namespace CardGame.Client
             _bgm = new AudioStreamPlayer();
             _cards = new Cards();
             
-            foreach (Node child in new []{view, _gfx, _sfx, _bgm, _cards}) { AddChild(child); }
+            foreach (Node child in new []{view, _gfx, _sfx, _bgm, _cards}) { AddChild(child, true); }
             
             _gui = view.GetNode<Control>("GUI");
             
-            _player = new Participant(view.GetNode<Node>("Table/Player"),
-                (commandId, args) => RpcId(Server, commandId.ToString(), args));
-            
+            _player = new Participant(view.GetNode<Node>("Table/Player"), (commandId, args) => RpcId(Server, commandId.ToString(), args));
             _rival = new Participant(view.GetNode<Node>("Table/Rival"), delegate { });
             
             _cards.Player = _player;
-            
-            _gui.GetNode<Button>("Menu/EndTurn");
+
+            _gui.GetNode<Button>("Menu/EndTurn").Connect("pressed", this, nameof(OnEndTurnPressed));
             _gui.GetNode<Label>("ID").Text = multiplayerApi.GetNetworkUniqueId().ToString();
         }
 
@@ -67,7 +65,8 @@ namespace CardGame.Client
         private Command Deploy(bool who, int id) => new Deploy(GetPlayer(who), GetCard(id)); 
         private Command SetFaceDown(bool who, int id) => new Set(GetPlayer(who), GetCard(id)); 
         private Participant GetPlayer(bool isClient) => isClient ? _player : _rival; 
-        private Card GetCard(int id, SetCodes setCode = SetCodes.NullCard) => _cards.GetCard(id, setCode); 
+        private Card GetCard(int id, SetCodes setCode = SetCodes.NullCard) => _cards.GetCard(id, setCode);
+        public void OnEndTurnPressed() { if(_player.State == States.IdleTurnPlayer) { RpcId(Server, "EndTurn"); } }
     }
 }
 

@@ -32,4 +32,7 @@
     <EmbeddedResource Remove="Client\Assets\Models\**" />
     <EmbeddedResource Remove="Client\Assets\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tests\Server2" />
+  </ItemGroup>
 </Project>

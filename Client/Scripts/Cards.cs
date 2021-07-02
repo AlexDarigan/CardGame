@@ -9,7 +9,7 @@ namespace CardGame.Client
     {
         private readonly Dictionary<int, Card> _cards = new();
         public Participant Player; // We'll do this for now
-        
+        public Cards() => Name = "Cards";
         public Card this[int index] => _cards[index];
 
         public Card GetCard(int id, SetCodes setCodes)

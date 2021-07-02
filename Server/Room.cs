@@ -73,9 +73,9 @@ namespace CardGame.Server
         }
 
         [Master]
-        public void EndTurn(int playerId)
+        public void EndTurn()
         {
-            _match.EndTurn(_players[playerId]);
+            _match.EndTurn(_players[Multiplayer.GetRpcSenderId()]);
         }
     }
 }

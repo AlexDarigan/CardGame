@@ -58,7 +58,7 @@ namespace CardGame.Server
                 return;
             }
 
-            player.Draw();
+            player.Draw().QueueOnClients(Queue);
             Update();
         }
 
