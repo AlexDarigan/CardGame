@@ -29,6 +29,7 @@
             else if (CanBeSetFaceDown()) { CardState = CardState.Set;}
             else if (CanAttackUnit()) { CardState = CardState.AttackUnit;}
             else if (CanAttackPlayer()) { CardState = CardState.AttackPlayer; }
+            else if (CanBeActivated()) { CardState = CardState.Activate; }
             else { CardState = CardState.None; }
         }
 
@@ -36,5 +37,6 @@
         private bool CanBeSetFaceDown() => Controller.Hand.Contains(this) && CardType is CardType.Support;
         private bool CanAttackUnit() => Controller.Units.Contains(this) && IsReady && Controller.Opponent.Units.Count > 0;
         private bool CanAttackPlayer() => Controller.Units.Contains(this) && IsReady && Controller.Opponent.Units.Count == 0;
+        private bool CanBeActivated() => Controller.Supports.Contains(this) && IsReady;
     }
 }

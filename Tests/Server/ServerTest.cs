@@ -8,17 +8,18 @@ namespace CardGame.Tests.Server
 {
     public class DeckBuilder
     {
-        public List<SetCodes> DeckList = new();
-        public void Add(SetCodes setCodes, int count) { for(int i = 0; i < count; i++) { DeckList.Add(setCodes); } }
+        private readonly List<SetCodes> _deckList = new();
+        public void Add(SetCodes setCodes, int count) { for(int i = 0; i < count; i++) { _deckList.Add(setCodes); } }
 
-        public List<SetCodes> Default()
+        public IEnumerable<SetCodes> Default(SetCodes setCodes = SetCodes.NullCard)
         {
-            for(int i = 0; i < 40; i++){ DeckList.Add(SetCodes.AlphaBioShocker);}
-            return DeckList;
+            for(int i = 0; i < 40; i++){ _deckList.Add(setCodes);}
+            return _deckList;
         }
         
     }
     
+    [Title("Given A Card")]
     public class ServerTest: WAT.Test
     {
         // CREATE A DECKBUILDER HELPER
@@ -26,67 +27,71 @@ namespace CardGame.Tests.Server
         private Player P2;
         private Match _match;
 
-        public void StartGame()
+        public void StartGame(IEnumerable<SetCodes> deckList1 = null, IEnumerable<SetCodes> deckList2 = null)
         {
-            P1 = new Player(1, new DeckBuilder().Default());
-            P2 = new Player(2, new DeckBuilder().Default());
+            P1 = new Player(1, deckList1 ?? new DeckBuilder().Default());
+            P2 = new Player(2,deckList2 ?? new DeckBuilder().Default());
             _match = new Match(P1, P2, new Cards(), () => {}, (id, command, args) => {});
             _match.Begin(new List<Player> {P1, P2});
         }
         
         
         [Test]
-        [Description("A Card may be deployed if")]
         public void DeployState()
         {
-            StartGame();
+            StartGame(new DeckBuilder().Default(SetCodes.AlphaQuestReward));
             Card card = P1.Hand[0];
-            Assert.IsEqual(card.Controller.State, States.IdleTurnPlayer, "Their controller is Idle Turn Player");
-            Assert.IsEqual(card.CardType, CardType.Unit, "And their card type is Unit");
-            Assert.Contains(card, card.Controller.Hand, "And they are in their controllers hand");
-            Assert.IsLessThan(card.Controller.Units.Count, 5, "And there is room in units");
+            Assert.IsEqual(card.CardType, CardType.Unit, "When it is a Unit Card");
+            Assert.IsEqual(card.Controller.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");
+            Assert.Contains(card, card.Controller.Hand, "And it is in their controller's hand");
+            Assert.IsLessThan(card.Controller.Units.Count, 5, "And its Controller's Unit Zones is not full");
             Assert.IsEqual(card.CardState, CardState.Deploy, "Then they can be deployed");
         }
 
         [Test]
         public void SetFaceDownState()
         {
-            // CAN BE SET IF
-            // Support < 5
-            // Card is in hand
-            // Card is Unit
-            // Player is Idle Turn Player
-            // AssertCardState
-            Assert.Fail("Not Implemented");
-
+            StartGame(new DeckBuilder().Default(SetCodes.AlphaQuestReward));
+            Card card = P1.Hand[0];
+            Assert.IsEqual(card.CardType, CardType.Support, "When it is a Support Card");
+            Assert.IsEqual(card.Controller.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");
+            Assert.Contains(card, card.Controller.Hand, "And it is in its controller's hand");
+            Assert.IsLessThan(card.Controller.Supports.Count, 5, "And its Controller's Support Zones is not full");
+            Assert.IsEqual(card.CardState, CardState.Set, "Then it can be set face down");
         }
 
         [Test]
         public void AttackUnitState()
         {
-            // CAN ATTACK UNIT IF X, Y, Z
-            // If Unit is Ready
-            // If Player is Idle Turn Player
-            // If Unit is in Units
-            // If Target is in Units // May Be out of place?
-            // If Opponent Field Not Empty
-            // Asset-CheckCardState
-            Assert.Fail("Not Implemented");
-
+            StartGame(new DeckBuilder().Default(SetCodes.AlphaBioShocker), new DeckBuilder().Default(SetCodes.AlphaBioShocker));
+            Card card = P1.Hand[0];
+            _match.Deploy(P1, card);
+            _match.EndTurn(P1);
+            Card defender = P2.Hand[1];
+            _match.Deploy(P2, defender);
+            _match.EndTurn(P2);
+            Assert.IsEqual(card.CardType, CardType.Unit, "When it is a Unit Card");
+            Assert.IsEqual(card.Controller.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");
+            Assert.Contains(card, P1.Units, "And it is in its controller's units");
+            Assert.IsTrue(card.IsReady, "And it is ready");
+            Assert.IsGreaterThan(P2.Units.Count, 0, "And its controller's opponent's Unit zone is not empty");
+            Assert.IsEqual(card.CardState, CardState.AttackUnit, "Then it can attack target unit");
         }
 
         [Test]
         public void AttackPlayerState()
         {
-            // CAN ATTACK DIRECTLY IF X, Y, Z
-            // If Unit is Ready
-            // If Player is Idle Turn Player
-            // If Unit is in Units
-            // If Opponent Field Empty
-            // Asset-CheckCardState
-            // CAN BE ACTIVATED IF X, Y, Z
-            Assert.Fail("Not Implemented");
-
+            StartGame(new DeckBuilder().Default(SetCodes.AlphaBioShocker));
+            Card card = P1.Hand[0];
+            _match.Deploy(P1, card);
+            _match.EndTurn(P1);
+            _match.EndTurn(P2);
+            Assert.IsEqual(card.CardType, CardType.Unit, "When it is a Unit Card");
+            Assert.IsEqual(card.Controller.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");
+            Assert.Contains(card, P1.Units, "And it is in its controller's units");
+            Assert.IsTrue(card.IsReady, "And it is ready");
+            Assert.IsEqual(P2.Units.Count, 0, "And its controller's opponent's Unit zone is empty");
+            Assert.IsEqual(card.CardState, CardState.AttackPlayer, "Then it can attack directly");
         }
         
         // ACTION TESTS
