@@ -1,4 +1,6 @@
-﻿namespace CardGame.Tests.Server.Scenarios
+﻿using CardGame.Server;
+
+namespace CardGame.Tests.Server.Scenarios
 {
     public class MatchScenario : BaseServerTest
     {
@@ -21,7 +23,7 @@
             Assert.IsEqual(Player2.Hand.Count, handCountBeforeDraw + 1,
                 "Player 2's Hand Count increased by 1 when Player 1 ended their turn");
             Match.EndTurn(Player1);
-            Assert.IsTrue(Player1.Disqualified,
+            Assert.IsTrue(Player.Disqualified,
                 "When player 1 attempts to end their turn during Player 2's turn they are disqualified");
         }
     }

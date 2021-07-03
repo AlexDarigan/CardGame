@@ -1,7 +1,7 @@
 ﻿namespace CardGame.Server.Tests
 {
     [Title("Card States")]
-    public class CardStates: ServerFixture
+    public class CardStates: Fixture
     {
         [Test]
         public void Deploy()

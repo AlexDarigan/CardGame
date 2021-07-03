@@ -19,7 +19,10 @@ namespace CardGame.Server
         public readonly int Id;
         public readonly Zone Supports = new();
         public readonly Zone Units = new();
-        public bool Disqualified = false;
+        public Illegal ReasonPlayerWasDisqualified = Illegal.NotDisqualified;
+        
+        // TODO: Remove this when old tests are removed
+        public const bool Disqualified = false;
         public int Health = 8000;
         public Player Opponent;
         public bool Ready = false;

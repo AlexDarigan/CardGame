@@ -5,7 +5,7 @@ using Godot;
 
 namespace CardGame.Server.Tests
 {
-    public class ServerFixture: WAT.Test
+    public class Fixture: WAT.Test
     {
         // CREATE A DECKBUILDER HELPER
         protected Player P1;

@@ -46,7 +46,7 @@ namespace CardGame.Server
 
         public void Draw(Player player)
         {
-            if(Disqualified((player.State != States.IdleTurnPlayer), player, "Illegal Draw")) { return; }
+            if(Disqualified((player.State != States.IdleTurnPlayer), player, Illegal.Draw)) { return; }
 
             if (player.Deck.Count == 0)
             {
@@ -60,14 +60,14 @@ namespace CardGame.Server
 
         public void Deploy(Player player, Card unit)
         {
-            if(Disqualified(unit.CardState != CardState.Deploy, player, "Illegal Deploy")) { return; }
+            if(Disqualified(unit.CardState != CardState.Deploy, player, Illegal.Deploy)) { return; }
             player.Deploy(unit).QueueOnClients(Queue);
             Update();
         }
 
         public void DeclareAttack(Player player, Card attacker, Card defender)
         {
-            if(Disqualified(attacker.CardState != CardState.AttackUnit, player, "Illegal Attack Unit")) { return; }
+            if(Disqualified(attacker.CardState != CardState.AttackUnit, player, Illegal.AttackUnit)) { return; }
 
             static void DamageCalculation(Card winner, Card loser)
             {
@@ -83,14 +83,14 @@ namespace CardGame.Server
 
         public void DeclareDirectAttack(Player player, Card attacker)
         {
-            if(Disqualified(attacker.CardState != CardState.AttackPlayer, player, "Illegal Attack Direct")) { return; }
+            if(Disqualified(attacker.CardState != CardState.AttackPlayer, player, Illegal.AttackPlayer)) { return; }
             player.Opponent.Health -= attacker.Power;
             Update();
         }
 
         public void SetFaceDown(Player player, Card support)
         {
-            if(Disqualified(support.CardState != CardState.Set, player, "Illegal Set FaceDown")) { return; }
+            if(Disqualified(support.CardState != CardState.Set, player, Illegal.SetFaceDown)) { return; }
             player.SetFaceDown(support).QueueOnClients(Queue);
             Update();
         }
@@ -98,7 +98,7 @@ namespace CardGame.Server
         public void Activate(Player player, Card support)
         {
             
-            if(Disqualified(player.State != States.IdleTurnPlayer || !player.Supports.Contains(support), player, "Illegal Activation")) { return; }
+            if(Disqualified(player.State != States.IdleTurnPlayer || !player.Supports.Contains(support), player, Illegal.Activation)) { return; }
             _virtualStackMachine.Activate(support);
             Update();
         }
@@ -106,7 +106,7 @@ namespace CardGame.Server
 
         public void EndTurn(Player player)
         {
-            if(Disqualified(player.State != States.IdleTurnPlayer, player, "Illegal End Turn")) { return; }
+            if(Disqualified(player.State != States.IdleTurnPlayer, player, Illegal.EndTurn)) { return; }
             player.State = States.Passive;
             player.Opponent.State = States.IdleTurnPlayer;
             Draw(player.Opponent);
@@ -115,12 +115,12 @@ namespace CardGame.Server
             Update();
         }
 
-        private bool Disqualified(bool condition, Player player, string reason = "")
+        private bool Disqualified(bool condition, Player player, Illegal reason)
         {
             if (_isGameOver)
                 // The Player States are already invalid at this point so no reason to force the disqualification
                 return false;
-            player.Disqualified = true;
+            player.ReasonPlayerWasDisqualified = reason;
             if(condition) {Debug.WriteLine($"Disqualified {player} for {reason}");}
             return condition;
         }

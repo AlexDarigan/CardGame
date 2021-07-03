@@ -20,7 +20,7 @@ namespace CardGame.Tests.Server.Actions
                 "Then their deck is reduced in size");
             Assert.IsLessThan(handCountBeforeDraw, Player1.Hand.Count,
                 "Then their hand count is increased in size");
-            Assert.IsFalse(Player1.Disqualified);
+            Assert.IsFalse(Player.Disqualified);
         }
 
         [Test]

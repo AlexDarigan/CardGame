@@ -13,7 +13,7 @@ namespace CardGame.Tests.Server.Rules
         public void They_Draw_During_Their_Opponents_Turn()
         {
             Match.Draw(Player2);
-            Assert.IsTrue(Player2.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -21,14 +21,14 @@ namespace CardGame.Tests.Server.Rules
         {
             Player1.State = States.Passive;
             Match.Draw(Player1);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
         public void They_Deploy_During_Their_Opponents_Turn()
         {
             Match.Deploy(Player2, Player2.Hand[0]);
-            Assert.IsTrue(Player2.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace CardGame.Tests.Server.Rules
         {
             Player1.State = States.Passive;
             Match.Deploy(Player1, Player1.Hand[0]);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace CardGame.Tests.Server.Rules
             Card card = Player1.Hand[0];
             card.CardType = CardType.Support;
             Match.Deploy(Player1, card);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace CardGame.Tests.Server.Rules
             Card card = Player2.Hand[0];
             card.CardType = CardType.Support;
             Match.SetFaceDown(Player2, card);
-            Assert.IsTrue(Player2.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace CardGame.Tests.Server.Rules
             card.CardType = CardType.Support;
             Player1.State = States.Passive;
             Match.SetFaceDown(Player1, card);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
 
@@ -74,7 +74,7 @@ namespace CardGame.Tests.Server.Rules
             Card card = Player1.Hand[0];
             card.CardType = CardType.Unit;
             Match.SetFaceDown(Player1, card);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace CardGame.Tests.Server.Rules
             Card card = Player1.Hand[0];
             card.CardType = CardType.Support;
             Match.Activate(Player1, card);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace CardGame.Tests.Server.Rules
             Match.SetFaceDown(Player1, card);
             Match.EndTurn(Player1);
             Match.Activate(Player1, card);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace CardGame.Tests.Server.Rules
             Match.Deploy(Player2, defender);
             Match.EndTurn(Player1);
             Match.DeclareAttack(Player1, attacker, defender);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace CardGame.Tests.Server.Rules
             Match.EndTurn(Player2);
             Player1.State = States.Passive;
             Match.DeclareAttack(Player1, attacker, defender);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -140,7 +140,7 @@ namespace CardGame.Tests.Server.Rules
             Match.EndTurn(Player2);
             Match.Deploy(Player1, attacker);
             Match.DeclareAttack(Player1, attacker, defender);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -154,7 +154,7 @@ namespace CardGame.Tests.Server.Rules
             Match.Deploy(Player2, defender);
             Match.EndTurn(Player2);
             Match.DeclareAttack(Player1, attacker, defender);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -166,7 +166,7 @@ namespace CardGame.Tests.Server.Rules
             Match.EndTurn(Player1);
             Match.EndTurn(Player1);
             Match.DeclareDirectAttack(Player1, attacker);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -179,7 +179,7 @@ namespace CardGame.Tests.Server.Rules
             Match.EndTurn(Player2);
             Player1.State = States.Passive;
             Match.DeclareDirectAttack(Player1, attacker);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -191,7 +191,7 @@ namespace CardGame.Tests.Server.Rules
             Match.EndTurn(Player2);
             Match.Deploy(Player1, attacker);
             Match.DeclareDirectAttack(Player1, attacker);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -202,7 +202,7 @@ namespace CardGame.Tests.Server.Rules
             Match.EndTurn(Player1);
             Match.EndTurn(Player2);
             Match.DeclareDirectAttack(Player1, attacker);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -217,14 +217,14 @@ namespace CardGame.Tests.Server.Rules
             Match.Deploy(Player2, defender);
             Match.EndTurn(Player2);
             Match.DeclareDirectAttack(Player1, attacker);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
         public void They_End_Their_Turn_During_Their_Opponents_Turn()
         {
             Match.EndTurn(Player2);
-            Assert.IsTrue(Player2.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
 
         [Test]
@@ -232,7 +232,7 @@ namespace CardGame.Tests.Server.Rules
         {
             Player1.State = States.Passive;
             Match.EndTurn(Player1);
-            Assert.IsTrue(Player1.Disqualified);
+            Assert.IsTrue(Player.Disqualified);
         }
     }
 }
