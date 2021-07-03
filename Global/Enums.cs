@@ -1,4 +1,6 @@
-﻿namespace CardGame
+﻿using System;
+
+namespace CardGame
 {
     public enum CardType
     {
@@ -23,6 +25,17 @@
     public enum Triggers
     {
         Any
+    }
+
+    [AttributeUsage(AttributeTargets.Enum | AttributeTargets.Field)]
+    public class Effect : Attribute
+    {
+        private Action Actionx;
+
+        public Effect(string name)
+        {
+            Action method = () => GetType().GetMethod(name);
+        }
     }
 
     public enum Instructions

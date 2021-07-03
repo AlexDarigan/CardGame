@@ -1,4 +1,6 @@
-﻿namespace CardGame.Server
+﻿using System.Collections.Generic;
+
+namespace CardGame.Server
 {
     public class Card
     {
@@ -38,5 +40,9 @@
         private bool CanAttackUnit() => Controller.Units.Contains(this) && IsReady && Controller.Opponent.Units.Count > 0;
         private bool CanAttackPlayer() => Controller.Units.Contains(this) && IsReady && Controller.Opponent.Units.Count == 0;
         private bool CanBeActivated() => Controller.Supports.Contains(this) && IsReady;
+        public SkillState Activate()
+        {
+            return new SkillState(this, Skill.Instructions);
+        }
     }
 }

@@ -13,14 +13,11 @@ namespace CardGame.Server
          * directly on their owners (either a player or a skill).
          */
 
-        private readonly VirtualStackMachine _virtualStackMachine = new();
-        private readonly Cards _cards;
-
-        private readonly Enqueue Queue;
-
-        // May be an idea
-        private readonly Action _update;
         public bool GameOver { get; private set; }
+        private readonly Cards _cards;
+        private readonly List<SkillState> Link = new();
+        private readonly Enqueue Queue;
+        private readonly Action _update;
 
         public Match(Player player1, Player player2, Cards cards, Action update, Enqueue queue)
         {
@@ -107,8 +104,27 @@ namespace CardGame.Server
         {
             
             if(Disqualified(support.CardState != CardState.Activate, player, Illegal.Activation)) { return; }
-            _virtualStackMachine.Activate(support);
+            Link.Add(support.Activate());
+            Resolve();
             Update();
+        }
+
+        private void Resolve()
+        {
+            while (Link.Count > 0)
+            {
+                SkillState current = Link[Link.Count - 1];
+                current.Execute();
+                if (!current.IsDone()) continue;
+                Link.Remove(current);
+                
+                // OnResolve
+                // AddToCard
+                // SpawnEvents?
+                current.Controller.Supports.Remove(current.OwningCard);
+                current.Owner.Graveyard.Add(current.OwningCard);
+
+            }
         }
 
         public void PassPlay(Player player)
