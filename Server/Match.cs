@@ -20,12 +20,13 @@ namespace CardGame.Server
 
         // May be an idea
         private readonly Action _update;
-        private bool _isGameOver;
+        public bool GameOver { get; private set; }
 
         public Match(Player player1, Player player2, Cards cards, Action update, Enqueue queue)
         {
             _update = update;
             Queue = queue;
+            GameOver = false;
             _cards = cards;
             player1.Opponent = player2;
             player2.Opponent = player1;
@@ -50,7 +51,8 @@ namespace CardGame.Server
 
             if (player.Deck.Count == 0)
             {
-                GameOver(player.Opponent, player);
+                OnGameOver(player.Opponent, player);
+                Update();
                 return;
             }
 
@@ -85,6 +87,10 @@ namespace CardGame.Server
         {
             if(Disqualified(attacker.CardState != CardState.AttackPlayer, player, Illegal.AttackPlayer)) { return; }
             player.Opponent.Health -= attacker.Power;
+            if (player.Opponent.Health <= 0)
+            {
+                OnGameOver(player, player.Opponent);
+            }
             Update();
         }
 
@@ -123,9 +129,8 @@ namespace CardGame.Server
 
         private bool Disqualified(bool condition, Player player, Illegal reason)
         {
-            if (_isGameOver)
-                // The Player States are already invalid at this point so no reason to force the disqualification
-                return false;
+            // If the game is over already, this doesn't matter
+            if (GameOver) return true;
             player.ReasonPlayerWasDisqualified = reason;
             if(condition) {Debug.WriteLine($"Disqualified {player} for {reason}");}
             return condition;
@@ -137,12 +142,12 @@ namespace CardGame.Server
             _update();
         }
 
-        private void GameOver(Player winner, Player loser)
+        private void OnGameOver(Player winner, Player loser)
         {
             winner.State = States.Winner;
             loser.State = States.Loser;
-            _isGameOver = true;
-            _update();
+            GameOver = true;
+            Update();
         }
     }
 }

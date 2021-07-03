@@ -21,8 +21,6 @@ namespace CardGame.Server.Tests
         }
         protected static IEnumerable<SetCodes> BuildDeck(SetCodes setCode = SetCodes.NullCard)
         {
-            Console.WriteLine(setCode);
-            GD.Print(setCode);
             IList<SetCodes> deckList = new List<SetCodes>();
             for (int i = 0; i < 40; i++) { deckList.Add(setCode); }
             return deckList.AsEnumerable();
