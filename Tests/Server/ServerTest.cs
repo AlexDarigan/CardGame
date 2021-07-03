@@ -44,7 +44,7 @@ namespace CardGame.Tests.Server
             Assert.IsEqual(card.Controller.State, States.IdleTurnPlayer, "Their controller is Idle Turn Player");
             Assert.IsEqual(card.CardType, CardType.Unit, "And their card type is Unit");
             Assert.Contains(card, card.Controller.Hand, "And they are in their controllers hand");
-            Assert.IsLessThan(card.Controller.Units.Count, 5, "And there is room in untis");
+            Assert.IsLessThan(card.Controller.Units.Count, 5, "And there is room in units");
             Assert.IsEqual(card.CardState, CardState.Deploy, "Then they can be deployed");
         }
 
