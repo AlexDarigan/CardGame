@@ -98,12 +98,18 @@ namespace CardGame.Server
         public void Activate(Player player, Card support)
         {
             
-            if(Disqualified(player.State != States.IdleTurnPlayer || !player.Supports.Contains(support), player, Illegal.Activation)) { return; }
+            if(Disqualified(support.CardState != CardState.Activate, player, Illegal.Activation)) { return; }
             _virtualStackMachine.Activate(support);
             Update();
         }
 
-
+        public void PassPlay(Player player)
+        {
+            if(Disqualified(player.State != States.Active, player, Illegal.PassPlay)) { return; }
+            // More Here
+            Update();
+        }
+        
         public void EndTurn(Player player)
         {
             if(Disqualified(player.State != States.IdleTurnPlayer, player, Illegal.EndTurn)) { return; }

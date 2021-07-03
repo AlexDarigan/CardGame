@@ -5,52 +5,8 @@
 // {
 //     public class ServerTest
 //     {
-//         // ACTION TESTS
-//         [Test]
-//         public void DrawAction()
-//         {
-//             // DECK IS 1 LESS
-//             // HAND IS 1 MORE
-//             Assert.Fail("Not Implemented");
-//
-//         }
-//
-//         [Test]
-//         public void DeployAction()
-//         {
-//             // HAND IS 1 LESS
-//             // UNITS IS 1 MORE
-//             Assert.Fail("Not Implemented");
-//
-//         }
-//         
-//         [Test]
-//         public void SetFaceDownAction()
-//         {
-//             // HAND IS 1 LESS
-//             // SUPPORTS IS 1 MORE
-//             Assert.Fail("Not Implemented");
-//
-//         }
-//         
-//         [Test]
-//         public void ActivationAction()
-//         {
-//             // SUPPORT IS 1 LESS
-//             // DISCARD IS 1 MORE
-//             Assert.Fail("Not Implemented");
-//
-//         }
-//         
-//         [Test]
-//         public void AttackPlayerAction()
-//         {
-//             // Player Life Is Less
-//             // Card is Exhausted
-//             Assert.Fail("Not Implemented");
-//
-//         }
-//
+//        
+
 //         [Test]
 //         public void IllegalDraw()
 //         {

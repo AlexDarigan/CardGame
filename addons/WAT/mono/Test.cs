@@ -55,7 +55,7 @@ namespace WAT
 			await CallTestHook(start);
 			foreach (Executable test in _methods)
 			{
-				_case.Call("add_method", test.Method.Name);
+				_case.Call("add_method", test.Name);
 				await CallTestHook(pre);
 				await Execute(test)!;
 				await CallTestHook(post);
@@ -85,7 +85,7 @@ namespace WAT
 
 		private async Task Execute(Executable test)
 		{
-			if (test.Description != "") { EmitSignal(nameof(Described), test.Description );}
+		//	if (test.Description != "") { EmitSignal(nameof(Described), test.Description );}
 			if (test.Method.Invoke(this, test.Arguments) is Task task) { await task; }
 			else { await Task.Run((() => { })); }
 		}
@@ -133,6 +133,7 @@ namespace WAT
 			public readonly MethodInfo Method;
 			public readonly object[] Arguments;
 			public readonly string Description;
+			public string Name => Description == "" ? Method.Name : Description;
 
 			public Executable(MethodInfo method, string description, object[] arguments)
 			{
