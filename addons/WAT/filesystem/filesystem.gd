@@ -119,7 +119,7 @@ func _is_valid_test(p: String) -> bool:
 	return (( p.ends_with(".gd") and p != "res://addons/WAT/test/test.gd" or
 		  p.ends_with(".cs") and p != "res://addons/WAT/mono/Test.cs" or
 		  p.ends_with(".gdc") and p != "res://addons/WAT/test/test.gdc") and
-		  load(p).call("_is_wat_test"))
+		  load(p).new().call("_is_wat_test"))
 	
 func add_test_to_tag(test, tag: String) -> void:
 	tags[tag].tests.append(test)

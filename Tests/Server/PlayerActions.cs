@@ -38,32 +38,5 @@
             Assert.IsEqual(P1.Supports.Count, supportsCount + 1, "The player's supports count increased by 1 Card");
             Assert.IsEqual(P1.Hand.Count, handCount - 1, "The player's hand count decreased by 1 card");
         }
-        
-        [Test]
-        public void ActivationAction()
-        {
-            // // SUPPORT IS 1 LESS
-            // // DISCARD IS 1 MORE
-            Assert.Fail("Implement In Skills Test");
-        }
-        
-        [Test]
-        public void AttackPlayerAction()
-        {
-            // Player Life Is Less
-            // Card is Exhausted
-            Assert.Fail("Implement This In Battles Test");
-
-        }
-
-        // [Test]
-        // public void IllegalDraw()
-        // {
-        //     // DRAW
-        //     // When they are not the turn player
-        //     // AssetDisqualified
-        //     Assert.Fail("Not Implemented");
-        //
-        // }
     }
 }

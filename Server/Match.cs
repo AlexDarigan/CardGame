@@ -131,10 +131,8 @@ namespace CardGame.Server
 
         private bool Disqualified(bool condition, Player player, Illegal reason)
         {
-            // If the game is over already, this doesn't matter
             if (GameOver) return true;
             player.ReasonPlayerWasDisqualified = reason;
-            if(condition) {Debug.WriteLine($"Disqualified {player} for {reason}");}
             return condition;
         }
 

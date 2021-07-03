@@ -7,7 +7,6 @@ namespace CardGame.Server.Tests
 {
     public class Fixture: WAT.Test
     {
-        // CREATE A DECKBUILDER HELPER
         protected Player P1;
         protected Player P2;
         protected Match Match;
