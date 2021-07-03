@@ -24,6 +24,7 @@
     <Compile Remove="Client\Assets\**" />
     <Compile Remove="Client\Scripts\Register.cs" />
     <Compile Remove="Debug\**" />
+    <Compile Remove="TestsOld\Battle.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Client\Network\**" />

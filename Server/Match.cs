@@ -80,6 +80,7 @@ namespace CardGame.Server
 
             if (attacker.Power > defender.Power) { DamageCalculation(attacker, defender); }
             else if (defender.Power > attacker.Power) { DamageCalculation(defender, attacker); }
+            attacker.IsReady = false;
             Update();
         }
 
@@ -91,6 +92,7 @@ namespace CardGame.Server
             {
                 OnGameOver(player, player.Opponent);
             }
+            attacker.IsReady = false;
             Update();
         }
 
