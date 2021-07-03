@@ -1,0 +1,103 @@
+<?xml version="1.0" ?>
+<testsuites failures="4" name="TestXML" tests="12" time="0">
+	<testsuite name="Actions" failures="2"  tests="4" time="0">
+		<testcase name="RoomsExist" time="0"></testcase>
+		<testcase name="OnGameStart" time="0"></testcase>
+		<testcase name="DeployAction" time="0">
+			<failure message="EXPECTED: |System.Int32| 0 is equal to |System.Int32|1 but GOT |System.Int32| 0 is not equal to |System.Int32|1"></failure></testcase>
+		<testcase name="SetAction" time="0">
+			<failure message="EXPECTED: |System.Int32| 0 is equal to |System.Int32|1 but GOT |System.Int32| 0 is not equal to |System.Int32|1"></failure></testcase>
+	</testsuite>
+
+	<testsuite name="Client" failures="0"  tests="2" time="0">
+		<testcase name="Is Live" time="0"></testcase>
+		<testcase name="Is Client" time="0"></testcase>
+	</testsuite>
+
+	<testsuite name="Given A Live Server" failures="0"  tests="1" time="0">
+		<testcase name="And Two Clients" time="0"></testcase>
+	</testsuite>
+
+	<testsuite name="Battle" failures="0"  tests="5" time="0">
+		<testcase name="Stateful" time="0"></testcase>
+		<testcase name="When A Unit Attacks Directly" time="0"></testcase>
+		<testcase name="When An Attacking Unit Wins A Battle" time="0"></testcase>
+		<testcase name="When A Defending Unit Wins A Battle" time="0"></testcase>
+		<testcase name="When A Battle Ends In A Tie" time="0"></testcase>
+	</testsuite>
+
+	<testsuite name="MatchActions" failures="1"  tests="4" time="0">
+		<testcase name="When A Player Draws A Card" time="0">
+			<failure message="EXPECTED: |boolean| True == false but GOT |boolean| True == true"></failure></testcase>
+		<testcase name="When A Unit Is Deployed" time="0"></testcase>
+		<testcase name="When A Card Is Set" time="0"></testcase>
+		<testcase name="When A Player Ends Their Turn" time="0"></testcase>
+	</testsuite>
+
+	<testsuite name="PlayerAction" failures="0"  tests="4" time="0">
+		<testcase name="When A Player Draws A Card" time="0"></testcase>
+		<testcase name="When A Unit Is Deployed" time="0"></testcase>
+		<testcase name="When A Card Is Set" time="0"></testcase>
+		<testcase name="When A Player Ends Their Turn" time="0"></testcase>
+	</testsuite>
+
+	<testsuite name="GameOver" failures="0"  tests="1" time="0">
+		<testcase name="A Player Tries To Draw From A Deck With No Cards Left" time="0"></testcase>
+	</testsuite>
+
+	<testsuite name="When a game starts" failures="1"  tests="3" time="0">
+		<testcase name="Player Decks Contain 33 Cards" time="0"></testcase>
+		<testcase name="Player Hands Contain 7 Cards" time="0"></testcase>
+		<testcase name="Deck Contents As SetCodes Equal DeckList SetCodes" time="0">
+			<failure message="EXPECTED: |boolean| False == true but GOT |boolean| False == false"></failure></testcase>
+	</testsuite>
+
+	<testsuite name="Server" failures="0"  tests="2" time="0">
+		<testcase name="Is Live" time="0"></testcase>
+		<testcase name="Is Network Server" time="0"></testcase>
+	</testsuite>
+
+	<testsuite name="MatchRules" failures="0"  tests="21" time="0">
+		<testcase name="They Draw During Their Opponents Turn" time="0"></testcase>
+		<testcase name="They Draw In A NonIdle State" time="0"></testcase>
+		<testcase name="They Deploy During Their Opponents Turn" time="0"></testcase>
+		<testcase name="They Deploy During Their Turn In A NonIdle State" time="0"></testcase>
+		<testcase name="They Deploy A NonUnit Card" time="0"></testcase>
+		<testcase name="They Set A Support FaceDown During Their Opponents Turn" time="0"></testcase>
+		<testcase name="They Set A Support FaceDown During Their Turn In A NonIdle State" time="0"></testcase>
+		<testcase name="They Set A NonSupport Card FaceDown" time="0"></testcase>
+		<testcase name="They Activate A Card That Is Not On Their Field" time="0"></testcase>
+		<testcase name="They Activate A Card That In A State That Is Not Idle Or Active" time="0"></testcase>
+		<testcase name="They Declare An Attack When They Are Not The Turn Player" time="0"></testcase>
+		<testcase name="They Declare An Attack When They Are In A NonIdle State" time="0"></testcase>
+		<testcase name="They Declare An Attack With An Unready Unit" time="0"></testcase>
+		<testcase name="They Declare An Attack With A Card That Is Not On The Field" time="0"></testcase>
+		<testcase name="They Declare A Direct Attack When They Are Not The Turn Player" time="0"></testcase>
+		<testcase name="They Declare A Direct Attack When They Are In A NonIdle State" time="0"></testcase>
+		<testcase name="They Declare A Direct Attack With An Unready Unit" time="0"></testcase>
+		<testcase name="They Declare A Direct Attack With A Card That Is Not On The Field" time="0"></testcase>
+		<testcase name="They Declare A Direct Attack Against A NonEmpty Field" time="0"></testcase>
+		<testcase name="They End Their Turn During Their Opponents Turn" time="0"></testcase>
+		<testcase name="They End Their Turn In A NonIdle State" time="0"></testcase>
+	</testsuite>
+
+	<testsuite name="MatchScenario" failures="0"  tests="1" time="0">
+		<testcase name="Given A Game" time="0"></testcase>
+	</testsuite>
+
+	<testsuite name="Skills" failures="4"  tests="5" time="0">
+		<testcase name="Controller Draws 2 Cards" time="0">
+			<failure message="EXPECTED: |System.Int32| 8 is equal to |System.Int32|10 but GOT |System.Int32| 8 is not equal to |System.Int32|10"></failure></testcase>
+		<testcase name="Opponent Draws Five Cards" time="0">
+			<failure message="EXPECTED: |System.Int32| 8 is equal to |System.Int32|13 but GOT |System.Int32| 8 is not equal to |System.Int32|13"></failure></testcase>
+		<testcase name="Destroy All Opponent Units" time="0">
+			<failure message="EXPECTED: CardGame.Server.Zone contains |CardGame.Server.Card|CardGame.Server.Card but GOT CardGame.Server.Zone does not contain |CardGame.Server.Card|CardGame.Server.Card"></failure>
+			<failure message="EXPECTED: CardGame.Server.Zone contains |CardGame.Server.Card|CardGame.Server.Card but GOT CardGame.Server.Zone does not contain |CardGame.Server.Card|CardGame.Server.Card"></failure>
+			<failure message="EXPECTED: CardGame.Server.Zone does not contain |CardGame.Server.Card|CardGame.Server.Card but GOT CardGame.Server.Zone contains |CardGame.Server.Card|CardGame.Server.Card"></failure>
+			<failure message="EXPECTED: CardGame.Server.Zone does not contain |CardGame.Server.Card|CardGame.Server.Card but GOT CardGame.Server.Zone contains |CardGame.Server.Card|CardGame.Server.Card"></failure></testcase>
+		<testcase name="Changes Card Faction" time="0"></testcase>
+		<testcase name="Changes Card Power" time="0">
+			<failure message="EXPECTED: |System.Int32| 1000 is equal to |System.Int32|2000 but GOT |System.Int32| 1000 is not equal to |System.Int32|2000"></failure></testcase>
+	</testsuite>
+
+</testsuites>
