@@ -10,7 +10,6 @@ namespace CardGame.Server
         
         static SkillOperations()
         {
-            Console.WriteLine("Initializing Operations");
             Dictionary<Instructions, Action<SkillState>> operations = new();
             foreach (Instructions instruction in Enum.GetValues(typeof(Instructions)))
             {

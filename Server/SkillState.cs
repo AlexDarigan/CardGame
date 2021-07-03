@@ -22,15 +22,9 @@ namespace CardGame.Server
 
         public void Execute()
         {
-            Console.WriteLine($"Executing Instruction: {_cursor}");
-            Console.WriteLine($"Executing: {_instructions[_cursor].ToString()}");
+           
             Action<SkillState> operation = SkillOperations.GetOperation((Instructions) _instructions[_cursor]);
             operation(this);
-            if (_cursor == 3)
-            {
-                Console.WriteLine(_instructions[_instructions.Count - 1]);
-                Console.WriteLine(_instructions[_instructions.Count - 2]);
-            }
             _cursor++;
         }
 
