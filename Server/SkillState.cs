@@ -23,7 +23,7 @@ namespace CardGame.Server
 
         public void Execute()
         {
-            Action<SkillState> operation = SkillOperations.GetOperation((OpCodes) _instructions[_cursor]);
+            Action<SkillState> operation = Operations.GetOperation((OpCodes) _instructions[_cursor]);
             operation(this);
             _cursor++;
         }

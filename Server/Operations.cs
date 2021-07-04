@@ -1,29 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 
 namespace CardGame.Server
 {
-    public static class SkillOperations
+    public static class Operations
     {
-        private static readonly IReadOnlyDictionary<OpCodes, Action<SkillState>> Operations;
+        private static readonly IReadOnlyDictionary<OpCodes, Action<SkillState>> Ops;
         private const int Owner = 2;
         private const int Player = 1;
         private const int Opponent = 0;
         
-        static SkillOperations()
+        static Operations()
         {
             Dictionary<OpCodes, Action<SkillState>> operations = new();
             foreach (OpCodes instruction in Enum.GetValues(typeof(OpCodes)))
             {
                 operations[instruction] = (Action<SkillState>) Delegate.CreateDelegate(typeof(Action<SkillState>), null,
-                    typeof(SkillOperations).GetMethod(instruction.ToString(), BindingFlags.Static | BindingFlags.NonPublic)!);
+                    typeof(Operations).GetMethod(instruction.ToString(), BindingFlags.Static | BindingFlags.NonPublic)!);
             }
-            Operations = operations;
+            Ops = operations;
         }
 
-        public static Action<SkillState> GetOperation(OpCodes opCode) => Operations[opCode];
+        public static Action<SkillState> GetOperation(OpCodes opCode) => Ops[opCode];
         
         // Internal Non-Operation Helper Methods
         private static Player GetPlayer(SkillState skill)
