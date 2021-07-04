@@ -57,7 +57,6 @@ namespace CardGame.Server
         // Getters
         private static void Literal(SkillState skill) { skill.Push(skill.Next()); }
         private static void GetOwningCard(SkillState skill) { }
-        
         private static void GetOwner(SkillState skill) { skill.Push(Owner); }
         private static void GetController(SkillState skill) { skill.Push(Player); }
         private static void GetOpponent(SkillState skill) { skill.Push(Opponent); }
@@ -110,5 +109,18 @@ namespace CardGame.Server
             int count = skill.PopBack();
             for (int i = 0; i < count; i++) { player.Draw(); }
         }
+        
+        // What if we make a number of helper methods, and then alias them for keywords (ie Draw = GetFromTopOfDeck, GoToHand, Source-Draw)..
+        // ..this could cause problems with our Actor Models though.
+        // What if we wanted to say have a skill that boths AddToHand
+
+        private static void AddCards(SkillState skill, Zone zone) { foreach (Card card in skill.Cards) { zone.Add(card); } }
+        // private static void AddToHand(SkillState skill) { AddCards(skill, GetPlayer(skill).Hand);}
+        // private static void AddToUnits(SkillState skill) { AddCards(skill, GetPlayer(skill).Units);}
+        // private static void AddToSupport(SkillState skill) { AddCards(skill, GetPlayer(skill).Supports);}
+        // private static void AddToDeck(SkillState skill) { AddCards(skill, GetPlayer(skill).Deck);}
+        // private static void AddToGraveyard(SkillState skill) { AddCards(skill, GetPlayer(skill).Graveyard);}
+
+      
     }
 }

@@ -60,7 +60,7 @@ namespace CardGame.Server.Tests
             Match.Activate(P1, support);
             Assert.IsEqual(P1.Health, result, context);
         }
-
+        
         private Card CommonPlay(params object[] ops)
         {
             StartGame(BuildDeck(SetCodes.AlphaQuestReward));
