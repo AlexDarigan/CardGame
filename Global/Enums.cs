@@ -38,7 +38,7 @@ namespace CardGame
         }
     }
 
-    public enum Instructions
+    public enum OpCodes
     {
         // Getters
         Literal = 0,

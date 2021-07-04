@@ -6,12 +6,12 @@ namespace CardGame.Server
 {
     public static class SkillOperations
     {
-        private static readonly IReadOnlyDictionary<Instructions, Action<SkillState>> Operations;
+        private static readonly IReadOnlyDictionary<OpCodes, Action<SkillState>> Operations;
         
         static SkillOperations()
         {
-            Dictionary<Instructions, Action<SkillState>> operations = new();
-            foreach (Instructions instruction in Enum.GetValues(typeof(Instructions)))
+            Dictionary<OpCodes, Action<SkillState>> operations = new();
+            foreach (OpCodes instruction in Enum.GetValues(typeof(OpCodes)))
             {
                 operations[instruction] = (Action<SkillState>) Delegate.CreateDelegate(typeof(Action<SkillState>), null,
                     typeof(SkillOperations).GetMethod(instruction.ToString(), BindingFlags.Static | BindingFlags.NonPublic)!);
@@ -19,7 +19,7 @@ namespace CardGame.Server
             Operations = operations;
         }
 
-        public static Action<SkillState> GetOperation(Instructions instruction) => Operations[instruction];
+        public static Action<SkillState> GetOperation(OpCodes opCode) => Operations[opCode];
 
         // Getters
         private static void Literal(SkillState skill)
@@ -65,6 +65,7 @@ namespace CardGame.Server
             Player player = skill.PopBack() == 1 ? skill.Controller : skill.Opponent;
             for (int i = 0; i < skill.PopBack(); i++)
             {
+                Console.WriteLine("Drawing Card!");
                 // Seek an avenue to see where this can give spawn-source?
                 player.Draw();
             }
