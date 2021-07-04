@@ -27,7 +27,8 @@ namespace CardGame.Server
             operation(this);
             _cursor++;
         }
-        
+
+        public void Jump(int i) { _cursor = _cursor + i - 1;}
         public void Push(int i) { _instructions.Add(i); }
         public int Next() => _instructions[++_cursor];
         public int PopBack() => Pop(_instructions.Count - 1);

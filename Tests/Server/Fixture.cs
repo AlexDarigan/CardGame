@@ -25,7 +25,7 @@ namespace CardGame.Server.Tests
             return deckList.AsEnumerable();
         }
         
-        protected static Skill BuildSkill(Card support, params OpCodes[] codes)
+        protected static Skill BuildSkill(Card support, params object[] codes)
         {
             return new Skill(support, new List<Triggers>(), codes.Select(opCode => (int) opCode).ToList(), "");
         }

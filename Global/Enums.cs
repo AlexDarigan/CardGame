@@ -38,7 +38,7 @@ namespace CardGame
         }
     }
 
-    public enum OpCodes
+    public enum OpCodes: int
     {
         // Getters
         Literal = 0,
@@ -56,6 +56,10 @@ namespace CardGame
 
         // Math
         Count, // Cards, Not Numbers
+        Add,
+        Subtract,
+        Multiply,
+        Divide,
 
         // Comparison
         IsLessThan,
@@ -69,6 +73,7 @@ namespace CardGame
         Or,
 
         // Setters
+        SetHealth,
         SetFaction,
         SetPower,
 

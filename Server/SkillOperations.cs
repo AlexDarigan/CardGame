@@ -26,6 +26,21 @@ namespace CardGame.Server
         // Internal Non-Operation Helper Methods
         private static Player GetPlayer(SkillState skill) { return skill.PopBack() == Player ? skill.Controller: skill.Opponent; }
         private static void GetCards(SkillState skill, Zone zone) { skill.Cards.AddRange(zone); }
+
+        private static void CompareAndPushResult(SkillState skill, Func<int, int, bool> comparator)
+        {
+            int b = skill.PopBack();
+            int a = skill.PopBack();
+            skill.Push(Convert.ToInt32(comparator(a, b)));
+        }
+        
+        private static void Calculate(SkillState skill, Func<int, int, int> calculator)
+        {
+            int b = skill.PopBack();
+            int a = skill.PopBack();
+            int result = calculator(a, b);
+            skill.Push(result);
+        }
         
         // Getters
         private static void Literal(SkillState skill) { skill.Push(skill.Next()); }
@@ -40,18 +55,51 @@ namespace CardGame.Server
         private static void Count(SkillState skill) { skill.Push(skill.Cards.Count); }
         
         // Control Flow
-        private static void If(SkillState skill) { }
+        private static void If(SkillState skill)
+        {
+            int jump = skill.PopBack();
+            int condition = skill.PopBack();
+            // We jump on the else, not the positive
+            if (condition == 0) { skill.Jump(jump); }
+        }
         private static void GoToEnd(SkillState skill) { }
         
         // Boolean
-        private static void IsLessThan(SkillState skill) { }
-        private static void IsGreaterThan(SkillState skill) { }
-        private static void IsEqual(SkillState skill) { }
-        private static void IsNotEqual(SkillState skill) { }
-        private static void And(SkillState skill) { }
-        private static void Or(SkillState skill) { }
+        private static void IsLessThan(SkillState skill) { CompareAndPushResult(skill, (a, b) => a < b); }
+        private static void IsGreaterThan(SkillState skill) { CompareAndPushResult(skill, (a, b) => a > b ); }
+        private static void IsEqual(SkillState skill) { CompareAndPushResult(skill, (a, b) => a == b ); }
+        private static void IsNotEqual(SkillState skill) { CompareAndPushResult(skill, (a, b) => a != b ); }
+
+        private static void And(SkillState skill)
+        {
+            int a = skill.PopBack();
+            int b = skill.PopBack();
+            int result = Convert.ToInt32(a == 1 && b == 1);
+            skill.Push(result);
+        }
+
+        private static void Or(SkillState skill)
+        {
+            int a = skill.PopBack();
+            int b = skill.PopBack();
+            int result = Convert.ToInt32(a == 1 || b == 1);
+            skill.Push(result);
+        }
+        
+        // Math
+        private static void Add(SkillState skill) { Calculate(skill, (a, b) => a + b); }
+        private static void Subtract(SkillState skill) { Calculate(skill, (a, b) => a - b); }
+        private static void Multiply(SkillState skill) { Calculate(skill, (a, b) => a * b); }
+        private static void Divide(SkillState skill) { Calculate(skill, (a, b) => a / b); }
+        
         
         // Actions
+        private static void SetHealth(SkillState skill)
+        {
+            Player player = GetPlayer(skill);
+            int newHealth = skill.PopBack();
+            player.Health = newHealth;
+        }
         private static void SetFaction(SkillState skill) { }
         private static void SetPower(SkillState skill) { }
         private static void Destroy(SkillState skill) { }
