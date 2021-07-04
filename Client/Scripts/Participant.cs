@@ -6,7 +6,7 @@ namespace CardGame.Client
     public class Participant
     {
         public Zone Deck { get; }
-        public  Zone Discard { get; }
+        public Zone Discard { get; }
         public Zone Hand { get; }
         public Zone Support { get; }
         public Zone Units { get; }
