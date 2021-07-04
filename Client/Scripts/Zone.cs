@@ -20,25 +20,10 @@ namespace CardGame.Client
         public Location Destination => Locations[_cards.Count - 1];
         public Card this[int index] => _cards[index];
 
-        public IEnumerator<Card> GetEnumerator()
-        {
-            return _cards.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public void Add(Card card)
-        {
-            _cards.Add(card);
-        }
-
-        public void Remove(Card card)
-        {
-            _cards.Remove(card);
-        }
+        public IEnumerator<Card> GetEnumerator() { return _cards.GetEnumerator(); }
+        IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
+        public void Add(Card card) { _cards.Add(card); }
+        public void Remove(Card card) { _cards.Remove(card); }
     }
 
     public class Location

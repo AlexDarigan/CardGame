@@ -4,10 +4,10 @@ namespace CardGame.Server
 {
     public class Skill
     {
-        public readonly string Description;
-        public readonly IReadOnlyList<int> Instructions;
-        public readonly Card Owner;
-        public readonly IEnumerable<Triggers> Triggers;
+        public string Description { get; }
+        public IReadOnlyList<int> Instructions { get; }
+        public Card Owner { get; }
+        public IEnumerable<Triggers> Triggers { get; }
 
         public Skill(Card owner, IEnumerable<Triggers> triggers, IReadOnlyList<int> instructions, string description)
         {

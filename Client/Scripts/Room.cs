@@ -12,14 +12,14 @@ namespace CardGame.Client
         [Signal] public delegate void Updated();
 
         private const int Server = 1;
-        private readonly Cards _cards;
-        private readonly Queue<Command> _commandQueue = new();
-        private readonly Tween _gfx;
-        private readonly AudioStreamPlayer _sfx;
-        private readonly AudioStreamPlayer _bgm;
-        private readonly Control _gui;
-        private readonly Participant _player;
-        private readonly Participant _rival;
+        private Cards Cards { get; }
+        private Queue<Command> CommandQueue { get; } = new();
+        private Tween Gfx { get; }
+        private AudioStreamPlayer Sfx { get; }
+        private AudioStreamPlayer Bgm { get; }
+        private Control Gui { get; }
+        private Participant Player { get; }
+        private Participant Rival { get; }
 
         private Room() { /* Required By Godot */ }
 
@@ -28,22 +28,23 @@ namespace CardGame.Client
             Name = name;
             CustomMultiplayer = multiplayerApi;
         
-            _gfx = new Tween();
-            _sfx = new AudioStreamPlayer();
-            _bgm = new AudioStreamPlayer();
-            _cards = new Cards();
+            Gfx = new Tween();
+            Sfx = new AudioStreamPlayer();
+            Bgm = new AudioStreamPlayer();
+            Cards = new Cards();
             
-            foreach (Node child in new []{view, _gfx, _sfx, _bgm, _cards}) { AddChild(child, true); }
+            foreach (Node child in new []{view, Gfx, Sfx, Bgm, Cards}) { AddChild(child, true); }
             
-            _gui = view.GetNode<Control>("GUI");
+            Gui = view.GetNode<Control>("GUI");
+            Gui.GetNode<Button>("Menu/EndTurn").Connect("pressed", this, nameof(OnEndTurnPressed));
+            Gui.GetNode<Label>("ID").Text = multiplayerApi.GetNetworkUniqueId().ToString();
             
-            _player = new Participant(view.GetNode<Node>("Table/Player"), (commandId, args) => RpcId(Server, commandId.ToString(), args));
-            _rival = new Participant(view.GetNode<Node>("Table/Rival"), delegate { });
+            Player = new Participant(view.GetNode<Node>("Table/Player"), (commandId, args) => RpcId(Server, commandId.ToString(), args));
+            Rival = new Participant(view.GetNode<Node>("Table/Rival"), delegate { });
             
-            _cards.Player = _player;
+            Cards.Player = Player;
 
-            _gui.GetNode<Button>("Menu/EndTurn").Connect("pressed", this, nameof(OnEndTurnPressed));
-            _gui.GetNode<Label>("ID").Text = multiplayerApi.GetNetworkUniqueId().ToString();
+            
         }
 
         public override void _Ready() => RpcId(Server, "OnClientReady");
@@ -51,21 +52,21 @@ namespace CardGame.Client
         [Puppet]
         public async void Update(States states)
         {
-            while (_commandQueue.Count > 0) await _commandQueue.Dequeue().Execute(_gfx);
-            _player.Update(states);
-            _gui.GetNode<Label>("State").Text = states.ToString();
+            while (CommandQueue.Count > 0) await CommandQueue.Dequeue().Execute(Gfx);
+            Player.Update(states);
+            Gui.GetNode<Label>("State").Text = states.ToString();
             EmitSignal(nameof(Updated), states); 
         }
         
-        [Puppet] public void Queue(CommandId commandId, params object[] args) => _commandQueue.Enqueue((Command) Call(commandId.ToString(), args)); 
-        [Puppet] public void UpdateCard(int id, CardState state) => _cards[id].Update(state); 
-        private Command LoadDeck(bool who, System.Collections.Generic.Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(who), deck, _cards.GetCard); 
+        [Puppet] public void Queue(CommandId commandId, params object[] args) => CommandQueue.Enqueue((Command) Call(commandId.ToString(), args)); 
+        [Puppet] public void UpdateCard(int id, CardState state) => Cards[id].Update(state); 
+        private Command LoadDeck(bool who, System.Collections.Generic.Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(who), deck, Cards.GetCard); 
         private Command Draw(bool who, int id) => new Draw(GetPlayer(who), GetCard(id)); 
         private Command Deploy(bool who, int id) => new Deploy(GetPlayer(who), GetCard(id)); 
         private Command SetFaceDown(bool who, int id) => new Set(GetPlayer(who), GetCard(id)); 
-        private Participant GetPlayer(bool isClient) => isClient ? _player : _rival; 
-        private Card GetCard(int id, SetCodes setCode = SetCodes.NullCard) => _cards.GetCard(id, setCode);
-        public void OnEndTurnPressed() { if(_player.State == States.IdleTurnPlayer) { RpcId(Server, "EndTurn"); } }
+        private Participant GetPlayer(bool isClient) => isClient ? Player : Rival; 
+        private Card GetCard(int id, SetCodes setCode = SetCodes.NullCard) => Cards.GetCard(id, setCode);
+        public void OnEndTurnPressed() { if(Player.State == States.IdleTurnPlayer) { RpcId(Server, "EndTurn"); } }
     }
 }
 

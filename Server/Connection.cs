@@ -6,8 +6,8 @@ namespace CardGame.Server
     public class Connection : Node
     {
         private const int Port = 5000;
-        private readonly Queue<Player> _queue = new();
-        private readonly NetworkedMultiplayerENet _server = new();
+        private Queue<Player> _queue { get; } = new();
+        private NetworkedMultiplayerENet _server { get; } = new();
         private int _roomCount;
         public bool IsLive => _server.GetConnectionStatus() == NetworkedMultiplayerPeer.ConnectionStatus.Connected;
         public bool IsServer => CustomMultiplayer.IsNetworkServer();

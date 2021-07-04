@@ -7,7 +7,7 @@ namespace CardGame.Client
     public class Card : Object
     {
         public delegate void Pressed(Card pressed);
-
+        public event Pressed CardPressed;
         private readonly SpatialMaterial _face;
         private readonly Spatial _view;
         public readonly int Id;
@@ -48,7 +48,6 @@ namespace CardGame.Client
             set => _view.RotationDegrees = value;
         }
 
-        public event Pressed CardPressed;
 
         public void Update(CardState state)
         {

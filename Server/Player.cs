@@ -13,7 +13,7 @@ namespace CardGame.Server
     public class Player
     {
         public Zone Deck { get; } = new();
-        public readonly IEnumerable<SetCodes> DeckList;
+        private IEnumerable<SetCodes> DeckList { get; }
         public Zone Graveyard { get; } = new();
         public Zone Hand { get; } = new();
         public int Id;

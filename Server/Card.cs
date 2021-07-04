@@ -6,8 +6,8 @@ namespace CardGame.Server
 {
     public class Card
     {
-        public readonly int Id;
-        public readonly Player Owner;
+        public int Id { get; }
+        public Player Owner { get; }
         public CardState CardState = CardState.None;
         public CardType CardType;
         public Player Controller;

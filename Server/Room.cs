@@ -9,31 +9,31 @@ namespace CardGame.Server
 
     public class Room : Node
     {
-        private readonly Cards _cards = new();
-        private readonly Match _match;
-        private readonly Dictionary<int, Player> _players = new();
+        private Cards Cards { get; } = new();
+        private Match Match { get; }
+        private Dictionary<int, Player> Players { get; } = new();
         public Room() { /* Required By Godot Engine Callbacks */ }
 
         public Room(Player player1, Player player2)
         {
-            _players[player1.Id] = player1;
-            _players[player2.Id] = player2;
-            _match = new Match(player1, player2, _cards, Update, Queue);
+            Players[player1.Id] = player1;
+            Players[player2.Id] = player2;
+            Match = new Match(player1, player2, Cards, Update, Queue);
         }
         
         private void Update()
         {
             // Requires Some Work
-            foreach (int id in _players.Keys)
+            foreach (int id in Players.Keys)
             {
-                foreach (Card card in _cards)
+                foreach (Card card in Cards)
                 {
                     if (card.Controller.Id != id) continue;
                    // Console.WriteLine();
                     RpcId(id, "UpdateCard", card.Id, card.CardState);
                 }
 
-                RpcId(id, "Update", _players[id].State);
+                RpcId(id, "Update", Players[id].State);
             }
         }
 
@@ -42,13 +42,13 @@ namespace CardGame.Server
         [Master]
         public void OnClientReady()
         {
-            _players[CustomMultiplayer.GetRpcSenderId()].Ready = true;
-            if (_players.Values.Any(player => !player.Ready)) return;
-            _match.Begin(_players.Values.ToList());
+            Players[CustomMultiplayer.GetRpcSenderId()].Ready = true;
+            if (Players.Values.Any(player => !player.Ready)) return;
+            Match.Begin(Players.Values.ToList());
         }
 
-        [Master] public void Deploy(int cardId) => _match.Deploy(_players[Multiplayer.GetRpcSenderId()], _cards[cardId]); 
-        [Master] public void SetFaceDown(int cardId) => _match.SetFaceDown(_players[Multiplayer.GetRpcSenderId()], _cards[cardId]);
-        [Master] public void EndTurn() => _match.EndTurn(_players[Multiplayer.GetRpcSenderId()]); 
+        [Master] public void Deploy(int cardId) => Match.Deploy(Players[Multiplayer.GetRpcSenderId()], Cards[cardId]); 
+        [Master] public void SetFaceDown(int cardId) => Match.SetFaceDown(Players[Multiplayer.GetRpcSenderId()], Cards[cardId]);
+        [Master] public void EndTurn() => Match.EndTurn(Players[Multiplayer.GetRpcSenderId()]); 
     }
 }

@@ -14,17 +14,17 @@ namespace CardGame.Server
          */
 
         public bool GameOver { get; private set; }
-        private readonly Cards _cards;
-        private readonly List<SkillState> Link = new();
-        private readonly Enqueue Queue;
-        private readonly Action _update;
+        private Cards Cards { get; }
+        private List<SkillState> Link { get; } = new();
+        private Enqueue Queue { get; }
+        private Action UpdateClient { get; }
 
-        public Match(Player player1, Player player2, Cards cards, Action update, Enqueue queue)
+        public Match(Player player1, Player player2, Cards cards, Action updateClient, Enqueue queue)
         {
-            _update = update;
+            UpdateClient = updateClient;
             Queue = queue;
             GameOver = false;
-            _cards = cards;
+            Cards = cards;
             player1.Opponent = player2;
             player2.Opponent = player1;
         }
@@ -34,7 +34,7 @@ namespace CardGame.Server
             // Could place this directly inside room (we'd remove the register dependency for a start)
             foreach (Player player in players)
             {
-                player.LoadDeck(_cards).QueueOnClients(Queue);
+                player.LoadDeck(Cards).QueueOnClients(Queue);
                 for (int i = 0; i < 7; i++) player.Draw().QueueOnClients(Queue);
             }
 
@@ -154,8 +154,8 @@ namespace CardGame.Server
 
         private void Update()
         {
-            foreach (Card card in _cards) { card.Update(); }
-            _update();
+            foreach (Card card in Cards) { card.Update(); }
+            UpdateClient();
         }
 
         private void OnGameOver(Player winner, Player loser)

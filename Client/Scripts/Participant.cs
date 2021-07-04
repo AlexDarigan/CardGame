@@ -3,22 +3,21 @@ using Godot;
 
 namespace CardGame.Client
 {
-    public class Participant: Godot.Object
+    public class Participant
     {
-        public readonly Zone Deck;
-        public readonly Declaration Declare;
-        public readonly Zone Discard;
-        public readonly Zone Hand;
-        public readonly bool IsClient;
-        public readonly Zone Support;
-        public readonly Zone Units;
+        public Zone Deck { get; }
+        public  Zone Discard { get; }
+        public Zone Hand { get; }
+        public Zone Support { get; }
+        public Zone Units { get; }
         public int Health = 8000;
         public States State = States.Passive;
-
-
+        public readonly bool IsClient;
+        private readonly Declaration _declare;
+        
         public Participant(Node view, Declaration declare)
         {
-            Declare = declare;
+            _declare = declare;
             IsClient = view.Name == "Player";
             Deck = new Zone(view.GetNode<Spatial>("Deck"));
             Discard = new Zone(view.GetNode<Spatial>("Discard"));
@@ -38,7 +37,7 @@ namespace CardGame.Client
             switch (pressed.CardState)
             {
                 case CardState.Deploy:
-                    Declare(CommandId.Deploy, pressed.Id);
+                    _declare(CommandId.Deploy, pressed.Id);
                     State = States.Passive;
                     break;
                 case CardState.AttackUnit:
@@ -46,7 +45,7 @@ namespace CardGame.Client
                 case CardState.AttackPlayer:
                     break;
                 case CardState.Set:
-                    Declare(CommandId.SetFaceDown, pressed.Id);
+                    _declare(CommandId.SetFaceDown, pressed.Id);
                     State = States.Passive;
                     break;
                 case CardState.Activate:

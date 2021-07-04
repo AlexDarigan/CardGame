@@ -5,7 +5,7 @@ namespace CardGame.Server
 {
     public class SkillState
     {
-        public readonly Card OwningCard;
+        public Card OwningCard { get; }
         public Player Owner => OwningCard.Owner;
         public Player Controller => OwningCard.Controller;
         public Player Opponent => OwningCard.Controller.Opponent;
