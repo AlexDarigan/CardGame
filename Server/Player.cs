@@ -12,13 +12,13 @@ namespace CardGame.Server
      */
     public class Player
     {
-        public readonly Zone Deck = new();
+        public Zone Deck { get; } = new();
         public readonly IEnumerable<SetCodes> DeckList;
-        public readonly Zone Graveyard = new();
-        public readonly Zone Hand = new();
-        public readonly int Id;
-        public readonly Zone Supports = new();
-        public readonly Zone Units = new();
+        public Zone Graveyard { get; } = new();
+        public Zone Hand { get; } = new();
+        public int Id;
+        public Zone Supports { get; } = new();
+        public Zone Units { get; } = new();
         public Illegal ReasonPlayerWasDisqualified = Illegal.NotDisqualified;
         
         // TODO: Remove this when old tests are removed

@@ -58,8 +58,11 @@ namespace CardGame.Server
         private static void DealDamage(SkillState skill) { }
         private static void Draw(SkillState skill)
         {
+            // If we use skill.PopBack() inlined into the loop, it seems to only ever return the value "2"..
+            // ..I imagine this is because we're dealing with it inside a static method
             Player player = GetPlayer(skill);
-            for (int i = 0; i < skill.PopBack(); i++) { player.Draw(); }
+            int count = skill.PopBack();
+            for (int i = 0; i < count; i++) { player.Draw(); }
         }
     }
 }

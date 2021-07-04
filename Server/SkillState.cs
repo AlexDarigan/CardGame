@@ -23,12 +23,11 @@ namespace CardGame.Server
 
         public void Execute()
         {
-           
             Action<SkillState> operation = SkillOperations.GetOperation((OpCodes) _instructions[_cursor]);
             operation(this);
             _cursor++;
         }
-
+        
         public void Push(int i) { _instructions.Add(i); }
         public int Next() => _instructions[++_cursor];
         public int PopBack() => Pop(_instructions.Count - 1);

@@ -24,5 +24,10 @@ namespace CardGame.Server.Tests
             for (int i = 0; i < 40; i++) { deckList.Add(setCode); }
             return deckList.AsEnumerable();
         }
+        
+        protected static Skill BuildSkill(Card support, params OpCodes[] codes)
+        {
+            return new Skill(support, new List<Triggers>(), codes.Select(opCode => (int) opCode).ToList(), "");
+        }
     }
 }
