@@ -42,7 +42,7 @@ namespace CardGame.Server
     {
         // The Description Attribute is more of the sake of debugging rather than any practical application in game
         public readonly IEnumerable<Triggers> Triggers;
-        public readonly IEnumerable<int> Instructions;
+        public readonly IReadOnlyList<int> Instructions;
         public readonly string Description;
 
         [JsonConstructor]

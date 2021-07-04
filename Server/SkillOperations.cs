@@ -56,16 +56,10 @@ namespace CardGame.Server
         private static void SetPower(SkillState skill) { }
         private static void Destroy(SkillState skill) { }
         private static void DealDamage(SkillState skill) { }
-
         private static void Draw(SkillState skill)
         {
-            Player player = skill.PopBack() == 1 ? skill.Controller : skill.Opponent;
-            for (int i = 0; i < skill.PopBack(); i++)
-            {
-                Console.WriteLine("Drawing Card!");
-                // Seek an avenue to see where this can give spawn-source?
-                player.Draw();
-            }
+            Player player = GetPlayer(skill);
+            for (int i = 0; i < skill.PopBack(); i++) { player.Draw(); }
         }
     }
 }
