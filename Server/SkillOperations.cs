@@ -7,6 +7,8 @@ namespace CardGame.Server
     public static class SkillOperations
     {
         private static readonly IReadOnlyDictionary<OpCodes, Action<SkillState>> Operations;
+        private const int Player = 1;
+        private const int Opponent = 0;
         
         static SkillOperations()
         {
@@ -20,27 +22,22 @@ namespace CardGame.Server
         }
 
         public static Action<SkillState> GetOperation(OpCodes opCode) => Operations[opCode];
-
+        
+        // Internal Non-Operation Helper Methods
+        private static Player GetPlayer(SkillState skill) { return skill.PopBack() == Player ? skill.Controller: skill.Opponent; }
+        private static void GetCards(SkillState skill, Zone zone) { skill.Cards.AddRange(zone); }
+        
         // Getters
-        private static void Literal(SkillState skill)
-        {
-            skill.Push(skill.Next());
-        }
-
+        private static void Literal(SkillState skill) { skill.Push(skill.Next()); }
         private static void GetOwningCard(SkillState skill) { }
-        private static void GetController(SkillState skill)
-        {
-            // 0 is opponent
-            // 1 is controller
-            skill.Push(1);
-        }
-        private static void GetOpponent(SkillState skill) { }
-        private static void GetDeck(SkillState skill) { }
-        private static void GetGraveyard(SkillState skill) { }
-        private static void GetHand(SkillState skill) { }
-        private static void GetUnits(SkillState skill) { }
-        private static void GetSupport(SkillState skill) { }
-        private static void Count(SkillState skill) { }
+        private static void GetController(SkillState skill) { skill.Push(Player); }
+        private static void GetOpponent(SkillState skill) { skill.Push(Opponent); }
+        private static void GetDeck(SkillState skill) { GetCards(skill, GetPlayer(skill).Deck); }
+        private static void GetGraveyard(SkillState skill) { GetCards(skill, GetPlayer(skill).Graveyard); }
+        private static void GetHand(SkillState skill) { GetCards(skill, GetPlayer(skill).Hand); }
+        private static void GetUnits(SkillState skill) { GetCards(skill, GetPlayer(skill).Units); }
+        private static void GetSupport(SkillState skill) { GetCards(skill, GetPlayer(skill).Supports); }
+        private static void Count(SkillState skill) { skill.Push(skill.Cards.Count); }
         
         // Control Flow
         private static void If(SkillState skill) { }

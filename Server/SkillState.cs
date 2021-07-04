@@ -9,6 +9,7 @@ namespace CardGame.Server
         public Player Owner => OwningCard.Owner;
         public Player Controller => OwningCard.Controller;
         public Player Opponent => OwningCard.Controller.Opponent;
+        public List<Card> Cards = new();
         private List<int> _instructions;
         private int _cursor = 0;
         private readonly int _maxSize;
