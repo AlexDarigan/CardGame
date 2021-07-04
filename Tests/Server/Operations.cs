@@ -1,14 +1,28 @@
-﻿namespace CardGame.Server.Tests
+﻿using System;
+
+namespace CardGame.Server.Tests
 {
     [Title("Operations")]
     public class Operations: Fixture
     {
+        [Test(true, OpCodes.GetOwner, "The skills owner drew 3 cards")]
+        [Test(true, OpCodes.GetController, "The skills controller drew 3 cards")]
+        [Test(false, OpCodes.GetOpponent, "The skills opponent drew 3 cards")]
+        public void PlayerGetter(bool isPlayer1, OpCodes getPlayer, string context)
+        {
+            Card support = CommonPlay(OpCodes.Literal, 3, getPlayer, OpCodes.Draw);
+            Player player = isPlayer1 ? P1 : P2;
+            int count = player.Hand.Count;
+            Match.Activate(P1, support);
+            Assert.IsEqual(player.Hand.Count, count + 3, context);
+        }
+        
         [Test(OpCodes.GetDeck, "Deck", 0, 39, "Player drew a card for each card in their deck")]
         [Test(OpCodes.GetHand, "Hand", 0, 14, "Player drew a card for each card in their hand")]
         [Test(OpCodes.GetUnits, "Units", 2, 9, "Player drew a card for each Unit on their field")]
         [Test(OpCodes.GetSupport, "Supports", 0, 8, "Player drew a card for each Support on their field (including the activated card)")]
         [Test(OpCodes.GetGraveyard, "Graveyard", 4, 11, "Player drew a card for each card in their graveyard")]
-        public void Getter(OpCodes getZone, string zoneToAddTo, int cardsToAdd, int expected, string context)
+        public void CardGetter(OpCodes getZone, string zoneToAddTo, int cardsToAdd, int expected, string context)
         {
             StartGame(BuildDeck(SetCodes.AlphaQuestReward));
             Card support = CommonPlay(OpCodes.GetController, getZone, OpCodes.CountCards, OpCodes.GetController, OpCodes.Draw);

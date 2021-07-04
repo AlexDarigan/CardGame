@@ -43,6 +43,7 @@ namespace CardGame
         // Getters
         Literal = 0,
         GetOwningCard,
+        GetOwner,
         GetController,
         GetOpponent,
         GetDeck,

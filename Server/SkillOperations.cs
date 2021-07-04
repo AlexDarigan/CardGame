@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace CardGame.Server
@@ -7,6 +8,7 @@ namespace CardGame.Server
     public static class SkillOperations
     {
         private static readonly IReadOnlyDictionary<OpCodes, Action<SkillState>> Operations;
+        private const int Owner = 2;
         private const int Player = 1;
         private const int Opponent = 0;
         
@@ -24,7 +26,18 @@ namespace CardGame.Server
         public static Action<SkillState> GetOperation(OpCodes opCode) => Operations[opCode];
         
         // Internal Non-Operation Helper Methods
-        private static Player GetPlayer(SkillState skill) { return skill.PopBack() == Player ? skill.Controller: skill.Opponent; }
+        private static Player GetPlayer(SkillState skill)
+        {
+            int id = skill.PopBack();
+            return id switch
+            {
+                Player => skill.Controller,
+                Opponent => skill.Opponent,
+                Owner => skill.Owner,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+        
         private static void GetCards(SkillState skill, Zone zone) { skill.Cards.AddRange(zone); }
 
         private static void CompareAndPushResult(SkillState skill, Func<int, int, bool> comparator)
@@ -45,6 +58,8 @@ namespace CardGame.Server
         // Getters
         private static void Literal(SkillState skill) { skill.Push(skill.Next()); }
         private static void GetOwningCard(SkillState skill) { }
+        
+        private static void GetOwner(SkillState skill) { skill.Push(Owner); }
         private static void GetController(SkillState skill) { skill.Push(Player); }
         private static void GetOpponent(SkillState skill) { skill.Push(Opponent); }
         private static void GetDeck(SkillState skill) { GetCards(skill, GetPlayer(skill).Deck); }
