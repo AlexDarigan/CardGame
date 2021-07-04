@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.Serialization.Configuration;
 using Godot;
 
 namespace CardGame.Client
@@ -39,15 +40,18 @@ namespace CardGame.Client
             Gui.GetNode<Button>("Menu/EndTurn").Connect("pressed", this, nameof(OnEndTurnPressed));
             Gui.GetNode<Label>("ID").Text = multiplayerApi.GetNetworkUniqueId().ToString();
             
-            Player = new Participant(view.GetNode<Node>("Table/Player"), (commandId, args) => RpcId(Server, commandId.ToString(), args));
-            Rival = new Participant(view.GetNode<Node>("Table/Rival"), delegate { });
+            Player = new Participant(view.GetNode<Node>("Table/Player"));
+            Rival = new Participant(view.GetNode<Node>("Table/Rival"));
+            Player.Declare += Declare;
             
             Cards.Player = Player;
 
             
         }
-
+        
         public override void _Ready() => RpcId(Server, "OnClientReady");
+
+        private void Declare(CommandId command, params object[] args) { RpcId(Server, command.ToString(), args); }
         
         [Puppet]
         public async void Update(States states)
@@ -60,7 +64,7 @@ namespace CardGame.Client
         
         [Puppet] public void Queue(CommandId commandId, params object[] args) => CommandQueue.Enqueue((Command) Call(commandId.ToString(), args)); 
         [Puppet] public void UpdateCard(int id, CardState state) => Cards[id].Update(state); 
-        private Command LoadDeck(bool who, System.Collections.Generic.Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(who), deck, Cards.GetCard); 
+        private Command LoadDeck(bool who, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(who), deck, Cards.GetCard); 
         private Command Draw(bool who, int id) => new Draw(GetPlayer(who), GetCard(id)); 
         private Command Deploy(bool who, int id) => new Deploy(GetPlayer(who), GetCard(id)); 
         private Command SetFaceDown(bool who, int id) => new Set(GetPlayer(who), GetCard(id)); 
