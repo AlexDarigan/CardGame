@@ -52,7 +52,7 @@ namespace CardGame.Server
         private static void GetHand(SkillState skill) { GetCards(skill, GetPlayer(skill).Hand); }
         private static void GetUnits(SkillState skill) { GetCards(skill, GetPlayer(skill).Units); }
         private static void GetSupport(SkillState skill) { GetCards(skill, GetPlayer(skill).Supports); }
-        private static void Count(SkillState skill) { skill.Push(skill.Cards.Count); }
+        private static void CountCards(SkillState skill) { skill.Push(skill.Cards.Count); }
         
         // Control Flow
         private static void If(SkillState skill)
@@ -62,36 +62,20 @@ namespace CardGame.Server
             // We jump on the else, not the positive
             if (condition == 0) { skill.Jump(jump); }
         }
-        private static void GoToEnd(SkillState skill) { }
         
         // Boolean
         private static void IsLessThan(SkillState skill) { CompareAndPushResult(skill, (a, b) => a < b); }
         private static void IsGreaterThan(SkillState skill) { CompareAndPushResult(skill, (a, b) => a > b ); }
         private static void IsEqual(SkillState skill) { CompareAndPushResult(skill, (a, b) => a == b ); }
         private static void IsNotEqual(SkillState skill) { CompareAndPushResult(skill, (a, b) => a != b ); }
-
-        private static void And(SkillState skill)
-        {
-            int a = skill.PopBack();
-            int b = skill.PopBack();
-            int result = Convert.ToInt32(a == 1 && b == 1);
-            skill.Push(result);
-        }
-
-        private static void Or(SkillState skill)
-        {
-            int a = skill.PopBack();
-            int b = skill.PopBack();
-            int result = Convert.ToInt32(a == 1 || b == 1);
-            skill.Push(result);
-        }
+        private static void And(SkillState skill) { skill.Push(Convert.ToInt32(skill.PopBack() == 1 && skill.PopBack() == 1)); }
+        private static void Or(SkillState skill) { skill.Push(Convert.ToInt32(skill.PopBack() == 1 || skill.PopBack() == 1)); }
         
-        // Math
+        // Calculation
         private static void Add(SkillState skill) { Calculate(skill, (a, b) => a + b); }
         private static void Subtract(SkillState skill) { Calculate(skill, (a, b) => a - b); }
         private static void Multiply(SkillState skill) { Calculate(skill, (a, b) => a * b); }
         private static void Divide(SkillState skill) { Calculate(skill, (a, b) => a / b); }
-        
         
         // Actions
         private static void SetHealth(SkillState skill)

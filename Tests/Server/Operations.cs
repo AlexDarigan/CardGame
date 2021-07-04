@@ -11,7 +11,7 @@
         public void Getter(OpCodes getZone, string zoneToAddTo, int cardsToAdd, int expected, string context)
         {
             StartGame(BuildDeck(SetCodes.AlphaQuestReward));
-            Card support = CommonPlay(OpCodes.GetController, getZone, OpCodes.Count, OpCodes.GetController, OpCodes.Draw);
+            Card support = CommonPlay(OpCodes.GetController, getZone, OpCodes.CountCards, OpCodes.GetController, OpCodes.Draw);
             Zone zone = (Zone) typeof(Player).GetProperty(zoneToAddTo)!.GetValue(P1);
             for(int i = 0; i < cardsToAdd; i++) { zone!.Add(new Card(0, P1)); }
             Match.Activate(P1, support);

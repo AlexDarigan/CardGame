@@ -51,11 +51,8 @@ namespace CardGame
         GetUnits,
         GetSupport,
 
-        // Control Flow
-        GoToEnd,
-
         // Math
-        Count, // Cards, Not Numbers
+        CountCards, // Cards, Not Numbers
         Add,
         Subtract,
         Multiply,
