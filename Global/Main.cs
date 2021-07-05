@@ -1,20 +1,31 @@
+using System;
+using System.Reflection;
 using CardGame.Client;
 using Godot;
 
 namespace CardGame
 {
+	public class Players : EventArgs
+	{
+		public Room Room1 { get; }
+		public Room Room2 { get; }
+		public Participant Player1 { get; }
+		public Participant Player2 { get; }
+
+		public Players(Room room1, Room room2)
+		{
+			Room1 = room1;
+			Room2 = room2;
+			Player1 = (Participant) typeof(Room).GetProperty("Player", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(room1);
+			Player2 = (Participant) typeof(Room).GetProperty("Player", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(room2);
+		}
+	}
 	public class Main : Node
 	{
-		[Signal]
-		public delegate void GameBegun();
-
-		[Signal]
-		public delegate void RoomsUpdated();
-
-		private Room _room1;
-		[Export] private bool _room1IsVisible;
-		private Room _room2;
-		[Export] private bool _room2IsVisible;
+		public event EventHandler<Players> GameBegun = (sender, args) => { };
+		public event EventHandler RoomsUpdated = (sender, args) => { };
+		private Room _room1; [Export] private bool _room1IsVisible;
+		private Room _room2; [Export] private bool _room2IsVisible;
 		private int _rooms;
 		private int _roomUpdates;
 
@@ -42,7 +53,7 @@ namespace CardGame
 					room.GetNode<Spatial>("Cards").Visible = visible;
 
 					if (_rooms != 2) return;
-					EmitSignal(nameof(GameBegun));
+					GameBegun.Invoke(null, new Players(_room1, _room2));
 					break;
 				}
 			}
@@ -63,19 +74,19 @@ namespace CardGame
 			}
 		}
 
-		private static void SetVisibility(Room room)
+		private static void SetVisibility(Node room)
 		{
 			room.GetNode<Spatial>("Room/Table").Visible = !room.GetNode<Spatial>("Room/Table").Visible;
 			room.GetNode<Control>("Room/GUI").Visible = !room.GetNode<Control>("Room/GUI").Visible;
 			room.GetNode<Spatial>("Cards").Visible = !room.GetNode<Spatial>("Cards").Visible;
 		}
 
-		public void OnRoomUpdated()
+		private void OnRoomUpdated(object sender, object args)
 		{
 			_roomUpdates++;
 			if (_roomUpdates != 2) return;
 			_roomUpdates = 0;
-			EmitSignal(nameof(RoomsUpdated));
+			RoomsUpdated.Invoke(null, null);
 		}
 	}
 }

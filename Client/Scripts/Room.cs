@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Configuration;
 using Godot;
@@ -8,8 +9,7 @@ namespace CardGame.Client
     
     public class Room : Node
     {
-        public delegate void GameUpdate();
-        public event GameUpdate GameUpdated;
+        public event EventHandler GameUpdated;
         private const int Server = 1;
         private Cards Cards { get; }
         private Queue<Command> CommandQueue { get; } = new();
@@ -57,7 +57,7 @@ namespace CardGame.Client
             while (CommandQueue.Count > 0) await CommandQueue.Dequeue().Execute(Gfx);
             Player.Update(states);
             Gui.GetNode<Label>("State").Text = states.ToString();
-            GameUpdated?.Invoke();
+            GameUpdated?.Invoke(null, null);
         }
         
         [Puppet] public void Queue(CommandId commandId, params object[] args) => CommandQueue.Enqueue((Command) Call(commandId.ToString(), args)); 

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using CardGame.Client;
 using CardGame.Tests.Fixtures;
 
-namespace CardGame.Tests.Client
+namespace CardGame.Tests
 {
     public class Actions : ClientFixtures //WAT.Test //CardGame.Tests.Client.Fixture
     {

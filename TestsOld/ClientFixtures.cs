@@ -43,7 +43,7 @@ namespace CardGame.Tests.Fixtures
 
 		protected async Task Update(float time = 2.5f)
 		{
-			await UntilSignal(GameScene, nameof(Main.RoomsUpdated), time);
+			//await UntilSignal(GameScene, nameof(Main.RoomsUpdated), time);
 		}
 	}
 }
