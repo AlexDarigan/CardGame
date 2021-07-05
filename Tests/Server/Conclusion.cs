@@ -3,9 +3,10 @@
     [Title("Game Conclusions")]
     public class Conclusion: Fixture
     {
-        [Test("Player 2 lost due to Deck Out")]
+        [Test()]
         public void DeckedOut()
         {
+            Describe("Player 2 lost due to Deck Out");
             // Keep in mind due to Client constraints, we have a hand limit of 9 max
             StartGame();
             for (int i = 0; i < 34; i++)
@@ -20,9 +21,10 @@
             Assert.IsEqual(P2.Deck.Count, 0, "Player 2 has no cards left in their deck");
         }
 
-        [Test("Player 2 lost due to health reaching 0")]
+        [Test()]
         public void HealthRanOut()
         {
+            Describe("Player 2 lost due to health reaching 0");
             StartGame(BuildDeck(SetCodes.AlphaBioShocker));
             Card unit = P1.Hand[0];
             Match.Deploy(P1, unit);

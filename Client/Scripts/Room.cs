@@ -5,13 +5,11 @@ using Godot;
 namespace CardGame.Client
 {
     public delegate void Declaration(CommandId commandId, params object[] args);
-
-    public delegate void Update();
-
+    
     public class Room : Node
     {
-        [Signal] public delegate void Updated();
-
+        public delegate void GameUpdate();
+        public event GameUpdate GameUpdated;
         private const int Server = 1;
         private Cards Cards { get; }
         private Queue<Command> CommandQueue { get; } = new();
@@ -59,7 +57,7 @@ namespace CardGame.Client
             while (CommandQueue.Count > 0) await CommandQueue.Dequeue().Execute(Gfx);
             Player.Update(states);
             Gui.GetNode<Label>("State").Text = states.ToString();
-            EmitSignal(nameof(Updated), states); 
+            GameUpdated?.Invoke();
         }
         
         [Puppet] public void Queue(CommandId commandId, params object[] args) => CommandQueue.Enqueue((Command) Call(commandId.ToString(), args)); 

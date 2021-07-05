@@ -31,7 +31,7 @@ namespace CardGame
 				case Room room:
 				{
 					_rooms++;
-					room.Connect(nameof(Room.Updated), this, nameof(OnRoomUpdated));
+					room.GameUpdated += OnRoomUpdated;
 					// ReSharper disable once ConvertIfStatementToSwitchStatement
 					if (_rooms == 1) _room1 = room;
 					if (_rooms == 2) _room2 = room;
@@ -70,7 +70,7 @@ namespace CardGame
 			room.GetNode<Spatial>("Cards").Visible = !room.GetNode<Spatial>("Cards").Visible;
 		}
 
-		public void OnRoomUpdated(States states)
+		public void OnRoomUpdated()
 		{
 			_roomUpdates++;
 			if (_roomUpdates != 2) return;

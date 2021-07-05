@@ -1,12 +1,15 @@
-﻿namespace CardGame.Server.Tests
+﻿using System.Security.Cryptography;
+
+namespace CardGame.Server.Tests
 {
     // This is likely to be one of our more messy tests so I'll guess we should just bear with it
     [Title("Battle Calculation")]
     public class Battle : Fixture
     {
-        [Test("When an attacking Unit wins a Battle")]
+        [Test()]
         public void WinBattle()
         {
+            Describe("When an attacking Unit wins a Battle");
             StartGame(BuildDeck(SetCodes.AlphaBioShocker), BuildDeck(SetCodes.AlphaBioShocker));
             Card attacker = P1.Hand[0];
             Card defender = P2.Hand[1];
@@ -26,9 +29,10 @@
             Assert.IsEqual(attacker.CardState, CardState.None, $"Attacker is in {CardState.None}");
         }
 
-        [Test("When an attack Unit loses a battle")]
+        [Test()]
         public void LoseBattle()
         {
+            Describe("When an attack Unit loses a battle");
             StartGame(BuildDeck(SetCodes.AlphaBioShocker), BuildDeck(SetCodes.AlphaBioShocker));
             Card attacker = P1.Hand[0];
             Card defender = P2.Hand[1];
@@ -47,9 +51,10 @@
             Assert.IsEqual(attacker.CardState, CardState.None, $"Attacker is in {CardState.None}");
         }
         
-        [Test("When a battle ends in a tie")]
+        [Test()]
         public void TieBattle()
         {
+            Describe("When a battle ends in a tie");
             StartGame(BuildDeck(SetCodes.AlphaBioShocker), BuildDeck(SetCodes.AlphaBioShocker));
             Card attacker = P1.Hand[0];
             Card defender = P2.Hand[1];
@@ -70,9 +75,10 @@
             Assert.IsEqual(attacker.CardState, CardState.None, $"Attacker is in {CardState.None}");
         }
 
-        [Test("When a unit attacks directly")]
+        [Test()]
         public void DirectAttack()
         {
+            Describe("When a unit attacks directly");
             StartGame(BuildDeck(SetCodes.AlphaBioShocker));
             Card attacker = P1.Hand[0];
             Match.Deploy(P1, attacker);

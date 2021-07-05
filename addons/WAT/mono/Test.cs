@@ -1,14 +1,10 @@
-#nullable enable
 using Godot;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Godot.Collections;
-using JetBrains.Annotations;
-using Array = Godot.Collections.Array;
 using Object = Godot.Object;
 
 namespace WAT 
@@ -19,6 +15,7 @@ namespace WAT
 	[End(nameof(Blank))]
 	public partial class Test : Node
 	{
+		[Signal] private delegate void EventRaised();
 		[Signal] public delegate void Described();
 		private const int Recorder = 0; // Apparently we require the C# Version
 		private IEnumerable<Executable> _methods = null!;
@@ -55,7 +52,7 @@ namespace WAT
 			await CallTestHook(start);
 			foreach (Executable test in _methods)
 			{
-				_case.Call("add_method", test.Name);
+				_case.Call("add_method", test.Method.Name);
 				await CallTestHook(pre);
 				await Execute(test)!;
 				await CallTestHook(post);
@@ -85,10 +82,11 @@ namespace WAT
 
 		private async Task Execute(Executable test)
 		{
-		//	if (test.Description != "") { EmitSignal(nameof(Described), test.Description );}
 			if (test.Method.Invoke(this, test.Arguments) is Task task) { await task; }
 			else { await Task.Run((() => { })); }
 		}
+		
+		protected void Describe(string description) { EmitSignal(nameof(Described), description);}
 
 		protected SignalAwaiter UntilTimeout(double time) { return ToSignal((Timer) Yielder.Call("until_timeout", time), "finished"); }
 
@@ -96,6 +94,38 @@ namespace WAT
 		{
 			_watcher.Call("watch", emitter, signal);
 			return ToSignal((Timer) Yielder.Call("until_signal", time, emitter, signal), "finished");
+		}
+
+		private Stack<TestEventData> EventData { get; } = new Stack<TestEventData>();
+		
+		protected async Task<object[]> UntilEvent(object sender, string handle, double time)
+		{
+			EventInfo eventInfo = sender.GetType().GetEvent(handle);
+			MethodInfo methodInfo = GetType().GetMethod("OnEventRaised");
+			Delegate handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo!);
+			eventInfo.AddEventHandler(sender, handler);
+			object[] results = await UntilSignal(this, nameof(EventRaised), time);
+			eventInfo.RemoveEventHandler(sender, handler);
+			return results;
+		}
+		
+		public void OnEventRaised(object sender, EventArgs args)
+		{
+			EventData.Push(new TestEventData(sender, args));
+			EmitSignal(nameof(EventRaised));
+		}
+
+		protected TestEventData GetTestEventData() { return EventData.Count == 0 ? new TestEventData(null, null) : EventData.Pop(); }
+		protected class TestEventData: Godot.Object
+		{
+			public object Sender { get; }
+			public EventArgs Arguments { get; }
+
+			public TestEventData(object sender, EventArgs arguments)
+			{
+				Sender = sender;
+				Arguments = arguments;
+			}
 		}
 		
 		protected void Watch(Godot.Object emitter, string signal) { _watcher.Call("watch", emitter, signal); }
@@ -117,7 +147,7 @@ namespace WAT
 				let tests = Attribute.GetCustomAttributes(methodInfo)
 					.OfType<TestAttribute>()
 				from attribute in tests
-				select new Executable(methodInfo, attribute.Description, attribute.Arguments)).ToList();
+				select new Executable(methodInfo, attribute.Arguments)).ToList();
 		}
 		
 		private Dictionary GetResults()
@@ -132,13 +162,10 @@ namespace WAT
 		{
 			public readonly MethodInfo Method;
 			public readonly object[] Arguments;
-			public readonly string Description;
-			public string Name => Description == "" ? Method.Name : Description;
 
-			public Executable(MethodInfo method, string description, object[] arguments)
+			public Executable(MethodInfo method, object[] arguments)
 			{
 				Method = method;
-				Description = description;
 				Arguments = arguments;
 			}
 		}

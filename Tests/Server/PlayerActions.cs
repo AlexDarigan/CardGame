@@ -6,7 +6,7 @@
         // Focus on Player Actions
         // Not Rules
         
-        [Test("When a Card is Drawn")]
+        [Test()]
         public void Draw()
         {
             StartGame(BuildDeck(SetCodes.AlphaBioShocker));

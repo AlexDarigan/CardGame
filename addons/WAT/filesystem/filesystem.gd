@@ -4,6 +4,9 @@ const DO_NOT_SEARCH_PARENT_DIRECTORIES: bool = true
 const Settings: Script = preload("res://addons/WAT/settings.gd")
 const YieldCalculator: GDScript = preload("res://addons/WAT/filesystem/yield_calculator.gd")
 const FileObjects: GDScript = preload("res://addons/WAT/filesystem/objects.gd")
+const TestDirectory: GDScript = FileObjects.TestDirectory
+const TestScript: GDScript = FileObjects.TestScript
+const TestMethod: GDScript = FileObjects.TestMethod
 const TestTag: GDScript = FileObjects.TestTag
 const TestFailures: GDScript = FileObjects.TestFailures
 var has_been_changed: bool = false
@@ -41,12 +44,12 @@ func update() -> void:
 	indexed.clear()
 	_initialize_tags()
 	var absolute_path = Settings.test_directory()
-	var primary = {"name": absolute_path, "path": absolute_path, "tests": []}
+	var primary = TestDirectory.new(absolute_path)
 	dirs.append(primary)
 	_update(primary)
 	has_been_changed = true
 
-func _update(testdir: Dictionary) -> void:
+func _update(testdir: TestDirectory) -> void:
 	var dir: Directory = Directory.new()
 	if dir.open(testdir["path"]) != OK:
 		push_warning("WAT: Could not update filesystem")
@@ -59,25 +62,25 @@ func _update(testdir: Dictionary) -> void:
 	while relative_path != "":
 		var absolute_path: String = "%s/%s" % [testdir.path, relative_path]
 		if dir.dir_exists(absolute_path):
-			var directory: Dictionary = {}
-			directory["path"] = absolute_path
-			directory["name"] = absolute_path
-			directory["tests"] = []
+			var directory = TestDirectory.new(absolute_path)
 			subdirs.append(directory)
 			indexed[absolute_path] = directory
 		
 		elif _is_valid_test(absolute_path):
-			var instance: Script = load(absolute_path)
-			var script: Dictionary = {}
-			script["directory"] = testdir["path"]
-			script["path"] = absolute_path
-			script["name"] = absolute_path
-			script["method_names"] = instance.new().get_test_methods()
-			script["methods"] = [] # We'll add a new loop for this
-			script["tags"] = _tag_metadata.get(instance.resource_path, [])
-			script["yield_time"] = YieldCalculator.calculate_yield_time(instance, script["method_names"].size())
-			script["tests"] = [script]
-			indexed[absolute_path] = script
+			var test: TestScript = _get_test_script(testdir.path, absolute_path)
+			indexed[absolute_path] = test
+			for tag in test.tags:
+				if tag in Settings.tags():
+					tags[tag].tests.append(test)
+				else:
+					# Push an add check here to auto-add it?
+					push_warning("Tag %s does not exist in WAT Settings")
+
+			for method in test.methods:
+				indexed[absolute_path+method.name] = method
+			if not test.methods.empty():
+				testdir.tests.append(test)
+				_all_tests += test.get_tests()
 			
 			# We load our saved tags
 			# We check if our saved tags exist
@@ -85,28 +88,6 @@ func _update(testdir: Dictionary) -> void:
 			# If they do, we do add them
 			# However we do not delete old tags, we just hide them..
 			# ..so that when a tag is re-added, the old tests pop up again
-			
-			#for tag in test.tags:
-#				if tag in Settings.tags(): # Seems this may be unnecessary if we just initialize them first
-#					tags[tag].tests.append(test)
-#				else:
-#					push_warning("Tag %s does not exist in WAT Settings")
-#					# Push an add check here to auto-add it?
-			
-			for name in script["method_names"]:
-				var method: Dictionary = {}
-				method["directory"] = testdir["path"]
-				method["path"] = absolute_path
-				method["name"] = name
-				method["method_names"] = [name]
-				method["yield_time"] = 0
-				method["tests"] = [method]
-				script["methods"].append(method)
-				indexed[absolute_path + name] = method
-				
-			if not script["method_names"].empty():
-				testdir["tests"].append(script)
-				_all_tests.append(script)
 
 		relative_path = dir.get_next()
 	dir.list_dir_end()
@@ -116,10 +97,32 @@ func _update(testdir: Dictionary) -> void:
 		_update(subdir)
 			
 func _is_valid_test(p: String) -> bool:
-	return (( p.ends_with(".gd") and p != "res://addons/WAT/test/test.gd" or
-		  p.ends_with(".cs") and p != "res://addons/WAT/mono/Test.cs" or
-		  p.ends_with(".gdc") and p != "res://addons/WAT/test/test.gdc") and
-		  load(p).new().call("_is_wat_test"))
+	if not (p.ends_with(".gd") or p.ends_with(".cs") or p.ends_with(".gdc")):
+		return false
+	if (p == "res://addons/WAT/test/test.gd" or p == "res://addons/WAT/test/test.gdc" or p == "res://addons/WAT/mono/Test.cs"):
+		return false
+	if not (load(p).get("IS_WAT_TEST") or load(p).new().get("IS_WAT_TEST")):
+		return false 
+	return true
+		
+func _get_test_script(dir: String, path: String) -> TestScript:
+	var gdscript: Script = load(path)
+	var test: TestScript = TestScript.new(dir, path, load(path))
+	if _tag_metadata.has(test.gdscript.resource_path):
+		test.tags = _tag_metadata[test.gdscript.resource_path]
+	if test.gdscript is GDScript:
+		for method in test.gdscript.get_script_method_list():
+			if method.name.begins_with("test"):
+				test.method_names.append(method.name)
+				test.methods.append(TestMethod.new(dir, test.path, test.gdscript, method.name))
+		test.yield_time = YieldCalculator.calculate_yield_time(test.gdscript, test.method_names.size())
+	elif test.gdscript is CSharpScript:
+		var methods = test.gdscript.new().get_test_methods()
+		for m in methods:
+			test.method_names.append(m)
+			test.methods.append(TestMethod.new(dir, test.path, test.gdscript, m))
+		test.yield_time = 0
+	return test
 	
 func add_test_to_tag(test, tag: String) -> void:
 	tags[tag].tests.append(test)
