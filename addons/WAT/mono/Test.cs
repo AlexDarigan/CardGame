@@ -95,27 +95,25 @@ namespace WAT
 			_watcher.Call("watch", emitter, signal);
 			return ToSignal((Timer) Yielder.Call("until_signal", time, emitter, signal), "finished");
 		}
-
-		private Stack<TestEventData> EventData { get; } = new Stack<TestEventData>();
 		
-		protected async Task<object[]> UntilEvent(object sender, string handle, double time)
-		{
-			EventInfo eventInfo = sender.GetType().GetEvent(handle);
-			MethodInfo methodInfo = GetType().GetMethod("OnEventRaised");
-			Delegate handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo!);
-			eventInfo.AddEventHandler(sender, handler);
-			object[] results = await UntilSignal(this, nameof(EventRaised), time);
-			eventInfo.RemoveEventHandler(sender, handler);
-			return results;
-		}
+		protected async Task<TestEventData> UntilEvent(object sender, string handle, double time)
+        {
+        	EventInfo eventInfo = sender.GetType().GetEvent(handle);
+        	MethodInfo methodInfo = GetType().GetMethod("OnEventRaised");
+        	Delegate handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo!);
+        	eventInfo.AddEventHandler(sender, handler);
+        	object[] results = await UntilSignal(this, nameof(EventRaised), time);
+        	eventInfo.RemoveEventHandler(sender, handler);
+        	Godot.Collections.Array ourResults = (Godot.Collections.Array) results[0];
+        	return (TestEventData) ourResults[0] ?? new TestEventData(null, null);
+        }
 		
 		public void OnEventRaised(object sender, EventArgs args)
 		{
-			EventData.Push(new TestEventData(sender, args));
-			EmitSignal(nameof(EventRaised));
+			TestEventData eventData = new TestEventData(sender, args);
+			EmitSignal(nameof(EventRaised), eventData);
 		}
 
-		protected TestEventData GetTestEventData() { return EventData.Count == 0 ? new TestEventData(null, null) : EventData.Pop(); }
 		protected class TestEventData: Godot.Object
 		{
 			public object Sender { get; }

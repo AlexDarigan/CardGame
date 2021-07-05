@@ -1,5 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 using Godot;
+using Array = Godot.Collections.Array;
+using Object = Godot.Object;
 
 namespace CardGame.Client.Tests
 {
@@ -18,9 +22,9 @@ namespace CardGame.Client.Tests
         {
             Game = (Main) MainScene.Instance();
             AddChild(Game);
-            await UntilEvent(Game, nameof(Game.GameBegun), 3.0);
+            TestEventData data = await UntilEvent(Game, nameof(Game.GameBegun), 3.0);
             Assert.IsTrue(true, "Reached");
-            Players room = (Players) GetTestEventData().Arguments;
+            Players room = (Players) data.Arguments;
             Room1 = room.Room1;
             Room2 = room.Room2;
             P1 = room.Player1;
