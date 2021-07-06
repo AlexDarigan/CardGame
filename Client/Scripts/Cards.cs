@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 using Godot.Collections;
 using JetBrains.Annotations;
 
@@ -10,11 +11,9 @@ namespace CardGame.Client
         public Participant Player; // We'll do this for now
         public Cards() => Name = "Cards";
         public Card this[int index] => _cards[index];
-
         public Card GetCard(int id, SetCodes setCodes)
         {
-            if (_cards.ContainsKey(id)) return _cards[id];
-            
+            if (_cards.ContainsKey(id)) { return _cards[id]; }
             Spatial view = Scenes.Card();
             Card card = new(Library.Cards[setCodes], view, id) {Translation = new Vector3(0, -3, 0)};
             card.CardPressed += Player.OnCardPressed;

@@ -16,16 +16,25 @@ namespace CardGame.Client
 
         protected override void Setup(Tween gfx)
         {
-            Card card = _player.IsClient ? Card : _player.Hand.Last();
+            SwapFakeCardForRealCard();
             _player.Hand.Remove(Card);
             _player.Units.Add(Card);
             Location destination = _player.Units.Destination;
             const float duration = .35f;
-            gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation,
+            gfx.InterpolateProperty(Card, nameof(Card.Translation), Card.Translation, destination.Translation,
                 duration);
-            gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), Card.RotationDegrees,
+            gfx.InterpolateProperty(Card, nameof(Card.RotationDegrees), Card.RotationDegrees,
                 destination.RotationDegrees, duration);
             SortHand(gfx, _player);
+        }
+
+        private void SwapFakeCardForRealCard()
+        {
+            if (_player.IsClient) { return; }
+            
+            Card fake = _player.Hand.Last();
+            _player.Hand.Remove(fake);
+            _player.Hand.Add(Card);
         }
     }
 }
