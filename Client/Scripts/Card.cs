@@ -10,21 +10,22 @@ namespace CardGame.Client
         public event Pressed CardPressed;
         private readonly SpatialMaterial _face;
         private readonly Spatial _view;
-        public readonly int Id;
-        private int _power;
-        private string _text;
-        private string _title;
+        public int Id { get; }
+        public string Title { get; }
+        public CardType CardType { get; }
+        public int Power { get; }
+        public string Text { get; }
         public CardState CardState = CardState.None;
+        public Participant Controller { get; set; }
 
         public Card(CardInfo info, Spatial view, int id)
         {
             Id = id;
             _view = view;
             _face = (SpatialMaterial) _view.GetNode<MeshInstance>("Face").GetSurfaceMaterial(0);
-            CardType cardType;
-            (cardType, _title, Art, _text, _power) = info;
+            (CardType, Title, Art, Text, Power) = info;
             _view.GetNode<Area>("Area").Connect("input_event", this, nameof(OnInputEvent));
-            _view.GetNode<Spatial>("Power").Visible = cardType == CardType.Unit;
+            _view.GetNode<Spatial>("Power").Visible = CardType == CardType.Unit;
         }
 
         private Texture Art

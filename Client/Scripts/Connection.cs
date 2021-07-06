@@ -10,6 +10,7 @@ namespace CardGame.Client
 		private readonly NetworkedMultiplayerENet _client = new();
 		public bool IsLive => _client.GetConnectionStatus() == NetworkedMultiplayerPeer.ConnectionStatus.Connected;
 		public bool IsClient => !CustomMultiplayer.IsNetworkServer();
+		public Array<SetCodes> DeckList;
 
 		public override void _Ready()
 		{
@@ -19,28 +20,12 @@ namespace CardGame.Client
 			CustomMultiplayer.Connect("connected_to_server", this, nameof(OnConnectedToServer));
 		}
 
-		public void OnConnectedToServer()
-		{
-			Array<SetCodes> deckList = new();
-			for (int i = 0; i < 20; i++)
-			{
-				deckList.Add(SetCodes.AlphaBioShocker);
-				deckList.Add(SetCodes.AlphaQuestReward);
-			}
-
-			RpcId(1, "OnNetworkPeerConnected", deckList);
-		}
+		public void OnConnectedToServer() { RpcId(1, "OnNetworkPeerConnected", DeckList); }
 
 		[Puppet]
-		public void CreateRoom(string roomName)
-		{
-			AddChild(new Room(Scenes.Room(), roomName, CustomMultiplayer), true);
-		}
+		public void CreateRoom(string name) { AddChild(new Room(Scenes.Room(), name, CustomMultiplayer), true); }
 
-		public override void _Process(float delta)
-		{
-			if (CustomMultiplayer.HasNetworkPeer()) CustomMultiplayer.Poll();
-		}
+		public override void _Process(float delta) { if (CustomMultiplayer.HasNetworkPeer()) CustomMultiplayer.Poll(); }
 
 		public override void _ExitTree()
 		{

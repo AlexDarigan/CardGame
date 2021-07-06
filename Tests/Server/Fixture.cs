@@ -18,6 +18,7 @@ namespace CardGame.Server.Tests
             Match = new Match(P1, P2, new Cards(), () => {}, (id, command, args) => {});
             Match.Begin(new List<Player> {P1, P2});
         }
+       
         protected static IEnumerable<SetCodes> BuildDeck(SetCodes setCode = SetCodes.NullCard)
         {
             IList<SetCodes> deckList = new List<SetCodes>();

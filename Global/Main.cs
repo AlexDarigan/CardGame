@@ -2,6 +2,8 @@ using System;
 using System.Reflection;
 using CardGame.Client;
 using Godot;
+using Godot.Collections;
+using Array = System.Array;
 
 namespace CardGame
 {
@@ -11,6 +13,8 @@ namespace CardGame
 		public Room Room2 { get; }
 		public Participant Player1 { get; }
 		public Participant Player2 { get; }
+
+	
 
 		public Players(Room room1, Room room2)
 		{
@@ -22,17 +26,38 @@ namespace CardGame
 	}
 	public class Main : Node
 	{
+		// Events
 		public event EventHandler<Players> GameBegun = (sender, args) => { };
 		public event EventHandler RoomsUpdated = (sender, args) => { };
-		private Room _room1; [Export] private bool _room1IsVisible;
-		private Room _room2; [Export] private bool _room2IsVisible;
+		
+		// Exports
+		[Export] private bool _room1IsVisible;
+		[Export] private bool _room2IsVisible;
+		[Export] public Godot.Collections.Array<SetCodes> DeckList1 = DefaultDeck();
+		[Export] public Godot.Collections.Array<SetCodes> DeckList2 = DefaultDeck();
+
+		private Room _room1; 
+		private Room _room2; 
 		private int _rooms;
 		private int _roomUpdates;
-
-
+		
 		public override void _Ready()
 		{
+			GetNode<Connection>("Client1").DeckList = DeckList1;
+			GetNode<Connection>("Client2").DeckList = DeckList2;
 			GetTree().Connect("node_added", this, nameof(OnNodeAdded));
+		}
+
+		private static Array<SetCodes> DefaultDeck()
+		{
+			Array<SetCodes> deckList = new Array<SetCodes>();
+			for (int i = 0; i < 20; i++)
+			{
+				deckList.Add(SetCodes.AlphaBioShocker);
+				deckList.Add(SetCodes.AlphaQuestReward);
+			}
+
+			return deckList;
 		}
 
 		public void OnNodeAdded(Node node)

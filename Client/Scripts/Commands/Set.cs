@@ -18,8 +18,8 @@ namespace CardGame.Client
         {
             Card card = _player.IsClient ? Card : _player.Hand.Last();
             _player.Hand.Remove(Card);
-            _player.Support.Add(Card);
-            Location destination = _player.Support.Destination;
+            _player.Supports.Add(Card);
+            Location destination = _player.Supports.Destination;
             const float duration = .35f;
             gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation,
                 duration);

@@ -56,7 +56,7 @@ namespace CardGame.Tests
             Card card = P1.Hand.ToList().Where(c => (CardState) c.Get("CardState") == CardState.Set).ElementAt(0);
             P1.OnCardPressed(card);
             await Update();
-            Assert.IsEqual(P1.Support.Count, 1, "Card was set");
+            Assert.IsEqual(P1.Supports.Count, 1, "Card was set");
         }
     }
 }

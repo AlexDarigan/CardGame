@@ -19,7 +19,7 @@ namespace CardGame.Client
         public int Count => _cards.Count;
         public Location Destination => Locations[_cards.Count - 1];
         public Card this[int index] => _cards[index];
-
+        public bool Contains(Card card) => _cards.Contains(card);
         public IEnumerator<Card> GetEnumerator() { return _cards.GetEnumerator(); }
         IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
         public void Add(Card card) { _cards.Add(card); }

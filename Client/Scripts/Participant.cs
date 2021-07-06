@@ -9,7 +9,7 @@ namespace CardGame.Client
         public Zone Deck { get; }
         public Zone Discard { get; }
         public Zone Hand { get; }
-        public Zone Support { get; }
+        public Zone Supports { get; }
         public Zone Units { get; }
         public object Declared { get; set; }
 
@@ -24,7 +24,7 @@ namespace CardGame.Client
             Discard = new Zone(view.GetNode<Spatial>("Discard"));
             Hand = new Zone(view.GetNode<Spatial>("Hand"));
             Units = new Zone(view.GetNode<Spatial>("Units"));
-            Support = new Zone(view.GetNode<Spatial>("Support"));
+            Supports = new Zone(view.GetNode<Spatial>("Support"));
         }
 
         public void Update(States state) { State = state; }

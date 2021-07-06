@@ -20,6 +20,7 @@ namespace CardGame.Client
             {
                 Card card = createCard(pair.Key, pair.Value);
                 _player.Deck.Add(card);
+                card.Controller = _player;
                 Location destination = _player.Deck.Destination;
                 card.Translation = destination.Translation;
                 card.RotationDegrees = destination.RotationDegrees;
