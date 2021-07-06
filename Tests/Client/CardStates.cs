@@ -7,11 +7,6 @@ namespace CardGame.Client.Tests
     [Title("Card States")]
     public class CardStates: Fixture
     {
-        // Client Card State
-        // CanBeActivated
-        // CanAttackUnit
-        // CanAttackPlayer
-
         [Test]
         public async Task Deploy()
         {
@@ -59,14 +54,29 @@ namespace CardGame.Client.Tests
             Card defender = P2.Hand[0];
             
             await Queue(() => P1.OnCardPressed(attacker), P1.EndTurn, () => P2.OnCardPressed(defender), P2.EndTurn);
-           
+//            await Update();
+
             Assert.IsEqual(attacker.CardType, CardType.Unit, "When it is a Unit Card");
             Assert.IsEqual(attacker.Controller.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");
             Assert.Contains(attacker, P1.Units, "And it is in its controller's units");
             Assert.IsGreaterThan(P2.Units.Count, 0, "And its controller's opponent's Unit zone is not empty");
             Assert.IsEqual(attacker.CardState, CardState.AttackUnit, "Then it can attack target unit");
         }
+        
+        [Test]
+        public async Task AttackPlayer()
+        {
+            await StartGame(BuildDeck(SetCodes.AlphaBioShocker));
+            Card card = P1.Hand[0];
 
-       
+            await Queue(() => P1.OnCardPressed(card), P1.EndTurn, P2.EndTurn);
+            
+            Assert.IsEqual(card.CardType, CardType.Unit, "When it is a Unit Card");
+            Assert.IsEqual(card.Controller.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");
+            Assert.Contains(card, P1.Units, "And it is in its controller's units");
+            Assert.IsEqual(P2.Units.Count, 0, "And its controller's opponent's Unit zone is empty");
+            Assert.IsEqual(card.CardState, CardState.AttackPlayer, "Then it can attack directly");
+        }
+        
     }
 }

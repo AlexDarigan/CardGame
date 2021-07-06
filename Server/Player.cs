@@ -26,7 +26,7 @@ namespace CardGame.Server
         public int Health = 8000;
         public Player Opponent;
         public bool Ready = false;
-        public States State = States.Passive;
+        public States State { get; set; } = States.Passive;
 
         public Player(int id, IEnumerable<SetCodes> deckList)
         {

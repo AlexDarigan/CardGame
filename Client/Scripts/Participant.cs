@@ -5,7 +5,6 @@ namespace CardGame.Client
 {
     public class Participant
     {
-        public event EventHandler TurnEnded;
         public event Declaration Declare;
         public Zone Deck { get; }
         public Zone Discard { get; }
@@ -15,7 +14,7 @@ namespace CardGame.Client
         public object Declared { get; set; }
 
         public int Health = 8000;
-        public States State = States.Passive;
+        public States State { get; set; }= States.Passive;
         public readonly bool IsClient;
 
         public Participant(Node view)
@@ -27,9 +26,7 @@ namespace CardGame.Client
             Units = new Zone(view.GetNode<Spatial>("Units"));
             Supports = new Zone(view.GetNode<Spatial>("Support"));
         }
-
-        public void Update(States state) { State = state; }
-
+        
         public void OnCardPressed(Card pressed)
         {
             if (State == States.Passive) return;

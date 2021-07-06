@@ -52,11 +52,11 @@ namespace CardGame.Client
         private void Declare(CommandId command, params object[] args) { RpcId(Server, command.ToString(), args); }
         
         [Puppet]
-        public async void Update(States states)
+        public async void Update(States state)
         {
             while (CommandQueue.Count > 0) await CommandQueue.Dequeue().Execute(Gfx);
-            Player.Update(states);
-            Gui.GetNode<Label>("State").Text = states.ToString();
+            Player.State = state;
+            Gui.GetNode<Label>("State").Text = state.ToString();
             GameUpdated?.Invoke(null, null);
         }
         

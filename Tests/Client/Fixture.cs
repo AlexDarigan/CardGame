@@ -69,8 +69,11 @@ namespace CardGame.Client.Tests
                 play();
                 await Update();
             }
+
+            // I'm not entirely sure why this is required BUT worst case scenario is that it is just timed out
+            await Update();
         }
 
-        protected async Task Update() { await UntilEvent(_game, nameof(_game.RoomsUpdated), 10); }
+        private async Task Update() { await UntilEvent(_game, nameof(_game.RoomsUpdated), 10); }
     }
 }
