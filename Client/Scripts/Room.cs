@@ -19,6 +19,7 @@ namespace CardGame.Client
         private Control Gui { get; }
         private Participant Player { get; }
         private Participant Rival { get; }
+        private Mouse Mouse { get; }
 
         private Room() { /* Required By Godot */ }
 
@@ -31,8 +32,9 @@ namespace CardGame.Client
             Sfx = new AudioStreamPlayer();
             Bgm = new AudioStreamPlayer();
             Cards = new Cards();
+            Mouse = new Mouse();
             
-            foreach (Node child in new []{view, Gfx, Sfx, Bgm, Cards}) { AddChild(child, true); }
+            foreach (Node child in new []{view, Gfx, Sfx, Bgm, Cards, Mouse}) { AddChild(child, true); }
             
             Gui = view.GetNode<Control>("GUI");
             Gui.GetNode<Button>("Menu/EndTurn").Connect("pressed", this, nameof(OnEndTurnPressed));
@@ -41,6 +43,8 @@ namespace CardGame.Client
             Player = new Participant(view.GetNode<Node>("Table/Player"));
             Rival = new Participant(view.GetNode<Node>("Table/Rival"));
             Player.Declare += Declare;
+            Player.AttackDeclared += Mouse.OnAttackDeclared;
+            Player.AttackCancelled += Mouse.OnAttackCancelled;
             
             Cards.Player = Player;
 

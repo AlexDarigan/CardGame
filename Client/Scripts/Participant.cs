@@ -5,6 +5,8 @@ namespace CardGame.Client
 {
     public class Participant
     {
+        public event Action AttackDeclared;
+        public event Action AttackCancelled;
         public event Declaration Declare;
         public Zone Deck { get; }
         public Zone Discard { get; }
@@ -16,6 +18,7 @@ namespace CardGame.Client
 
         public int Health = 8000;
         public States State { get; set; }= States.Passive;
+
         public readonly bool IsClient;
 
         public Participant(Node view)
@@ -31,7 +34,12 @@ namespace CardGame.Client
         public void OnCardPressed(Card pressed)
         {
             if (State == States.Passive) return;
-            
+            if (pressed == Attacker)
+            {
+                Attacker = null;
+                AttackCancelled?.Invoke();
+                return;
+            }
             if (Attacker is not null)
             {
                 // Add a check here to make sure the defender is a valid attack target
@@ -49,6 +57,7 @@ namespace CardGame.Client
                 case CardState.AttackUnit:
                     Console.WriteLine("Attacking");
                     Attacker = pressed;
+                    AttackDeclared?.Invoke();
                     break;
                 case CardState.AttackPlayer:
                     break;
