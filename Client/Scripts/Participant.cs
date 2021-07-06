@@ -12,6 +12,7 @@ namespace CardGame.Client
         public Zone Supports { get; }
         public Zone Units { get; }
         public object Declared { get; set; }
+        private Card Attacker { get; set; }
 
         public int Health = 8000;
         public States State { get; set; }= States.Passive;
@@ -30,6 +31,15 @@ namespace CardGame.Client
         public void OnCardPressed(Card pressed)
         {
             if (State == States.Passive) return;
+            
+            if (Attacker is not null)
+            {
+                // Add a check here to make sure the defender is a valid attack target
+                Console.WriteLine($"{Attacker} is attacking {pressed}");
+                Declare?.Invoke(CommandId.DeclareAttack, Attacker.Id, pressed.Id);
+                return;
+            }
+            
             switch (pressed.CardState)
             {
                 case CardState.Deploy:
@@ -37,6 +47,8 @@ namespace CardGame.Client
                     State = States.Passive;
                     break;
                 case CardState.AttackUnit:
+                    Console.WriteLine("Attacking");
+                    Attacker = pressed;
                     break;
                 case CardState.AttackPlayer:
                     break;

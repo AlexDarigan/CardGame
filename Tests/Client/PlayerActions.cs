@@ -2,6 +2,7 @@
 
 namespace CardGame.Client.Tests
 {
+    [Title("Player Actions")]
     public class PlayerActions: Fixture
     {
         [Test]

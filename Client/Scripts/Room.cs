@@ -64,10 +64,10 @@ namespace CardGame.Client
         [Puppet] public void UpdateCard(int id, CardState state) => Cards[id].Update(state); 
         private Command LoadDeck(bool who, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(who), deck, Cards.GetCard); 
         private Command Draw(bool who, int id) => new Draw(GetPlayer(who), GetCard(id)); 
-        private Command Deploy(bool who, int id) => new Deploy(GetPlayer(who), GetCard(id)); 
+        private Command Deploy(bool who, int id, SetCodes setCodes) => new Deploy(GetPlayer(who), GetCard(id, setCodes)); 
         private Command SetFaceDown(bool who, int id) => new Set(GetPlayer(who), GetCard(id)); 
         private Participant GetPlayer(bool isClient) => isClient ? Player : Rival; 
-        private Card GetCard(int id, SetCodes setCode = SetCodes.NullCard) => Cards.GetCard(id, setCode);
+        private Card GetCard(int id, SetCodes setCode = default) => Cards.GetCard(id, setCode);
         public void OnEndTurnPressed() { Player.EndTurn(); }
     }
 }

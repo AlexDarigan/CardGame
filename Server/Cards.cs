@@ -18,6 +18,7 @@ namespace CardGame.Server
         public Card CreateCard(SetCodes setCodes, Player owner)
         {
             CardInfo cardInfo = Library.Cards[setCodes];
+            Console.WriteLine($"{setCodes} is setcode");
             Card card = new Card(_cards.Count, owner)
             {
                 SetCodes = setCodes,

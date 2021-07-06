@@ -14,10 +14,8 @@
 
         public override void QueueOnClients(Enqueue queue)
         {
-            queue(Controller.Id, Command, isClient, Card.Id);
-
-            // This should create the card on the Opponent's side
-            queue(Controller.Opponent.Id, Command, !isClient, -1);
+            queue(Controller.Id, Command, isClient, Card.Id, Card.SetCodes);
+            queue(Controller.Opponent.Id, Command, !isClient, Card.Id, Card.SetCodes);
         }
     }
 }
