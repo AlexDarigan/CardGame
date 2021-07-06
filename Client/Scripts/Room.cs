@@ -68,7 +68,7 @@ namespace CardGame.Client
         private Command SetFaceDown(bool who, int id) => new Set(GetPlayer(who), GetCard(id)); 
         private Participant GetPlayer(bool isClient) => isClient ? Player : Rival; 
         private Card GetCard(int id, SetCodes setCode = SetCodes.NullCard) => Cards.GetCard(id, setCode);
-        public void OnEndTurnPressed() { if(Player.State == States.IdleTurnPlayer) { RpcId(Server, "EndTurn"); } }
+        public void OnEndTurnPressed() { Player.EndTurn(); }
     }
 }
 

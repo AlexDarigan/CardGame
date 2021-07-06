@@ -5,6 +5,7 @@ namespace CardGame.Client
 {
     public class Participant
     {
+        public event EventHandler TurnEnded;
         public event Declaration Declare;
         public Zone Deck { get; }
         public Zone Discard { get; }
@@ -54,5 +55,10 @@ namespace CardGame.Client
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        
+        public void PassPlay() { }
+
+        public void EndTurn() { if (State == States.IdleTurnPlayer) { Declare(CommandId.EndTurn); } }
     }
 }

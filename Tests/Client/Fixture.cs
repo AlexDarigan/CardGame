@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 
@@ -59,6 +60,15 @@ namespace CardGame.Client.Tests
             Array<SetCodes> deckList = new();
             for (int i = 0; i < 40; i++) { deckList.Add(setCode); }
             return deckList;
+        }
+        
+        protected async Task Queue(params Action[] arguments)
+        {
+            foreach (Action play in arguments)
+            {
+                play();
+                await Update();
+            }
         }
 
         protected async Task Update() { await UntilEvent(_game, nameof(_game.RoomsUpdated), 10); }
