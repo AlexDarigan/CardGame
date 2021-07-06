@@ -37,6 +37,8 @@ transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 1, 0.05
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 4, 0.05, 7 )
 
 [node name="Discard" type="Position3D" parent="."]
+
+[node name="0" type="Spatial" parent="Discard"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 2.5 )
 
 [node name="Deck" type="Spatial" parent="."]

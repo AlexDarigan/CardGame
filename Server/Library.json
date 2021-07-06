@@ -13,5 +13,8 @@
         "Instructions": ["Literal", 2 ,"GetController", "Draw"],
         "Description": "Draw 2 Cards"
       }
-  }
+  },
+
+  "WeakShocker": {"Title": "WeakShocker", "CardType": "Unit", "Faction": "Warrior", "Power": 1000, "Skills":  {}}
+
 }

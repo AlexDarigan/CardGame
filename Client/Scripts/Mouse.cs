@@ -34,8 +34,6 @@ public class Mouse : Control
 	public override void _Draw()
 	{
 		if (!drawing) return;
-		Vector2 end = GetGlobalMousePosition();
-		DrawLine(start, end, new Godot.Color(255, 0, 0), 10, true);
-		Console.WriteLine($"Point {start} to Point {end}");
+		DrawLine(start, GetGlobalMousePosition(), new Godot.Color(255, 0, 0), 10, true);
 	}
 }

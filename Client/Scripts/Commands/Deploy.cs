@@ -35,6 +35,7 @@ namespace CardGame.Client
             Card fake = _player.Hand.Last();
             _player.Hand.Remove(fake);
             _player.Hand.Add(Card);
+            Card.Controller = _player;
         }
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Configuration;
 using Godot;
 
 namespace CardGame.Client
@@ -19,8 +18,6 @@ namespace CardGame.Client
         private Control Gui { get; }
         private Participant Player { get; }
         private Participant Rival { get; }
-        private Mouse Mouse { get; }
-
         private Room() { /* Required By Godot */ }
 
         public Room(Node view, string name, MultiplayerAPI multiplayerApi)
@@ -32,23 +29,18 @@ namespace CardGame.Client
             Sfx = new AudioStreamPlayer();
             Bgm = new AudioStreamPlayer();
             Cards = new Cards();
-            Mouse = new Mouse();
+            Mouse mouse = new Mouse();
             
-            foreach (Node child in new []{view, Gfx, Sfx, Bgm, Cards, Mouse}) { AddChild(child, true); }
+            foreach (Node child in new []{view, Gfx, Sfx, Bgm, Cards, mouse}) { AddChild(child, true); }
             
             Gui = view.GetNode<Control>("GUI");
             Gui.GetNode<Button>("Menu/EndTurn").Connect("pressed", this, nameof(OnEndTurnPressed));
             Gui.GetNode<Label>("ID").Text = multiplayerApi.GetNetworkUniqueId().ToString();
             
-            Player = new Participant(view.GetNode<Node>("Table/Player"));
+            Player = new Participant(view.GetNode<Node>("Table/Player"), mouse);
             Rival = new Participant(view.GetNode<Node>("Table/Rival"));
             Player.Declare += Declare;
-            Player.AttackDeclared += Mouse.OnAttackDeclared;
-            Player.AttackCancelled += Mouse.OnAttackCancelled;
-            
             Cards.Player = Player;
-
-            
         }
         
         public override void _Ready() => RpcId(Server, "OnClientReady");
@@ -68,8 +60,10 @@ namespace CardGame.Client
         [Puppet] public void UpdateCard(int id, CardState state) => Cards[id].Update(state); 
         private Command LoadDeck(bool who, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(who), deck, Cards.GetCard); 
         private Command Draw(bool who, int id) => new Draw(GetPlayer(who), GetCard(id)); 
-        private Command Deploy(bool who, int id, SetCodes setCodes) => new Deploy(GetPlayer(who), GetCard(id, setCodes)); 
-        private Command SetFaceDown(bool who, int id) => new Set(GetPlayer(who), GetCard(id)); 
+        private Command Deploy(bool who, int id, SetCodes setCodes) => new Deploy(GetPlayer(who), GetCard(id, setCodes));
+        private Command SetFaceDown(bool who, int id) => new Set(GetPlayer(who), GetCard(id));
+        private Command SetHealth(bool who, int health) => new SetHealth(GetPlayer(who), health);
+        private Command SentToGraveyard(int id) => new SentToGraveyard(GetCard(id));
         private Participant GetPlayer(bool isClient) => isClient ? Player : Rival; 
         private Card GetCard(int id, SetCodes setCode = default) => Cards.GetCard(id, setCode);
         public void OnEndTurnPressed() { Player.EndTurn(); }

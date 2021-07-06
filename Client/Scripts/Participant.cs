@@ -5,8 +5,6 @@ namespace CardGame.Client
 {
     public class Participant
     {
-        public event Action AttackDeclared;
-        public event Action AttackCancelled;
         public event Declaration Declare;
         public Zone Deck { get; }
         public Zone Discard { get; }
@@ -15,13 +13,14 @@ namespace CardGame.Client
         public Zone Units { get; }
         public object Declared { get; set; }
         private Card Attacker { get; set; }
+        private Mouse Mouse { get;  }
 
         public int Health = 8000;
         public States State { get; set; }= States.Passive;
 
         public readonly bool IsClient;
 
-        public Participant(Node view)
+        public Participant(Node view, Mouse mouse = null)
         {
             IsClient = view.Name == "Player";
             Deck = new Zone(view.GetNode<Spatial>("Deck"));
@@ -29,6 +28,7 @@ namespace CardGame.Client
             Hand = new Zone(view.GetNode<Spatial>("Hand"));
             Units = new Zone(view.GetNode<Spatial>("Units"));
             Supports = new Zone(view.GetNode<Spatial>("Support"));
+            Mouse = mouse;
         }
         
         public void OnCardPressed(Card pressed)
@@ -37,13 +37,14 @@ namespace CardGame.Client
             if (pressed == Attacker)
             {
                 Attacker = null;
-                AttackCancelled?.Invoke();
+                Mouse.OnAttackCancelled();
                 return;
             }
             if (Attacker is not null)
             {
                 // Add a check here to make sure the defender is a valid attack target
                 Console.WriteLine($"{Attacker} is attacking {pressed}");
+                Mouse.OnAttackCancelled(); // Committed?
                 Declare?.Invoke(CommandId.DeclareAttack, Attacker.Id, pressed.Id);
                 return;
             }
@@ -57,7 +58,7 @@ namespace CardGame.Client
                 case CardState.AttackUnit:
                     Console.WriteLine("Attacking");
                     Attacker = pressed;
-                    AttackDeclared?.Invoke();
+                    Mouse.OnAttackDeclared();
                     break;
                 case CardState.AttackPlayer:
                     break;

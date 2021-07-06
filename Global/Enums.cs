@@ -19,7 +19,8 @@ namespace CardGame
     {
         NullCard = 0,
         AlphaBioShocker = 1,
-        AlphaQuestReward = 2
+        AlphaQuestReward = 2,
+        WeakShocker = 3
     }
 
     public enum Triggers
@@ -83,7 +84,11 @@ namespace CardGame
     }
 
     public enum CommandId { LoadDeck, Draw, Deploy, SetFaceDown, EndTurn,
-        DeclareAttack
+        DeclareAttack,
+        LoseLife,
+        SetHealth,
+        DestroyedByBattle,
+        SentToGraveyard
     }
     public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner }
     public enum CardState { None, Deploy, AttackUnit, AttackPlayer, Set, Activate }
