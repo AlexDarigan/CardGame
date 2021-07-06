@@ -52,7 +52,7 @@ namespace CardGame.Client.Tests
             P2 = room.Player2;
             
             // Await game state update so every player has a hand at least
-            await Update();
+            await Update(10);
         }
         
         protected static Array<SetCodes> BuildDeck(SetCodes setCode = SetCodes.NullCard)
@@ -67,13 +67,13 @@ namespace CardGame.Client.Tests
             foreach (Action play in arguments)
             {
                 play();
-                await Update();
+                await Update(10);
             }
 
             // I'm not entirely sure why this is required BUT worst case scenario is that it is just timed out
-            await Update();
+            await Update(0.2);
         }
 
-        private async Task Update() { await UntilEvent(_game, nameof(_game.RoomsUpdated), 10); }
+        private async Task Update(double time) { await UntilEvent(_game, nameof(_game.RoomsUpdated), time); }
     }
 }
