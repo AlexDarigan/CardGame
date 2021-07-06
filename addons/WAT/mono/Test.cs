@@ -18,8 +18,8 @@ namespace WAT
 		[Signal] private delegate void EventRaised();
 		[Signal] public delegate void Described();
 		private const int Recorder = 0; // Apparently we require the C# Version
-		private IEnumerable<Executable> _methods = null!;
-		private Object _case = null!;
+		private IEnumerable<Executable> _methods = null;
+		private Object _case = null;
 		private static readonly GDScript TestCase = GD.Load<GDScript>("res://addons/WAT/test/case.gd");
 		private static readonly GDScript Any = GD.Load<GDScript>("res://addons/WAT/test/any.gd");
 		private readonly Reference _watcher = (Reference) GD.Load<GDScript>("res://addons/WAT/test/watcher.gd").New();
@@ -30,7 +30,7 @@ namespace WAT
 		private readonly Type _type;
 
 		protected Test() { _type = GetType(); }
-		private void Blank() { }
+		public void Blank() { }
 
 		public override void _Ready()
 		{
@@ -44,7 +44,7 @@ namespace WAT
 
 		private async void Run()
 		{
-			// Can we do this in _Ready?
+			// Can we do this in _Ready
 			MethodInfo start = GetTestHook(typeof(StartAttribute));
 			MethodInfo pre = GetTestHook(typeof(PreAttribute));
 			MethodInfo post = GetTestHook(typeof(PostAttribute));
@@ -54,7 +54,7 @@ namespace WAT
 			{
 				_case.Call("add_method", test.Method.Name);
 				await CallTestHook(pre);
-				await Execute(test)!;
+				await Execute(test);
 				await CallTestHook(post);
 			}
 
@@ -72,12 +72,12 @@ namespace WAT
 		private MethodInfo GetTestHook(Type attributeType)
 		{
 			HookAttribute hook = (HookAttribute) Attribute.GetCustomAttribute(_type, attributeType);
-			return _type.GetMethod(hook.Method)!;
+			return _type.GetMethod(hook.Method);
 		}
 
 		private async Task CallTestHook(MethodInfo hook)
 		{
-			if (hook?.Invoke(this, null) is Task task) { await task; } else { await Task.Run((() => { })); }
+			if (hook.Invoke(this, null) is Task task) { await task; } else { await Task.Run((() => { })); }
 		}
 
 		private async Task Execute(Executable test)
@@ -97,21 +97,20 @@ namespace WAT
 		}
 		
 		protected async Task<TestEventData> UntilEvent(object sender, string handle, double time)
-        {
-        	EventInfo eventInfo = sender.GetType().GetEvent(handle);
-        	MethodInfo methodInfo = GetType().GetMethod("OnEventRaised");
-        	Delegate handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo!);
-        	eventInfo.AddEventHandler(sender, handler);
-        	object[] results = await UntilSignal(this, nameof(EventRaised), time);
-        	eventInfo.RemoveEventHandler(sender, handler);
-        	Godot.Collections.Array ourResults = (Godot.Collections.Array) results[0];
-        	return (TestEventData) ourResults[0] ?? new TestEventData(null, null);
-        }
-		
-		public void OnEventRaised(object sender, EventArgs args)
 		{
-			TestEventData eventData = new TestEventData(sender, args);
-			EmitSignal(nameof(EventRaised), eventData);
+			EventInfo eventInfo = sender.GetType().GetEvent(handle);
+			MethodInfo methodInfo = GetType().GetMethod("OnEventRaised");
+			Delegate handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
+			eventInfo.AddEventHandler(sender, handler);
+			object[] results = await UntilSignal(this, nameof(EventRaised), time);
+			eventInfo.RemoveEventHandler(sender, handler);
+			Godot.Collections.Array ourResults = (Godot.Collections.Array) results[0];
+			return (TestEventData) ourResults[0] ?? new TestEventData(null, null);
+		}
+		
+		public void OnEventRaised(object sender = null, EventArgs args = null)
+		{
+			EmitSignal(nameof(EventRaised), new TestEventData(sender, args));
 		}
 
 		protected class TestEventData: Godot.Object
