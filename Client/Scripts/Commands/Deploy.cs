@@ -5,37 +5,37 @@ namespace CardGame.Client.Commands
 {
     public class Deploy : Command
     {
-        private readonly Participant _player;
-        private readonly Card Card;
+        private Participant Player { get; }
+        private Card Card { get; }
 
         public Deploy(Participant player, Card card)
         {
-            _player = player;
+            Player = player;
             Card = card;
         }
 
         protected override void Setup(Tween gfx)
         {
             SwapFakeCardForRealCard();
-            _player.Hand.Remove(Card);
-            _player.Units.Add(Card);
-            Location destination = _player.Units.Destination;
+            Player.Hand.Remove(Card);
+            Player.Units.Add(Card);
+            Location destination = Player.Units.Destination;
             const float duration = .35f;
             gfx.InterpolateProperty(Card, nameof(Card.Translation), Card.Translation, destination.Translation,
                 duration);
             gfx.InterpolateProperty(Card, nameof(Card.RotationDegrees), Card.RotationDegrees,
                 destination.RotationDegrees, duration);
-            SortHand(gfx, _player);
+            SortHand(gfx, Player);
         }
 
         private void SwapFakeCardForRealCard()
         {
-            if (_player.IsClient) { return; }
+            if (Player.IsClient) { return; }
             
-            Card fake = _player.Hand.Last();
-            _player.Hand.Remove(fake);
-            _player.Hand.Add(Card);
-            Card.Controller = _player;
+            Card fake = Player.Hand.Last();
+            Player.Hand.Remove(fake);
+            Player.Hand.Add(Card);
+            Card.Controller = Player;
         }
     }
 }

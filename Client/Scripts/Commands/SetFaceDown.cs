@@ -5,27 +5,27 @@ namespace CardGame.Client.Commands
 {
     public class SetFaceDown : Command
     {
-        private readonly Participant _player;
-        private readonly Card Card;
+        private Participant Player { get; }
+        private Card Card { get; }
 
         public SetFaceDown(Participant player, Card card)
         {
-            _player = player;
+            Player = player;
             Card = card;
         }
 
         protected override void Setup(Tween gfx)
         {
-            Card card = _player.IsClient ? Card : _player.Hand.Last();
-            _player.Hand.Remove(Card);
-            _player.Supports.Add(Card);
-            Location destination = _player.Supports.Destination;
+            Card card = Player.IsClient ? Card : Player.Hand.Last();
+            Player.Hand.Remove(Card);
+            Player.Supports.Add(Card);
+            Location destination = Player.Supports.Destination;
             const float duration = .35f;
             gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation,
                 duration);
             gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), Card.RotationDegrees,
                 destination.RotationDegrees, duration);
-            SortHand(gfx, _player);
+            SortHand(gfx, Player);
         }
     }
 }

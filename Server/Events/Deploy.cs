@@ -2,8 +2,8 @@
 {
     public class Deploy : Event
     {
-        private readonly Card Card;
-        private readonly Player Controller;
+        private Card Card { get; }
+        private Player Controller { get; }
 
         public Deploy(Player controller, Card card)
         {
@@ -14,8 +14,8 @@
 
         public override void QueueOnClients(Enqueue queue)
         {
-            queue(Controller.Id, Command, isClient, Card.Id, Card.SetCodes);
-            queue(Controller.Opponent.Id, Command, !isClient, Card.Id, Card.SetCodes);
+            queue(Controller.Id, Command, IsClient, Card.Id, Card.SetCodes);
+            queue(Controller.Opponent.Id, Command, !IsClient, Card.Id, Card.SetCodes);
         }
     }
 }

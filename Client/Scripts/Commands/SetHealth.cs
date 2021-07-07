@@ -6,8 +6,8 @@ namespace CardGame.Client.Commands
     public class SetHealth: Command
     {
 
-        private Participant Player;
-        private int NewHealth;
+        private Participant Player { get; }
+        private int NewHealth { get; }
 
         public SetHealth(Participant player, int newHealth)
         {

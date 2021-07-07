@@ -2,8 +2,8 @@
 {
     public class Draw : Event
     {
-        private readonly Card Card;
-        private readonly Player Controller;
+        private Card Card { get; }
+        private Player Controller { get; }
 
         public Draw(Card card)
         {
@@ -14,8 +14,8 @@
 
         public override void QueueOnClients(Enqueue queue)
         {
-            queue(Controller.Id, Command, isClient, Card.Id);
-            queue(Controller.Opponent.Id, Command, !isClient, -1);
+            queue(Controller.Id, Command, IsClient, Card.Id);
+            queue(Controller.Opponent.Id, Command, !IsClient, -1);
         }
     }
 }

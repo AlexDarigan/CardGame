@@ -4,8 +4,8 @@ namespace CardGame.Client.Commands
 {
     public class Battle: Command
     {
-        private Card Attacker;
-        private Card Defender;
+        private Card Attacker { get; }
+        private Card Defender { get; }
 
         public Battle(Card attacker, Card defender)
         {
@@ -30,10 +30,6 @@ namespace CardGame.Client.Commands
 
             gfx.InterpolateProperty(Attacker, nameof(Attacker.RotationDegrees), sourceRotation, new Vector3(0, 0, 0),
                 0.9f);
-            // gfx.InterpolateCallback(Attacker, 0.9f, nameof(Card.LookAt), -Defender.Translation);
-
-            
-            
         }
     }
 }
