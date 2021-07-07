@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace CardGame.Server
+namespace CardGame.Server.Events
 {
-    public class LoadDeckEvent : Event
+    public class LoadDeck : Event
     {
         private readonly Player Controller;
         private readonly Dictionary<int, SetCodes> Deck;
 
-        public LoadDeckEvent(Player controller, Dictionary<int, SetCodes> deck)
+        public LoadDeck(Player controller, Dictionary<int, SetCodes> deck)
         {
             Command = CommandId.LoadDeck;
             Controller = controller;

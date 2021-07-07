@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using CardGame.Server.Events;
 
 namespace CardGame.Server
 {
@@ -75,12 +75,12 @@ namespace CardGame.Server
                 // LifeLost Event
                 int difference = winner.Power - loser.Power;
                 loser.Controller.Health -= difference;
-                new SetHealthEvent(loser.Controller).QueueOnClients(Queue); 
+                new SetHealth(loser.Controller).QueueOnClients(Queue); 
                 
                 // Destruction Event
                 loser.Controller.Units.Remove(loser);
                 loser.Owner.Graveyard.Add(loser);
-                new SentToGraveyardEvent(loser).QueueOnClients(Queue);
+                new SentToGraveyard(loser).QueueOnClients(Queue);
             };
             
             

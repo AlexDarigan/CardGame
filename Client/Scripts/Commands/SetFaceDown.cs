@@ -1,14 +1,14 @@
 ﻿using System.Linq;
 using Godot;
 
-namespace CardGame.Client
+namespace CardGame.Client.Commands
 {
-    public class Set : Command
+    public class SetFaceDown : Command
     {
         private readonly Participant _player;
         private readonly Card Card;
 
-        public Set(Participant player, Card card)
+        public SetFaceDown(Participant player, Card card)
         {
             _player = player;
             Card = card;

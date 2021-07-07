@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace CardGame.Client
+namespace CardGame.Client.Commands
 {
     public class SentToGraveyard: Command
     {

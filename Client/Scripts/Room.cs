@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using CardGame.Client.Commands;
 
 namespace CardGame.Client
 {
@@ -61,7 +62,7 @@ namespace CardGame.Client
         private Command LoadDeck(bool who, Dictionary<int, SetCodes> deck) => new LoadDeck(GetPlayer(who), deck, Cards.GetCard); 
         private Command Draw(bool who, int id) => new Draw(GetPlayer(who), GetCard(id)); 
         private Command Deploy(bool who, int id, SetCodes setCodes) => new Deploy(GetPlayer(who), GetCard(id, setCodes));
-        private Command SetFaceDown(bool who, int id) => new Set(GetPlayer(who), GetCard(id));
+        private Command SetFaceDown(bool who, int id) => new SetFaceDown(GetPlayer(who), GetCard(id));
         private Command SetHealth(bool who, int health) => new SetHealth(GetPlayer(who), health);
         private Command SentToGraveyard(int id) => new SentToGraveyard(GetCard(id));
         private Participant GetPlayer(bool isClient) => isClient ? Player : Rival; 

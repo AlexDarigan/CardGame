@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using CardGame.Server.Events;
 
 namespace CardGame.Server
 {
@@ -42,7 +42,7 @@ namespace CardGame.Server
                 Deck.Add(card);
             }
 
-            return new LoadDeckEvent(this, Deck.ToDictionary(card => card.Id, card => card.SetCodes));
+            return new LoadDeck(this, Deck.ToDictionary(card => card.Id, card => card.SetCodes));
         }
 
         public Event Draw()
@@ -50,7 +50,7 @@ namespace CardGame.Server
             Card card = Deck[Deck.Count - 1];
             Deck.Remove(card);
             Hand.Add(card);
-            return new DrawEvent(card);
+            return new Draw(card);
         }
 
         public Event Deploy(Card unit)
@@ -58,7 +58,7 @@ namespace CardGame.Server
             Hand.Remove(unit);
             Units.Add(unit);
             unit.Zone = Units;
-            return new DeployEvent(this, unit);
+            return new Deploy(this, unit);
         }
 
         public Event SetFaceDown(Card support)
@@ -66,7 +66,7 @@ namespace CardGame.Server
             Hand.Remove(support);
             Supports.Add(support);
             support.Zone = Supports;
-            return new SetEvent(this, support);
+            return new SetFaceDown(this, support);
         }
     }
 }

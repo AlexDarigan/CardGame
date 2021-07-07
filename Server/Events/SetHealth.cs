@@ -1,11 +1,11 @@
-﻿namespace CardGame.Server
+﻿namespace CardGame.Server.Events
 {
-    public class SetHealthEvent: Event
+    public class SetHealth: Event
     {
         private int NewHealth;
         private Player Damaged;
 
-        public SetHealthEvent(Player damaged)
+        public SetHealth(Player damaged)
         {
             Command = CommandId.SetHealth;
             NewHealth = damaged.Health;

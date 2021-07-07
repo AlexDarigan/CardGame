@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-namespace CardGame.Client
+namespace CardGame.Client.Commands
 {
     public class LoadDeck : Command
     {

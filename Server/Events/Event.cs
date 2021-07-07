@@ -1,4 +1,4 @@
-﻿namespace CardGame.Server
+﻿namespace CardGame.Server.Events
 {
     public abstract class Event
     {

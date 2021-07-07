@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Godot;
 
-namespace CardGame.Client
+namespace CardGame.Client.Commands
 {
     public class Draw : Command
     {

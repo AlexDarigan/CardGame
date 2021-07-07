@@ -1,7 +1,7 @@
 ﻿using System;
 using Godot;
 
-namespace CardGame.Client
+namespace CardGame.Client.Commands
 {
     public class SetHealth: Command
     {

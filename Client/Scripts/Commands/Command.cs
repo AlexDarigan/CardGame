@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace CardGame.Client
+namespace CardGame.Client.Commands
 {
     // Commands are required to be Godot Objects otherwise we can't use .Call()
     public abstract class Command : Object

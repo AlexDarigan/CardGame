@@ -1,14 +1,14 @@
-﻿namespace CardGame.Server
+﻿namespace CardGame.Server.Events
 {
-    public class DrawEvent : Event
+    public class SetFaceDown : Event
     {
         private readonly Card Card;
         private readonly Player Controller;
 
-        public DrawEvent(Card card)
+        public SetFaceDown(Player controller, Card card)
         {
-            Command = CommandId.Draw;
-            Controller = card.Controller;
+            Command = CommandId.SetFaceDown;
+            Controller = controller;
             Card = card;
         }
 

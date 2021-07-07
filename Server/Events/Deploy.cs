@@ -1,11 +1,11 @@
-﻿namespace CardGame.Server
+﻿namespace CardGame.Server.Events
 {
-    public class DeployEvent : Event
+    public class Deploy : Event
     {
         private readonly Card Card;
         private readonly Player Controller;
 
-        public DeployEvent(Player controller, Card card)
+        public Deploy(Player controller, Card card)
         {
             Command = CommandId.Deploy;
             Controller = controller;

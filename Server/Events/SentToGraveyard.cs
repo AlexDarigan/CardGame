@@ -1,10 +1,10 @@
-namespace CardGame.Server
+namespace CardGame.Server.Events
 {
-	public class SentToGraveyardEvent: Event
+	public class SentToGraveyard: Event
 	{
 		private Card Card { get; }
 
-		public SentToGraveyardEvent(Card card)
+		public SentToGraveyard(Card card)
 		{
 			Command = CommandId.SentToGraveyard;
 			Card = card;
