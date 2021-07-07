@@ -49,6 +49,11 @@ namespace CardGame.Client
             set => _view.RotationDegrees = value;
         }
 
+        public void LookAt(Vector3 position)
+        {
+            _view.LookAt(position, Vector3.Up);
+        }
+
 
         public void Update(CardState state)
         {

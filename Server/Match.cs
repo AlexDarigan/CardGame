@@ -69,21 +69,22 @@ namespace CardGame.Server
             Console.WriteLine($"{player} attacks {defender} with {attacker}");
             if(Disqualified(attacker.CardState != CardState.AttackUnit, player, Illegal.AttackUnit)) { return; }
 
-            // Battle Event
-            Action<Card, Card> DamageCalculation = (winner, loser) =>
+            // Battle Event 
+            new Battle(attacker, defender).QueueOnClients(Queue);
+            void DamageCalculation(Card winner, Card loser)
             {
                 // LifeLost Event
                 int difference = winner.Power - loser.Power;
                 loser.Controller.Health -= difference;
-                new SetHealth(loser.Controller).QueueOnClients(Queue); 
-                
+                new SetHealth(loser.Controller).QueueOnClients(Queue);
+
                 // Destruction Event
                 loser.Controller.Units.Remove(loser);
                 loser.Owner.Graveyard.Add(loser);
                 new SentToGraveyard(loser).QueueOnClients(Queue);
-            };
-            
-            
+            }
+
+
             if (attacker.Power > defender.Power) { DamageCalculation(attacker, defender); }
             else if (defender.Power > attacker.Power) { DamageCalculation(defender, attacker); }
             attacker.IsReady = false;

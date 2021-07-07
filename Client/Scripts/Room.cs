@@ -65,6 +65,7 @@ namespace CardGame.Client
         private Command SetFaceDown(bool who, int id) => new SetFaceDown(GetPlayer(who), GetCard(id));
         private Command SetHealth(bool who, int health) => new SetHealth(GetPlayer(who), health);
         private Command SentToGraveyard(int id) => new SentToGraveyard(GetCard(id));
+        private Command Battle(int attacker, int defender) => new Battle(GetCard(attacker), GetCard(defender));
         private Participant GetPlayer(bool isClient) => isClient ? Player : Rival; 
         private Card GetCard(int id, SetCodes setCode = default) => Cards.GetCard(id, setCode);
         public void OnEndTurnPressed() { Player.EndTurn(); }
@@ -84,16 +85,5 @@ namespace CardGame.Client
 // ..AttackUnit
 // ..AttackPlayer
 // ..PassPlay
-// ..EndTurn
-// NOTE: Focus on simplest first? (Pass/End)
-
-// PRE-REQUISITES
-// ..PlayerState
-// ..CardState
-// ..CardUpdate
 // ..Targets for Activation/Attack
 
-// MUSINGS
-// ..Should we change zones to be selectable?
-// ..Does positioning benefit us?
-// ..It makes sense considering how our zones look
