@@ -46,6 +46,7 @@ namespace CardGame.Client
                 Console.WriteLine($"{Attacker} is attacking {pressed}");
                 Mouse.OnAttackCancelled(); // Committed?
                 Declare?.Invoke(CommandId.DeclareAttack, Attacker.Id, pressed.Id);
+                Attacker = null;
                 return;
             }
             
