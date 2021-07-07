@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Godot;
 
 namespace CardGame.Client.Commands
@@ -25,16 +26,17 @@ namespace CardGame.Client.Commands
                 duration);
             gfx.InterpolateProperty(Card, nameof(Card.RotationDegrees), Card.RotationDegrees,
                 destination.RotationDegrees, duration);
+            
             SortHand(gfx, Player);
         }
 
         private void SwapFakeCardForRealCard()
         {
             if (Player.IsClient) { return; }
-            
-            Card fake = Player.Hand.Last();
+            Card fake = Player.Hand[Player.Hand.Count - 1];
             Player.Hand.Remove(fake);
             Player.Hand.Add(Card);
+            fake.Free();
             Card.Controller = Player;
         }
     }

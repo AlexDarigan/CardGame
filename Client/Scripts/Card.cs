@@ -65,5 +65,11 @@ namespace CardGame.Client
             if (input is InputEventMouseButton {ButtonIndex: (int) ButtonList.Left, Doubleclick: true})
                 CardPressed?.Invoke(this);
         }
+
+        public override void _Notification(int what)
+        {
+            if (what == NotificationPredelete) { _view.Free(); }
+            base._Notification(what);
+        }
     }
 }
