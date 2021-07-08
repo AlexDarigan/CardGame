@@ -17,7 +17,7 @@ namespace CardGame.Client.Commands
 
         protected override void Setup(Tween gfx)
         {
-            Card card = Player.IsClient ? Card : Player.Hand.Last();
+            Card card = Player is Player ? Card : Player.Hand.Last();
             Player.Hand.Remove(card);
             Player.Supports.Add(card);
             Location destination = Player.Supports.Destination;

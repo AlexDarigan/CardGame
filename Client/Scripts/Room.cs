@@ -17,8 +17,8 @@ namespace CardGame.Client
         private AudioStreamPlayer Sfx { get; }
         private AudioStreamPlayer Bgm { get; }
         private Control Gui { get; }
-        private Participant Player { get; }
-        private Participant Rival { get; }
+        private Player Player { get; }
+        private Rival Rival { get; }
         private Room() { /* Required By Godot */ }
 
         public Room(Node view, string name, MultiplayerAPI multiplayerApi)
@@ -38,8 +38,8 @@ namespace CardGame.Client
             Gui.GetNode<Button>("Menu/EndTurn").Connect("pressed", this, nameof(OnEndTurnPressed));
             Gui.GetNode<Label>("ID").Text = multiplayerApi.GetNetworkUniqueId().ToString();
             
-            Player = new Participant(true, mouse);
-            Rival = new Participant();
+            Player = new Player(mouse);
+            Rival = new Rival();
             Player.Declare += Declare;
             Cards.Player = Player;
         }

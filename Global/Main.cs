@@ -11,8 +11,8 @@ namespace CardGame
 	{
 		public Room Room1 { get; }
 		public Room Room2 { get; }
-		public Participant Player1 { get; }
-		public Participant Player2 { get; }
+		public Player Player1 { get; }
+		public Player Player2 { get; }
 
 	
 
@@ -20,8 +20,8 @@ namespace CardGame
 		{
 			Room1 = room1;
 			Room2 = room2;
-			Player1 = (Participant) typeof(Room).GetProperty("Player", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(room1);
-			Player2 = (Participant) typeof(Room).GetProperty("Player", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(room2);
+			Player1 = (Player) typeof(Room).GetProperty("Player", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(room1);
+			Player2 = (Player) typeof(Room).GetProperty("Player", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(room2);
 		}
 	}
 	public class Main : Node

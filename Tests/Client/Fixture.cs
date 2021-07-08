@@ -13,8 +13,8 @@ namespace CardGame.Client.Tests
         private Main _game;
         private Room _room1;
         private Room _room2;
-        protected Participant P1;
-        protected Participant P2;
+        protected Player P1;
+        protected Player P2;
         
         // Helper Methods
         // - BuildDeck (Put it on MainScene and then

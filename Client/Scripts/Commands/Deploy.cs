@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Godot;
 
 namespace CardGame.Client.Commands
@@ -34,7 +33,7 @@ namespace CardGame.Client.Commands
 
         private void SwapFakeCardForRealCard()
         {
-            if (Player.IsClient) { return; }
+            if (Player is Player) { return; }
             Card fake = Player.Hand.Last();
             Player.Hand.Remove(fake);
             Player.Hand.Add(Card);

@@ -11,41 +11,15 @@ namespace CardGame.Client
     {
         private List<Card> Cards { get; } = new();
         public List<Location> Locations { get; } = new ();
-        private Vector3 OffSet { get; } = Vector3.Zero;
-        private Vector3 Origin { get; } = Vector3.Zero;
-        private Vector3 Rotation { get; } = Vector3.Zero;
+        private Vector3 OffSet { get; }
+        private Vector3 Origin { get; }
+        private Vector3 Rotation { get; }
         
-        public Zone(string name, bool isPlayer)
+        public Zone(Vector3 origin, Vector3 offSet, Vector3 rotation)
         {
-            // TODO: Put this somewhere nicer (configuration folder using resources?)
-            switch (name)
-            {
-                case "Deck":
-                    OffSet = new Vector3(0, 0.034f, 0);
-                    Origin = isPlayer ? new Vector3(10.5f, 0, 8.25f) : new Vector3(10.5f, 0, -8.25f);
-                    Rotation = isPlayer ? new Vector3(0, 0, 180) : new Vector3(0, 180, 180);
-                    break;
-                case "Hand":
-                    OffSet = new Vector3(1.1f, 0, 0);
-                    Origin = isPlayer ? new Vector3(0, 4, 11) : new Vector3(0, 6, -7.5f);
-                    Rotation = isPlayer ? new Vector3(33, 0, 0) : new Vector3(33, 0, 180);
-                    break;
-                case "Units":
-                    OffSet = new Vector3(1.5f, 0.0f, 0);
-                    Origin = isPlayer ? new Vector3(0, 0.33f, 3) : new Vector3(0, 0.33f, -3);
-                    Rotation = new Vector3(0, 0, 0);
-                    break;
-                case "Support":
-                    OffSet = new Vector3(1.5f, 0.0f, 0);
-                    Origin = isPlayer ? new Vector3(0, 0.33f, 7) : new Vector3(0, 0.33f, -7);
-                    Rotation = new Vector3(0, 0, 180);
-                    break;
-                case "Discard":
-                    OffSet = new Vector3(0, 0.04f, 0);
-                    Origin = isPlayer ? new Vector3(10.5f, 0.5f, 4.5f) : new Vector3(10.5f,  0.5f, -4.5f);
-                    Rotation = new Vector3(0, 0, 0);
-                    break;
-            }
+            Origin = origin;
+            OffSet = offSet;
+            Rotation = rotation;
         }
 
         public int Count => Cards.Count;
