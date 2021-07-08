@@ -9,11 +9,11 @@ namespace CardGame.Client
 {
     public class Zone : Object, IEnumerable<Card>
     {
-        private List<Card> Cards { get; set; } = new();
-        public List<Location> Locations { get; set; } = new ();
-        private Vector3 OffSet { get; set; }= Vector3.Zero;
-        private Vector3 Origin { get; set; }= Vector3.Zero;
-        private Vector3 Rotation { get; set; } = Vector3.Zero;
+        private List<Card> Cards { get; } = new();
+        public List<Location> Locations { get; } = new ();
+        private Vector3 OffSet { get; } = Vector3.Zero;
+        private Vector3 Origin { get; } = Vector3.Zero;
+        private Vector3 Rotation { get; } = Vector3.Zero;
         
         public Zone(string name, bool isPlayer)
         {
