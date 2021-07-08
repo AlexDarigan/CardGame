@@ -21,14 +21,8 @@ namespace CardGame.Client.Commands
             Player.Hand.Add(card);
             const float duration = .2f;
             Location destination = Player.Hand.Destination;
-            
-            // Shift Left
-            foreach (Location location in Player.Hand.Locations)
-            {
-                gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
-                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-            }
-            
+            UpdateZone(gfx, Player.Hand);
+                       
             gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), Card.RotationDegrees,
             destination.RotationDegrees, duration);
 

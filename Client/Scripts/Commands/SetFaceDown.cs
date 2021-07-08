@@ -22,20 +22,8 @@ namespace CardGame.Client.Commands
             Player.Supports.Add(card);
             Location destination = Player.Supports.Destination;
             const float duration = .2f;
-            
-            // Shift Right
-            foreach (Location location in Player.Hand.Locations)
-            {
-                gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
-                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-            }
-            
-            // Shift Left
-            foreach (Location location in Player.Supports.Locations)
-            {
-                gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
-                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-            }
+            UpdateZone(gfx, Player.Hand);
+            UpdateZone(gfx, Player.Supports);
             
             gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), card.RotationDegrees,
                 destination.RotationDegrees, duration);

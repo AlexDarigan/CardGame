@@ -17,18 +17,14 @@ namespace CardGame.Client
         
         public Zone(string name, bool isPlayer)
         {
-            
-            // bool isPlayer = view.GetParent().Name == "Player";
             switch (name)
             {
                 case "Deck":
-                    // Do we need scaling?
-                    OffSet = new Vector3(0, 0.03f, 0);
+                    OffSet = new Vector3(0, 0.034f, 0);
                     Origin = isPlayer ? new Vector3(8, 0, 7.5f) : new Vector3(8, 0, -7.5f);
                     Rotation = isPlayer ? new Vector3(0, 0, 180) : new Vector3(0, 180, 180);
                     break;
                 case "Hand":
-                    //OffSet = new Vector3(2.25f, 0.03f, 0);
                     OffSet = new Vector3(1.1f, 0, 0);
                     Origin = isPlayer ? new Vector3(0, 4, 11) : new Vector3(0, 6, -7.5f);
                     Rotation = isPlayer ? new Vector3(33, 0, 0) : new Vector3(33, 0, 180);
@@ -44,7 +40,7 @@ namespace CardGame.Client
                     Rotation = new Vector3(0, 0, 180);
                     break;
                 case "Discard":
-                    OffSet = new Vector3(0, 0.03f, 0);
+                    OffSet = new Vector3(0, 0.04f, 0);
                     Origin = isPlayer ? new Vector3(8, 0, 2.5f) : new Vector3(8, 0.5f, -2.5f);
                     Rotation = new Vector3(0, 0, 0);
                     break;
@@ -60,10 +56,9 @@ namespace CardGame.Client
 
         public void Add(Card card)
         {
-            Cards.Add(card);
-            Vector3 lOffset = Vector3.Back;
-            Location location = new Location(Origin, OffSet, Rotation, Locations.Count, card);
+            Location location = new (Origin + OffSet * Locations.Count, OffSet, Rotation) {Card = card};
             card.CurrentLocation = location;
+            Cards.Add(card);
             Locations.Add(location);
             ShiftLeft();
         }
@@ -71,15 +66,11 @@ namespace CardGame.Client
         public void Remove(Card card)
         {
             Cards.Remove(card);
-            // This does set it to null but then shift right isn't working properly?
-            // Seems this may be a problem only when opponent is facing it (does this card exist?)
             card.CurrentLocation.Card = null; 
             ShiftRight();
         }
         
-        // Console.WriteLine("Changing Locations!");
-        // // DownShift all available cards to next available locations
-        // // Then remove the top locations
+    
         private void ShiftRight()
         {
             // Seek out the location where our card has become null
@@ -107,54 +98,29 @@ namespace CardGame.Client
             foreach (Location location in Locations)
             {
                 location.Card.CurrentLocation = location;
-                float x = location.Translation.x + OffSet.x;
-                float y = location.Translation.y + OffSet.y;
-                float z = location.Translation.z + OffSet.z;
-                location.Translation = new Vector3(x, y, z);
+                location.ShiftRight();
             }
         }
 
-        public void ShiftLeft()
-        {
-            for (int i = 0; i < Cards.Count; i++)
-            {
-                Location location = Locations[i];
-                if (location.Index != i) { location.Index = i; }
-            }
-            foreach (Location location in Locations)
-            {
-                float x = location.Translation.x - OffSet.x;
-                float y = location.Translation.y - OffSet.y; 
-                float z = location.Translation.z - OffSet.z;
-                location.Translation = new Vector3(x, y, z);
-            }
-        }
+        private void ShiftLeft() { foreach (Location location in Locations) { location.ShiftLeft(); } }
         
     }
 
     public class Location
     {
-        public Vector3 Origin { get; set; }
-        public Vector3 RotationDegrees { get; set; }
-        public Vector3 Translation { get; set; }
-        public int Index { get; set; }
+        private Vector3 OffSet { get; }
+        public Vector3 RotationDegrees { get; }
+        public Vector3 Translation { get; private set; }
         public Card Card { get; set; }
 
-        public Location(Vector3 origin, Vector3 translation, Vector3 rotationDegrees, int index, Card card)
+        public Location(Vector3 translation, Vector3 offSet, Vector3 rotationDegrees)
         {
-            Origin = origin;
-            // Generate where our offset from origin using the number of cards we have
-            float x = translation.x * index;
-            float y = translation.y * index;
-            float z = translation.z * index;
-            
-            // Set our translation to the sum of origin and calculated offset
-            Translation = new Vector3(origin.x + x, origin.y + y, origin.z + z);
+            Translation = translation;
+            OffSet = offSet;
             RotationDegrees = rotationDegrees;
-            Index = index;
-            Card = card;
         }
-        
-        
+
+        public void ShiftRight() { Translation += OffSet; }
+        public void ShiftLeft() { Translation -= OffSet; }
     }
 }

@@ -17,13 +17,14 @@ namespace CardGame.Client.Commands
             Card.Controller.Discard.Add(Card);
             Location destination = Card.Controller.Discard.Destination;
             const float duration = .35f;
+            UpdateZone(gfx, Card.Controller.Units);
             
-            foreach (Location location in Card.Controller.Units.Locations)
-            {
-                gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
-                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-            }
-            
+            // foreach (Location location in Card.Controller.Units.Locations)
+            // {
+            //     gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
+            //         duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+            // }
+            //
             gfx.InterpolateProperty(Card, nameof(Card.Translation), Card.Translation, destination.Translation,
                 duration);
             

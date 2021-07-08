@@ -25,15 +25,13 @@ namespace CardGame.Client.Commands
         protected abstract void Setup(Tween gfx);
 
         // Helper
-        protected static void SortHand(Tween gfx, Participant player)
+        protected static void UpdateZone(Tween gfx, Zone zone)
         {
-            for (int i = 0; i < player.Hand.Count; i++)
+            const float duration = .2f;
+            foreach (Location location in zone.Locations)
             {
-                Card currentCard = player.Hand[i];
-                Location location = player.Hand.Locations[i];
-                if (currentCard.Translation != location.Translation)
-                    gfx.InterpolateProperty(currentCard, nameof(Card.Translation), currentCard.Translation,
-                        location.Translation, .1f);
+                gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
+                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
             }
         }
     }
