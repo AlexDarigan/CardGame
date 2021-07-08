@@ -20,14 +20,14 @@ namespace CardGame.Client
 
         public readonly bool IsClient;
 
-        public Participant(Node view, Mouse mouse = null)
+        public Participant(bool isClient = false, Mouse mouse = null)
         {
-            IsClient = view.Name == "Player";
-            Deck = new Zone(view.GetNode<Spatial>("Deck"));
-            Discard = new Zone(view.GetNode<Spatial>("Discard"));
-            Hand = new Zone(view.GetNode<Spatial>("Hand"));
-            Units = new Zone(view.GetNode<Spatial>("Units"));
-            Supports = new Zone(view.GetNode<Spatial>("Support"));
+            IsClient = isClient;
+            Deck = new Zone("Deck", IsClient);
+            Discard = new Zone( "Discard", IsClient);
+            Hand = new Zone( "Hand", IsClient);
+            Units = new Zone("Units", IsClient);
+            Supports = new Zone( "Support", IsClient);
             Mouse = mouse;
         }
         

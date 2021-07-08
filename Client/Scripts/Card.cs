@@ -17,7 +17,9 @@ namespace CardGame.Client
         public string Text { get; }
         public CardState CardState = CardState.None;
         public Participant Controller { get; set; }
-
+        public Location CurrentLocation { get; set; }
+        private Card() { }
+        
         public Card(CardInfo info, Spatial view, int id)
         {
             Id = id;

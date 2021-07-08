@@ -16,16 +16,22 @@ namespace CardGame.Client.Commands
 
         protected override void Setup(Tween gfx)
         {
-            // Our rival doesn't have a real card, so we need to make a local check lest we end up moving the same card around 
             Card card = Player.IsClient ? Card : Player.Deck.Last();
             Player.Deck.Remove(card);
             Player.Hand.Add(card);
+            const float duration = .2f;
             Location destination = Player.Hand.Destination;
-            const float duration = .35f;
-            gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation, duration,
-                Tween.TransitionType.Linear, Tween.EaseType.In);
-            gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), card.RotationDegrees,
-                destination.RotationDegrees, duration);
+            
+            // Shift Left
+            foreach (Location location in Player.Hand.Locations)
+            {
+                gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
+                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+            }
+            
+            gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), Card.RotationDegrees,
+            destination.RotationDegrees, duration);
+
         }
     }
 }

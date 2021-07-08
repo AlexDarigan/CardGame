@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Godot;
 
 namespace CardGame.Client.Commands
@@ -17,15 +18,27 @@ namespace CardGame.Client.Commands
         protected override void Setup(Tween gfx)
         {
             Card card = Player.IsClient ? Card : Player.Hand.Last();
-            Player.Hand.Remove(Card);
-            Player.Supports.Add(Card);
+            Player.Hand.Remove(card);
+            Player.Supports.Add(card);
             Location destination = Player.Supports.Destination;
-            const float duration = .35f;
-            gfx.InterpolateProperty(card, nameof(Card.Translation), card.Translation, destination.Translation,
-                duration);
-            gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), Card.RotationDegrees,
+            const float duration = .2f;
+            
+            // Shift Right
+            foreach (Location location in Player.Hand.Locations)
+            {
+                gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
+                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+            }
+            
+            // Shift Left
+            foreach (Location location in Player.Supports.Locations)
+            {
+                gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
+                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+            }
+            
+            gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), card.RotationDegrees,
                 destination.RotationDegrees, duration);
-            SortHand(gfx, Player);
         }
     }
 }

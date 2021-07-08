@@ -38,8 +38,8 @@ namespace CardGame.Client
             Gui.GetNode<Button>("Menu/EndTurn").Connect("pressed", this, nameof(OnEndTurnPressed));
             Gui.GetNode<Label>("ID").Text = multiplayerApi.GetNetworkUniqueId().ToString();
             
-            Player = new Participant(view.GetNode<Node>("Table/Player"), mouse);
-            Rival = new Participant(view.GetNode<Node>("Table/Rival"));
+            Player = new Participant(true, mouse);
+            Rival = new Participant();
             Player.Declare += Declare;
             Cards.Player = Player;
         }

@@ -20,20 +20,33 @@ namespace CardGame.Client.Commands
             SwapFakeCardForRealCard();
             Player.Hand.Remove(Card);
             Player.Units.Add(Card);
+            
+            const float duration = .2f;
             Location destination = Player.Units.Destination;
-            const float duration = .35f;
-            gfx.InterpolateProperty(Card, nameof(Card.Translation), Card.Translation, destination.Translation,
-                duration);
+            
+            // Shift Right
+            foreach (Location location in Player.Hand.Locations)
+            {
+                gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
+                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+            }
+            
+            // Shift Left
+            foreach (Location location in Player.Units.Locations)
+            {
+                gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
+                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+            }
+            
             gfx.InterpolateProperty(Card, nameof(Card.RotationDegrees), Card.RotationDegrees,
                 destination.RotationDegrees, duration);
             
-            SortHand(gfx, Player);
         }
 
         private void SwapFakeCardForRealCard()
         {
             if (Player.IsClient) { return; }
-            Card fake = Player.Hand[Player.Hand.Count - 1];
+            Card fake = Player.Hand.Last();
             Player.Hand.Remove(fake);
             Player.Hand.Add(Card);
             fake.Free();
