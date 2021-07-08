@@ -17,6 +17,7 @@ namespace CardGame.Client
         
         public Zone(string name, bool isPlayer)
         {
+            // TODO: Put this somewhere nicer (configuration folder using resources?)
             switch (name)
             {
                 case "Deck":
@@ -67,31 +68,26 @@ namespace CardGame.Client
         {
             Cards.Remove(card);
             card.CurrentLocation.Card = null; 
+            RemoveEmptyLocation();
             ShiftRight();
         }
         
     
-        private void ShiftRight()
+        private void RemoveEmptyLocation()
         {
-            // Seek out the location where our card has become null
-            for (int i = 0; i < Locations.Count; i++)
+            int index = 0;
+            while (Locations[index].Card is not null) { index++; }
+            for (int i = index; i < Locations.Count - 1; i++)
             {
-                if (Locations[i].Card is null)
-                {
-                    for (int index = i; index < Locations.Count - 1; index++)
-                    {
-                        Location location = Locations[index];
-                        location.Card = Locations[index + 1].Card;
-                        location.Card.CurrentLocation = location;
-                    }
-                }
-                
-                Locations[i].ShiftRight();
+                Location location = Locations[i];
+                location.Card = Locations[i + 1].Card;
+                location.Card.CurrentLocation = location;
             }
             
             Locations.RemoveAt(Locations.Count - 1);
         }
 
+        private void ShiftRight() { foreach (Location location in Locations) { location.ShiftRight(); } }
         private void ShiftLeft() { foreach (Location location in Locations) { location.ShiftLeft(); } }
         
     }
