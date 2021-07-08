@@ -13,23 +13,7 @@ namespace CardGame.Client.Commands
         
         protected override void Setup(Tween gfx)
         {
-            Card.Controller.Units.Remove(Card);
-            Card.Controller.Discard.Add(Card);
-            Location destination = Card.Controller.Discard.Destination;
-            const float duration = .35f;
-            UpdateZone(gfx, Card.Controller.Units);
-            
-            // foreach (Location location in Card.Controller.Units.Locations)
-            // {
-            //     gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
-            //         duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-            // }
-            //
-            gfx.InterpolateProperty(Card, nameof(Card.Translation), Card.Translation, destination.Translation,
-                duration);
-            
-            gfx.InterpolateProperty(Card, nameof(Card.RotationDegrees), Card.RotationDegrees,
-                destination.RotationDegrees, duration);
+            MoveCard(Card, Card.Controller.Units, Card.Controller.Discard, gfx);
         }
     }
 }

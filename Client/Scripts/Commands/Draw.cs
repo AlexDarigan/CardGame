@@ -16,17 +16,7 @@ namespace CardGame.Client.Commands
 
         protected override void Setup(Tween gfx)
         {
-            Card card = Player is Player ? Card : Player.Deck.Last();
-            Player.Deck.Remove(card);
-            
-            Player.Hand.Add(card);
-            const float duration = .2f;
-            Location destination = Player.Hand.Destination;
-            UpdateZone(gfx, Player.Hand);
-                       
-            gfx.InterpolateProperty(card, nameof(Card.RotationDegrees), Card.RotationDegrees,
-            destination.RotationDegrees, duration);
-
+            MoveCard(Player is Player ? Card : Player.Deck.Last(), Player.Deck, Player.Hand, gfx);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 namespace CardGame.Client.Commands
@@ -16,19 +17,16 @@ namespace CardGame.Client.Commands
 
             // We execute this on instantiation because other commands will require the cards to exist to work
             // properly (however maybe we can investigate yielding constructors?)
-            foreach (KeyValuePair<int, SetCodes> pair in Deck)
+            foreach (Card card in Deck.Select(pair => createCard(pair.Key, pair.Value)))
             {
-                Card card = createCard(pair.Key, pair.Value);
                 Player.Deck.Add(card);
                 card.Controller = Player;
-                Location destination = Player.Deck.Destination;
-                card.Translation = destination.Translation;
-                card.RotationDegrees = destination.RotationDegrees;
+                Location location = player.Deck.Locations.Last();
+                card.Translation = location.Translation;
+                card.RotationDegrees = location.RotationDegrees;
             }
         }
 
-        protected override void Setup(Tween gfx)
-        {
-        }
+        protected override void Setup(Tween gfx) { }
     }
 }

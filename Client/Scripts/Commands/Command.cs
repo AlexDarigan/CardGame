@@ -32,7 +32,18 @@ namespace CardGame.Client.Commands
             {
                 gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
                     duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+                
+                gfx.InterpolateProperty(location.Card, nameof(Card.RotationDegrees), location.Card.RotationDegrees, location.RotationDegrees,
+                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
             }
+        }
+
+        protected void MoveCard(Card card, Zone origin, Zone destination, Tween gfx)
+        {
+            origin.Remove(card);
+            destination.Add(card);
+            UpdateZone(gfx, origin);
+            UpdateZone(gfx, destination);
         }
     }
 }

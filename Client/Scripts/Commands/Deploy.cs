@@ -17,18 +17,7 @@ namespace CardGame.Client.Commands
         protected override void Setup(Tween gfx)
         {
             SwapFakeCardForRealCard();
-            Player.Hand.Remove(Card);
-            Player.Units.Add(Card);
-            
-            const float duration = .2f;
-            Location destination = Player.Units.Destination;
-            
-            UpdateZone(gfx, Player.Hand);
-            UpdateZone(gfx, Player.Units);
-
-            gfx.InterpolateProperty(Card, nameof(Card.RotationDegrees), Card.RotationDegrees,
-                destination.RotationDegrees, duration);
-            
+            MoveCard(Card, Player.Hand, Player.Units, gfx);
         }
 
         private void SwapFakeCardForRealCard()
