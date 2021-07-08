@@ -22,7 +22,7 @@ namespace CardGame.Client
             {
                 case "Deck":
                     OffSet = new Vector3(0, 0.034f, 0);
-                    Origin = isPlayer ? new Vector3(8, 0, 7.5f) : new Vector3(8, 0, -7.5f);
+                    Origin = isPlayer ? new Vector3(10.5f, 0, 8.25f) : new Vector3(10.5f, 0, -8.25f);
                     Rotation = isPlayer ? new Vector3(0, 0, 180) : new Vector3(0, 180, 180);
                     break;
                 case "Hand":
@@ -31,18 +31,18 @@ namespace CardGame.Client
                     Rotation = isPlayer ? new Vector3(33, 0, 0) : new Vector3(33, 0, 180);
                     break;
                 case "Units":
-                    OffSet = new Vector3(1.1f, 0.0f, 0);
-                    Origin = isPlayer ? new Vector3(0, 0.5f, 3) : new Vector3(0, 0.5f, -3);
+                    OffSet = new Vector3(1.5f, 0.0f, 0);
+                    Origin = isPlayer ? new Vector3(0, 0.33f, 3) : new Vector3(0, 0.33f, -3);
                     Rotation = new Vector3(0, 0, 0);
                     break;
                 case "Support":
-                    OffSet = new Vector3(1.1f, 0.0f, 0);
-                    Origin = isPlayer ? new Vector3(0, 0.5f, 7) : new Vector3(0, 0.5f, -7);
+                    OffSet = new Vector3(1.5f, 0.0f, 0);
+                    Origin = isPlayer ? new Vector3(0, 0.33f, 7) : new Vector3(0, 0.33f, -7);
                     Rotation = new Vector3(0, 0, 180);
                     break;
                 case "Discard":
                     OffSet = new Vector3(0, 0.04f, 0);
-                    Origin = isPlayer ? new Vector3(8, 0, 2.5f) : new Vector3(8, 0.5f, -2.5f);
+                    Origin = isPlayer ? new Vector3(10.5f, 0.5f, 4.5f) : new Vector3(10.5f,  0.5f, -4.5f);
                     Rotation = new Vector3(0, 0, 0);
                     break;
             }

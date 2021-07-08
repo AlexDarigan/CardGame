@@ -1,0 +1,10 @@
+# Created by Kenney (www.kenney.nl)
+
+newmtl custom1(Clone)
+Kd 0.807 0.734 0.704
+map_Kd Textures/custom1(Clone).png
+
+newmtl metalOrange(Clone)
+Kd 0.566 0.427 0.427
+map_Kd Textures/metalOrange(Clone).png
+
