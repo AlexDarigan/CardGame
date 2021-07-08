@@ -74,32 +74,22 @@ namespace CardGame.Client
         private void ShiftRight()
         {
             // Seek out the location where our card has become null
-            int index = 0;
             for (int i = 0; i < Locations.Count; i++)
             {
                 if (Locations[i].Card is null)
                 {
-                    index = i;
-                    break;
+                    for (int index = i; index < Locations.Count - 1; index++)
+                    {
+                        Location location = Locations[index];
+                        location.Card = Locations[index + 1].Card;
+                        location.Card.CurrentLocation = location;
+                    }
                 }
+                
+                Locations[i].ShiftRight();
             }
-
-            // Move card references down the list
-            for (int i = index; i < Locations.Count - 1; i++)
-            {
-                Locations[i].Card = Locations[i + 1].Card;
-                Locations[i].Card.CurrentLocation = Locations[i];
-            }
-
-            // Remove the last element (which should be the only null element)
+            
             Locations.RemoveAt(Locations.Count - 1);
-
-            // Update translations
-            foreach (Location location in Locations)
-            {
-                location.Card.CurrentLocation = location;
-                location.ShiftRight();
-            }
         }
 
         private void ShiftLeft() { foreach (Location location in Locations) { location.ShiftLeft(); } }
