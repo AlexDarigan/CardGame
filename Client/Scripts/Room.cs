@@ -69,9 +69,7 @@ namespace CardGame.Client
             GameUpdated?.Invoke(null, null); // Player, Tests & GUI will listen for this
         }
 
-        [Puppet]
-        private void Queue(CommandId commandId, params object[] args) { CommandQueue.Enqueue(Commands[commandId](args)); }
-        
+        [Puppet] private void Queue(CommandId commandId, object[] args) { CommandQueue.Enqueue(Commands[commandId](args)); }
         public Participant GetPlayer(bool isPlayer) { return isPlayer ? Player : Rival; }
         public Card GetCard(int id, SetCodes setCodes = SetCodes.NullCard) { return Cards.GetCard(id, setCodes);}
     }
