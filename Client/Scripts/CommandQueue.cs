@@ -8,7 +8,8 @@ namespace CardGame.Client.Commands
 {
     public class CommandQueue: Tween
     {
-        private Dictionary<CommandId, ConstructorInfo> CommandClasses { get; } = new();
+        private delegate Command Invoker(params object[] args);
+        private Dictionary<CommandId, Invoker> Commands { get; } = new();
         private Queue<Command> Queue { get; } = new();
         private Player Player { get; }
         private Rival Rival { get; }
@@ -22,12 +23,13 @@ namespace CardGame.Client.Commands
             
             foreach (CommandId commandId in Enum.GetValues(typeof(CommandId)))
             {
-                CommandClasses[commandId] = Type.GetType($"CardGame.Client.Commands.{commandId.ToString()}")?.GetConstructors()[0];
+                ConstructorInfo c = Type.GetType($"CardGame.Client.Commands.{commandId.ToString()}")?.GetConstructors()[0];
+                Commands[commandId] = (args) => (Command) c?.Invoke(args);
             }
         }
         
         public async Task Execute() { while (Queue.Count > 0) { await Queue.Dequeue().Execute(this); } }
-        public void Enqueue(CommandId commandId, object[] args) { Queue.Enqueue((Command) CommandClasses[commandId].Invoke(args)); }
+        public void Enqueue(CommandId commandId, object[] args) { Queue.Enqueue(Commands[commandId](args)); }
         public Participant GetPlayer(bool isPlayer) { return isPlayer ? Player : Rival; }
         public Card GetCard(int id, SetCodes setCodes = SetCodes.NullCard) { return Cards.GetCard(id, setCodes);}
         
