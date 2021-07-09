@@ -1,43 +1,37 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Reflection;
 using Godot;
-using Newtonsoft.Json;
-using File = System.IO.File;
+using Godot.Collections;
 
 namespace CardGame.Client
 {
     public static class Library
     {
-        public static readonly ReadOnlyDictionary<SetCodes, CardInfo> Cards =
-            JsonConvert.DeserializeObject<ReadOnlyDictionary<SetCodes,
-                CardInfo>>(File.ReadAllText(Assets.Library));
-    }
+        public static readonly ReadOnlyDictionary<SetCodes, CardData> Cards;
 
-    public readonly struct CardInfo
-    {
-        private readonly CardType _cardType;
-        private readonly string _title;
-        private readonly Texture _art;
-        private readonly string _text;
-        private readonly int _power;
-
-        [JsonConstructor]
-        public CardInfo(CardType cardType, string title, string art, string text, int power)
+        static Library()
         {
-            _cardType = cardType;
-            _title = title;
-            _art = Assets.GetArt(art);
-            _text = text;
-            _power = power;
+            Dictionary<SetCodes, CardData> cardData = new();
+            foreach (SetCodes setCode in Enum.GetValues(typeof(SetCodes)))
+            {
+                MemberInfo[] memberInfo = setCode.GetType().GetMember(Enum.GetName(setCode.GetType(), setCode) ?? throw new InvalidOperationException());
+                CardResourceAttribute attribute = (CardResourceAttribute) memberInfo[0].GetCustomAttribute(typeof(CardResourceAttribute), false);
+                attribute.CardData.SetCode = setCode;
+                cardData[setCode] = attribute.CardData;
+            }
+
+            Cards = new ReadOnlyDictionary<SetCodes, CardData>(cardData);
         }
+    }
+    
 
-        public void Deconstruct(out CardType cardType, out string title, out Texture art, out string text,
-            out int power)
+    public class CardResourceAttribute : System.Attribute
+    {
+        public CardData CardData { get; }
+        public CardResourceAttribute(string filePath)
         {
-            cardType = _cardType;
-            title = _title;
-            art = _art;
-            text = _text;
-            power = _power;
+            CardData = GD.Load<CardData>($"res://Client/Cards/{filePath}.tres");
         }
     }
 }

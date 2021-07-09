@@ -24,7 +24,7 @@ namespace CardGame.Client.Commands
             foreach (CommandId commandId in Enum.GetValues(typeof(CommandId)))
             {
                 ConstructorInfo c = Type.GetType($"CardGame.Client.Commands.{commandId.ToString()}")?.GetConstructors()[0];
-                Commands[commandId] = (args) => (Command) c?.Invoke(args);
+                Commands[commandId] = args => (Command) c?.Invoke(args);
             }
         }
         

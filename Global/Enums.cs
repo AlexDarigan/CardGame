@@ -1,4 +1,6 @@
 ﻿using System;
+using CardGame.Client;
+using JetBrains.Annotations;
 
 namespace CardGame
 {
@@ -17,10 +19,10 @@ namespace CardGame
 
     public enum SetCodes
     {
-        NullCard = 0,
-        AlphaBioShocker = 1,
-        AlphaQuestReward = 2,
-        WeakShocker = 3
+        [CardResource("NullCard")] NullCard = 0,
+        [CardResource("BioShocker")] AlphaBioShocker = 1,
+        [CardResource("QuestReward")] AlphaQuestReward = 2,
+        [CardResource("WeakShocker")] WeakShocker = 3
     }
 
     public enum Triggers

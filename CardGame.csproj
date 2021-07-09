@@ -4,7 +4,10 @@
     <LangVersion>9</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Client\Scripts\Library.json" />
+    <Content Include="Client\Cards\BioShocker.tres" />
+    <Content Include="Client\Cards\NullCard.tres" />
+    <Content Include="Client\Cards\QuestReward.tres" />
+    <Content Include="Client\Cards\WeakShocker.tres" />
     <Content Include="README.md" />
     <Content Include="Server\Library.json" />
   </ItemGroup>

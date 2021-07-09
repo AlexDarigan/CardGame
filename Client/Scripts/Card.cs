@@ -19,7 +19,7 @@ namespace CardGame.Client
         public Location CurrentLocation { get; set; }
         private Card() { }
         
-        public Card(CardInfo info, Spatial view, int id)
+        public Card(CardData info, Spatial view, int id)
         {
             Id = id;
             _view = view;
