@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/custom1(Clone).png-a7ba9a1d7a5d527a7c11f5864d682c27.s3tc.stex"
-path.etc2="res://.import/custom1(Clone).png-a7ba9a1d7a5d527a7c11f5864d682c27.etc2.stex"
+path.s3tc="res://.import/custom1(Clone).png-6f9ceef370b06abd4a228d34538a8d8f.s3tc.stex"
+path.etc2="res://.import/custom1(Clone).png-6f9ceef370b06abd4a228d34538a8d8f.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Client/Assets/Models/Textures/custom1(Clone).png"
-dest_files=[ "res://.import/custom1(Clone).png-a7ba9a1d7a5d527a7c11f5864d682c27.s3tc.stex", "res://.import/custom1(Clone).png-a7ba9a1d7a5d527a7c11f5864d682c27.etc2.stex" ]
+source_file="res://Client/Assets/Models/WoodenTable/Textures/custom1(Clone).png"
+dest_files=[ "res://.import/custom1(Clone).png-6f9ceef370b06abd4a228d34538a8d8f.s3tc.stex", "res://.import/custom1(Clone).png-6f9ceef370b06abd4a228d34538a8d8f.etc2.stex" ]
 
 [params]
 

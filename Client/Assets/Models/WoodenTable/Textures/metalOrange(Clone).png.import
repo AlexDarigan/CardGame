@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/metalOrange(Clone).png-40616c7ad11210604fa4bb8c01b55077.s3tc.stex"
-path.etc2="res://.import/metalOrange(Clone).png-40616c7ad11210604fa4bb8c01b55077.etc2.stex"
+path.s3tc="res://.import/metalOrange(Clone).png-678715f097c36278d5c556c71c9b5cf8.s3tc.stex"
+path.etc2="res://.import/metalOrange(Clone).png-678715f097c36278d5c556c71c9b5cf8.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Client/Assets/Models/Textures/metalOrange(Clone).png"
-dest_files=[ "res://.import/metalOrange(Clone).png-40616c7ad11210604fa4bb8c01b55077.s3tc.stex", "res://.import/metalOrange(Clone).png-40616c7ad11210604fa4bb8c01b55077.etc2.stex" ]
+source_file="res://Client/Assets/Models/WoodenTable/Textures/metalOrange(Clone).png"
+dest_files=[ "res://.import/metalOrange(Clone).png-678715f097c36278d5c556c71c9b5cf8.s3tc.stex", "res://.import/metalOrange(Clone).png-678715f097c36278d5c556c71c9b5cf8.etc2.stex" ]
 
 [params]
 
