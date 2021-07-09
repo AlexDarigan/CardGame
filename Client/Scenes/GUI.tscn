@@ -151,27 +151,3 @@ custom_fonts/font = SubResource( 5 )
 text = "State"
 align = 1
 valign = 1
-
-[node name="Menu" type="VBoxContainer" parent="."]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -95.0
-margin_top = -88.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PassPlay" type="Button" parent="Menu"]
-margin_right = 95.0
-margin_bottom = 42.0
-custom_fonts/font = SubResource( 5 )
-text = "Pass Play"
-
-[node name="EndTurn" type="Button" parent="Menu"]
-margin_top = 46.0
-margin_right = 95.0
-margin_bottom = 88.0
-custom_fonts/font = SubResource( 5 )
-text = "End Turn"

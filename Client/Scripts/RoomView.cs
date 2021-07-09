@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using CardGame;
 
 public class RoomView : Node
 {
@@ -10,14 +11,14 @@ public class RoomView : Node
     // Called when the node enters the scene tree for the first time.
     public event Action PassPlayPressed;
     public event Action EndTurnPressed;
-    public int turnCount;
+    //public int turnCount = 1;
     public int Id;
     public Label PlayerId { get; set; }
-    public Label State { get; private set; }
-    public Label TurnCount { get; private set; }
-    private ProgressBar PlayerHealthBar { get; set; }
-    private ProgressBar OpponentHealthBar { get; set; }
-    private MeshInstance Button { get; set; }
+    public Label State;
+    public Label TurnCount; 
+    private ProgressBar PlayerHealthBar; 
+    private ProgressBar OpponentHealthBar;
+    private MeshInstance Button; 
     
     public override void _Ready()
     {
@@ -32,10 +33,26 @@ public class RoomView : Node
         GetNode<Area>("Table/Button/Area").Connect("input_event", this, "OnButtonPressed");
     }
 
+    public void UpdateState(States state)
+    {
+        State.Text = state.ToString();
+        if (state == States.IdleTurnPlayer)
+        {
+            SpatialMaterial mat = (SpatialMaterial) Button.GetSurfaceMaterial(0);
+            mat.AlbedoColor = Colors.Aqua;
+        }
+        else
+        {
+            SpatialMaterial mat = (SpatialMaterial) Button.GetSurfaceMaterial(0);
+            mat.AlbedoColor = Colors.Red;
+        }
+    }
+
     public void AddTurn()
     {
-        turnCount += 1;
-        TurnCount.Text = turnCount.ToString();
+        // This only works when we're ending, it doesn't increase when we're beginning
+        // turnCount += 1;
+        // TurnCount.Text = turnCount.ToString();
     }
 
     private void OnButtonPressed(Node camera, InputEvent input, Vector3 clickPos, Vector3 clickNormal, int shapeIdx)

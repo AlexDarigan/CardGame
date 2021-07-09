@@ -36,7 +36,6 @@ namespace CardGame.Client
             CommandQueue = new CommandQueue(Player, Rival, Cards);
             RoomView.Id = multiplayerApi.GetNetworkUniqueId();
             RoomView.EndTurnPressed += Player.EndTurn;
-            RoomView.EndTurnPressed += OnEndTurnPressed;
             Player.Declare += Declare;
             Cards.Player = Player;
             
@@ -45,11 +44,7 @@ namespace CardGame.Client
         
         public override void _Ready() { RpcId(Server, "OnClientReady"); }
 
-        private void Declare(string commandId, params object[] args)
-        {
-            RoomView.PlayerId.Text = "1";
-            RpcId(Server, commandId, args);
-        }
+        private void Declare(string commandId, params object[] args) { RpcId(Server, commandId, args); }
 
         [Puppet]
         public void LoadDeck(bool isPlayer, Dictionary<int, SetCodes> deck)
@@ -72,21 +67,11 @@ namespace CardGame.Client
             await CommandQueue.Execute();
             Player.State = state;
             foreach (KeyValuePair<int, CardState> pair in updateCards) { Cards[pair.Key].Update(pair.Value); }
-            RoomView.State.Text = state.ToString();
+            RoomView.UpdateState(state);
             GameUpdated?.Invoke(null, null);
         }
 
         [Puppet]
         public void Queue(CommandId commandId, params object[] args) { CommandQueue.Enqueue(commandId, args); }
-
-        public void OnEndTurnPressed()
-        {
-            if (Player.State != States.IdleTurnPlayer)
-            {
-                return;
-            }
-            RoomView.AddTurn();
-            //RpcId(Server, "EndTurn");
-        }
     }
 }
