@@ -83,14 +83,11 @@ namespace CardGame
         DealDamage
     }
 
-    public enum CommandId { LoadDeck, Draw, Deploy, SetFaceDown, EndTurn,
-        DeclareAttack,
-        LoseLife,
+    public enum CommandId { LoadDeck, Draw, Deploy, SetFaceDown, //EndTurn,
+        //DeclareAttack,
         SetHealth,
-        DestroyedByBattle,
         SentToGraveyard,
         Battle,
-        UpdateCard
     }
     public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner }
     public enum CardState { None, Deploy, AttackUnit, AttackPlayer, Set, Activate }

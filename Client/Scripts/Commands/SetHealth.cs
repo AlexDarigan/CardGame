@@ -17,6 +17,7 @@ namespace CardGame.Client.Commands
         
         protected override void Setup(CommandQueue gfx)
         {
+            // We'd probably use the GUI HealthBar for this?
             gfx.InterpolateCallback(this, 0.2f, nameof(SetPlayerHealth), gfx);
         }
 
@@ -24,7 +25,6 @@ namespace CardGame.Client.Commands
         {
             Participant player = gfx.GetPlayer(IsPlayer);
             player.Health = NewHealth;
-            Console.WriteLine($"Player's Health is {player.Health}");
         }
     }
 }

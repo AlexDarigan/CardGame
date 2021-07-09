@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using CardGame.Client.Commands;
 
 namespace CardGame.Client
 {
-    public delegate void Declaration(CommandId commandId, params object[] args);
+    public delegate void Declaration(string commandId, params object[] args);
     
     public class Room : Node
     {
@@ -46,7 +47,21 @@ namespace CardGame.Client
 
         public override void _Ready() { RpcId(Server, "OnClientReady"); }
 
-        private void Declare(CommandId command, params object[] args) { RpcId(Server, command.ToString(), args); }
+        private void Declare(string commandId, params object[] args) { RpcId(Server, commandId, args); }
+
+        [Puppet]
+        public void LoadDeck(bool isPlayer, Dictionary<int, SetCodes> deck)
+        {
+            Participant player = isPlayer ? Player : Rival;
+            foreach (Card card in deck.Select(pair => Cards.GetCard(pair.Key, pair.Value)))
+            {
+                player.Deck.Add(card);
+                card.Controller = player;
+                Location location = player.Deck.Locations.Last();
+                card.Translation = location.Translation;
+                card.RotationDegrees = location.RotationDegrees;
+            }
+        }
         
         [Puppet]
         public async void Update(States state, Dictionary<int, CardState> updateCards)

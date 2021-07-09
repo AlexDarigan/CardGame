@@ -34,7 +34,7 @@ namespace CardGame.Client
                 // Add a check here to make sure the defender is a valid attack target
                 Console.WriteLine($"{Attacker} is attacking {pressed}");
                 Mouse.OnAttackCancelled(); // Committed?
-                Declare?.Invoke(CommandId.DeclareAttack, Attacker.Id, pressed.Id);
+                Declare?.Invoke("DeclareAttack", Attacker.Id, pressed.Id);
                 Attacker = null;
                 return;
             }
@@ -42,7 +42,7 @@ namespace CardGame.Client
             switch (pressed.CardState)
             {
                 case CardState.Deploy:
-                    Declare?.Invoke(CommandId.Deploy, pressed.Id);
+                    Declare?.Invoke("Deploy", pressed.Id);
                     State = States.Passive;
                     break;
                 case CardState.AttackUnit:
@@ -53,7 +53,7 @@ namespace CardGame.Client
                 case CardState.AttackPlayer:
                     break;
                 case CardState.Set:
-                    Declare?.Invoke(CommandId.SetFaceDown, pressed.Id);
+                    Declare?.Invoke("SetFaceDown", pressed.Id);
                     State = States.Passive;
                     break;
                 case CardState.Activate:
@@ -68,6 +68,6 @@ namespace CardGame.Client
         
         public void PassPlay() { }
 
-        public void EndTurn() { if (State == States.IdleTurnPlayer) { Declare(CommandId.EndTurn); } }
+        public void EndTurn() { if (State == States.IdleTurnPlayer) { Declare("EndTurn"); } }
     }
 }

@@ -29,12 +29,12 @@ namespace CardGame.Server
             player2.Opponent = player1;
         }
 
-        public void Begin(List<Player> players)
+        public void Begin(List<Player> players, Enqueue loadDeck = null)
         {
             // Could place this directly inside room (we'd remove the register dependency for a start)
             foreach (Player player in players)
             {
-                player.LoadDeck(Cards).QueueOnClients(Queue);
+                player.LoadDeck(Cards).QueueOnClients(loadDeck);
                 for (int i = 0; i < 7; i++) player.Draw().QueueOnClients(Queue);
             }
 

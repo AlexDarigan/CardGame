@@ -44,7 +44,7 @@ namespace CardGame.Server
         {
             Players[CustomMultiplayer.GetRpcSenderId()].Ready = true;
             if (Players.Values.Any(player => !player.Ready)) return;
-            Match.Begin(Players.Values.ToList());
+            Match.Begin(Players.Values.ToList(), (id, command, args) => RpcId(id, "LoadDeck", args));
         }
 
         [Master] public void Deploy(int cardId) => Match.Deploy(Players[Multiplayer.GetRpcSenderId()], Cards[cardId]);
