@@ -1,12 +1,12 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
-[ext_resource path="res://Client/CardData.cs" type="Script" id=1]
+[ext_resource path="res://Client/Scripts/CardData.cs" type="Script" id=1]
 [ext_resource path="res://Client/Assets/CardArt/NullCard.png" type="Texture" id=2]
 
 [resource]
 script = ExtResource( 1 )
-Name = "WeakShocker"
+Name = "Weak Shocker"
 Art = ExtResource( 2 )
 CardType = 1
-Text = "Oh So Weak"
+Text = "So Weak"
 Power = 1000
