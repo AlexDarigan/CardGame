@@ -41,6 +41,7 @@
     <EmbeddedResource Remove="Debug\**" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Client\Scripts\Cards" />
     <Folder Include="ManualTests" />
   </ItemGroup>
 </Project>

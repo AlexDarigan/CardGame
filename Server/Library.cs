@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using Godot;
 using Newtonsoft.Json;
 using File = System.IO.File;
@@ -18,7 +19,6 @@ namespace CardGame.Server
     
     public readonly struct CardInfo
     {
-     //   public readonly SetCodes SetCode;
         public CardType CardType { get; }
         public string Title { get; }
         public Faction Faction { get; }
@@ -58,6 +58,8 @@ namespace CardGame.Server
 
             // This is probably fairly expensive but we do this once at the load-time of the server so unlikely
             // ..to be any real performance issue.
+            
+            // Figure out how to add CultureInfoInvariant
             foreach (string command in instructions)
                 if (Enum.TryParse(command, out OpCodes instruction))
                     insts.Add((int) instruction);

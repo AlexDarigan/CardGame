@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Godot;
@@ -19,7 +21,7 @@ namespace CardGame.Client.Commands
         {
             foreach (CommandId commandId in Enum.GetValues(typeof(CommandId)))
             {
-                ConstructorInfo c = Type.GetType($"CardGame.Client.Commands.{commandId.ToString()}")?.GetConstructors()[0];
+                ConstructorInfo c = Type.GetType($"CardGame.Client.Commands.{Enum.GetName(commandId.GetType(), commandId)}")?.GetConstructors()[0];
                 Commands[commandId] = args => (Command) c?.Invoke(args);
             }
         }

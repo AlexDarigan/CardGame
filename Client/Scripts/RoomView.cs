@@ -36,16 +36,8 @@ public class RoomView : Node
     public void UpdateState(States state)
     {
         State.Text = state.ToString();
-        if (state == States.IdleTurnPlayer)
-        {
-            SpatialMaterial mat = (SpatialMaterial) Button.GetSurfaceMaterial(0);
-            mat.AlbedoColor = Colors.Aqua;
-        }
-        else
-        {
-            SpatialMaterial mat = (SpatialMaterial) Button.GetSurfaceMaterial(0);
-            mat.AlbedoColor = Colors.Red;
-        }
+        SpatialMaterial mat = (SpatialMaterial) Button.GetSurfaceMaterial(0);
+        mat.AlbedoColor = state == States.IdleTurnPlayer ? Colors.Aqua : Colors.Red;
     }
 
     public void AddTurn()
