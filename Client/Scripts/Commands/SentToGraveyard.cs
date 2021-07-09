@@ -11,10 +11,10 @@ namespace CardGame.Client.Commands
             CardId = cardId;
         }
         
-        protected override void Setup(CommandQueue gfx)
+        protected override void Setup(Room room)
         {
-            Card card = gfx.GetCard(CardId);
-            MoveCard(card, card.Controller.Discard, gfx);
+            Card card = room.GetCard(CardId);
+            MoveCard(card, card.Controller.Discard, room);
         }
     }
 }

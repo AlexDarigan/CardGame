@@ -15,11 +15,11 @@ namespace CardGame.Client.Commands
             CardId = card;
         }
 
-        protected override void Setup(CommandQueue gfx)
+        protected override void Setup(Room room)
         {
-            Participant player = gfx.GetPlayer(IsPlayer);
-            Card card = gfx.GetCard(CardId);
-            MoveCard(player is Player ? card : player.Hand.Last(), player.Supports, gfx);
+            Participant player = room.GetPlayer(IsPlayer);
+            Card card = room.GetCard(CardId);
+            MoveCard(player is Player ? card : player.Hand.Last(), player.Supports, room);
         }
     }
 }

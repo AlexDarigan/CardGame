@@ -15,15 +15,15 @@ namespace CardGame.Client.Commands
             NewHealth = newHealth;
         }
         
-        protected override void Setup(CommandQueue gfx)
+        protected override void Setup(Room room)
         {
             // We'd probably use the GUI HealthBar for this?
-            gfx.InterpolateCallback(this, 0.2f, nameof(SetPlayerHealth), gfx);
+            room.Gfx.InterpolateCallback(this, 0.2f, nameof(SetPlayerHealth), room);
         }
 
-        private void SetPlayerHealth(CommandQueue gfx)
+        private void SetPlayerHealth(Room room)
         {
-            Participant player = gfx.GetPlayer(IsPlayer);
+            Participant player = room.GetPlayer(IsPlayer);
             player.Health = NewHealth;
         }
     }

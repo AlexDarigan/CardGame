@@ -16,12 +16,12 @@ namespace CardGame.Client.Commands
             SetCode = setCodes;
         }
 
-        protected override void Setup(CommandQueue gfx)
+        protected override void Setup(Room room)
         {
-            Participant player = gfx.GetPlayer(IsPlayer);
-            Card card = gfx.GetCard(CardId, SetCode);
+            Participant player = room.GetPlayer(IsPlayer);
+            Card card = room.GetCard(CardId, SetCode);
             if(!IsPlayer) { SwapFakeCardForRealCard(player, card);}
-            MoveCard(card, player.Units, gfx);
+            MoveCard(card, player.Units, room);
         }
 
         private void SwapFakeCardForRealCard(Participant player, Card card)
