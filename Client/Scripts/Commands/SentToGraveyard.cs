@@ -14,7 +14,7 @@ namespace CardGame.Client.Commands
         protected override void Setup(CommandQueue gfx)
         {
             Card card = gfx.GetCard(CardId);
-            MoveCard(card, card.Controller.Units, card.Controller.Discard, gfx);
+            MoveCard(card, card.Controller.Discard, gfx);
         }
     }
 }

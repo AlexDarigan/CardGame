@@ -28,6 +28,7 @@ namespace CardGame.Client
         {
             Location location = new (Origin + OffSet * Locations.Count, OffSet, Rotation) {Card = card};
             card.CurrentLocation = location;
+            card.CurrentZone = this;
             Cards.Add(card);
             Locations.Add(location);
             ShiftLeft();
@@ -35,7 +36,9 @@ namespace CardGame.Client
 
         public void Remove(Card card)
         {
+            
             Cards.Remove(card);
+            card.CurrentZone = null;
             card.CurrentLocation.Card = null; 
             RemoveEmptyLocation();
             ShiftRight();

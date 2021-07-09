@@ -19,7 +19,7 @@ namespace CardGame.Client.Commands
         {
             Participant player = gfx.GetPlayer(IsPlayer);
             Card card = gfx.GetCard(CardId);
-            MoveCard(player is Player ? card : player.Hand.Last(), player.Hand, player.Supports, gfx);
+            MoveCard(player is Player ? card : player.Hand.Last(), player.Supports, gfx);
         }
     }
 }

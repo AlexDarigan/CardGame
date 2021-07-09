@@ -17,6 +17,7 @@ namespace CardGame.Client
         public Participant Owner { get; set; }
         public Participant Controller { get; set; }
         public Location CurrentLocation { get; set; }
+        public Zone CurrentZone { get; set; }
         private Card() { }
         
         public Card(CardData info, Spatial view, int id)

@@ -31,8 +31,9 @@ namespace CardGame.Client.Commands
             }
         }
 
-        protected void MoveCard(Card card, Zone origin, Zone destination, CommandQueue gfx)
+        protected void MoveCard(Card card, Zone destination, CommandQueue gfx)
         {
+            Zone origin = card.CurrentZone;
             origin.Remove(card);
             destination.Add(card);
             UpdateZone(gfx, origin);

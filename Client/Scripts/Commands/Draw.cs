@@ -17,7 +17,7 @@ namespace CardGame.Client.Commands
         {
             Participant player = gfx.GetPlayer(IsPlayer);
             Card card = IsPlayer ? gfx.GetCard(CardId) : player.Deck.Last();
-            MoveCard(card, player.Deck, player.Hand, gfx);
+            MoveCard(card, player.Hand, gfx);
             UpdateZone(gfx, player.Hand);
         }
     }

@@ -21,7 +21,7 @@ namespace CardGame.Client.Commands
             Participant player = gfx.GetPlayer(IsPlayer);
             Card card = gfx.GetCard(CardId, SetCode);
             if(!IsPlayer) { SwapFakeCardForRealCard(player, card);}
-            MoveCard(card, player.Hand, player.Units, gfx);
+            MoveCard(card, player.Units, gfx);
         }
 
         private void SwapFakeCardForRealCard(Participant player, Card card)
