@@ -6,24 +6,25 @@ namespace CardGame.Client.Commands
     public class SetHealth: Command
     {
 
-        private Participant Player { get; }
+        private bool PlayerId { get; }
         private int NewHealth { get; }
-
-        public SetHealth(Participant player, int newHealth)
+       
+        public SetHealth(bool player, int newHealth)
         {
-            Player = player;
+            PlayerId = player;
             NewHealth = newHealth;
         }
         
-        protected override void Setup(Tween gfx)
+        protected override void Setup(CommandQueue gfx)
         {
-            gfx.InterpolateCallback(this, 0.2f, nameof(SetPlayerHealth));
+            gfx.InterpolateCallback(this, 0.2f, nameof(SetPlayerHealth), gfx);
         }
 
-        private void SetPlayerHealth()
+        private void SetPlayerHealth(CommandQueue gfx)
         {
-            Player.Health = NewHealth;
-            Console.WriteLine($"Player's Health is {Player.Health}");
+            Participant player = gfx.GetPlayer(PlayerId);
+            player.Health = NewHealth;
+            Console.WriteLine($"Player's Health is {player.Health}");
         }
     }
 }

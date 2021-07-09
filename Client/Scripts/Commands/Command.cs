@@ -12,7 +12,7 @@ namespace CardGame.Client.Commands
             AddUserSignal("NullCommand");
         }
 
-        public SignalAwaiter Execute(Tween gfx)
+        public SignalAwaiter Execute(CommandQueue gfx)
         {
             gfx.RemoveAll();
             Setup(gfx);
@@ -22,10 +22,10 @@ namespace CardGame.Client.Commands
 
         // We don't really need to store the tween info here do we?
         // We could just assign it to base values and remove it afterwards?
-        protected abstract void Setup(Tween gfx);
+        protected abstract void Setup(CommandQueue gfx);
 
         // Helper
-        protected static void UpdateZone(Tween gfx, Zone zone)
+        protected static void UpdateZone(CommandQueue gfx, Zone zone)
         {
             const float duration = .2f;
             foreach (Location location in zone.Locations)
@@ -38,7 +38,7 @@ namespace CardGame.Client.Commands
             }
         }
 
-        protected void MoveCard(Card card, Zone origin, Zone destination, Tween gfx)
+        protected void MoveCard(Card card, Zone origin, Zone destination, CommandQueue gfx)
         {
             origin.Remove(card);
             destination.Add(card);

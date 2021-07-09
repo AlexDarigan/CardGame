@@ -12,8 +12,6 @@ namespace CardGame.Client
         public event EventHandler GameUpdated;
         private const int Server = 1;
         private Cards Cards { get; }
-       // private Queue<Command> CommandQueue { get; } = new();
-      //  private Tween Gfx { get; }
         private CommandQueue CommandQueue { get; }
         private AudioStreamPlayer Sfx { get; }
         private AudioStreamPlayer Bgm { get; }
@@ -53,7 +51,7 @@ namespace CardGame.Client
         [Puppet]
         public async void Update(States state)
         {
-            while (CommandQueue.Count > 0) await CommandQueue.Dequeue().Execute(CommandQueue);
+            await CommandQueue.Execute();
             Player.State = state;
             Gui.GetNode<Label>("State").Text = state.ToString();
             GameUpdated?.Invoke(null, null);

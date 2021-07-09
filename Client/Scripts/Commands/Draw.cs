@@ -5,18 +5,20 @@ namespace CardGame.Client.Commands
 {
     public class Draw : Command
     {
-        private Participant Player { get; }
-        private Card Card { get; }
+        private bool PlayerId { get; }
+        private int CardId { get; }
 
-        public Draw(Participant player, Card card)
+        public Draw(bool player, int card)
         {
-            Player = player;
-            Card = card;
+            PlayerId = player;
+            CardId = card;
         }
 
-        protected override void Setup(Tween gfx)
+        protected override void Setup(CommandQueue gfx)
         {
-            MoveCard(Player is Player ? Card : Player.Deck.Last(), Player.Deck, Player.Hand, gfx);
+            Participant player = gfx.GetPlayer(PlayerId);
+            Card card = gfx.GetCard(CardId);
+            MoveCard(player is Player ? card : player.Deck.Last(), player.Deck, player.Hand, gfx);
         }
     }
 }

@@ -27,6 +27,9 @@ namespace CardGame.Client.Commands
             }
         }
 
-        protected override void Setup(Tween gfx) { }
+        protected override void Setup(CommandQueue gfx)
+        {
+            
+        }
     }
 }

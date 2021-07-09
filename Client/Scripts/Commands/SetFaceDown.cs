@@ -6,18 +6,20 @@ namespace CardGame.Client.Commands
 {
     public class SetFaceDown : Command
     {
-        private Participant Player { get; }
-        private Card Card { get; }
+        private bool PlayerId { get; }
+        private int CardId { get; }
 
-        public SetFaceDown(Participant player, Card card)
+        public SetFaceDown(bool player, int card)
         {
-            Player = player;
-            Card = card;
+            PlayerId = player;
+            CardId = card;
         }
 
-        protected override void Setup(Tween gfx)
+        protected override void Setup(CommandQueue gfx)
         {
-            MoveCard(Player is Player ? Card : Player.Hand.Last(), Player.Hand, Player.Supports, gfx);
+            Participant player = gfx.GetPlayer(PlayerId);
+            Card card = gfx.GetCard(CardId);
+            MoveCard(player is Player ? card : player.Hand.Last(), player.Hand, player.Supports, gfx);
         }
     }
 }

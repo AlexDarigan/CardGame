@@ -4,16 +4,17 @@ namespace CardGame.Client.Commands
 {
     public class SentToGraveyard: Command
     {
-        private Card Card { get; }
+        private int CardId { get; }
         
-        public SentToGraveyard(Card card)
+        public SentToGraveyard(int card)
         {
-            Card = card;
+            CardId = card;
         }
         
-        protected override void Setup(Tween gfx)
+        protected override void Setup(CommandQueue gfx)
         {
-            MoveCard(Card, Card.Controller.Units, Card.Controller.Discard, gfx);
+            Card card = gfx.GetCard(CardId);
+            MoveCard(card, card.Controller.Units, card.Controller.Discard, gfx);
         }
     }
 }
