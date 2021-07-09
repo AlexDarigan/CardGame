@@ -1,7 +1,5 @@
-﻿using System;
-using Godot;
+﻿using Godot;
 using Godot.Collections;
-using JetBrains.Annotations;
 
 namespace CardGame.Client
 {

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
-using Object = Godot.Object;
 
 namespace CardGame.Client
 {
-    public class Zone : Object, IEnumerable<Card>
+    public class Zone : IEnumerable<Card>
     {
         private List<Card> Cards { get; } = new();
         public List<Location> Locations { get; } = new ();
