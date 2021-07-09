@@ -14,6 +14,7 @@ namespace CardGame.Client
         public int Power { get; }
         public string Text { get; }
         public CardState CardState = CardState.None;
+        public Participant Owner { get; set; }
         public Participant Controller { get; set; }
         public Location CurrentLocation { get; set; }
         private Card() { }

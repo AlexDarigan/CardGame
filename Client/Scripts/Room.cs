@@ -56,6 +56,7 @@ namespace CardGame.Client
             foreach (Card card in deck.Select(pair => Cards.GetCard(pair.Key, pair.Value)))
             {
                 player.Deck.Add(card);
+                card.Owner = player;
                 card.Controller = player;
                 Location location = player.Deck.Locations.Last();
                 card.Translation = location.Translation;
@@ -68,41 +69,14 @@ namespace CardGame.Client
         {
             await CommandQueue.Execute();
             Player.State = state;
-            foreach (KeyValuePair<int, CardState> pair in updateCards)
-            {
-                Cards[pair.Key].Update(pair.Value);
-            }
+            foreach (KeyValuePair<int, CardState> pair in updateCards) { Cards[pair.Key].Update(pair.Value); }
             Gui.GetNode<Label>("State").Text = state.ToString();
             GameUpdated?.Invoke(null, null);
         }
 
         [Puppet]
-        public void Queue(CommandId commandId, params object[] args)
-        {
-            CommandQueue.Enqueue(commandId, args);
-        }
+        public void Queue(CommandId commandId, params object[] args) { CommandQueue.Enqueue(commandId, args); }
         
         public void OnEndTurnPressed() { Player.EndTurn(); }
     }
 }
-
-// GettingPlayer
-// GettingCards
-// GetPlayer, GetCards, Arguments, can system reflection take variable arguments?
-// Can System Reflection STORE commands variable arguments?
-
-// TODO (REWRITE)
-// 9 - Add Basic Input Controller / Multiplayer Commands
-//		...Draw, Deploy, Set, Activate, Destroy, Discard, End, Win, Lose
-// 10 - Add Commands for Draw/Deploy/Set/Activate/Destroy/Discard/End/Win/Lose
-// Etc -> Add SFX, ParticleFX, Tests, Hooks for Testing
-
-// BASIC INPUT SYSTEM
-
-// ACTIONS
-// ..Activate
-// ..AttackUnit
-// ..AttackPlayer
-// ..PassPlay
-// ..Targets for Activation/Attack
-
