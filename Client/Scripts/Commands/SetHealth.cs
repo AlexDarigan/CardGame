@@ -6,12 +6,12 @@ namespace CardGame.Client.Commands
     public class SetHealth: Command
     {
 
-        private bool PlayerId { get; }
+        private bool IsPlayer { get; }
         private int NewHealth { get; }
        
-        public SetHealth(bool player, int newHealth)
+        public SetHealth(bool isPlayer, int newHealth)
         {
-            PlayerId = player;
+            IsPlayer = isPlayer;
             NewHealth = newHealth;
         }
         
@@ -22,7 +22,7 @@ namespace CardGame.Client.Commands
 
         private void SetPlayerHealth(CommandQueue gfx)
         {
-            Participant player = gfx.GetPlayer(PlayerId);
+            Participant player = gfx.GetPlayer(IsPlayer);
             player.Health = NewHealth;
             Console.WriteLine($"Player's Health is {player.Health}");
         }

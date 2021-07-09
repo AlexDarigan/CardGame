@@ -49,10 +49,14 @@ namespace CardGame.Client
         private void Declare(CommandId command, params object[] args) { RpcId(Server, command.ToString(), args); }
         
         [Puppet]
-        public async void Update(States state)
+        public async void Update(States state, Dictionary<int, CardState> updateCards)
         {
             await CommandQueue.Execute();
             Player.State = state;
+            foreach (KeyValuePair<int, CardState> pair in updateCards)
+            {
+                Cards[pair.Key].Update(pair.Value);
+            }
             Gui.GetNode<Label>("State").Text = state.ToString();
             GameUpdated?.Invoke(null, null);
         }
@@ -62,16 +66,7 @@ namespace CardGame.Client
         {
             CommandQueue.Enqueue(commandId, args);
         }
-
-        [Puppet]
-        public void UpdateCard(int id, CardState state)
-        {
-            Cards[id].Update(state);
-        }
         
-        
-        // private Participant GetPlayer(bool isClient) { return isClient ? Player : Rival; }
-        // private Card GetCard(int id, SetCodes setCode = default) { return Cards.GetCard(id, setCode);}
         public void OnEndTurnPressed() { Player.EndTurn(); }
     }
 }

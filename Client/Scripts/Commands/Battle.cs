@@ -7,10 +7,10 @@ namespace CardGame.Client.Commands
         private int AttackerId { get; }
         private int DefenderId { get; }
 
-        public Battle(int attacker, int defender)
+        public Battle(int attackerId, int defenderId)
         {
-            AttackerId = attacker;
-            DefenderId = defender;
+            AttackerId = attackerId;
+            DefenderId = defenderId;
         }
 
         protected override void Setup(CommandQueue gfx)

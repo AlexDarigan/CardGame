@@ -8,28 +8,26 @@ namespace CardGame.Client.Commands
     public class LoadDeck : Command
     {
         private Dictionary<int, SetCodes> Deck { get; }
-        private Participant Player { get; }
+        private bool IsPlayer { get; }
 
-        public LoadDeck(Participant player, Dictionary<int, SetCodes> deck, Func<int, SetCodes, Card> createCard)
+        public LoadDeck(bool isPlayer, Dictionary<int, SetCodes> deck, CommandQueue gfx)
         {
-            Player = player;
+            IsPlayer = isPlayer;
             Deck = deck;
 
             // We execute this on instantiation because other commands will require the cards to exist to work
             // properly (however maybe we can investigate yielding constructors?)
-            foreach (Card card in Deck.Select(pair => createCard(pair.Key, pair.Value)))
+            Participant player = gfx.GetPlayer(IsPlayer);
+            foreach (Card card in Deck.Select(pair => gfx.GetCard(pair.Key, pair.Value)))
             {
-                Player.Deck.Add(card);
-                card.Controller = Player;
+                player.Deck.Add(card);
+                card.Controller = player;
                 Location location = player.Deck.Locations.Last();
                 card.Translation = location.Translation;
                 card.RotationDegrees = location.RotationDegrees;
             }
         }
 
-        protected override void Setup(CommandQueue gfx)
-        {
-            
-        }
+        protected override void Setup(CommandQueue gfx) { }
     }
 }

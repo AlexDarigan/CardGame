@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System.Threading.Tasks;
+using Godot;
 using JetBrains.Annotations;
 
 namespace CardGame.Client.Commands
@@ -12,12 +13,12 @@ namespace CardGame.Client.Commands
             AddUserSignal("NullCommand");
         }
 
-        public SignalAwaiter Execute(CommandQueue gfx)
+        public async Task Execute(CommandQueue gfx)
         {
             gfx.RemoveAll();
             Setup(gfx);
             gfx.Start();
-            return ToSignal(gfx, "tween_all_completed");
+            await ToSignal(gfx, "tween_all_completed");
         }
 
         // We don't really need to store the tween info here do we?
@@ -25,7 +26,7 @@ namespace CardGame.Client.Commands
         protected abstract void Setup(CommandQueue gfx);
 
         // Helper
-        protected static void UpdateZone(CommandQueue gfx, Zone zone)
+        protected void UpdateZone(CommandQueue gfx, Zone zone)
         {
             const float duration = .2f;
             foreach (Location location in zone.Locations)

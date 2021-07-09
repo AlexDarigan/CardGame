@@ -30,19 +30,14 @@ namespace CardGame.Client.Commands
             // }
             // Queue.Enqueue(command);
             Queue.Enqueue((Command) Call(commandId.ToString(), args));
-            
         }
         
+        public async Task Execute() { while (Queue.Count > 0) { await Queue.Dequeue().Execute(this); } }
         
-        public async Task Execute()
-        {
-            while (Queue.Count > 0) await Queue.Dequeue().Execute(this);
-        }
+        public Participant GetPlayer(bool isPlayer) { return isPlayer ? Player : Rival; }
+        public Card GetCard(int id, SetCodes setCodes = SetCodes.NullCard) { return Cards.GetCard(id, setCodes);}
         
-       public Participant GetPlayer(bool isPlayer) { return isPlayer ? Player : Rival; }
-       public Card GetCard(int id, SetCodes setCodes = SetCodes.NullCard) { return Cards.GetCard(id, setCodes);}
-        
-        private Command LoadDeck(bool who, Dictionary<int, SetCodes> deck) { return new LoadDeck(GetPlayer(who), deck, Cards.GetCard);} 
+        private Command LoadDeck(bool who, Dictionary<int, SetCodes> deck) { return new LoadDeck(who, deck, this);} 
         private Command Draw(bool who, int id) { return new Draw(who, id); }
         private Command Deploy(bool who, int id, SetCodes setCodes = SetCodes.NullCard) { return new Deploy(who, id, setCodes);}
         private Command SetFaceDown(bool who, int id) { return new SetFaceDown(who, id);}

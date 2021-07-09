@@ -1,24 +1,24 @@
 ﻿using System.Linq;
-using Godot;
 
 namespace CardGame.Client.Commands
 {
     public class Draw : Command
     {
-        private bool PlayerId { get; }
+        private bool IsPlayer { get; }
         private int CardId { get; }
 
-        public Draw(bool player, int card)
+        public Draw(bool isPlayer, int cardId)
         {
-            PlayerId = player;
-            CardId = card;
+            IsPlayer = isPlayer;
+            CardId = cardId;
         }
 
         protected override void Setup(CommandQueue gfx)
         {
-            Participant player = gfx.GetPlayer(PlayerId);
-            Card card = gfx.GetCard(CardId);
-            MoveCard(player is Player ? card : player.Deck.Last(), player.Deck, player.Hand, gfx);
+            Participant player = gfx.GetPlayer(IsPlayer);
+            Card card = IsPlayer ? gfx.GetCard(CardId) : player.Deck.Last();
+            MoveCard(card, player.Deck, player.Hand, gfx);
+            UpdateZone(gfx, player.Hand);
         }
     }
 }

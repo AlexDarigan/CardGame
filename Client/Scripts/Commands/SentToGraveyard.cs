@@ -6,9 +6,9 @@ namespace CardGame.Client.Commands
     {
         private int CardId { get; }
         
-        public SentToGraveyard(int card)
+        public SentToGraveyard(int cardId)
         {
-            CardId = card;
+            CardId = cardId;
         }
         
         protected override void Setup(CommandQueue gfx)

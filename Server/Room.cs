@@ -26,14 +26,14 @@ namespace CardGame.Server
             // Requires Some Work
             foreach (int id in Players.Keys)
             {
+                Dictionary<int, CardState> updateCards = new();
                 foreach (Card card in Cards)
                 {
                     if (card.Controller.Id != id) continue;
-                   // Console.WriteLine();
-                    RpcId(id, "UpdateCard", card.Id, card.CardState);
+                    updateCards[card.Id] = card.CardState;
                 }
 
-                RpcId(id, "Update", Players[id].State);
+                RpcId(id, "Update", Players[id].State, updateCards);
             }
         }
 

@@ -89,7 +89,8 @@ namespace CardGame
         SetHealth,
         DestroyedByBattle,
         SentToGraveyard,
-        Battle
+        Battle,
+        UpdateCard
     }
     public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner }
     public enum CardState { None, Deploy, AttackUnit, AttackPlayer, Set, Activate }
