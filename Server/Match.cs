@@ -34,10 +34,10 @@ namespace CardGame.Server
             // Could place this directly inside room (we'd remove the register dependency for a start)
             foreach (Player player in players)
             {
-                player.LoadDeck(Cards).QueueOnClients(loadDeck);
-                for (int i = 0; i < 7; i++) player.Draw().QueueOnClients(Queue);
+                player.LoadDeck(Cards).QueueOnClients(Queue);
+                for (int i = 0; i < 7; i++) { player.Draw().QueueOnClients(Queue); }
             }
-
+            
             players[0].State = States.IdleTurnPlayer;
             Update();
         }

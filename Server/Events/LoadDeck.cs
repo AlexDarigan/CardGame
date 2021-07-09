@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CardGame.Server.Events
 {
@@ -16,16 +18,17 @@ namespace CardGame.Server.Events
 
         public override void QueueOnClients(Enqueue queue)
         {
-            queue(Controller.Id, Command, IsClient, Deck);
+            Console.WriteLine("Queueing DeckLists");
+            queue(Controller.Id, Command, IsClient, Deck.AsEnumerable());
             queue(Controller.Opponent.Id, Command, !IsClient, NullDeck());
         }
 
-        private static Dictionary<int, SetCodes> NullDeck()
+        private static IEnumerable<KeyValuePair<int, SetCodes>> NullDeck()
         {
             Dictionary<int, SetCodes> nullDeck = new();
             for (int i = -1; i > -41; i--) nullDeck[i] = SetCodes.NullCard;
 
-            return nullDeck;
+            return nullDeck.AsEnumerable();
         }
     }
 }

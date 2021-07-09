@@ -46,7 +46,6 @@ namespace CardGame.Client
             Sfx = new AudioStreamPlayer();
             Bgm = new AudioStreamPlayer();
             Cards = new Cards();
-            //CommandQueue = new CommandQueue(Player, Rival, Cards);
             Gfx = new Tween();
             RoomView.Id = multiplayerApi.GetNetworkUniqueId();
             RoomView.EndTurnPressed += Player.EndTurn;
@@ -59,37 +58,19 @@ namespace CardGame.Client
         public override void _Ready() { RpcId(Server, "OnClientReady"); }
 
         private void Declare(string commandId, params object[] args) { RpcId(Server, commandId, args); }
-
-        [Puppet]
-        public void LoadDeck(bool isPlayer, Dictionary<int, SetCodes> deck)
-        {
-            Participant player = isPlayer ? Player : Rival;
-            foreach (Card card in deck.Select(pair => Cards.GetCard(pair.Key, pair.Value)))
-            {
-                player.Deck.Add(card);
-                card.Owner = player;
-                card.Controller = player;
-                Location location = player.Deck.Locations.Last();
-                card.Translation = location.Translation;
-                card.RotationDegrees = location.RotationDegrees;
-            }
-        }
         
         [Puppet]
-        public async void Update(States state, Dictionary<int, CardState> updateCards)
+        private async void Update(States state, Dictionary<int, CardState> updateCards)
         {
             while (CommandQueue.Count > 0) { await CommandQueue.Dequeue().Execute(this); }
             Player.State = state;
             foreach (KeyValuePair<int, CardState> pair in updateCards) { Cards[pair.Key].Update(pair.Value); }
             RoomView.UpdateState(state);
-            GameUpdated?.Invoke(null, null);
+            GameUpdated?.Invoke(null, null); // Player, Tests & GUI will listen for this
         }
 
         [Puppet]
-        public void Queue(CommandId commandId, params object[] args)
-        {
-            CommandQueue.Enqueue(Commands[commandId](args));
-        }
+        private void Queue(CommandId commandId, params object[] args) { CommandQueue.Enqueue(Commands[commandId](args)); }
         
         public Participant GetPlayer(bool isPlayer) { return isPlayer ? Player : Rival; }
         public Card GetCard(int id, SetCodes setCodes = SetCodes.NullCard) { return Cards.GetCard(id, setCodes);}
