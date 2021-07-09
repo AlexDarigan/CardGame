@@ -19,13 +19,14 @@ namespace CardGame.Client
         private Control Gui { get; }
         private Player Player { get; }
         private Rival Rival { get; }
+        private RoomView RoomView { get; set; }
         private Room() { /* Required By Godot */ }
 
-        public Room(Node view, string name, MultiplayerAPI multiplayerApi)
+        public Room(RoomView view, string name, MultiplayerAPI multiplayerApi)
         {
+            RoomView = view;
             Name = name;
             CustomMultiplayer = multiplayerApi;
-
             Mouse mouse = new Mouse();
             Player = new Player(mouse);
             Rival = new Rival();
@@ -33,21 +34,22 @@ namespace CardGame.Client
             Bgm = new AudioStreamPlayer();
             Cards = new Cards();
             CommandQueue = new CommandQueue(Player, Rival, Cards);
-
-            foreach (Node child in new []{view, CommandQueue, Sfx, Bgm, Cards, mouse}) { AddChild(child, true); }
-            
-            Gui = view.GetNode<Control>("GUI");
-            Gui.GetNode<Button>("Menu/EndTurn").Connect("pressed", this, nameof(OnEndTurnPressed));
-            Gui.GetNode<Label>("ID").Text = multiplayerApi.GetNetworkUniqueId().ToString();
-            
-            
+            RoomView.Id = multiplayerApi.GetNetworkUniqueId();
+            RoomView.EndTurnPressed += Player.EndTurn;
+            RoomView.EndTurnPressed += OnEndTurnPressed;
             Player.Declare += Declare;
             Cards.Player = Player;
+            
+            foreach (Node child in new Node[]{view, CommandQueue, Sfx, Bgm, Cards, mouse}) { AddChild(child, true); }
         }
-
+        
         public override void _Ready() { RpcId(Server, "OnClientReady"); }
 
-        private void Declare(string commandId, params object[] args) { RpcId(Server, commandId, args); }
+        private void Declare(string commandId, params object[] args)
+        {
+            RoomView.PlayerId.Text = "1";
+            RpcId(Server, commandId, args);
+        }
 
         [Puppet]
         public void LoadDeck(bool isPlayer, Dictionary<int, SetCodes> deck)
@@ -70,13 +72,21 @@ namespace CardGame.Client
             await CommandQueue.Execute();
             Player.State = state;
             foreach (KeyValuePair<int, CardState> pair in updateCards) { Cards[pair.Key].Update(pair.Value); }
-            Gui.GetNode<Label>("State").Text = state.ToString();
+            RoomView.State.Text = state.ToString();
             GameUpdated?.Invoke(null, null);
         }
 
         [Puppet]
         public void Queue(CommandId commandId, params object[] args) { CommandQueue.Enqueue(commandId, args); }
-        
-        public void OnEndTurnPressed() { Player.EndTurn(); }
+
+        public void OnEndTurnPressed()
+        {
+            if (Player.State != States.IdleTurnPlayer)
+            {
+                return;
+            }
+            RoomView.AddTurn();
+            //RpcId(Server, "EndTurn");
+        }
     }
 }

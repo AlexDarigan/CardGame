@@ -1,9 +1,0 @@
-# Created by Kenney (www.kenney.nl)
-
-newmtl custom1(Clone)
-Kd 0.3793103 0.2551724 0.2551724
-map_Kd Textures/custom1(Clone).png
-
-newmtl custom3(Clone)
-Kd 1 1 1
-

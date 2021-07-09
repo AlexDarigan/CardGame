@@ -1,5 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Godot;
+using JetBrains.Annotations;
 
 namespace CardGame.Client
 {
@@ -9,7 +12,7 @@ namespace CardGame.Client
         public States State { get; set; } = States.Passive;
         private Mouse Mouse { get; }
         private Card Attacker { get; set; }
-
+        
         public Player(Mouse mouse)
         {
             Mouse = mouse;
@@ -19,6 +22,7 @@ namespace CardGame.Client
             Units = new Zone(new Vector3(0, .33f, 3), new Vector3(1.5f, 0, 0), new Vector3(0, 0, 0));
             Supports = new Zone(new Vector3(0, .33f, 7), new Vector3(1.5f, 0, 0), new Vector3(0, 0, 180));
         }
+        
         
         public void OnCardPressed(Card pressed)
         {
@@ -69,5 +73,6 @@ namespace CardGame.Client
         public void PassPlay() { }
 
         public void EndTurn() { if (State == States.IdleTurnPlayer) { Declare("EndTurn"); } }
+        
     }
 }
