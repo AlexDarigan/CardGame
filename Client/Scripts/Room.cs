@@ -37,21 +37,22 @@ namespace CardGame.Client
         {
             Name = name;
             CustomMultiplayer = multiplayerApi;
+            
+            // 1 - InputController
+            // 2 - Remove Mouse From Player
+            // 3 - Inline Player Instance
+            
             Mouse mouse = new Mouse();
-            // Probably better to handle mouse in 1) A Dedicated Input Controller and 2) Events..
-            // ..then we can place Player up as inlined instance
             Player = new Player(mouse);
             RoomView.Id = multiplayerApi.GetNetworkUniqueId();
             RoomView.EndTurnPressed += Player.EndTurn;
-            Player.Declare += Declare;
+            Player.Declare += (commandId, args) => { RpcId(Server, commandId, args); };
             Cards.Player = Player;
             
             foreach (Node child in new Node[]{RoomView, Gfx, Sfx, Bgm, Cards, mouse}) { AddChild(child, true); }
         }
         
         public override void _Ready() { RpcId(Server, "OnClientReady"); }
-
-        private void Declare(string commandId, params object[] args) { RpcId(Server, commandId, args); }
         
         [Puppet] private async void Update() { while (CommandQueue.Count > 0) { await CommandQueue.Dequeue().Execute(this); } }
         [Puppet] private void Queue(CommandId commandId, object[] args) { CommandQueue.Enqueue(Commands[commandId](args)); }
