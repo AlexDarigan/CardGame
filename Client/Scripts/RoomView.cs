@@ -11,7 +11,6 @@ public class RoomView : Node
     public Label TurnCount;
     private HealthBar PlayerHealth;
     private HealthBar RivalHealth;
-    private Label LifeChange;
     private MeshInstance Button;
     Mouse mouse = new Mouse();
 
@@ -28,8 +27,7 @@ public class RoomView : Node
     public override void _Ready()
     {
         AddChild(mouse);
-        Console.WriteLine("Room View Created");
-        //Control gui = GetNode<Control>("GUI");
+
         PlayerId = GetNode<Label>("GUI/ID");
         PlayerId.Text = Id.ToString();
         State = GetNode<Label>("GUI/State");
@@ -40,7 +38,6 @@ public class RoomView : Node
         
         Button = GetNode<MeshInstance>("Table/Button");
         GetNode<Area>("Table/Button/Area").Connect("input_event", this, "OnButtonPressed");
-        LifeChange = GetNode<Label>("GUI/LifeChange");
         Id = GetParent().CustomMultiplayer.GetNetworkUniqueId();
     }
 
@@ -54,9 +51,6 @@ public class RoomView : Node
     public void DisplayHealth(Participant player, Room room)
     {
         HealthBar healthBar = player is Player ? PlayerHealth : RivalHealth;
-        LifeChange.Text = (PlayerHealth.Health - player.Health).ToString();
-        room.Gfx.InterpolateCallback(LifeChange, 0.01f, "set_visible", true);
-        room.Gfx.InterpolateCallback(LifeChange, 0.4f, "set_visible", false);
         healthBar.DisplayHealth(player, room);
     }
 
