@@ -18,7 +18,9 @@ namespace CardGame.Client.Commands
         protected override void Setup(Room room)
         {
             // We'd probably use the GUI HealthBar for this?
-            room.Gfx.InterpolateCallback(this, 0.2f, nameof(SetPlayerHealth), room);
+            Participant participant = room.GetPlayer(IsPlayer);
+            participant.Health = NewHealth;
+            room.RoomView.DisplayHealth(participant, room);
         }
 
         private void SetPlayerHealth(Room room)

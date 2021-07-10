@@ -43,6 +43,7 @@ namespace CardGame.Client
             Player.OnAttackCancelled += mouse.OnAttackCancelled;
             RoomView.EndTurnPressed += Player.EndTurn;
             Player.Declare += (commandId, args) => { RpcId(Server, Enum.GetName(commandId.GetType(), commandId), args); };
+            
             RoomView.Id = multiplayerApi.GetNetworkUniqueId();
             Cards.Player = Player;
             
