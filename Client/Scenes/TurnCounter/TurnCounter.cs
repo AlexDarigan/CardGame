@@ -1,20 +1,31 @@
 using Godot;
 using JetBrains.Annotations;
 
-[UsedImplicitly]
-public class TurnCounter : Label
+namespace CardGame.Client.Views
 {
-    private int _count = 1;
-    private int Count
+    [UsedImplicitly]
+    public class TurnCounter : Label
     {
-        get => _count;
-        set
+        private int _count = 1;
+
+        private int Count
         {
-            _count = value;
-            Text = value.ToString();
+            get => _count;
+            set
+            {
+                _count = value;
+                Text = value.ToString();
+            }
+        }
+
+        public void NextTurn()
+        {
+            Count++;
+        }
+
+        public override void _Ready()
+        {
+            Text = Count.ToString();
         }
     }
-    
-    public void NextTurn() { Count++; }
-    public override void _Ready() { Text = Count.ToString(); }
 }

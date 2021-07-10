@@ -7,7 +7,7 @@ namespace CardGame.Client
         // SetCode is initialized on load
         public SetCodes SetCode;
         [Export()] public string Name = "Card";
-        [Export()] public Texture Art = Assets.GetArt("NullCard");
+        [Export()] public Texture Art = (Texture) GD.Load($"Client/Assets/CardArt/NullCard.png");
         [Export(PropertyHint.Enum)] public CardType CardType = CardType.Null;
         [Export(PropertyHint.MultilineText)] public string Text = "";
         [Export()] public int Power;

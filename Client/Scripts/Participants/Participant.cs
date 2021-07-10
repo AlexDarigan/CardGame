@@ -1,6 +1,3 @@
-using System;
-using Godot;
-
 namespace CardGame.Client
 {
     public class Participant
@@ -11,8 +8,6 @@ namespace CardGame.Client
         public Zone Hand { get; protected set; }
         public Zone Supports { get; protected set; }
         public Zone Units { get; protected set; }
-        public Participant() { }
-        
-        
+        protected Participant() { }
     }
 }

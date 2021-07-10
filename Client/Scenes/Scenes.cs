@@ -1,11 +1,11 @@
 ﻿using Godot;
 
-namespace CardGame.Client
+namespace CardGame.Client.Views
 {
     public static class Scenes
     {
-        private static readonly PackedScene RoomScene = GD.Load<PackedScene>("res://Client/Scenes/Room.tscn");
-        private static readonly PackedScene CardScene = GD.Load<PackedScene>("res://Client/Scenes/Card.tscn");
+        private static readonly PackedScene RoomScene = GD.Load<PackedScene>("res://Client/Scenes/Room/Room.tscn");
+        private static readonly PackedScene CardScene = GD.Load<PackedScene>("res://Client/Scenes/Card/Card.tscn");
 
         public static RoomView Room()
         {

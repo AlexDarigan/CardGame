@@ -12,7 +12,7 @@ namespace CardGame.Client
         public Card GetCard(int id, SetCodes setCodes)
         {
             if (_cards.ContainsKey(id)) { return _cards[id]; }
-            Spatial view = Scenes.Card();
+            Spatial view = Views.Scenes.Card();
             Card card = new(Library.Cards[setCodes], view, id) {Translation = new Vector3(0, -3, 0)};
             card.CardPressed += Player.OnCardPressed;
             AddChild(view);
