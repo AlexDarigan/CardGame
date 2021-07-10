@@ -20,8 +20,8 @@ public class ManualTests : Node
 
     public override void _Ready()
     {
-        Room1 = new Room(Scenes.Room(), "TestRoom", new MultiplayerAPI());
-        Room2 = new Room(Scenes.Room(), "TestRoom", new MultiplayerAPI());
+        Room1 = new Room("TestRoom", new MultiplayerAPI());
+        Room2 = new Room("TestRoom", new MultiplayerAPI());
         AddChild(Room1);
         AddChild(Room2);
         Player1 = (Player) typeof(Room).GetProperty("Player", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(Room1);

@@ -23,7 +23,7 @@ namespace CardGame.Client
 		public void OnConnectedToServer() { RpcId(1, "OnNetworkPeerConnected", DeckList); }
 
 		[Puppet]
-		public void CreateRoom(string name) { AddChild(new Room(Scenes.Room(), name, CustomMultiplayer), true); }
+		public void CreateRoom(string name) { AddChild(new Room(name, CustomMultiplayer), true); }
 
 		public override void _Process(float delta) { if (CustomMultiplayer.HasNetworkPeer()) CustomMultiplayer.Poll(); }
 
