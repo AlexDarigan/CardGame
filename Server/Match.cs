@@ -86,7 +86,7 @@ namespace CardGame.Server
 
         public void SetFaceDown(Player player, Card support)
         {
-            if(Disqualified(support.CardState != CardState.Set, player, Illegal.SetFaceDown)) { return; }
+            if(Disqualified(support.CardState != CardState.SetFaceDown, player, Illegal.SetFaceDown)) { return; }
             player.SetFaceDown(support).QueueOnClients(Queue);
             Update();
         }

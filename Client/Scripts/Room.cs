@@ -7,7 +7,7 @@ using CardGame.Client.Commands;
 
 namespace CardGame.Client
 {
-    public delegate void Declaration(string commandId, params object[] args);
+    public delegate void Declaration(CommandId commandId, params object[] args);
     
     public class Room : Node
     {
@@ -19,9 +19,9 @@ namespace CardGame.Client
         public Tween Gfx { get; } = new();
         private AudioStreamPlayer Sfx { get; } = new();
         private AudioStreamPlayer Bgm { get; } = new();
-        private Player Player { get; }
+        private Player Player { get; } = new();
         private Rival Rival { get; } = new();
-        public RoomView RoomView { get; private set; } = Scenes.Room();
+        public RoomView RoomView { get;  } = Scenes.Room();
         private Room() { /* Required by Godot*/ }
 
         static Room()
@@ -35,24 +35,20 @@ namespace CardGame.Client
         
         public Room(string name, MultiplayerAPI multiplayerApi)
         {
+            Mouse mouse = new Mouse();
             Name = name;
             CustomMultiplayer = multiplayerApi;
             
-            // 1 - InputController
-            // 2 - Remove Mouse From Player
-            // 3 - Inline Player Instance
-            
-            Mouse mouse = new Mouse();
-            Player = new Player(mouse);
-            RoomView.Id = multiplayerApi.GetNetworkUniqueId();
+            Player.OnAttackDeclared += mouse.OnAttackDeclared;
+            Player.OnAttackCancelled += mouse.OnAttackCancelled;
             RoomView.EndTurnPressed += Player.EndTurn;
-            Player.Declare += (commandId, args) => { RpcId(Server, commandId, args); };
+            Player.Declare += (commandId, args) => { RpcId(Server, Enum.GetName(commandId.GetType(), commandId), args); };
+            RoomView.Id = multiplayerApi.GetNetworkUniqueId();
             Cards.Player = Player;
             
             foreach (Node child in new Node[]{RoomView, Gfx, Sfx, Bgm, Cards, mouse}) { AddChild(child, true); }
         }
         
-        public override void _Ready() { RpcId(Server, "OnClientReady"); }
         
         [Puppet] private async void Update() { while (CommandQueue.Count > 0) { await CommandQueue.Dequeue().Execute(this); } }
         [Puppet] private void Queue(CommandId commandId, object[] args) { CommandQueue.Enqueue(Commands[commandId](args)); }

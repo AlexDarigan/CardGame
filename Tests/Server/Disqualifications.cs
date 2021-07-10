@@ -18,7 +18,7 @@
         // All of our disqualification information is wrapped up into the card state so we (probably) only
         // ..need to check against the card state
         [Test("Illegal Deploy", nameof(Match.Deploy), CardState.Deploy, Illegal.Deploy)]
-        [Test("Illegal Set FaceDown", nameof(Match.SetFaceDown), CardState.Set, Illegal.SetFaceDown)]
+        [Test("Illegal Set FaceDown", nameof(Match.SetFaceDown), CardState.SetFaceDown, Illegal.SetFaceDown)]
         [Test("Illegal Activation", nameof(Match.Activate), CardState.Activate, Illegal.Activation)]
         [Test("Illegal Attack Player", nameof(Match.DeclareDirectAttack), CardState.AttackPlayer, Illegal.AttackPlayer)]
         public void IllegalCardActions(string description, string method, CardState state, Illegal reason)

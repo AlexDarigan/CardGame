@@ -30,7 +30,7 @@ namespace CardGame.Server
         {
             if (Controller.State != States.IdleTurnPlayer) { CardState = CardState.None; }
             else if (CanBeDeployed()) { CardState = CardState.Deploy; }
-            else if (CanBeSetFaceDown()) { CardState = CardState.Set;}
+            else if (CanBeSetFaceDown()) { CardState = CardState.SetFaceDown;}
             else if (CanAttackUnit()) { CardState = CardState.AttackUnit;}
             else if (CanAttackPlayer()) { CardState = CardState.AttackPlayer; }
             else if (CanBeActivated()) { CardState = CardState.Activate; }

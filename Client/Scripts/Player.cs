@@ -1,21 +1,27 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
 using Godot;
-using JetBrains.Annotations;
+using System.Collections.Generic;
 
 namespace CardGame.Client
 {
     public class Player: Participant
     {
+        private delegate States Play(Card card);
+        private ReadOnlyDictionary<CardState, Play> Plays { get; }
+        public event Action OnAttackDeclared;
+        public event Action OnAttackCancelled;
         public event Declaration Declare;
         public States State { get; set; } = States.Passive;
-        private Mouse Mouse { get; }
         private Card Attacker { get; set; }
-        
-        public Player(Mouse mouse)
+
+      
+        public Player()
         {
-            Mouse = mouse;
+            Plays = new ReadOnlyDictionary<CardState, Play>(new Dictionary<CardState, Play> {
+                {CardState.Deploy, Deploy}, {CardState.SetFaceDown, SetFaceDown}, {CardState.Activate, Activate}, 
+                {CardState.AttackPlayer, AttackPlayer}, {CardState.AttackUnit, AttackUnit}, {CardState.None, None}});
+            
             Deck = new Zone(new Vector3(10.5f, 0, 8.25f), new Vector3(0, .034f, 0), new Vector3(0, 0, 180));
             Discard = new Zone(new Vector3(10.5f, 0.5f, 4.5f), new Vector3(0, 0.04f, 0), new Vector3(0, 0, 0));
             Hand = new Zone(new Vector3(0, 4, 11), new Vector3(1.1f, 0, 0), new Vector3(33, 0, 0));
@@ -25,53 +31,54 @@ namespace CardGame.Client
         
         public void OnCardPressed(Card pressed)
         {
-            if (State == States.Passive) return;
-            if (pressed == Attacker)
-            {
-                Attacker = null;
-                Mouse.OnAttackCancelled();
-                return;
-            }
-            if (Attacker is not null)
-            {
-                // Add a check here to make sure the defender is a valid attack target
-                Console.WriteLine($"{Attacker} is attacking {pressed}");
-                Mouse.OnAttackCancelled(); // Committed?
-                Declare?.Invoke("DeclareAttack", Attacker.Id, pressed.Id);
-                Attacker = null;
-                return;
-            }
-            
-            switch (pressed.CardState)
-            {
-                case CardState.Deploy:
-                    Declare?.Invoke("Deploy", pressed.Id);
-                    State = States.Passive;
-                    break;
-                case CardState.AttackUnit:
-                    Console.WriteLine("Attacking");
-                    Attacker = pressed;
-                    Mouse.OnAttackDeclared();
-                    break;
-                case CardState.AttackPlayer:
-                    break;
-                case CardState.Set:
-                    Declare?.Invoke("SetFaceDown", pressed.Id);
-                    State = States.Passive;
-                    break;
-                case CardState.Activate:
-                    break;
-                case CardState.None:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            if (pressed == Attacker) { CancelAttack(); }
+            else if (Attacker is not null) { CommitAttack(pressed); }
+            else if(State != States.Passive) { Plays[pressed.CardState](pressed); }
+        }
+        
+        private States Deploy(Card card)
+        {
+            Declare?.Invoke(CommandId.Deploy, card.Id);
+            return States.Passive;
         }
 
+        private States AttackUnit(Card card)
+        {
+            // Could we make this async?
+            Attacker = card;
+            OnAttackDeclared?.Invoke();
+            return State; // This seems wrong? Targeting maybe?
+        }
+
+        private States AttackPlayer(Card card) { return State; }
+
+        private States SetFaceDown(Card card)
+        {
+            Declare?.Invoke(CommandId.SetFaceDown, card.Id);
+            return State;
+        }
+
+        private States Activate(Card card) { return State; }
+
+        private void CommitAttack(Card card)
+        {
+            // Is Defender Valid
+            OnAttackCancelled?.Invoke(); // Committed?
+            Declare?.Invoke(CommandId.DeclareAttack, Attacker.Id, card.Id);
+            Attacker = null;
+        }
+
+        private void CancelAttack()
+        {
+            Attacker = null;
+            OnAttackCancelled?.Invoke();
+        }
+
+        private States None(Card card) { return State; }
         
         public void PassPlay() { }
 
-        public void EndTurn() { if (State == States.IdleTurnPlayer) { Declare("EndTurn"); } }
+        public void EndTurn() { if (State == States.IdleTurnPlayer) { Declare?.Invoke(CommandId.EndTurn); } }
         
     }
 }

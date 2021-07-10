@@ -82,14 +82,14 @@ namespace CardGame
         Draw, 
         Deploy, 
         SetFaceDown, 
-        //EndTurn,
-        //DeclareAttack,
+        EndTurn,
+        DeclareAttack,
         SetHealth,
         SentToGraveyard,
         Battle,
     }
     public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner }
-    public enum CardState { None, Deploy, AttackUnit, AttackPlayer, Set, Activate }
+    public enum CardState { None, Deploy, AttackUnit, AttackPlayer, SetFaceDown, Activate }
     public enum Illegal { NotDisqualified, Draw, Deploy, AttackUnit, AttackPlayer, SetFaceDown, PassPlay, EndTurn, Activation }
 
 }

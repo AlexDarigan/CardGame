@@ -28,7 +28,7 @@ namespace CardGame.Client.Tests
             Assert.IsEqual(P1.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");
             Assert.IsEqual(card.CurrentZone, card.Controller.Hand, "And it is in its controller's hand");
             Assert.IsLessThan(card.Controller.Supports.Count, 5, "And its Controller's Support Zones is not full");
-            Assert.IsEqual(card.CardState, CardState.Set, "Then it can be set face down");
+            Assert.IsEqual(card.CardState, CardState.SetFaceDown, "Then it can be set face down");
         }
         
         [Test]
