@@ -68,5 +68,10 @@ namespace CardGame.Server
             support.Zone = Supports;
             return new SetFaceDown(this, support);
         }
+
+        public Event EndTurn()
+        {
+            return new EndTurn(this);
+        }
     }
 }

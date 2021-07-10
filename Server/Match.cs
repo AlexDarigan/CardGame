@@ -130,6 +130,7 @@ namespace CardGame.Server
             if(Disqualified(player.State != States.IdleTurnPlayer, player, Illegal.EndTurn)) { return; }
             player.State = States.Passive;
             player.Opponent.State = States.IdleTurnPlayer;
+            player.EndTurn().QueueOnClients(Queue);
             if (player.Opponent.Deck.Count > 0) { player.Opponent.Draw().QueueOnClients(Queue); } else { OnGameOver(player, player.Opponent); }
             foreach (Card card in player.Units) card.IsReady = true;
             foreach (Card card in player.Supports) card.IsReady = true;

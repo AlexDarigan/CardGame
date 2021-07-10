@@ -13,6 +13,7 @@
     <Content Include="Client\Scenes\HealthBar\HealthBar.tscn" />
     <Content Include="Client\Scenes\Room.tscn" />
     <Content Include="Client\Scenes\Table.tscn" />
+    <Content Include="Client\Scenes\TurnCounter\TurnCounter.tscn" />
     <Content Include="README.md" />
     <Content Include="Server\Library.json" />
   </ItemGroup>

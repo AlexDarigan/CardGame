@@ -8,7 +8,7 @@ public class RoomView : Node
     public int Id;
     public Label PlayerId { get; set; }
     public Label State;
-    public Label TurnCount;
+    public TurnCounter TurnCounter;
     private HealthBar PlayerHealth;
     private HealthBar RivalHealth;
     private MeshInstance Button;
@@ -31,13 +31,13 @@ public class RoomView : Node
         PlayerId = GetNode<Label>("GUI/ID");
         PlayerId.Text = Id.ToString();
         State = GetNode<Label>("GUI/State");
-        TurnCount = GetNode<Label>("GUI/TurnCount");
-
+        TurnCounter = GetNode<TurnCounter>("GUI/TurnCount");
         PlayerHealth = GetNode<HealthBar>("GUI/PlayerHealth");
         RivalHealth = GetNode<HealthBar>("GUI/RivalHealth");
-        
         Button = GetNode<MeshInstance>("Table/Button");
+        
         GetNode<Area>("Table/Button/Area").Connect("input_event", this, "OnButtonPressed");
+        
         Id = GetParent().CustomMultiplayer.GetNetworkUniqueId();
     }
 
@@ -54,15 +54,10 @@ public class RoomView : Node
         healthBar.DisplayHealth(player, room);
     }
 
-
-    public void AddTurn() { }
-
     private void OnButtonPressed(Node camera, InputEvent input, Vector3 clickPos, Vector3 clickNormal, int shapeIdx)
     {
-        if (input is InputEventMouseButton {Doubleclick: true})
-        {
-            Player player = (Player) GetParent<Room>().GetPlayer(true);
-            player.EndTurn();
-        }
+        if (input is not InputEventMouseButton {Doubleclick: true}) return;
+        Player player = (Player) GetParent<Room>().GetPlayer(true);
+        player.EndTurn();
     }
 }
