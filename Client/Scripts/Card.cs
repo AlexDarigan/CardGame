@@ -68,6 +68,7 @@ namespace CardGame.Client
                 CardPressed?.Invoke(this);
         }
 
+        
         public override void _Notification(int what)
         {
             if (what == NotificationPredelete) { _view.Free(); }

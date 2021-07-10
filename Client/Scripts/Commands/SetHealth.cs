@@ -22,11 +22,5 @@ namespace CardGame.Client.Commands
             participant.Health = NewHealth;
             room.RoomView.DisplayHealth(participant, room);
         }
-
-        private void SetPlayerHealth(Room room)
-        {
-            Participant player = room.GetPlayer(IsPlayer);
-            player.Health = NewHealth;
-        }
     }
 }

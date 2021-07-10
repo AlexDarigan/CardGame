@@ -1,13 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Godot;
-using Object = Godot.Object;
 
 namespace CardGame.Client.Commands
 {
-    public abstract class Command : Object
+    public abstract class Command
     {
-        protected Command() { }
         public async Task Execute(Room room)
         {
             room.Gfx.RemoveAll();
