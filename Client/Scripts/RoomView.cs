@@ -9,14 +9,10 @@ public class RoomView : Node
     public Label PlayerId { get; set; }
     public Label State;
     public Label TurnCount;
-    private ProgressBar PlayerHealthBar;
-    private ProgressBar OpponentHealthBar;
-    private Label PlayerHealthLabel;
-    private Label OpponentHealthLabel;
-    private MeshInstance Button;
-    private int _playerHealth = 8000;
-    private int _opponentHealth = 8000;
+    private HealthBar PlayerHealth;
+    private HealthBar RivalHealth;
     private Label LifeChange;
+    private MeshInstance Button;
     Mouse mouse = new Mouse();
 
     public void OnAttackDeclared()
@@ -28,27 +24,6 @@ public class RoomView : Node
     {
         mouse.OnAttackCancelled();
     }
-
-    private int PlayerHealth
-    {
-        get => _playerHealth;
-        set
-        {
-            _playerHealth = value;
-            PlayerHealthLabel.Text = value.ToString();
-        }
-    }
-
-    private int OpponentHealth
-    {
-        get => _opponentHealth;
-        set
-        {
-            _opponentHealth = value;
-            OpponentHealthLabel.Text = value.ToString();
-        }
-    }
-
     
     public override void _Ready()
     {
@@ -59,10 +34,10 @@ public class RoomView : Node
         PlayerId.Text = Id.ToString();
         State = GetNode<Label>("GUI/State");
         TurnCount = GetNode<Label>("GUI/TurnCount");
-        PlayerHealthBar = GetNode<ProgressBar>("GUI/PlayerHealth/PanelContainer/ProgressBar");
-        OpponentHealthBar = GetNode<ProgressBar>("GUI/Rival/PanelContainer/ProgressBar");
-        PlayerHealthLabel = GetNode<Label>("GUI/PlayerHealth/PanelContainer/Label");
-        OpponentHealthLabel = GetNode<Label>("GUI/Rival/PanelContainer/Label");
+
+        PlayerHealth = GetNode<HealthBar>("GUI/PlayerHealth");
+        RivalHealth = GetNode<HealthBar>("GUI/RivalHealth");
+        
         Button = GetNode<MeshInstance>("Table/Button");
         GetNode<Area>("Table/Button/Area").Connect("input_event", this, "OnButtonPressed");
         LifeChange = GetNode<Label>("GUI/LifeChange");
@@ -78,38 +53,15 @@ public class RoomView : Node
 
     public void DisplayHealth(Participant player, Room room)
     {
-        if (player is Player)
-        {
-            LifeChange.Text = ((int)PlayerHealthBar.Value - player.Health).ToString();
-            room.Gfx.InterpolateCallback(LifeChange, 0.01f, "set_visible", true);
-            room.Gfx.InterpolateCallback(LifeChange, 0.4f, "set_visible", false);
-            room.Gfx.InterpolateProperty(PlayerHealthBar, "value", PlayerHealthBar.Value, player.Health, .5f, 
-                Tween.TransitionType.Back, Tween.EaseType.In, .5F);
-            room.Gfx.InterpolateProperty(this, nameof(PlayerHealth), PlayerHealth, player.Health, .5F,
-            Tween.TransitionType.Back, Tween.EaseType.In, .5F);
-           
-        }
-        else
-        {
-            LifeChange.Text = ((int)OpponentHealthBar.Value - player.Health).ToString();
-            room.Gfx.InterpolateCallback(LifeChange, 0.01f, "set_visible", true);
-            room.Gfx.InterpolateCallback(LifeChange, 0.4f, "set_visible", false);
-            room.Gfx.InterpolateProperty(OpponentHealthBar, "value", OpponentHealthBar.Value, player.Health, .5f, 
-                Tween.TransitionType.Back, Tween.EaseType.In, .5F);
-            room.Gfx.InterpolateProperty(this, nameof(OpponentHealth), OpponentHealth, player.Health, .5F,
-                Tween.TransitionType.Back, Tween.EaseType.In, .5F);
-        }
+        HealthBar healthBar = player is Player ? PlayerHealth : RivalHealth;
+        LifeChange.Text = (PlayerHealth.Health - player.Health).ToString();
+        room.Gfx.InterpolateCallback(LifeChange, 0.01f, "set_visible", true);
+        room.Gfx.InterpolateCallback(LifeChange, 0.4f, "set_visible", false);
+        healthBar.DisplayHealth(player, room);
     }
 
-    public string SetPHealth()
-    {
-        return PlayerHealth.ToString();
-    }
-    
-    public void AddTurn()
-    {
-        
-    }
+
+    public void AddTurn() { }
 
     private void OnButtonPressed(Node camera, InputEvent input, Vector3 clickPos, Vector3 clickNormal, int shapeIdx)
     {

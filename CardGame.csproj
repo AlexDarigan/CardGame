@@ -8,6 +8,11 @@
     <Content Include="Client\Cards\NullCard.tres" />
     <Content Include="Client\Cards\QuestReward.tres" />
     <Content Include="Client\Cards\WeakShocker.tres" />
+    <Content Include="Client\Scenes\Card.tscn" />
+    <Content Include="Client\Scenes\GUI.tscn" />
+    <Content Include="Client\Scenes\HealthBar\HealthBar.tscn" />
+    <Content Include="Client\Scenes\Room.tscn" />
+    <Content Include="Client\Scenes\Table.tscn" />
     <Content Include="README.md" />
     <Content Include="Server\Library.json" />
   </ItemGroup>
@@ -18,7 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Client\Network\**" />
-    <Compile Remove="Client\Scenes\**" />
     <Compile Remove="Client\Commands\**" />
     <Compile Remove="Client\Assets\CardArt\**" />
     <Compile Remove="Client\Assets\Numbers\**" />
@@ -31,7 +35,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Client\Network\**" />
-    <EmbeddedResource Remove="Client\Scenes\**" />
     <EmbeddedResource Remove="Client\Commands\**" />
     <EmbeddedResource Remove="Client\Assets\CardArt\**" />
     <EmbeddedResource Remove="Client\Assets\Numbers\**" />
