@@ -56,14 +56,7 @@ namespace CardGame.Client
 
         private void Declare(string commandId, params object[] args) { RpcId(Server, commandId, args); }
         
-        [Puppet]
-        private async void Update()
-        {
-            while (CommandQueue.Count > 0) { await CommandQueue.Dequeue().Execute(this); }
-            Console.WriteLine($"{CustomMultiplayer.GetNetworkUniqueId()}: Finished");
-            // GameUpdated?.Invoke(this, state); // Player, Tests & GUI will listen for this
-        }
-
+        [Puppet] private async void Update() { while (CommandQueue.Count > 0) { await CommandQueue.Dequeue().Execute(this); } }
         [Puppet] private void Queue(CommandId commandId, object[] args) { CommandQueue.Enqueue(Commands[commandId](args)); }
         public Participant GetPlayer(bool isPlayer) { return isPlayer ? Player : Rival; }
         public Card GetCard(int id, SetCodes setCodes = SetCodes.NullCard) { return Cards.GetCard(id, setCodes);}
