@@ -106,7 +106,7 @@ namespace CardGame
 			room.GetNode<Spatial>("Cards").Visible = !room.GetNode<Spatial>("Cards").Visible;
 		}
 
-		private void OnRoomUpdated(object sender, object args)
+		private void OnRoomUpdated(Room sender, States states)
 		{
 			_roomUpdates++;
 			if (_roomUpdates != 2) return;

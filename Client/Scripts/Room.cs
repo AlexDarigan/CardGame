@@ -11,7 +11,7 @@ namespace CardGame.Client
     
     public class Room : Node
     {
-        public event EventHandler GameUpdated;
+        public event Action<Room, States> GameUpdated;
         private const int Server = 1;
         private delegate Command Invoker(params object[] args);
         
@@ -24,6 +24,7 @@ namespace CardGame.Client
         private Player Player { get; }
         private Rival Rival { get; } = new();
         private RoomView RoomView { get; } = Scenes.Room();
+        private Room() { /* Required by Godot*/ }
 
         static Room()
         {
@@ -45,6 +46,7 @@ namespace CardGame.Client
             RoomView.Id = multiplayerApi.GetNetworkUniqueId();
             RoomView.EndTurnPressed += Player.EndTurn;
             Player.Declare += Declare;
+            GameUpdated += Player.OnGameUpdated;
             Cards.Player = Player;
             
             foreach (Node child in new Node[]{RoomView, Gfx, Sfx, Bgm, Cards, mouse}) { AddChild(child, true); }
@@ -58,10 +60,9 @@ namespace CardGame.Client
         private async void Update(States state, Dictionary<int, CardState> updateCards)
         {
             while (CommandQueue.Count > 0) { await CommandQueue.Dequeue().Execute(this); }
-            Player.State = state;
             foreach (KeyValuePair<int, CardState> pair in updateCards) { Cards[pair.Key].Update(pair.Value); }
             RoomView.UpdateState(state);
-            GameUpdated?.Invoke(null, null); // Player, Tests & GUI will listen for this
+            GameUpdated?.Invoke(this, state); // Player, Tests & GUI will listen for this
         }
 
         [Puppet] private void Queue(CommandId commandId, object[] args) { CommandQueue.Enqueue(Commands[commandId](args)); }

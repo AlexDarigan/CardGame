@@ -9,7 +9,7 @@ namespace CardGame.Client
     public class Player: Participant
     {
         public event Declaration Declare;
-        public States State { get; set; } = States.Passive;
+        public States State { get; private set; } = States.Passive;
         private Mouse Mouse { get; }
         private Card Attacker { get; set; }
         
@@ -21,6 +21,11 @@ namespace CardGame.Client
             Hand = new Zone(new Vector3(0, 4, 11), new Vector3(1.1f, 0, 0), new Vector3(33, 0, 0));
             Units = new Zone(new Vector3(0, .33f, 3), new Vector3(1.5f, 0, 0), new Vector3(0, 0, 0));
             Supports = new Zone(new Vector3(0, .33f, 7), new Vector3(1.5f, 0, 0), new Vector3(0, 0, 180));
+        }
+
+        public void OnGameUpdated(Room room, States states)
+        {
+            State = states;
         }
         
         
