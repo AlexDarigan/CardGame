@@ -4,7 +4,6 @@
     public class Disqualifications: Fixture
     {
         
-        [Test("Illegal Draw", nameof(Match.Draw), States.IdleTurnPlayer, Illegal.Draw)]
         [Test("Illegal Pass Play", nameof(Match.PassPlay), States.Active, Illegal.PassPlay)]
         [Test("Illegal End Turn", nameof(Match.EndTurn), States.IdleTurnPlayer, Illegal.EndTurn)]
         public void IllegalPlayerActions(string description, string method, States states, Illegal reason)

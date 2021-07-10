@@ -75,7 +75,13 @@ namespace CardGame
         DealDamage
     }
 
-    public enum CommandId { LoadDeck, Draw, Deploy, SetFaceDown, //EndTurn,
+    public enum CommandId {
+        UpdateCards,
+        LoadDeck, 
+        Draw, 
+        Deploy, 
+        SetFaceDown, 
+        //EndTurn,
         //DeclareAttack,
         SetHealth,
         SentToGraveyard,

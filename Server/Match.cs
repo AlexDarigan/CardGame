@@ -41,22 +41,7 @@ namespace CardGame.Server
             players[0].State = States.IdleTurnPlayer;
             Update();
         }
-
-        public void Draw(Player player)
-        {
-            if(Disqualified((player.State != States.IdleTurnPlayer), player, Illegal.Draw)) { return; }
-
-            if (player.Deck.Count == 0)
-            {
-                OnGameOver(player.Opponent, player);
-                Update();
-                return;
-            }
-
-            player.Draw().QueueOnClients(Queue);
-            Update();
-        }
-
+        
         public void Deploy(Player player, Card unit)
         {
             if(Disqualified(unit.CardState != CardState.Deploy, player, Illegal.Deploy)) { return; }
@@ -149,7 +134,7 @@ namespace CardGame.Server
             if(Disqualified(player.State != States.IdleTurnPlayer, player, Illegal.EndTurn)) { return; }
             player.State = States.Passive;
             player.Opponent.State = States.IdleTurnPlayer;
-            Draw(player.Opponent);
+            if (player.Opponent.Deck.Count > 0) { player.Opponent.Draw().QueueOnClients(Queue); } else { OnGameOver(player, player.Opponent); }
             foreach (Card card in player.Units) card.IsReady = true;
             foreach (Card card in player.Supports) card.IsReady = true;
             Update();

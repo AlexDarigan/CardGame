@@ -33,7 +33,9 @@ namespace CardGame.Server
                     updateCards[card.Id] = card.CardState;
                 }
 
-                RpcId(id, "Update", Players[id].State, updateCards);
+                // This doesn't work directly, maybe the args are stored in object[] when passed rather than unpacked?
+                Queue(id, CommandId.UpdateCards, updateCards.AsEnumerable());
+                RpcId(id, "Update", Players[id].State);
             }
         }
 

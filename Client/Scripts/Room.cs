@@ -58,10 +58,10 @@ namespace CardGame.Client
         private void Declare(string commandId, params object[] args) { RpcId(Server, commandId, args); }
         
         [Puppet]
-        private async void Update(States state, Dictionary<int, CardState> updateCards)
+        private async void Update(States state)
         {
             while (CommandQueue.Count > 0) { await CommandQueue.Dequeue().Execute(this); }
-            foreach (KeyValuePair<int, CardState> pair in updateCards) { Cards[pair.Key].Update(pair.Value); }
+            Console.WriteLine($"{CustomMultiplayer.GetNetworkUniqueId()}: Finished");
             GameUpdated?.Invoke(this, state); // Player, Tests & GUI will listen for this
         }
 

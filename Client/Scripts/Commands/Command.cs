@@ -1,14 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Godot;
+using Object = Godot.Object;
 
 namespace CardGame.Client.Commands
 {
     public abstract class Command : Object
     {
         protected Command() { }
-
+        private static int count = 0;
         public async Task Execute(Room room)
         {
+            count += 1;
+            Console.WriteLine($"{count}: {room.CustomMultiplayer.GetNetworkUniqueId()}: {GetType()}");
             room.Gfx.RemoveAll();
             Setup(room);
             room.Gfx.Start();
