@@ -20,7 +20,8 @@ namespace CardGame.Client.Commands
             // We'd probably use the GUI HealthBar for this?
             Participant participant = room.GetPlayer(IsPlayer);
             participant.Health = NewHealth;
-            room.RoomView.DisplayHealth(participant, room);
+            HealthBar healthBar = IsPlayer ? room.RoomView.PlayerHealth : room.RoomView.RivalHealth;
+            healthBar.DisplayHealth(participant, room);
         }
     }
 }

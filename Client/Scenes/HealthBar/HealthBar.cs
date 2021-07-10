@@ -1,6 +1,8 @@
 using Godot;
 using CardGame.Client;
+using JetBrains.Annotations;
 
+[UsedImplicitly]
 public class HealthBar : HBoxContainer
 {
     private Label Change { get; set; }

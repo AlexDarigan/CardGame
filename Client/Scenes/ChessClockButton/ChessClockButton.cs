@@ -1,8 +1,9 @@
 using Godot;
-using System;
 using CardGame;
 using CardGame.Client;
+using JetBrains.Annotations;
 
+[UsedImplicitly]
 public class ChessClockButton : MeshInstance
 {
     private SpatialMaterial Material { get; set; }

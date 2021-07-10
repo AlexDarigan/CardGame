@@ -1,10 +1,10 @@
 using Godot;
-using System;
+using JetBrains.Annotations;
 
-
+[UsedImplicitly]
 public class TurnCounter : Label
 {
-    private int _count = 5;
+    private int _count = 1;
     private int Count
     {
         get => _count;
