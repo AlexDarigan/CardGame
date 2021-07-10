@@ -9,8 +9,5 @@ namespace CardGame.Client.Tests
         {
             await Task.CompletedTask;
         }
-
-        // [Test()],
-        
     }
 }
