@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using CardGame;
+using CardGame.Client;
 
 public class RoomView : Node
 {
@@ -33,13 +34,13 @@ public class RoomView : Node
         GetNode<Area>("Table/Button/Area").Connect("input_event", this, "OnButtonPressed");
     }
 
-    public void UpdateState(States state)
+    public void OnGameUpdated(Room room, States state)
     {
         State.Text = state.ToString();
         SpatialMaterial mat = (SpatialMaterial) Button.GetSurfaceMaterial(0);
         mat.AlbedoColor = state == States.IdleTurnPlayer ? Colors.Aqua : Colors.Red;
     }
-
+    
     public void AddTurn()
     {
         // This only works when we're ending, it doesn't increase when we're beginning
