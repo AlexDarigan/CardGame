@@ -11,10 +11,8 @@ namespace CardGame.Client
     
     public class Room : Node
     {
-        public event Action<Room, States> GameUpdated;
         private const int Server = 1;
         private delegate Command Invoker(params object[] args);
-        
         private static Dictionary<CommandId, Invoker> Commands { get; } = new();
         private Queue<Command> CommandQueue { get; } = new();
         private Cards Cards { get; } = new();
@@ -46,7 +44,6 @@ namespace CardGame.Client
             RoomView.Id = multiplayerApi.GetNetworkUniqueId();
             RoomView.EndTurnPressed += Player.EndTurn;
             Player.Declare += Declare;
-            GameUpdated += RoomView.OnGameUpdated;
             Cards.Player = Player;
             
             foreach (Node child in new Node[]{RoomView, Gfx, Sfx, Bgm, Cards, mouse}) { AddChild(child, true); }

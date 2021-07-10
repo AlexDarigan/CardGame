@@ -31,13 +31,9 @@ namespace CardGame.Server
 
         public void Begin(List<Player> players, Enqueue loadDeck = null)
         {
-            // Could place this directly inside room (we'd remove the register dependency for a start)
-            foreach (Player player in players)
-            {
-                player.LoadDeck(Cards).QueueOnClients(Queue);
-                for (int i = 0; i < 7; i++) { player.Draw().QueueOnClients(Queue); }
-            }
-            
+            players[0].LoadDeck(Cards).QueueOnClients(Queue);
+            players[1].LoadDeck(Cards).QueueOnClients(Queue);
+            foreach (Player player in players) { for (int i = 0; i < 7; i++) { player.Draw().QueueOnClients(Queue); } }
             players[0].State = States.IdleTurnPlayer;
             Update();
         }

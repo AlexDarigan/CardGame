@@ -74,6 +74,6 @@ namespace CardGame.Client.Tests
             await Update(0.2);
         }
 
-        private async Task Update(double time) { await UntilEvent(_game, nameof(_game.RoomsUpdated), time); }
+        private async Task Update(double time) { await UntilEvent(_game, nameof(Main.RoomsUpdated), time); }
     }
 }

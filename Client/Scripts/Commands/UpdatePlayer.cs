@@ -17,6 +17,9 @@ namespace CardGame.Client.Commands
             Player player = (Player) room.GetPlayer(IsPlayer);
             player.State = States;
             room.RoomView.OnGameUpdated(room, States);
+            
+            // Required For Testing
+            Main.OnRoomUpdated();
         }
     }
 }

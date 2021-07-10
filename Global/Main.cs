@@ -13,9 +13,7 @@ namespace CardGame
 		public Room Room2 { get; }
 		public Player Player1 { get; }
 		public Player Player2 { get; }
-
-	
-
+		
 		public Players(Room room1, Room room2)
 		{
 			Room1 = room1;
@@ -28,7 +26,7 @@ namespace CardGame
 	{
 		// Events
 		public event EventHandler<Players> GameBegun = (sender, args) => { };
-		public event EventHandler RoomsUpdated = (sender, args) => { };
+		public static event EventHandler RoomsUpdated = (sender, args) => { };
 		
 		// Exports
 		[Export] private bool _room1IsVisible;
@@ -39,7 +37,7 @@ namespace CardGame
 		private Room _room1; 
 		private Room _room2; 
 		private int _rooms;
-		private int _roomUpdates;
+		private static int _roomUpdates;
 		
 		public override void _Ready()
 		{
@@ -67,7 +65,6 @@ namespace CardGame
 				case Room room:
 				{
 					_rooms++;
-					room.GameUpdated += OnRoomUpdated;
 					// ReSharper disable once ConvertIfStatementToSwitchStatement
 					if (_rooms == 1) _room1 = room;
 					if (_rooms == 2) _room2 = room;
@@ -106,7 +103,7 @@ namespace CardGame
 			room.GetNode<Spatial>("Cards").Visible = !room.GetNode<Spatial>("Cards").Visible;
 		}
 
-		private void OnRoomUpdated(Room sender, States states)
+		public static void OnRoomUpdated()
 		{
 			_roomUpdates++;
 			if (_roomUpdates != 2) return;
