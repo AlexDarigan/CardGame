@@ -84,6 +84,7 @@ namespace CardGame
         SetFaceDown, 
         EndTurn,
         DeclareAttack,
+        DeclareDirectAttack,
         SetHealth,
         SentToGraveyard,
         Battle,

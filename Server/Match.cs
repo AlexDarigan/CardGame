@@ -74,6 +74,7 @@ namespace CardGame.Server
 
         public void DeclareDirectAttack(Player player, Card attacker)
         {
+            Console.WriteLine("AttackDeclared");
             if(Disqualified(attacker.CardState != CardState.AttackPlayer, player, Illegal.AttackPlayer)) { return; }
             player.Opponent.Health -= attacker.Power;
             if (player.Opponent.Health <= 0)

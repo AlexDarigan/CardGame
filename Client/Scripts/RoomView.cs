@@ -1,9 +1,11 @@
+using System;
 using Godot;
 using JetBrains.Annotations;
 
 [UsedImplicitly]
 public class RoomView : Node
 {
+    public event Action RivalHeartPressed; 
     private int Id { get; set; }
     private Label PlayerId { get; set; }
     public Label State;
@@ -27,7 +29,11 @@ public class RoomView : Node
         ChessClockButton = GetNode<ChessClockButton>("Table/ChessClockButton");
         Id = GetParent().CustomMultiplayer.GetNetworkUniqueId();
         PlayerId.Text = Id.ToString();
+
+        GetNode<Button>("RivalHeart").Connect("pressed", this, "OnRivalHeartPressed");
     }
+
+    public void OnRivalHeartPressed() { RivalHeartPressed?.Invoke(); }
     
   
 }

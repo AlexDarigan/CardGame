@@ -73,6 +73,8 @@ namespace CardGame
 					room.GetNode<Spatial>("Room/Table").Visible = visible;
 					room.GetNode<Control>("Room/GUI").Visible = visible;
 					room.GetNode<Spatial>("Cards").Visible = visible;
+					room.GetNode<Button>("Room/RivalHeart").MouseFilter =
+						visible ? Control.MouseFilterEnum.Pass : Control.MouseFilterEnum.Ignore;
 
 					if (_rooms != 2) return;
 					GameBegun.Invoke(null, new Players(_room1, _room2));
@@ -101,6 +103,8 @@ namespace CardGame
 			room.GetNode<Spatial>("Room/Table").Visible = !room.GetNode<Spatial>("Room/Table").Visible;
 			room.GetNode<Control>("Room/GUI").Visible = !room.GetNode<Control>("Room/GUI").Visible;
 			room.GetNode<Spatial>("Cards").Visible = !room.GetNode<Spatial>("Cards").Visible;
+			room.GetNode<Button>("Room/RivalHeart").MouseFilter = room.GetNode<Button>("Room/RivalHeart").MouseFilter ==
+				Control.MouseFilterEnum.Ignore ? Control.MouseFilterEnum.Pass : Control.MouseFilterEnum.Ignore;
 		}
 
 		public static void OnRoomUpdated()

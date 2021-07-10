@@ -28,11 +28,17 @@ namespace CardGame.Client
             Units = new Zone(new Vector3(0, .33f, 3), new Vector3(1.5f, 0, 0), new Vector3(0, 0, 0));
             Supports = new Zone(new Vector3(0, .33f, 7), new Vector3(1.5f, 0, 0), new Vector3(0, 0, 180));
         }
+
+        public void OnRivalHeartPressed()
+        {
+            // Note: When testing two scenes, have to make sure focus isn't being stolen by the other copy
+            if (Attacker is not null && Attacker.CardState == CardState.AttackPlayer) { CommitAttack(); }
+        }
         
         public void OnCardPressed(Card pressed)
         {
             if (pressed == Attacker) { CancelAttack(); }
-            else if (Attacker is not null) { CommitAttack(pressed); }
+            else if (Attacker is not null && Attacker.CardState == CardState.AttackUnit) { CommitAttack(pressed); }
             else if(State != States.Passive) { Plays[pressed.CardState](pressed); }
         }
         
@@ -50,7 +56,12 @@ namespace CardGame.Client
             return State; // This seems wrong? Targeting maybe?
         }
 
-        private States AttackPlayer(Card card) { return State; }
+        private States AttackPlayer(Card card)
+        {
+            Attacker = card;
+            OnAttackDeclared?.Invoke();
+            return State;
+        }
 
         private States SetFaceDown(Card card)
         {
@@ -65,6 +76,13 @@ namespace CardGame.Client
             // Is Defender Valid
             OnAttackCancelled?.Invoke(); // Committed?
             Declare?.Invoke(CommandId.DeclareAttack, Attacker.Id, card.Id);
+            Attacker = null;
+        }
+        
+        private void CommitAttack()
+        {
+            OnAttackCancelled?.Invoke(); // Committed?
+            Declare?.Invoke(CommandId.DeclareDirectAttack, Attacker.Id);
             Attacker = null;
         }
 
