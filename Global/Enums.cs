@@ -76,6 +76,7 @@ namespace CardGame
     }
 
     public enum CommandId {
+        UpdatePlayer,
         UpdateCards,
         LoadDeck, 
         Draw, 

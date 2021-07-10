@@ -23,7 +23,7 @@ namespace CardGame.Client
         private AudioStreamPlayer Bgm { get; } = new();
         private Player Player { get; }
         private Rival Rival { get; } = new();
-        private RoomView RoomView { get; } = Scenes.Room();
+        public RoomView RoomView { get; private set; } = Scenes.Room();
         private Room() { /* Required by Godot*/ }
 
         static Room()
@@ -46,7 +46,6 @@ namespace CardGame.Client
             RoomView.Id = multiplayerApi.GetNetworkUniqueId();
             RoomView.EndTurnPressed += Player.EndTurn;
             Player.Declare += Declare;
-            GameUpdated += Player.OnGameUpdated;
             GameUpdated += RoomView.OnGameUpdated;
             Cards.Player = Player;
             
@@ -58,11 +57,11 @@ namespace CardGame.Client
         private void Declare(string commandId, params object[] args) { RpcId(Server, commandId, args); }
         
         [Puppet]
-        private async void Update(States state)
+        private async void Update()
         {
             while (CommandQueue.Count > 0) { await CommandQueue.Dequeue().Execute(this); }
             Console.WriteLine($"{CustomMultiplayer.GetNetworkUniqueId()}: Finished");
-            GameUpdated?.Invoke(this, state); // Player, Tests & GUI will listen for this
+            // GameUpdated?.Invoke(this, state); // Player, Tests & GUI will listen for this
         }
 
         [Puppet] private void Queue(CommandId commandId, object[] args) { CommandQueue.Enqueue(Commands[commandId](args)); }
