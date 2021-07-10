@@ -5,10 +5,6 @@ using CardGame.Client;
 
 public class RoomView : Node
 {
-    public event Action PassPlayPressed;
-    public event Action EndTurnPressed;
-    
-    //public int turnCount = 1;
     public int Id;
     public Label PlayerId { get; set; }
     public Label State;
@@ -21,6 +17,17 @@ public class RoomView : Node
     private int _playerHealth = 8000;
     private int _opponentHealth = 8000;
     private Label LifeChange;
+    Mouse mouse = new Mouse();
+
+    public void OnAttackDeclared()
+    {
+        mouse.OnAttackDeclared();
+    }
+
+    public void OnAttackCancelled()
+    {
+        mouse.OnAttackCancelled();
+    }
 
     private int PlayerHealth
     {
@@ -45,6 +52,7 @@ public class RoomView : Node
     
     public override void _Ready()
     {
+        AddChild(mouse);
         Console.WriteLine("Room View Created");
         //Control gui = GetNode<Control>("GUI");
         PlayerId = GetNode<Label>("GUI/ID");
@@ -58,6 +66,7 @@ public class RoomView : Node
         Button = GetNode<MeshInstance>("Table/Button");
         GetNode<Area>("Table/Button/Area").Connect("input_event", this, "OnButtonPressed");
         LifeChange = GetNode<Label>("GUI/LifeChange");
+        Id = GetParent().CustomMultiplayer.GetNetworkUniqueId();
     }
 
     public void OnGameUpdated(Room room, States state)
@@ -106,7 +115,8 @@ public class RoomView : Node
     {
         if (input is InputEventMouseButton {Doubleclick: true})
         {
-            EndTurnPressed?.Invoke();
+            Player player = (Player) GetParent<Room>().GetPlayer(true);
+            player.EndTurn();
         }
     }
 }

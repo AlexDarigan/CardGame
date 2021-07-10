@@ -35,19 +35,13 @@ namespace CardGame.Client
         
         public Room(string name, MultiplayerAPI multiplayerApi)
         {
-            Mouse mouse = new Mouse();
             Name = name;
             CustomMultiplayer = multiplayerApi;
-            
-            Player.OnAttackDeclared += mouse.OnAttackDeclared;
-            Player.OnAttackCancelled += mouse.OnAttackCancelled;
-            RoomView.EndTurnPressed += Player.EndTurn;
+            Player.OnAttackDeclared += RoomView.OnAttackDeclared;
+            Player.OnAttackCancelled += RoomView.OnAttackCancelled;
             Player.Declare += (commandId, args) => { RpcId(Server, Enum.GetName(commandId.GetType(), commandId), args); };
-            
-            RoomView.Id = multiplayerApi.GetNetworkUniqueId();
             Cards.Player = Player;
-            
-            foreach (Node child in new Node[]{RoomView, Gfx, Sfx, Bgm, Cards, mouse}) { AddChild(child, true); }
+            foreach (Node child in new Node[]{RoomView, Gfx, Sfx, Bgm, Cards}) { AddChild(child, true); }
         }
         
         
