@@ -42,8 +42,6 @@ namespace CardGame.Client
             Player.Declare += (commandId, args) => { RpcId(Server, Enum.GetName(commandId.GetType(), commandId), args); };
             Cards.Player = Player;
             foreach (Node child in new Node[]{RoomView, Gfx, Sfx, Bgm, Cards}) { AddChild(child, true); }
-
-            RoomView.RivalHeartPressed += Player.OnRivalHeartPressed;
         }
         
         

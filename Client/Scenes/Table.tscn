@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Client/Assets/Models/WoodenTable/TableWooden.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Client/Scenes/ChessClockButton/ChessClockButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Client/Scenes/Heart/Heart.tscn" type="PackedScene" id=3]
 
 [sub_resource type="SpatialMaterial" id=1]
 resource_local_to_scene = true
@@ -43,3 +44,8 @@ material/0 = SubResource( 1 )
 transform = Transform( 1.1, 0, 0, 0, 1, 0, 0, 0, 1.1, 0, -0.5, 0 )
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
+
+[node name="PlayerHeart" parent="." instance=ExtResource( 3 )]
+
+[node name="RivalHeart" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10 )
