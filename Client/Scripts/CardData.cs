@@ -11,14 +11,14 @@ namespace CardGame.Client
         [Export(PropertyHint.Enum)] public CardType CardType = CardType.Null;
         [Export(PropertyHint.MultilineText)] public string Text = "";
         [Export()] public int Power;
-        
-        public void Deconstruct(out CardType cardType, out string title, out Texture art, out string text, out int power)
+
+        public void WriteTo(Card card)
         {
-            cardType = CardType;
-            title = Name;
-            art = Art;
-            text = Text;
-            power = Power;
+            card.Title = Name;
+            card.CardType = CardType;
+            card.Art = Art;
+            card.Text = Text;
+            card.Power = Power;
         }
     }
 }

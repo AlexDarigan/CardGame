@@ -12,9 +12,9 @@ namespace CardGame.Client.Views
             return (RoomView) RoomScene.Instance();
         }
 
-        public static Spatial Card()
+        public static Card Card()
         {
-            return (Spatial) CardScene.Instance();
+            return (Card) CardScene.Instance();
         }
     }
 }

@@ -1,36 +1,54 @@
+using System;
 using Godot;
 
 namespace CardGame.Client
 {
-    public class Card : Object
+    public class Card : Spatial
     {
         public delegate void Pressed(Card pressed);
         public event Pressed CardPressed;
-        private readonly SpatialMaterial _face;
-        private readonly Spatial _view;
-        public int Id { get; }
-        public string Title { get; }
-        public CardType CardType { get; }
-        public int Power { get; }
-        public string Text { get; }
+        private SpatialMaterial _face { get; set; }
+
+        private int _id = -1;
+        private CardType _cardType;
+        private Spatial _powerNumbers;
+        private Card() { }
+
+        public int Id
+        {
+            get => _id;
+            set => _id = _id < 0 ? value : _id;
+        }
+        
+        public string Title { get; set; }
+
+        public CardType CardType
+        {
+            get => _cardType;
+            set
+            {
+                _cardType = CardType.Unit;
+                _powerNumbers.Visible = value == CardType.Unit;
+            }
+        }
+
+        public int Power { get; set; }
+        public string Text { get; set; }
         public CardState CardState = CardState.None;
-        public Participant Owner { get; set; }
         public Participant Controller { get; set; }
         public Location CurrentLocation { get; set; }
         public Zone CurrentZone { get; set; }
-        private Card() { }
-        
-        public Card(CardData info, Spatial view, int id)
-        {
-            Id = id;
-            _view = view;
-            _face = (SpatialMaterial) _view.GetNode<MeshInstance>("Face").GetSurfaceMaterial(0);
-            (CardType, Title, Art, Text, Power) = info;
-            _view.GetNode<Area>("Area").Connect("input_event", this, nameof(OnInputEvent));
-            _view.GetNode<Spatial>("Power").Visible = CardType == CardType.Unit;
-        }
+       
 
-        private Texture Art
+
+        public override void _Ready()
+        {
+            _face = (SpatialMaterial) GetNode<MeshInstance>("Face").GetSurfaceMaterial(0);
+            _powerNumbers = GetNode<Spatial>("Power");
+            GetNode<Area>("Area").Connect("input_event", this, nameof(OnInputEvent));
+        }
+        
+        public Texture Art
         {
             set
             {
@@ -39,21 +57,21 @@ namespace CardGame.Client
             }
         }
 
-        public Vector3 Translation
+        public new Vector3 Translation
         {
-            get => _view.Translation;
-            set => _view.Translation = value;
+            get => base.Translation;
+            set => base.Translation = value;
         }
 
-        public Vector3 RotationDegrees
+        public new Vector3 RotationDegrees
         {
-            get => _view.RotationDegrees;
-            set => _view.RotationDegrees = value;
+            get => base.RotationDegrees;
+            set => base.RotationDegrees = value;
         }
 
         public void LookAt(Vector3 position)
         {
-            _view.LookAt(position, Vector3.Up);
+            base.LookAt(position, Vector3.Up);
         }
 
 
@@ -66,13 +84,6 @@ namespace CardGame.Client
         {
             if (input is InputEventMouseButton {ButtonIndex: (int) ButtonList.Left, Doubleclick: true})
                 CardPressed?.Invoke(this);
-        }
-
-        
-        public override void _Notification(int what)
-        {
-            if (what == NotificationPredelete) { _view.Free(); }
-            base._Notification(what);
         }
     }
 }

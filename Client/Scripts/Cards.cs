@@ -12,11 +12,13 @@ namespace CardGame.Client
         public Card GetCard(int id, SetCodes setCodes)
         {
             if (_cards.ContainsKey(id)) { return _cards[id]; }
-            Spatial view = Views.Scenes.Card();
-            Card card = new(Library.Cards[setCodes], view, id) {Translation = new Vector3(0, -3, 0)};
+            Card card = Views.Scenes.Card();
+            card.Translation = new Vector3(0, -3, 0);
             card.CardPressed += Player.OnCardPressed;
-            AddChild(view);
+            AddChild(card);
+            Library.Cards[setCodes].WriteTo(card);
             _cards[id] = card;
+            card.Id = id;
             return card;
         }
     }
