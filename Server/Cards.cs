@@ -22,8 +22,8 @@ namespace CardGame.Server
             {
                 SetCodes = setCodes,
                 Title = cardInfo.Title,
-                CardType = cardInfo.CardType,
-                Faction = cardInfo.Faction,
+                CardTypes = cardInfo.CardTypes,
+                Factions = cardInfo.Factions,
                 Power = cardInfo.Power
             };
             SkillInfo skillInfo = cardInfo.Skill;

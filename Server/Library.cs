@@ -19,17 +19,17 @@ namespace CardGame.Server
     
     public readonly struct CardInfo
     {
-        public CardType CardType { get; }
+        public CardTypes CardTypes { get; }
         public string Title { get; }
-        public Faction Faction { get; }
+        public Factions Factions { get; }
         public int Power { get; }
         public SkillInfo Skill { get; }
 
         [JsonConstructor]
-        public CardInfo(CardType cardType, Faction faction, string title, int power, SkillInfo skill)
+        public CardInfo(CardTypes cardTypes, Factions factions, string title, int power, SkillInfo skill)
         {
-            CardType = cardType;
-            Faction = faction;
+            CardTypes = cardTypes;
+            Factions = factions;
             Title = title;
             Power = power;
             Skill = skill;
@@ -63,7 +63,7 @@ namespace CardGame.Server
             foreach (string command in instructions)
                 if (Enum.TryParse(command, out OpCodes instruction))
                     insts.Add((int) instruction);
-                else if (Enum.TryParse(command, out CardType cardType))
+                else if (Enum.TryParse(command, out CardTypes cardType))
                     insts.Add((int) cardType);
                 else
                     // Is Literal Integer

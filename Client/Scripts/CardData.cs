@@ -8,17 +8,19 @@ namespace CardGame.Client
         public SetCodes SetCode;
         [Export()] public string Name = "Card";
         [Export()] public Texture Art = (Texture) GD.Load($"Client/Assets/CardArt/NullCard.png");
-        [Export(PropertyHint.Enum)] public CardType CardType = CardType.Null;
+        [Export(PropertyHint.Enum)] public CardTypes CardTypes = CardTypes.Null;
+        [Export(PropertyHint.Enum)] public Factions Faction;
         [Export(PropertyHint.MultilineText)] public string Text = "";
         [Export()] public int Power;
 
         public void WriteTo(Card card)
         {
-            card.Title = Name;
-            card.CardType = CardType;
-            card.Art = Art;
-            card.Text = Text;
-            card.Power = Power;
+            card.Title.Set(Name);
+            card.CardType.Set(CardTypes);
+            card.Art.Set(Art);
+            card.Text.Set(Text);
+            card.Power.Set(Power);
+            card.Faction.Set(Faction);
         }
     }
 }

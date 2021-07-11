@@ -17,16 +17,16 @@
 
         // All of our disqualification information is wrapped up into the card state so we (probably) only
         // ..need to check against the card state
-        [Test("Illegal Deploy", nameof(Match.Deploy), CardState.Deploy, Illegal.Deploy)]
-        [Test("Illegal Set FaceDown", nameof(Match.SetFaceDown), CardState.SetFaceDown, Illegal.SetFaceDown)]
-        [Test("Illegal Activation", nameof(Match.Activate), CardState.Activate, Illegal.Activation)]
-        [Test("Illegal Attack Player", nameof(Match.DeclareDirectAttack), CardState.AttackPlayer, Illegal.AttackPlayer)]
-        public void IllegalCardActions(string description, string method, CardState state, Illegal reason)
+        [Test("Illegal Deploy", nameof(Match.Deploy), CardGame.CardStates.Deploy, Illegal.Deploy)]
+        [Test("Illegal Set FaceDown", nameof(Match.SetFaceDown), CardGame.CardStates.SetFaceDown, Illegal.SetFaceDown)]
+        [Test("Illegal Activation", nameof(Match.Activate), CardGame.CardStates.Activate, Illegal.Activation)]
+        [Test("Illegal Attack Player", nameof(Match.DeclareDirectAttack), CardGame.CardStates.AttackPlayer, Illegal.AttackPlayer)]
+        public void IllegalCardActions(string description, string method, CardGame.CardStates states, Illegal reason)
         {
             Describe(description);
             StartGame();
             Card card = P2.Hand[0];
-            Assert.IsNotEqual(card.CardState, state);
+            Assert.IsNotEqual(card.CardStates, states);
             typeof(Match).GetMethod(method)!.Invoke(Match, new object[]{P2, card});  
             Assert.IsEqual(P2.ReasonPlayerWasDisqualified, reason);
         }
@@ -37,7 +37,7 @@
             StartGame();
             Card card = P2.Hand[0];
             Match.DeclareAttack(P2, card, P1.Hand[0]);
-            Assert.IsNotEqual(card, CardState.AttackUnit);
+            Assert.IsNotEqual(card, CardGame.CardStates.AttackUnit);
             Assert.IsEqual(P2.ReasonPlayerWasDisqualified, Illegal.AttackUnit);
         }
         

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 namespace CardGame.Client.Commands
 {
@@ -10,7 +11,7 @@ namespace CardGame.Client.Commands
         
         protected override void Setup(Room room)
         {
-            foreach (DictionaryEntry pair in Cards) { room.GetCard((int) pair.Key).Update((CardState) pair.Value); }
+            foreach (DictionaryEntry pair in Cards) { room.GetCard((int) pair.Key).CardState.Set((CardStates) pair.Value); }
         }
     }
 }

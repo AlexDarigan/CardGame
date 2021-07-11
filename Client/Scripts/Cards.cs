@@ -18,7 +18,7 @@ namespace CardGame.Client
             AddChild(card);
             Library.Cards[setCodes].WriteTo(card);
             _cards[id] = card;
-            card.Id = id;
+            card.Id.Set(id);
             return card;
         }
     }

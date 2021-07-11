@@ -8,7 +8,7 @@ namespace CardGame.Client
     public class Player: Participant
     {
         private delegate States Play(Card card);
-        private ReadOnlyDictionary<CardState, Play> Plays { get; }
+        private ReadOnlyDictionary<CardStates, Play> Plays { get; }
         public event Action OnAttackDeclared;
         public event Action OnAttackCancelled;
         public event Declaration Declare;
@@ -18,9 +18,9 @@ namespace CardGame.Client
       
         public Player()
         {
-            Plays = new ReadOnlyDictionary<CardState, Play>(new Dictionary<CardState, Play> {
-                {CardState.Deploy, Deploy}, {CardState.SetFaceDown, SetFaceDown}, {CardState.Activate, Activate}, 
-                {CardState.AttackPlayer, AttackPlayer}, {CardState.AttackUnit, AttackUnit}, {CardState.None, None}});
+            Plays = new ReadOnlyDictionary<CardStates, Play>(new Dictionary<CardStates, Play> {
+                {CardStates.Deploy, Deploy}, {CardStates.SetFaceDown, SetFaceDown}, {CardStates.Activate, Activate}, 
+                {CardStates.AttackPlayer, AttackPlayer}, {CardStates.AttackUnit, AttackUnit}, {CardStates.None, None}});
             
             Deck = new Zone(new Vector3(10.5f, 0, 8.25f), new Vector3(0, .034f, 0), new Vector3(0, 0, 180));
             Discard = new Zone(new Vector3(10.5f, 0.5f, 4.5f), new Vector3(0, 0.04f, 0), new Vector3(0, 0, 0));
@@ -32,19 +32,19 @@ namespace CardGame.Client
         public void OnRivalHeartPressed()
         {
             // Note: When testing two scenes, have to make sure focus isn't being stolen by the other copy
-            if (Attacker is not null && Attacker.CardState == CardState.AttackPlayer) { CommitAttack(); }
+            if (Attacker is not null && Attacker.CardState.Get() == CardStates.AttackPlayer) { CommitAttack(); }
         }
         
         public void OnCardPressed(Card pressed)
         {
             if (pressed == Attacker) { CancelAttack(); }
-            else if (Attacker is not null && Attacker.CardState == CardState.AttackUnit) { CommitAttack(pressed); }
-            else if(State != States.Passive) { Plays[pressed.CardState](pressed); }
+            else if (Attacker is not null && Attacker.CardState.Get() == CardStates.AttackUnit) { CommitAttack(pressed); }
+            else if(State != States.Passive) { Plays[pressed.CardState.Get()](pressed); }
         }
         
         private States Deploy(Card card)
         {
-            Declare?.Invoke(CommandId.Deploy, card.Id);
+            Declare?.Invoke(CommandId.Deploy, card.Id.Get());
             return States.Passive;
         }
 
@@ -65,7 +65,7 @@ namespace CardGame.Client
 
         private States SetFaceDown(Card card)
         {
-            Declare?.Invoke(CommandId.SetFaceDown, card.Id);
+            Declare?.Invoke(CommandId.SetFaceDown, card.Id.Get());
             return State;
         }
 
@@ -73,16 +73,16 @@ namespace CardGame.Client
 
         private void CommitAttack(Card card)
         {
-            // Is Defender Valid
+            // Is Defender ValId.Get()
             OnAttackCancelled?.Invoke(); // Committed?
-            Declare?.Invoke(CommandId.DeclareAttack, Attacker.Id, card.Id);
+            Declare?.Invoke(CommandId.DeclareAttack, Attacker.Id.Get(), card.Id.Get());
             Attacker = null;
         }
         
         private void CommitAttack()
         {
             OnAttackCancelled?.Invoke(); // Committed?
-            Declare?.Invoke(CommandId.DeclareDirectAttack, Attacker.Id);
+            Declare?.Invoke(CommandId.DeclareDirectAttack, Attacker.Id.Get());
             Attacker = null;
         }
 

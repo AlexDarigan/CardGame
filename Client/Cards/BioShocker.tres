@@ -7,6 +7,7 @@
 script = ExtResource( 1 )
 Name = "BioShocker"
 Art = ExtResource( 2 )
-CardType = 1
+CardTypes = 1
+Faction = 0
 Text = "Shocker Punch!"
 Power = 2000

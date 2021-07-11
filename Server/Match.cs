@@ -40,7 +40,7 @@ namespace CardGame.Server
         
         public void Deploy(Player player, Card unit)
         {
-            if(Disqualified(unit.CardState != CardState.Deploy, player, Illegal.Deploy)) { return; }
+            if(Disqualified(unit.CardStates != CardStates.Deploy, player, Illegal.Deploy)) { return; }
             player.Deploy(unit).QueueOnClients(Queue);
             Update();
         }
@@ -48,7 +48,7 @@ namespace CardGame.Server
         public void DeclareAttack(Player player, Card attacker, Card defender)
         {
             Console.WriteLine($"{player} attacks {defender} with {attacker}");
-            if(Disqualified(attacker.CardState != CardState.AttackUnit, player, Illegal.AttackUnit)) { return; }
+            if(Disqualified(attacker.CardStates != CardStates.AttackUnit, player, Illegal.AttackUnit)) { return; }
 
             new Battle(attacker, defender).QueueOnClients(Queue);
             void DamageCalculation(Card winner, Card loser)
@@ -75,7 +75,7 @@ namespace CardGame.Server
         public void DeclareDirectAttack(Player player, Card attacker)
         {
             
-            if(Disqualified(attacker.CardState != CardState.AttackPlayer, player, Illegal.AttackPlayer)) { return; }
+            if(Disqualified(attacker.CardStates != CardStates.AttackPlayer, player, Illegal.AttackPlayer)) { return; }
             player.Opponent.Health -= attacker.Power;
             new DirectAttack(attacker).QueueOnClients(Queue);
             new SetHealth(player.Opponent).QueueOnClients(Queue);
@@ -89,7 +89,7 @@ namespace CardGame.Server
 
         public void SetFaceDown(Player player, Card support)
         {
-            if(Disqualified(support.CardState != CardState.SetFaceDown, player, Illegal.SetFaceDown)) { return; }
+            if(Disqualified(support.CardStates != CardStates.SetFaceDown, player, Illegal.SetFaceDown)) { return; }
             player.SetFaceDown(support).QueueOnClients(Queue);
             Update();
         }
@@ -97,7 +97,7 @@ namespace CardGame.Server
         public void Activate(Player player, Card support)
         {
             
-            if(Disqualified(support.CardState != CardState.Activate, player, Illegal.Activation)) { return; }
+            if(Disqualified(support.CardStates != CardStates.Activate, player, Illegal.Activation)) { return; }
             Link.Add(support.Activate());
             Resolve();
             Update();

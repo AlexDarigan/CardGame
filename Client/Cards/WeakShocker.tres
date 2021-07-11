@@ -7,6 +7,7 @@
 script = ExtResource( 1 )
 Name = "Weak Shocker"
 Art = ExtResource( 2 )
-CardType = 1
+CardTypes = 1
+Faction = 0
 Text = "So Weak"
 Power = 1000

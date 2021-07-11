@@ -8,10 +8,10 @@ namespace CardGame.Server
     {
         public int Id { get; }
         public Player Owner { get; }
-        public CardState CardState = CardState.None;
-        public CardType CardType;
+        public CardStates CardStates = CardStates.None;
+        public CardTypes CardTypes;
         public Player Controller;
-        public Faction Faction;
+        public Factions Factions;
         public bool IsReady = false;
         public int Power;
         public SetCodes SetCodes;
@@ -28,17 +28,17 @@ namespace CardGame.Server
 
         public void Update()
         {
-            if (Controller.State != States.IdleTurnPlayer) { CardState = CardState.None; }
-            else if (CanBeDeployed()) { CardState = CardState.Deploy; }
-            else if (CanBeSetFaceDown()) { CardState = CardState.SetFaceDown;}
-            else if (CanAttackUnit()) { CardState = CardState.AttackUnit;}
-            else if (CanAttackPlayer()) { CardState = CardState.AttackPlayer; }
-            else if (CanBeActivated()) { CardState = CardState.Activate; }
-            else { CardState = CardState.None; }
+            if (Controller.State != States.IdleTurnPlayer) { CardStates = CardStates.None; }
+            else if (CanBeDeployed()) { CardStates = CardStates.Deploy; }
+            else if (CanBeSetFaceDown()) { CardStates = CardStates.SetFaceDown;}
+            else if (CanAttackUnit()) { CardStates = CardStates.AttackUnit;}
+            else if (CanAttackPlayer()) { CardStates = CardStates.AttackPlayer; }
+            else if (CanBeActivated()) { CardStates = CardStates.Activate; }
+            else { CardStates = CardStates.None; }
         }
 
-        private bool CanBeDeployed() => Controller.Hand.Contains(this) && CardType is CardType.Unit;
-        private bool CanBeSetFaceDown() => Controller.Hand.Contains(this) && CardType is CardType.Support;
+        private bool CanBeDeployed() => Controller.Hand.Contains(this) && CardTypes is CardTypes.Unit;
+        private bool CanBeSetFaceDown() => Controller.Hand.Contains(this) && CardTypes is CardTypes.Support;
         private bool CanAttackUnit() => Controller.Units.Contains(this) && IsReady && Controller.Opponent.Units.Count > 0;
         private bool CanAttackPlayer() => Controller.Units.Contains(this) && IsReady && Controller.Opponent.Units.Count == 0;
         private bool CanBeActivated() => Controller.Supports.Contains(this) && IsReady;

@@ -1,12 +1,12 @@
 ﻿{
   "NullCard": 
-  { "Title": "Null Card", "CardType": "Null", "Faction":  "Null", "Power": 0, "Skills": {} },
+  { "Title": "Null Card", "CardTypes": "Null", "Faction":  "Null", "Power": 0, "Skills": {} },
   
   "AlphaBioShocker":
-  { "Title": "BioShocker", "CardType": "Unit", "Faction": "Warrior", "Power": 2000, "Skills": {} },
+  { "Title": "BioShocker", "CardTypes": "Unit", "Faction": "Warrior", "Power": 2000, "Skills": {} },
   
   "AlphaQuestReward": 
-  { "Title": "Quest Reward", "CardType": "Support", "Faction": "Null", "Power": 0,
+  { "Title": "Quest Reward", "CardTypes": "Support", "Faction": "Null", "Power": 0,
     "Skill":  
       {
         "Triggers": ["Any"],
@@ -15,6 +15,6 @@
       }
   },
 
-  "WeakShocker": {"Title": "WeakShocker", "CardType": "Unit", "Faction": "Warrior", "Power": 1000, "Skills":  {}}
+  "WeakShocker": {"Title": "WeakShocker", "CardTypes": "Unit", "Faction": "Warrior", "Power": 1000, "Skills":  {}}
 
 }

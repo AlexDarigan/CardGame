@@ -26,11 +26,11 @@ namespace CardGame.Server
             // Requires Some Work
             foreach (int id in Players.Keys)
             {
-                Dictionary<int, CardState> updateCards = new();
+                Dictionary<int, CardStates> updateCards = new();
                 foreach (Card card in Cards)
                 {
                     if (card.Controller.Id != id) continue;
-                    updateCards[card.Id] = card.CardState;
+                    updateCards[card.Id] = card.CardStates;
                 }
 
                 // This doesn't work directly, maybe the args are stored in object[] when passed rather than unpacked?

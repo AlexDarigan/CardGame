@@ -26,7 +26,7 @@ namespace CardGame.Server.Tests
             Assert.IsGreaterThan(attacker.Power, defender.Power, "The attackers power is greater than the defender's power");
             Assert.Contains(defender, P2.Graveyard, "The defending Unit was sent to the graveyard");
             Assert.IsEqual(lifeCount - difference, P2.Health, "The difference in power was subtracted from the users");
-            Assert.IsEqual(attacker.CardState, CardState.None, $"Attacker is in {CardState.None}");
+            Assert.IsEqual(attacker.CardStates, CardGame.CardStates.None, $"Attacker is in {CardGame.CardStates.None}");
         }
 
         [Test()]
@@ -48,7 +48,7 @@ namespace CardGame.Server.Tests
             Assert.IsGreaterThan(defender.Power, attacker.Power, "The defenders power is greater than attackers power's power");
             Assert.Contains(attacker, P1.Graveyard, "The attacking Unit was sent to the graveyard");
             Assert.IsEqual(lifeCount - difference, P1.Health, "The difference in power was subtracted from the attacking player users");
-            Assert.IsEqual(attacker.CardState, CardState.None, $"Attacker is in {CardState.None}");
+            Assert.IsEqual(attacker.CardStates, CardGame.CardStates.None, $"Attacker is in {CardGame.CardStates.None}");
         }
         
         [Test()]
@@ -72,7 +72,7 @@ namespace CardGame.Server.Tests
             Assert.IsFalse(attacker.IsReady, "Attacker is exhausted");
             Assert.Contains(attacker, P1.Units, "Attacker is still on the field");
             Assert.Contains(defender, P2.Units, "Defender is still on the field");
-            Assert.IsEqual(attacker.CardState, CardState.None, $"Attacker is in {CardState.None}");
+            Assert.IsEqual(attacker.CardStates, CardGame.CardStates.None, $"Attacker is in {CardGame.CardStates.None}");
         }
 
         [Test()]
@@ -90,7 +90,7 @@ namespace CardGame.Server.Tests
             
             Assert.IsEqual(P2.Health, health - attacker.Power, "Defending player lost health equal to attacker");
             Assert.IsFalse(attacker.IsReady, "Attacker is exhausted");
-            Assert.IsEqual(attacker.CardState, CardState.None, $"Attacker is in {CardState.None}");
+            Assert.IsEqual(attacker.CardStates, CardGame.CardStates.None, $"Attacker is in {CardGame.CardStates.None}");
         }
     }
 }

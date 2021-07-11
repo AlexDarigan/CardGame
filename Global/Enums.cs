@@ -4,14 +4,14 @@ using JetBrains.Annotations;
 
 namespace CardGame
 {
-    public enum CardType
+    public enum CardTypes
     {
         Null,
         Unit,
         Support
     }
 
-    public enum Faction
+    public enum Factions
     {
         Null,
         Warrior
@@ -92,7 +92,7 @@ namespace CardGame
         DirectAttack
     }
     public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner }
-    public enum CardState { None, Deploy, AttackUnit, AttackPlayer, SetFaceDown, Activate }
+    public enum CardStates { None, Deploy, AttackUnit, AttackPlayer, SetFaceDown, Activate }
     public enum Illegal { NotDisqualified, Draw, Deploy, AttackUnit, AttackPlayer, SetFaceDown, PassPlay, EndTurn, Activation }
 
 }
