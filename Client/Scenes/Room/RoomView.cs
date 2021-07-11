@@ -15,6 +15,7 @@ namespace CardGame.Client.Views
         public HealthBar PlayerHealth;
         public HealthBar RivalHealth;
         public ChessClockButton ChessClockButton;
+        public Label GameOver;
         private Mouse Mouse { get; } = new Mouse();
 
         public void OnAttackDeclared()
@@ -36,6 +37,7 @@ namespace CardGame.Client.Views
             PlayerHealth = GetNode<HealthBar>("GUI/PlayerHealth");
             RivalHealth = GetNode<HealthBar>("GUI/RivalHealth");
             ChessClockButton = GetNode<ChessClockButton>("Table/ChessClockButton");
+            GameOver = GetNode<Label>("GUI/GameOver");
             Id = GetParent().CustomMultiplayer.GetNetworkUniqueId();
             PlayerId.Text = Id.ToString();
 

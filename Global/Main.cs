@@ -3,6 +3,7 @@ using System.Reflection;
 using CardGame.Client;
 using Godot;
 using Godot.Collections;
+using JetBrains.Annotations;
 using Array = System.Array;
 
 namespace CardGame
@@ -29,8 +30,8 @@ namespace CardGame
 		public static event EventHandler RoomsUpdated = (sender, args) => { };
 		
 		// Exports
-		[Export] private bool _room1IsVisible;
-		[Export] private bool _room2IsVisible;
+		[UsedImplicitly][Export] private bool _room1IsVisible;
+		[UsedImplicitly][Export] private bool _room2IsVisible;
 		[Export] public Godot.Collections.Array<SetCodes> DeckList1 = DefaultDeck();
 		[Export] public Godot.Collections.Array<SetCodes> DeckList2 = DefaultDeck();
 

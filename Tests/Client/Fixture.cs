@@ -11,8 +11,8 @@ namespace CardGame.Client.Tests
         // Note To Self: Client tests do not work well in-editor due to their reliance on the server
         private static readonly PackedScene MainScene = GD.Load<PackedScene>("res://Global/Main.tscn");
         private Main _game;
-        private Room _room1;
-        private Room _room2;
+        protected Room Room1;
+        protected Room Room2;
         protected Player P1;
         protected Player P2;
         
@@ -46,8 +46,8 @@ namespace CardGame.Client.Tests
             TestEventData data = await UntilEvent(_game, nameof(_game.GameBegun), 3.0);
             Players room = (Players) data.Arguments;
             
-            _room1 = room.Room1;
-            _room2 = room.Room2;
+            Room1 = room.Room1;
+            Room2 = room.Room2;
             P1 = room.Player1;
             P2 = room.Player2;
             

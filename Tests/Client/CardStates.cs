@@ -54,7 +54,6 @@ namespace CardGame.Client.Tests
             Card defender = P2.Hand[0];
             
             await Queue(() => P1.OnCardPressed(attacker), P1.EndTurn, () => P2.OnCardPressed(defender), P2.EndTurn);
-//            await Update();
 
             Assert.IsEqual(attacker.CardType, CardType.Unit, "When it is a Unit Card");
             Assert.IsEqual(P1.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");

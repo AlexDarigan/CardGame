@@ -156,6 +156,7 @@ namespace CardGame.Server
             winner.State = States.Winner;
             loser.State = States.Loser;
             GameOver = true;
+            new GameOver(loser).QueueOnClients(Queue);
             Update();
         }
     }
