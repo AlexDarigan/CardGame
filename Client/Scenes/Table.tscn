@@ -46,6 +46,7 @@ mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 
 [node name="PlayerHeart" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 10 )
 
 [node name="RivalHeart" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -10 )

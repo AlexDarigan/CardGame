@@ -18,7 +18,6 @@ namespace CardGame.Client.Commands
             Card attacker = room.GetCard(AttackerId);
             Card defender = room.GetCard(DefenderId);
             attacker.LookAt(defender.Translation);
-            Vector3 sourcePosition = attacker.Translation;
             Vector3 sourceRotation = attacker.RotationDegrees;
             attacker.RotationDegrees = new Vector3(0, 0, 0);
             
@@ -27,7 +26,7 @@ namespace CardGame.Client.Commands
             room.Gfx.InterpolateProperty(attacker, nameof(Card.Translation), attacker.Translation, defender.Translation,
                 0.2f, Tween.TransitionType.Linear, Tween.EaseType.InOut, 0.3f);
             
-            room.Gfx.InterpolateProperty(attacker, nameof(Card.Translation), attacker.Translation, sourcePosition,
+            room.Gfx.InterpolateProperty(attacker, nameof(Card.Translation), defender.Translation, attacker.Translation,
                 0.2f, Tween.TransitionType.Linear, Tween.EaseType.InOut, .5f);
 
             room.Gfx.InterpolateProperty(attacker, nameof(attacker.RotationDegrees), sourceRotation, new Vector3(0, 0, 0),
