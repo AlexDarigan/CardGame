@@ -25,9 +25,11 @@ namespace CardGame.Client
 		[Puppet]
 		public void CreateRoom(string name)
 		{
-			Room room = new Room(name, CustomMultiplayer);
+			Room room = (Room) GD.Load<PackedScene>("res://Client/Room.tscn").Instance();
+			room.Name = name;
+			room.CustomMultiplayer = CustomMultiplayer;
 			AddChild(room, true);
-			room.RpcId(1, "OnClientReady");
+			
 		}
 
 		public override void _Process(float delta) { if (CustomMultiplayer.HasNetworkPeer()) CustomMultiplayer.Poll(); }

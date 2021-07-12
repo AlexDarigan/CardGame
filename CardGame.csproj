@@ -46,6 +46,11 @@
     <EmbeddedResource Remove="Debug\**" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ClientRewrite\Assets" />
+    <Folder Include="ClientRewrite\DeckEditor" />
+    <Folder Include="ClientRewrite\Library" />
+    <Folder Include="ClientRewrite\MainMenu" />
+    <Folder Include="ClientRewrite\Room\Zones" />
     <Folder Include="ManualTests" />
   </ItemGroup>
 </Project>

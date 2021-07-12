@@ -15,15 +15,14 @@ namespace CardGame.Client
         private delegate Command Invoker(params object[] args);
         private static Dictionary<CommandId, Invoker> Commands { get; } = new();
         private Queue<Command> CommandQueue { get; } = new();
-        private Cards Cards { get; } = new();
-        public Tween Gfx { get; } = new();
-        private AudioStreamPlayer Sfx { get; } = new();
-        private AudioStreamPlayer Bgm { get; } = new();
+        private Cards Cards { get; set; }
+        public Tween Gfx { get; set; }
+        private AudioStreamPlayer Sfx { get; set; }
+        private AudioStreamPlayer Bgm { get; set; }
         private Player Player { get; } = new();
         private Rival Rival { get; } = new();
-        public RoomView RoomView { get;  } = Scenes.Room();
-        private Room() { /* Required by Godot*/ }
-
+        public RoomView RoomView { get; set; }
+    
         static Room()
         {
             foreach (CommandId commandId in Enum.GetValues(typeof(CommandId)))
@@ -33,18 +32,25 @@ namespace CardGame.Client
             }
         }
         
-        public Room(string name, MultiplayerAPI multiplayerApi)
+        public Room() { }
+
+        public override void _Ready()
         {
-            Name = name;
-            CustomMultiplayer = multiplayerApi;
+            Cards = GetNode<Cards>("Cards");
+            RoomView = GetNode<RoomView>("Room");
+            Bgm = GetNode<AudioStreamPlayer>("BGM");
+            Sfx = GetNode<AudioStreamPlayer>("SFX");
+            Gfx = GetNode<Tween>("GFX");
+            RoomView.Id = CustomMultiplayer.GetNetworkUniqueId();
+            RoomView.RivalHeart.Pressed += Player.OnRivalHeartPressed;
             Player.OnAttackDeclared += RoomView.OnAttackDeclared;
             Player.OnAttackCancelled += RoomView.OnAttackCancelled;
             Player.Declare += (commandId, args) => { RpcId(Server, Enum.GetName(commandId.GetType(), commandId), args); };
             Cards.Player = Player;
-            foreach (Node child in new Node[]{RoomView, Gfx, Sfx, Bgm, Cards}) { AddChild(child, true); }
+            RpcId(1, "OnClientReady");
         }
-        
-        
+
+
         [Puppet] private async void Update() { while (CommandQueue.Count > 0) { await CommandQueue.Dequeue().Execute(this); } }
         [Puppet] private void Queue(CommandId commandId, object[] args) { CommandQueue.Enqueue(Commands[commandId](args)); }
         public Participant GetPlayer(bool isPlayer) { return isPlayer ? Player : Rival; }

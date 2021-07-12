@@ -6,7 +6,7 @@ namespace CardGame.Client.Views
     [UsedImplicitly]
     public class RoomView : Node
     {
-        private int Id { get; set; }
+        public int Id { get; set; }
         private Label PlayerId { get; set; }
         public Label State;
         public TurnCounter TurnCounter;
@@ -40,14 +40,7 @@ namespace CardGame.Client.Views
             GameOver = GetNode<Label>("GUI/GameOver");
             PlayerHeart = GetNode<Heart>("Table/PlayerHeart");
             RivalHeart = GetNode<Heart>("Table/RivalHeart");
-            Id = GetParent().CustomMultiplayer.GetNetworkUniqueId();
             PlayerId.Text = Id.ToString();
-
-            // We kept trying to do this in the constructor of the Room Object except neither of these existed within..
-            // the tree at that time.
-            Player player = (Player) GetParent<Room>().GetPlayer(true);
-            RivalHeart.Pressed += player.OnRivalHeartPressed;
-
         }
         
     }
