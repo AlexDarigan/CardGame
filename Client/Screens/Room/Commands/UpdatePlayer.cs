@@ -4,11 +4,11 @@ namespace CardGame.Client.Commands
 {
     public class UpdatePlayer: Command
     {
-        private const bool IsPlayer = true;
         private States States { get; }
 
         public UpdatePlayer(States states)
         {
+            IsPlayer = true;
             States = states;
         }
 

@@ -6,7 +6,6 @@ namespace CardGame.Client.Commands
 	public class LoadDeck : Command
 	{
 		private IEnumerable DeckList { get; }
-		private bool IsPlayer { get; }
 
 		public LoadDeck(bool  isPlayer, IEnumerable deckList)
 		{

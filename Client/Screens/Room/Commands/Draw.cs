@@ -4,9 +4,6 @@ namespace CardGame.Client.Commands
 {
     public class Draw : Command
     {
-        private bool IsPlayer { get; }
-        private int CardId { get; }
-
         public Draw(bool isPlayer, int cardId)
         {
             IsPlayer = isPlayer;

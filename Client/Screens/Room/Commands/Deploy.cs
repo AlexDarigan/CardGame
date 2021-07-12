@@ -5,10 +5,6 @@ namespace CardGame.Client.Commands
 {
     public class Deploy : Command
     {
-        private bool IsPlayer { get; }
-        private int CardId { get; }
-        private SetCodes SetCode { get; }
-        
         public Deploy(bool isPlayer, int card, SetCodes setCodes)
         {
             IsPlayer = isPlayer;

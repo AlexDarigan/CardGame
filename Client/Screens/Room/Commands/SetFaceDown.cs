@@ -6,9 +6,6 @@ namespace CardGame.Client.Commands
 {
     public class SetFaceDown : Command
     {
-        private bool IsPlayer { get; }
-        private int CardId { get; }
-
         public SetFaceDown(bool isPlayer, int card)
         {
             IsPlayer = isPlayer;

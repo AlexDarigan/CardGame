@@ -2,8 +2,6 @@
 {
     public class SetHealth: Command
     {
-
-        private bool IsPlayer { get; }
         private int NewHealth { get; }
        
         public SetHealth(bool isPlayer, int newHealth)

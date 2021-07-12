@@ -4,7 +4,6 @@ namespace CardGame.Client.Commands
 {
     public class SentToGraveyard: Command
     {
-        private int CardId { get; }
         
         public SentToGraveyard(int cardId)
         {
