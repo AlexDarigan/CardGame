@@ -9,7 +9,6 @@ namespace CardGame.Client.Views
         public override void Set(CardStates value) { Value = value; }
         public override CardStates Get()
         {
-            Console.WriteLine(Value);
             return Value;
         }
     }

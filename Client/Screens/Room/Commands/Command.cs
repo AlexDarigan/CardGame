@@ -51,10 +51,7 @@ namespace CardGame.Client.Commands
 
         protected void MoveCard(Card card, Zone destination, Room room)
         {
-            Console.WriteLine($"card is not null: {card is not null}");
-            Console.WriteLine($"destination is not null {destination is not null}");
             Zone origin = card.CurrentZone;
-            
             origin.Remove(card);
             destination.Add(card);
             UpdateZone(room, origin);

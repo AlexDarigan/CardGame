@@ -1,4 +1,6 @@
-﻿namespace CardGame.Client.Commands
+﻿using System;
+
+namespace CardGame.Client.Commands
 {
     public class SetHealth: Command
     {

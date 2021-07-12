@@ -21,8 +21,6 @@ namespace CardGame.Client.Views
         public override void Set(CardTypes value)
         {
             Value = value;
-            Console.WriteLine(value.GetType());
-            Console.WriteLine(value);
             Power.Visible = value == CardTypes.Unit;
         }
         

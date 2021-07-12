@@ -47,7 +47,6 @@ namespace CardGame.Server
 
         public void DeclareAttack(Player player, Card attacker, Card defender)
         {
-            Console.WriteLine($"{player} attacks {defender} with {attacker}");
             if(Disqualified(attacker.CardStates != CardStates.AttackUnit, player, Illegal.AttackUnit)) { return; }
 
             new Battle(attacker, defender).QueueOnClients(Queue);

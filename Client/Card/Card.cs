@@ -53,7 +53,6 @@ namespace CardGame.Client
 		{
 			if (input is not InputEventMouseButton {ButtonIndex: (int) ButtonList.Left, Doubleclick: true}) return;
 			CardPressed?.Invoke(this);
-			Console.WriteLine("Card Pressed");
 		}
 	}
 }

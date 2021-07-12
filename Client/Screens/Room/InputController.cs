@@ -29,11 +29,6 @@ public class InputController : Control
 		if (Attacker is not null && Attacker.CardState.Get() == CardStates.AttackPlayer) { CommitAttack(); }
 	}
 
-	public override void _Ready()
-	{
-		Console.WriteLine("Ready");
-	}
-
 	public void OnAttackDeclared()
 	{
 		drawing = true;
