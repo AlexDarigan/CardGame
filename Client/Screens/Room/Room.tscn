@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Client/Screens/Room/Room.cs" type="Script" id=1]
 [ext_resource path="res://Client/Assets/Font/Kenney Bold.ttf" type="DynamicFontData" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://Client/Screens/Room/Zone.cs" type="Script" id=12]
 [ext_resource path="res://Client/Screens/Room/Rival.cs" type="Script" id=13]
 [ext_resource path="res://Client/Screens/Room/GUI.cs" type="Script" id=14]
+[ext_resource path="res://Client/Screens/Room/CommandQueue.cs" type="Script" id=15]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -476,3 +477,6 @@ custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 10
 custom_constants/shadow_offset_y = 10
 text = "5000"
+
+[node name="CommandQueue" type="Node" parent="."]
+script = ExtResource( 15 )

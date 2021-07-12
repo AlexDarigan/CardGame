@@ -12,10 +12,6 @@ namespace CardGame.Client
     public class Room : Node
     {
         private const int Server = 1;
-        private delegate Command Invoker(params object[] args);
-        private static Dictionary<CommandId, Invoker> Commands { get; } = new();
-        private Queue<Command> CommandQueue { get; } = new();
-        private Cards Cards { get; set; }
         
         // RoomView Items
         public ChessClockButton ChessClockButton;
@@ -26,19 +22,9 @@ namespace CardGame.Client
         public Player Player { get; private set; }
         public Rival Rival { get; private set; }
         public GUI GUI { get; private set; }
+        public CommandQueue CommandQueue { get; private set; }
+        public Cards Cards { get; private set; }
         // Input
-        // Commands
-        // - GUI
-        // - Input?
-    
-        static Room()
-        {
-            foreach (CommandId commandId in Enum.GetValues(typeof(CommandId)))
-            {
-                ConstructorInfo c = Type.GetType($"CardGame.Client.Commands.{Enum.GetName(commandId.GetType(), commandId)}")?.GetConstructors()[0];
-                Commands[commandId] = args => (Command) c?.Invoke(args);
-            }
-        }
 
         public static Room Instance() { return (Room) GD.Load<PackedScene>("res://Client/Screens/Room/Room.tscn").Instance(); }
         
@@ -46,12 +32,12 @@ namespace CardGame.Client
 
         public override void _Ready()
         {
-            
             // New Elements
             Effects = GetNode<Effects>("Effects");
             Player = GetNode<Player>("Player");
             Rival = GetNode<Rival>("Rival");
             GUI = GetNode<GUI>("GUI");
+            CommandQueue = GetNode<CommandQueue>("CommandQueue");
             
             // RoomView Things
             ChessClockButton = GetNode<ChessClockButton>("Table/ChessClockButton");
@@ -60,13 +46,11 @@ namespace CardGame.Client
             // Room Things
             Mouse = GetNode<Mouse>("Mouse");
             Cards = GetNode<Cards>("Cards");
-            
             Rival.Avatar.Pressed += Player.OnRivalAvatarPressed;
             Player.OnAttackDeclared += OnAttackDeclared;
             Player.OnAttackCancelled += OnAttackCancelled;
             Player.Declare += (commandId, args) => { RpcId(Server, Enum.GetName(commandId.GetType(), commandId), args); };
             Cards.Player = Player;
-            
             RpcId(1, "OnClientReady");
         }
         
@@ -80,11 +64,9 @@ namespace CardGame.Client
         {
             Mouse.OnAttackCancelled();
         }
-
-
-
-        [Puppet] private async void Update() { while (CommandQueue.Count > 0) { await CommandQueue.Dequeue().Execute(this); } }
-        [Puppet] private void Queue(CommandId commandId, object[] args) { CommandQueue.Enqueue(Commands[commandId](args)); }
+        
+        [Puppet] private async void Update() { CommandQueue.Execute(this); }
+        [Puppet] private void Queue(CommandId commandId, object[] args) { CommandQueue.Enqueue(commandId, args); }
         public Participant GetPlayer(bool isPlayer) { return isPlayer ? Player : Rival; }
         public Card GetCard(int id, SetCodes setCodes = SetCodes.NullCard) { return Cards.GetCard(id, setCodes);}
     }
