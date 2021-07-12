@@ -5,6 +5,9 @@ namespace CardGame.Client.Commands
 {
     public abstract class Command
     {
+        public bool IsPlayer { get; set; }
+        public Participant Player { get; set; }
+        
         public async Task Execute(Room room)
         {
             room.Effects.RemoveAll();

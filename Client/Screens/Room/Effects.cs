@@ -1,10 +1,12 @@
 using Godot;
+using JetBrains.Annotations;
 
 namespace CardGame.Client
 {
+    [UsedImplicitly]
     public class Effects : Node
     {
-        public Tween Tween { get; set; }
+        private Tween Tween { get; set; }
         private AudioStreamPlayer SoundEffects { get; set; }
         private AudioStreamPlayer BackgroundMusic { get; set; }
     

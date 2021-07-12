@@ -72,7 +72,7 @@ namespace CardGame
 					bool visible = _rooms == 1 ? _room1IsVisible : _room2IsVisible;
 			
 					room.GetNode<Spatial>("Table").Visible = visible;
-					room.GetNode<Control>("GUI").Visible = visible;
+					room.GetNode<Control>("Text").Visible = visible;
 					room.GetNode<Spatial>("Cards").Visible = visible;
 
 					if (_rooms != 2) return;
@@ -100,7 +100,7 @@ namespace CardGame
 		private static void SetVisibility(Node room)
 		{
 			room.GetNode<Spatial>("Table").Visible = !room.GetNode<Spatial>("Table").Visible;
-			room.GetNode<Control>("GUI").Visible = !room.GetNode<Control>("GUI").Visible;
+			room.GetNode<Control>("Text").Visible = !room.GetNode<Control>("Text").Visible;
 			room.GetNode<Spatial>("Cards").Visible = !room.GetNode<Spatial>("Cards").Visible;
 		}
 

@@ -1,7 +1,7 @@
 using Godot;
 using JetBrains.Annotations;
 
-namespace CardGame.Client.Views
+namespace CardGame.Client
 {
 	[UsedImplicitly]
 	public class HealthBar : HBoxContainer
@@ -29,12 +29,12 @@ namespace CardGame.Client.Views
 			Bar = GetNode<ProgressBar>("PanelContainer/ProgressBar");
 		}
 
-		public void DisplayHealth(Participant player, Room room)
+		public void DisplayHealth(int newHealth, Participant player, Room room)
 		{
-			Change.Text = (Health - player.Health).ToString();
+			Change.Text = (Health - newHealth).ToString();
 			Change.Visible = true;
 			room.Effects.InterpolateCallback(Change, 0.4f, "set_visible", false);
-			room.Effects.InterpolateProperty(this, nameof(Health), Health, player.Health, .5F,
+			room.Effects.InterpolateProperty(this, nameof(Health), Health, _health, .5F,
 				Tween.TransitionType.Linear, Tween.EaseType.In, .5F);
 		}
 	}

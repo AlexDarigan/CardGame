@@ -7,9 +7,9 @@
 [ext_resource path="res://Client/Screens/Room/TurnCounter.cs" type="Script" id=5]
 [ext_resource path="res://Client/Screens/Room/ChessClockButton.cs" type="Script" id=6]
 [ext_resource path="res://Client/Screens/Room/Participant.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Client/Screens/Room/Text.cs" type="Script" id=8]
 [ext_resource path="res://Client/Screens/Room/Cards.cs" type="Script" id=9]
 [ext_resource path="res://Client/Screens/Room/InputController.cs" type="Script" id=10]
-[ext_resource path="res://Client/Screens/Room/GUI.cs" type="Script" id=14]
 [ext_resource path="res://Client/Screens/Room/CommandQueue.cs" type="Script" id=15]
 
 [sub_resource type="SphereMesh" id=1]
@@ -99,7 +99,7 @@ transform = Transform( 1.1, 0, 0, 0, 1, 0, 0, 0, 1.1, 0, -0.5, 0 )
 mesh = SubResource( 4 )
 material/0 = SubResource( 5 )
 
-[node name="GUI" type="Control" parent="."]
+[node name="Text" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 25.0
@@ -107,12 +107,12 @@ margin_top = 10.0
 margin_right = -25.0
 margin_bottom = -25.0
 mouse_filter = 2
-script = ExtResource( 14 )
+script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TurnCount" type="Label" parent="GUI"]
+[node name="TurnCount" type="Label" parent="Text"]
 margin_left = 590.0
 margin_right = 640.0
 margin_bottom = 28.0
@@ -127,7 +127,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ID" type="Label" parent="GUI"]
+[node name="ID" type="Label" parent="Text"]
 anchor_top = 0.894
 anchor_right = 0.077
 anchor_bottom = 0.948
@@ -141,7 +141,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="State" type="Label" parent="GUI"]
+[node name="State" type="Label" parent="Text"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -36.0
@@ -151,7 +151,7 @@ text = "State"
 align = 1
 valign = 1
 
-[node name="GameOver" type="Label" parent="GUI"]
+[node name="GameOver" type="Label" parent="Text"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -164,7 +164,7 @@ text = "game over"
 align = 1
 valign = 1
 
-[node name="Timer" type="Timer" parent="GUI"]
+[node name="Timer" type="Timer" parent="Text"]
 
 [node name="Effects" parent="." instance=ExtResource( 4 )]
 
@@ -187,6 +187,24 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33, 3 )
 
 [node name="Avatar" parent="Player" index="5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.033, 0.5, 9.986 )
+
+[node name="HealthBar" parent="Player" index="6"]
+margin_left = 25.0
+margin_right = 565.0
+
+[node name="PanelContainer" parent="Player/HealthBar" index="0"]
+margin_right = 419.0
+
+[node name="ProgressBar" parent="Player/HealthBar/PanelContainer" index="0"]
+margin_right = 412.0
+
+[node name="Label" parent="Player/HealthBar/PanelContainer" index="1"]
+margin_right = 412.0
+
+[node name="Participant" parent="Player/HealthBar" index="1"]
+margin_left = 444.0
+margin_right = 540.0
+text = "Player"
 
 [node name="Rival" parent="." instance=ExtResource( 7 )]
 

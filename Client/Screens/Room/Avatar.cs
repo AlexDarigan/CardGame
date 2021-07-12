@@ -2,7 +2,7 @@ using Godot;
 using System;
 using JetBrains.Annotations;
 
-namespace CardGame.Client.Views
+namespace CardGame.Client
 {
     [UsedImplicitly]
     public class Avatar : MeshInstance

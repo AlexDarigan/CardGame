@@ -1,16 +1,13 @@
-using Godot;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using CardGame;
-using CardGame.Client;
+using System.Collections.Generic;
 using CardGame.Client.Commands;
 using JetBrains.Annotations;
 
 namespace CardGame.Client
 {
     [UsedImplicitly]
-    public class CommandQueue : Node
+    public class CommandQueue : Godot.Node
     {
         private delegate Command Invoker(params object[] args);
 
@@ -19,9 +16,10 @@ namespace CardGame.Client
 
         static CommandQueue()
         {
-            foreach (CommandId commandId in Enum.GetValues(typeof(CommandId)))
+            foreach (CommandId commandId in System.Enum.GetValues(typeof(CommandId)))
             {
-                ConstructorInfo c = Type.GetType($"CardGame.Client.Commands.{Enum.GetName(commandId.GetType(), commandId)}")?.GetConstructors()[0];
+                ConstructorInfo c = Type.GetType($"CardGame.Client.Commands.{Enum.GetName(commandId.GetType(), commandId)}")?
+                    .GetConstructors()[0];
                 Commands[commandId] = args => (Command) c?.Invoke(args);
             }
         }

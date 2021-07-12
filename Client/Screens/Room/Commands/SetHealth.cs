@@ -14,11 +14,7 @@
         
         protected override void Setup(Room room)
         {
-            // We'd probably use the GUI HealthBar for this?
-            Participant participant = room.GetPlayer(IsPlayer);
-            participant.Health = NewHealth;
-            Views.HealthBar healthBar = IsPlayer ? room.Player.HealthBar : room.Rival.HealthBar;
-            healthBar.DisplayHealth(participant, room);
+            room.GetPlayer(IsPlayer).SetHealth(NewHealth, room);
         }
     }
 }
