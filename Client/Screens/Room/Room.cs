@@ -42,14 +42,13 @@ namespace CardGame.Client
 
             // WIP
             InputController = GetNode<InputController>("InputController");
-            Table.PassPlayPressed = InputController.EndTurn;
             
             // RoomView Things
             Text.Id = CustomMultiplayer.GetNetworkUniqueId();
-            
-            // Room Things
+            Table.PassPlayPressed = InputController.EndTurn;
             Rival.Avatar.Pressed += InputController.OnRivalAvatarPressed;
             InputController.Declare += (commandId, args) => { RpcId(Server, Enum.GetName(commandId.GetType(), commandId), args); };
+            
             Cards.InputController = InputController;
             RpcId(1, "OnClientReady");
         }

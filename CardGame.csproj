@@ -4,10 +4,10 @@
     <LangVersion>9</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Client\Cards\BioShocker.tres" />
-    <Content Include="Client\Cards\NullCard.tres" />
-    <Content Include="Client\Cards\QuestReward.tres" />
-    <Content Include="Client\Cards\WeakShocker.tres" />
+    <Content Include="Client\Library\Cards\BioShocker.tres" />
+    <Content Include="Client\Library\Cards\NullCard.tres" />
+    <Content Include="Client\Library\Cards\QuestReward.tres" />
+    <Content Include="Client\Library\Cards\WeakShocker.tres" />
     <Content Include="Client\Screens\Room\Room.tscn" />
     <Content Include="README.md" />
     <Content Include="Server\Library.json" />

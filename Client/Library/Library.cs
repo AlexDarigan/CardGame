@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
-using Godot;
-using Godot.Collections;
 
 namespace CardGame.Client
 {
@@ -31,7 +30,7 @@ namespace CardGame.Client
         public CardData CardData { get; }
         public CardResourceAttribute(string filePath)
         {
-            CardData = GD.Load<CardData>($"res://Client/Cards/{filePath}.tres");
+            CardData = Godot.GD.Load<CardData>($"res://Client/Library/Cards/{filePath}.tres");
         }
     }
 }

@@ -46,6 +46,15 @@ namespace CardGame.Client
 			Text = new Views.Text(this);
 			GetNode<Area>("Area").Connect("input_event", this, nameof(OnInputEvent)); 
 		}
+
+		public void Move(Room room, Zone destination)
+		{
+			Zone origin = CurrentZone;
+			origin.Remove(this);
+			destination.Add(this);
+			origin.Update(room);
+			destination.Update(room);
+		}
 		
 		public void LookAt(Vector3 position) { base.LookAt(position, Vector3.Up); }
 		
