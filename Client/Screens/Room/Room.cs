@@ -20,7 +20,7 @@ namespace CardGame.Client
         public Effects Effects { get; private set; }
         public Participant Player { get; private set; }
         public Participant Rival { get; private set; }
-        public GUI GUI { get; private set; }
+        public Text Text { get; private set; }
         public CommandQueue CommandQueue { get; private set; }
         public Cards Cards { get; private set; }
         
@@ -37,7 +37,7 @@ namespace CardGame.Client
             Effects = GetNode<Effects>("Effects");
             Player = GetNode<Participant>("Player");
             Rival = GetNode<Participant>("Rival");
-            GUI = GetNode<GUI>("GUI");
+            Text = GetNode<Text>("Text");
             CommandQueue = GetNode<CommandQueue>("CommandQueue");
 
             // WIP
@@ -46,7 +46,7 @@ namespace CardGame.Client
             
             // RoomView Things
             ChessClockButton = GetNode<ChessClockButton>("Table/ChessClockButton");
-            GUI.Id.Text = CustomMultiplayer.GetNetworkUniqueId().ToString();
+            Text.Id = CustomMultiplayer.GetNetworkUniqueId();
             
             // Room Things
             Cards = GetNode<Cards>("Cards");

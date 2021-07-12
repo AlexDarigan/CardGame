@@ -43,7 +43,7 @@ namespace CardGame.Client
 			CardType = new CardType(this);
 			Art = new Art(this);
 			Power = new Power(this);
-			Text = new Text(this);
+			Text = new Views.Text(this);
 			GetNode<Area>("Area").Connect("input_event", this, nameof(OnInputEvent)); 
 		}
 		

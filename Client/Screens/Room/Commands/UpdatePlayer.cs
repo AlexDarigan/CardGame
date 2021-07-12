@@ -16,7 +16,7 @@ namespace CardGame.Client.Commands
         {
             Participant player = room.GetPlayer(IsPlayer);
             room.InputController.State = States;
-            room.GUI.State.Text = States.ToString();
+            room.Text.State = States;
             room.ChessClockButton.State = States;
             Main.OnRoomUpdated(); // Required For Testing
         }
