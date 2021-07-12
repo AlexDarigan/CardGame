@@ -9,7 +9,7 @@
 
         protected override void Setup(Room room)
         {
-            room.RoomView.TurnCounter.NextTurn();
+            room.TurnCounter.NextTurn();
         }
     }
 }

@@ -21,7 +21,19 @@ namespace CardGame.Client
         private AudioStreamPlayer Bgm { get; set; }
         private Player Player { get; } = new();
         private Rival Rival { get; } = new();
-        public RoomView RoomView { get; set; }
+
+        // RoomView Items
+        public int Id { get; set; }
+        private Label PlayerId { get; set; }
+        public Label State;
+        public TurnCounter TurnCounter;
+        public HealthBar PlayerHealth;
+        public HealthBar RivalHealth;
+        public ChessClockButton ChessClockButton;
+        public Label GameOver;
+        public Heart PlayerHeart;
+        public Heart RivalHeart;
+        private Mouse Mouse { get; set; }
     
         static Room()
         {
@@ -36,19 +48,44 @@ namespace CardGame.Client
 
         public override void _Ready()
         {
+            // RoomView Things
+            PlayerId = GetNode<Label>("GUI/ID");
+            State = GetNode<Label>("GUI/State");
+            TurnCounter = GetNode<TurnCounter>("GUI/TurnCount");
+            PlayerHealth = GetNode<HealthBar>("GUI/PlayerHealth");
+            RivalHealth = GetNode<HealthBar>("GUI/RivalHealth");
+            ChessClockButton = GetNode<ChessClockButton>("Table/ChessClockButton");
+            GameOver = GetNode<Label>("GUI/GameOver");
+            PlayerHeart = GetNode<Heart>("Table/PlayerHeart");
+            RivalHeart = GetNode<Heart>("Table/RivalHeart");
+            PlayerId.Text = Id.ToString();
+            
+            // Room Things
+            Mouse = GetNode<Mouse>("Mouse");
             Cards = GetNode<Cards>("Cards");
-            RoomView = GetNode<RoomView>("Room");
             Bgm = GetNode<AudioStreamPlayer>("BGM");
             Sfx = GetNode<AudioStreamPlayer>("SFX");
             Gfx = GetNode<Tween>("GFX");
-            RoomView.Id = CustomMultiplayer.GetNetworkUniqueId();
-            RoomView.RivalHeart.Pressed += Player.OnRivalHeartPressed;
-            Player.OnAttackDeclared += RoomView.OnAttackDeclared;
-            Player.OnAttackCancelled += RoomView.OnAttackCancelled;
+            RivalHeart.Pressed += Player.OnRivalHeartPressed;
+            Player.OnAttackDeclared += OnAttackDeclared;
+            Player.OnAttackCancelled += OnAttackCancelled;
             Player.Declare += (commandId, args) => { RpcId(Server, Enum.GetName(commandId.GetType(), commandId), args); };
             Cards.Player = Player;
+            
             RpcId(1, "OnClientReady");
         }
+        
+        
+        public void OnAttackDeclared()
+        {
+            Mouse.OnAttackDeclared();
+        }
+
+        public void OnAttackCancelled()
+        {
+            Mouse.OnAttackCancelled();
+        }
+
 
 
         [Puppet] private async void Update() { while (CommandQueue.Count > 0) { await CommandQueue.Dequeue().Execute(this); } }

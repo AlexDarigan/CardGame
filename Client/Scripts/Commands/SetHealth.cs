@@ -17,7 +17,7 @@
             // We'd probably use the GUI HealthBar for this?
             Participant participant = room.GetPlayer(IsPlayer);
             participant.Health = NewHealth;
-            Views.HealthBar healthBar = IsPlayer ? room.RoomView.PlayerHealth : room.RoomView.RivalHealth;
+            Views.HealthBar healthBar = IsPlayer ? room.PlayerHealth : room.RivalHealth;
             healthBar.DisplayHealth(participant, room);
         }
     }

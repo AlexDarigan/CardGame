@@ -9,12 +9,6 @@
     <Content Include="Client\Cards\QuestReward.tres" />
     <Content Include="Client\Cards\WeakShocker.tres" />
     <Content Include="Client\Scenes\Card\Card.tscn" />
-    <Content Include="Client\Scenes\ChessClockButton\ChessClockButton.tscn" />
-    <Content Include="Client\Scenes\GUI.tscn" />
-    <Content Include="Client\Scenes\HealthBar\HealthBar.tscn" />
-    <Content Include="Client\Scenes\Room\Room.tscn" />
-    <Content Include="Client\Scenes\Table.tscn" />
-    <Content Include="Client\Scenes\TurnCounter\TurnCounter.tscn" />
     <Content Include="README.md" />
     <Content Include="Server\Library.json" />
   </ItemGroup>
@@ -46,11 +40,6 @@
     <EmbeddedResource Remove="Debug\**" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ClientRewrite\Assets" />
-    <Folder Include="ClientRewrite\DeckEditor" />
-    <Folder Include="ClientRewrite\Library" />
-    <Folder Include="ClientRewrite\MainMenu" />
-    <Folder Include="ClientRewrite\Room\Zones" />
     <Folder Include="ManualTests" />
   </ItemGroup>
 </Project>

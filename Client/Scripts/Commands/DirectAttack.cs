@@ -13,7 +13,7 @@ namespace CardGame.Client.Commands
         protected override void Setup(Room room)
         {
             Card card = room.GetCard(AttackerId);
-            Heart heart = card.Controller is Player ? room.RoomView.RivalHeart : room.RoomView.PlayerHeart;
+            Heart heart = card.Controller is Player ? room.RivalHeart : room.PlayerHeart;
             
             card.LookAt(heart.Translation);
             Vector3 sourceRotation = card.RotationDegrees;
