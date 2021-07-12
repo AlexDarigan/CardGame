@@ -28,7 +28,7 @@ namespace CardGame.Client
 
 		public void OnRivalAvatarPressed()
 		{
-			if (Attacker is not null && Attacker.CardState.Get() == CardStates.AttackPlayer) { CommitAttack(); }
+			if (Attacker is not null && Attacker.CardState == CardStates.AttackPlayer) { CommitAttack(); }
 		}
 
 		private void StartDrawingLine()
@@ -58,19 +58,19 @@ namespace CardGame.Client
 			{
 				CancelAttack();
 			}
-			else if (Attacker is not null && Attacker.CardState.Get() == CardStates.AttackUnit)
+			else if (Attacker is not null && Attacker.CardState == CardStates.AttackUnit)
 			{
 				CommitAttack(pressed);
 			}
 			else if (State != States.Passive)
 			{
-				Plays[pressed.CardState.Get()](pressed);
+				Plays[pressed.CardState](pressed);
 			}
 		}
 
 		private States Deploy(Card card)
 		{
-			Declare?.Invoke(CommandId.Deploy, card.Id.Get());
+			Declare?.Invoke(CommandId.Deploy, card.Id);
 			return States.Passive;
 		}
 
@@ -90,7 +90,7 @@ namespace CardGame.Client
 
 		private States SetFaceDown(Card card)
 		{
-			Declare?.Invoke(CommandId.SetFaceDown, card.Id.Get());
+			Declare?.Invoke(CommandId.SetFaceDown, card.Id);
 			return State;
 		}
 
@@ -99,14 +99,14 @@ namespace CardGame.Client
 		private void CommitAttack(Card card)
 		{
 			StopDrawingLine();
-			Declare?.Invoke(CommandId.DeclareAttack, Attacker.Id.Get(), card.Id.Get());
+			Declare?.Invoke(CommandId.DeclareAttack, Attacker.Id, card.Id);
 			Attacker = null;
 		}
 
 		private void CommitAttack()
 		{
 			StopDrawingLine();
-			Declare?.Invoke(CommandId.DeclareDirectAttack, Attacker.Id.Get());
+			Declare?.Invoke(CommandId.DeclareDirectAttack, Attacker.Id);
 			Attacker = null;
 		}
 

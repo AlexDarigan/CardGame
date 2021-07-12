@@ -1,5 +1,4 @@
-﻿using CardGame.Client.Views;
-using Godot;
+﻿using Godot;
 
 namespace CardGame.Client.Commands
 {

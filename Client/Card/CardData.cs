@@ -15,12 +15,12 @@ namespace CardGame.Client
 
         public void WriteTo(Card card)
         {
-            card.Title.Set(Name);
-            card.CardType.Set(CardTypes);
-            card.Art.Set(Art);
-            card.Text.Set(Text);
-            card.Power.Set(Power);
-            card.Faction.Set(Faction);
+            card.Title = Name;
+            card.CardType = CardTypes;
+            card.Art = Art;
+            card.Text = Text;
+            card.Power = Power;
+            card.Faction = Faction;
         }
     }
 }

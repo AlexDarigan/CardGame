@@ -29,7 +29,7 @@ namespace CardGame.Client
             AddChild(card);
             Library.Cards[setCodes].WriteTo(card);
             _cards[id] = card;
-            card.Id.Set(id);
+            card.Id = id;
         }
         
     }

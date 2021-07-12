@@ -1,6 +1,4 @@
-using System;
 using System.Globalization;
-using CardGame.Client.Views;
 using Godot;
 
 namespace CardGame.Client

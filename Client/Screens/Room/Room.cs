@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Godot;
-using CardGame.Client.Commands;
-using CardGame.Client.Views;
 
 namespace CardGame.Client
 {
@@ -11,46 +7,33 @@ namespace CardGame.Client
     
     public class Room : Node
     {
-        private const int Server = 1;
-        
-        // Resorted Elements
+        public static Room Instance() => (Room) GD.Load<PackedScene>("res://Client/Screens/Room/Room.tscn").Instance();
+        public InputController InputController { get; set; }
+        private CommandQueue CommandQueue { get; set; }
         public Effects Effects { get; private set; }
         public Participant Player { get; private set; }
         public Participant Rival { get; private set; }
-        public Text Text { get; private set; }
-        public CommandQueue CommandQueue { get; private set; }
         public Cards Cards { get; private set; }
         public Table Table { get; private set; }
-        
-        // WIP
-        public InputController InputController { get; set; }
-
-        public static Room Instance() { return (Room) GD.Load<PackedScene>("res://Client/Screens/Room/Room.tscn").Instance(); }
-        
+        public Text Text { get; private set; }
         public Room() { }
 
         public override void _Ready()
         {
-            // New Elements
+            InputController = GetNode<InputController>("InputController");
+            CommandQueue = GetNode<CommandQueue>("CommandQueue");
             Effects = GetNode<Effects>("Effects");
             Player = GetNode<Participant>("Player");
             Rival = GetNode<Participant>("Rival");
-            Text = GetNode<Text>("Text");
-            CommandQueue = GetNode<CommandQueue>("CommandQueue");
             Table = GetNode<Table>("Table");
             Cards = GetNode<Cards>("Cards");
-
-            // WIP
-            InputController = GetNode<InputController>("InputController");
+            Text = GetNode<Text>("Text");
             
-            // RoomView Things
             Text.Id = CustomMultiplayer.GetNetworkUniqueId();
             Table.PassPlayPressed = InputController.EndTurn;
             Rival.Avatar.Pressed += InputController.OnRivalAvatarPressed;
-            InputController.Declare += (commandId, args) => { RpcId(Server, Enum.GetName(commandId.GetType(), commandId), args); };
-            
+            InputController.Declare += (commandId, args) => { RpcId(1, Enum.GetName(commandId.GetType(), commandId), args); };
             Cards.InputController = InputController;
-            RpcId(1, "OnClientReady");
         }
         
         [Puppet] private void Update() { CommandQueue.Execute(this); }
