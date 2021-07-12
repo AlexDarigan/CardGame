@@ -13,8 +13,8 @@ namespace CardGame.Client.Tests
         private Main _game;
         protected Room Room1;
         protected Room Room2;
-        protected Player P1;
-        protected Player P2;
+        protected Participant P1;
+        protected Participant P2;
         protected InputController P1Input;
         protected InputController P2Input;
         

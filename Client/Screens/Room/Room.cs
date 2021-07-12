@@ -19,8 +19,8 @@ namespace CardGame.Client
         
         // Resorted Elements
         public Effects Effects { get; private set; }
-        public Player Player { get; private set; }
-        public Rival Rival { get; private set; }
+        public Participant Player { get; private set; }
+        public Participant Rival { get; private set; }
         public GUI GUI { get; private set; }
         public CommandQueue CommandQueue { get; private set; }
         public Cards Cards { get; private set; }
@@ -34,8 +34,8 @@ namespace CardGame.Client
         {
             // New Elements
             Effects = GetNode<Effects>("Effects");
-            Player = GetNode<Player>("Player");
-            Rival = GetNode<Rival>("Rival");
+            Player = GetNode<Participant>("Player");
+            Rival = GetNode<Participant>("Rival");
             GUI = GetNode<GUI>("GUI");
             CommandQueue = GetNode<CommandQueue>("CommandQueue");
 

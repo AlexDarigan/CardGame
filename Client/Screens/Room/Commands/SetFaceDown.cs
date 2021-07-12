@@ -19,7 +19,7 @@ namespace CardGame.Client.Commands
         {
             Participant player = room.GetPlayer(IsPlayer);
             Card card = room.GetCard(CardId);
-            MoveCard(player is Player ? card : player.Hand.Last(), player.Supports, room);
+            MoveCard(player.IsClient ? card : player.Hand.Last(), player.Supports, room);
         }
     }
 }

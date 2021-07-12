@@ -12,15 +12,15 @@ namespace CardGame
 	{
 		public Room Room1 { get; }
 		public Room Room2 { get; }
-		public Player Player1 { get; }
-		public Player Player2 { get; }
+		public Participant Player1 { get; }
+		public Participant Player2 { get; }
 		
 		public Players(Room room1, Room room2)
 		{
 			Room1 = room1;
 			Room2 = room2;
-			Player1 = (Player) typeof(Room).GetProperty("Player")!.GetValue(room1);
-			Player2 = (Player) typeof(Room).GetProperty("Player")!.GetValue(room2);
+			Player1 = (Participant) typeof(Room).GetProperty("Player")!.GetValue(room1);
+			Player2 = (Participant) typeof(Room).GetProperty("Player")!.GetValue(room2);
 		}
 	}
 	public class Main : Node

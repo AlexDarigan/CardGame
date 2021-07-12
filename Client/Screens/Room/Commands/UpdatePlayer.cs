@@ -14,7 +14,7 @@ namespace CardGame.Client.Commands
 
         protected override void Setup(Room room)
         {
-            Player player = (Player) room.GetPlayer(IsPlayer);
+            Participant player = room.GetPlayer(IsPlayer);
             room.InputController.State = States;
             room.GUI.State.Text = States.ToString();
             room.ChessClockButton.State = States;

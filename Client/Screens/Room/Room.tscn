@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Client/Screens/Room/Room.cs" type="Script" id=1]
 [ext_resource path="res://Client/Assets/Font/Kenney Bold.ttf" type="DynamicFontData" id=2]
@@ -10,9 +10,8 @@
 [ext_resource path="res://Client/Screens/Room/HealthBar.cs" type="Script" id=8]
 [ext_resource path="res://Client/Screens/Room/Cards.cs" type="Script" id=9]
 [ext_resource path="res://Client/Screens/Room/InputController.cs" type="Script" id=10]
-[ext_resource path="res://Client/Screens/Room/Player.cs" type="Script" id=11]
+[ext_resource path="res://Client/Screens/Room/Participant.cs" type="Script" id=11]
 [ext_resource path="res://Client/Screens/Room/Zone.cs" type="Script" id=12]
-[ext_resource path="res://Client/Screens/Room/Rival.cs" type="Script" id=13]
 [ext_resource path="res://Client/Screens/Room/GUI.cs" type="Script" id=14]
 [ext_resource path="res://Client/Screens/Room/CommandQueue.cs" type="Script" id=15]
 
@@ -254,6 +253,7 @@ valign = 1
 
 [node name="Player" type="Node" parent="."]
 script = ExtResource( 11 )
+IsClient = true
 
 [node name="Deck" type="Spatial" parent="Player"]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 10.5, 0, 8.25 )
@@ -366,7 +366,7 @@ custom_constants/shadow_offset_y = 10
 text = "5000"
 
 [node name="Rival" type="Node" parent="."]
-script = ExtResource( 13 )
+script = ExtResource( 11 )
 
 [node name="Deck" type="Spatial" parent="Rival"]
 transform = Transform( 1, -8.74228e-08, -8.74228e-08, -8.74228e-08, -1, 0, -8.74228e-08, 7.64274e-15, -1, 10.5, 0, -8.25 )

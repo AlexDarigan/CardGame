@@ -13,7 +13,7 @@ namespace CardGame.Client.Commands
         protected override void Setup(Room room)
         {
             Card card = room.GetCard(AttackerId);
-            Avatar avatar = card.Controller is Player ? room.Rival.Avatar : room.Player.Avatar;
+            Avatar avatar = card.Controller.IsClient ? room.Rival.Avatar : room.Player.Avatar;
             
             card.LookAt(avatar.Translation);
             Vector3 sourceRotation = card.RotationDegrees;

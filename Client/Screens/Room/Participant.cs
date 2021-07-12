@@ -5,6 +5,7 @@ namespace CardGame.Client
 {
     public class Participant: Node
     {
+        [Export()] public bool IsClient { get; private set; }
         public int Health = 8000;
         public Zone Deck { get; protected set; }
         public Zone Discard { get; protected set; }
