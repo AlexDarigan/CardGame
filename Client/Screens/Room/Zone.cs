@@ -12,8 +12,6 @@ namespace CardGame.Client
 
         public Zone() { }
         
-       
-
         public int Count => Cards.Count;
         public Card this[int index] => Cards[index];
         public IEnumerator<Card> GetEnumerator() { return Cards.GetEnumerator(); }
@@ -31,7 +29,6 @@ namespace CardGame.Client
 
         public void Remove(Card card)
         {
-            
             Cards.Remove(card);
             card.CurrentZone = null;
             card.CurrentLocation.Card = null; 

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using Godot;
 using System.Collections.Generic;
+using CardGame.Client.Views;
 
 namespace CardGame.Client
 {
@@ -21,20 +22,9 @@ namespace CardGame.Client
             Plays = new ReadOnlyDictionary<CardStates, Play>(new Dictionary<CardStates, Play> {
                 {CardStates.Deploy, Deploy}, {CardStates.SetFaceDown, SetFaceDown}, {CardStates.Activate, Activate}, 
                 {CardStates.AttackPlayer, AttackPlayer}, {CardStates.AttackUnit, AttackUnit}, {CardStates.None, None}});
-
-          
         }
-
-        public override void _Ready()
-        {
-            Deck = GetNode<Zone>("Deck");
-            Discard = GetNode<Zone>("Discard");
-            Hand = GetNode<Zone>("Hand");
-            Units = GetNode<Zone>("Units");
-            Supports = GetNode<Zone>("Supports");
-        }
-
-        public void OnRivalHeartPressed()
+        
+        public void OnRivalAvatarPressed()
         {
             // Note: When testing two scenes, have to make sure focus isn't being stolen by the other copy
             if (Attacker is not null && Attacker.CardState.Get() == CardStates.AttackPlayer) { CommitAttack(); }

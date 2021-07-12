@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 namespace CardGame.Client.Views
 {
     [UsedImplicitly]
-    public class Heart : MeshInstance
+    public class Avatar : MeshInstance
     {
         public event Action Pressed;
 

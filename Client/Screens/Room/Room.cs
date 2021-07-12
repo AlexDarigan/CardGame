@@ -16,20 +16,16 @@ namespace CardGame.Client
         private static Dictionary<CommandId, Invoker> Commands { get; } = new();
         private Queue<Command> CommandQueue { get; } = new();
         private Cards Cards { get; set; }
-        private Player Player { get; set; }
-        private Rival Rival { get; set; }
+        public Player Player { get; set; }
+        public Rival Rival { get; set; }
 
         // RoomView Items
         public int Id { get; set; }
         private Label PlayerId { get; set; }
         public Label State;
         public TurnCounter TurnCounter;
-        public HealthBar PlayerHealth;
-        public HealthBar RivalHealth;
         public ChessClockButton ChessClockButton;
         public Label GameOver;
-        public Heart PlayerHeart;
-        public Heart RivalHeart;
         private Mouse Mouse { get; set; }
         
         // Resorted Elements
@@ -67,19 +63,15 @@ namespace CardGame.Client
             PlayerId = GetNode<Label>("GUI/ID");
             State = GetNode<Label>("GUI/State");
             TurnCounter = GetNode<TurnCounter>("GUI/TurnCount");
-            PlayerHealth = GetNode<HealthBar>("GUI/PlayerHealth");
-            RivalHealth = GetNode<HealthBar>("GUI/RivalHealth");
             ChessClockButton = GetNode<ChessClockButton>("Table/ChessClockButton");
             GameOver = GetNode<Label>("GUI/GameOver");
-            PlayerHeart = GetNode<Heart>("Table/PlayerHeart");
-            RivalHeart = GetNode<Heart>("Table/RivalHeart");
             PlayerId.Text = Id.ToString();
             
             // Room Things
             Mouse = GetNode<Mouse>("Mouse");
             Cards = GetNode<Cards>("Cards");
             
-            RivalHeart.Pressed += Player.OnRivalHeartPressed;
+            Rival.Avatar.Pressed += Player.OnRivalAvatarPressed;
             Player.OnAttackDeclared += OnAttackDeclared;
             Player.OnAttackCancelled += OnAttackCancelled;
             Player.Declare += (commandId, args) => { RpcId(Server, Enum.GetName(commandId.GetType(), commandId), args); };

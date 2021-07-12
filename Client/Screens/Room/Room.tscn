@@ -6,7 +6,7 @@
 [ext_resource path="res://Client/Screens/Room/Effects.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Client/Screens/Room/TurnCounter.cs" type="Script" id=5]
 [ext_resource path="res://Client/Screens/Room/ChessClockButton.cs" type="Script" id=6]
-[ext_resource path="res://Client/Screens/Room/Heart.cs" type="Script" id=7]
+[ext_resource path="res://Client/Screens/Room/Avatar.cs" type="Script" id=7]
 [ext_resource path="res://Client/Screens/Room/HealthBar.cs" type="Script" id=8]
 [ext_resource path="res://Client/Screens/Room/Cards.cs" type="Script" id=9]
 [ext_resource path="res://Client/Screens/Room/Mouse.cs" type="Script" id=10]
@@ -30,6 +30,25 @@ metallic_specular = 1.0
 albedo_color = Color( 0, 0, 0, 1 )
 metallic = 1.0
 metallic_specular = 1.0
+
+[sub_resource type="DynamicFont" id=22]
+size = 18
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=23]
+size = 10
+extra_spacing_top = 10
+extra_spacing_bottom = 10
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=24]
+size = 66
+outline_size = 6
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 2 )
 
 [sub_resource type="SphereMesh" id=6]
 
@@ -111,25 +130,6 @@ use_mipmaps = true
 use_filter = true
 font_data = SubResource( 20 )
 
-[sub_resource type="DynamicFont" id=22]
-size = 18
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=23]
-size = 10
-extra_spacing_top = 10
-extra_spacing_bottom = 10
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=24]
-size = 66
-outline_size = 6
-outline_color = Color( 0, 0, 0, 1 )
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 2 )
-
 [node name="Room" type="Node"]
 script = ExtResource( 1 )
 
@@ -181,28 +181,6 @@ transform = Transform( 1.1, 0, 0, 0, 1, 0, 0, 0, 1.1, 0, -0.5, 0 )
 mesh = SubResource( 4 )
 material/0 = SubResource( 5 )
 
-[node name="PlayerHeart" type="MeshInstance" parent="Table"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 10 )
-mesh = SubResource( 6 )
-material/0 = null
-script = ExtResource( 7 )
-
-[node name="Area" type="Area" parent="Table/PlayerHeart"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Table/PlayerHeart/Area"]
-shape = SubResource( 7 )
-
-[node name="RivalHeart" type="MeshInstance" parent="Table"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -10 )
-mesh = SubResource( 6 )
-material/0 = null
-script = ExtResource( 7 )
-
-[node name="Area" type="Area" parent="Table/RivalHeart"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Table/RivalHeart/Area"]
-shape = SubResource( 7 )
-
 [node name="GUI" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -214,151 +192,6 @@ mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="PlayerHealth" type="HBoxContainer" parent="GUI"]
-margin_right = 565.0
-margin_bottom = 28.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/separation = 25
-alignment = 1
-script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Participant" type="Label" parent="GUI/PlayerHealth"]
-margin_top = 4.0
-margin_right = 108.0
-margin_bottom = 32.0
-custom_fonts/font = SubResource( 8 )
-text = "Player"
-align = 1
-valign = 1
-
-[node name="PanelContainer" type="PanelContainer" parent="GUI/PlayerHealth"]
-margin_left = 133.0
-margin_right = 565.0
-margin_bottom = 36.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/panel = SubResource( 9 )
-
-[node name="ProgressBar" type="ProgressBar" parent="GUI/PlayerHealth/PanelContainer"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 428.0
-margin_bottom = 32.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/fg = SubResource( 10 )
-custom_styles/bg = SubResource( 11 )
-max_value = 8000.0
-value = 8000.0
-percent_visible = false
-
-[node name="Label" type="Label" parent="GUI/PlayerHealth/PanelContainer"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 428.0
-margin_bottom = 32.0
-custom_fonts/font = SubResource( 12 )
-text = "8000"
-align = 1
-valign = 2
-
-[node name="Node" type="Node" parent="GUI/PlayerHealth"]
-
-[node name="Change" type="Label" parent="GUI/PlayerHealth/Node"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -144.0
-margin_top = -54.0
-margin_right = 144.0
-margin_bottom = 54.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-custom_fonts/font = SubResource( 14 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 10
-custom_constants/shadow_offset_y = 10
-text = "5000"
-
-[node name="RivalHealth" type="HBoxContainer" parent="GUI"]
-margin_left = 665.0
-margin_right = 1230.0
-margin_bottom = 36.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/separation = 25
-alignment = 1
-script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PanelContainer" type="PanelContainer" parent="GUI/RivalHealth"]
-margin_right = 459.0
-margin_bottom = 36.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/panel = SubResource( 15 )
-
-[node name="ProgressBar" type="ProgressBar" parent="GUI/RivalHealth/PanelContainer"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 455.0
-margin_bottom = 32.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/fg = SubResource( 16 )
-custom_styles/bg = SubResource( 17 )
-max_value = 8000.0
-value = 8000.0
-percent_visible = false
-
-[node name="Label" type="Label" parent="GUI/RivalHealth/PanelContainer"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 455.0
-margin_bottom = 32.0
-custom_fonts/font = SubResource( 18 )
-text = "8000"
-align = 1
-valign = 2
-
-[node name="Participant" type="Label" parent="GUI/RivalHealth"]
-margin_left = 484.0
-margin_top = 4.0
-margin_right = 565.0
-margin_bottom = 32.0
-custom_fonts/font = SubResource( 19 )
-text = "Rival"
-align = 1
-valign = 1
-
-[node name="Node" type="Node" parent="GUI/RivalHealth"]
-
-[node name="Change" type="Label" parent="GUI/RivalHealth/Node"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -144.0
-margin_top = -54.0
-margin_right = 144.0
-margin_bottom = 54.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-custom_fonts/font = SubResource( 21 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 10
-custom_constants/shadow_offset_y = 10
-text = "5000"
 
 [node name="TurnCount" type="Label" parent="GUI"]
 margin_left = 590.0
@@ -442,6 +275,91 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33, 3 )
 script = ExtResource( 12 )
 OffSet = Vector3( 1.5, 0, 0 )
 
+[node name="Avatar" type="MeshInstance" parent="Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.033, 0.5, 9.986 )
+mesh = SubResource( 6 )
+material/0 = null
+script = ExtResource( 7 )
+
+[node name="Area" type="Area" parent="Player/Avatar"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Player/Avatar/Area"]
+shape = SubResource( 7 )
+
+[node name="HealthBar" type="HBoxContainer" parent="Player"]
+margin_left = 25.0
+margin_top = 10.0
+margin_right = 590.0
+margin_bottom = 46.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 25
+alignment = 1
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Participant" type="Label" parent="Player/HealthBar"]
+margin_top = 4.0
+margin_right = 108.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 8 )
+text = "Player"
+align = 1
+valign = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Player/HealthBar"]
+margin_left = 133.0
+margin_right = 565.0
+margin_bottom = 36.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 9 )
+
+[node name="ProgressBar" type="ProgressBar" parent="Player/HealthBar/PanelContainer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 428.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/fg = SubResource( 10 )
+custom_styles/bg = SubResource( 11 )
+max_value = 8000.0
+value = 8000.0
+percent_visible = false
+
+[node name="Label" type="Label" parent="Player/HealthBar/PanelContainer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 428.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 12 )
+text = "8000"
+align = 1
+valign = 2
+
+[node name="Node" type="Node" parent="Player/HealthBar"]
+
+[node name="Change" type="Label" parent="Player/HealthBar/Node"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -144.0
+margin_top = -54.0
+margin_right = 144.0
+margin_bottom = 54.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 14 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 10
+custom_constants/shadow_offset_y = 10
+text = "5000"
+
 [node name="Rival" type="Node" parent="."]
 script = ExtResource( 13 )
 
@@ -469,3 +387,88 @@ OffSet = Vector3( 1.5, 0, 0 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33, -3 )
 script = ExtResource( 12 )
 OffSet = Vector3( 1.5, 0, 0 )
+
+[node name="Avatar" type="MeshInstance" parent="Rival"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0333014, 0.5, -9.98611 )
+mesh = SubResource( 6 )
+material/0 = null
+script = ExtResource( 7 )
+
+[node name="Area" type="Area" parent="Rival/Avatar"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Rival/Avatar/Area"]
+shape = SubResource( 7 )
+
+[node name="HealthBar" type="HBoxContainer" parent="Rival"]
+margin_left = 690.0
+margin_top = 10.0
+margin_right = 1255.0
+margin_bottom = 46.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 25
+alignment = 1
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="Rival/HealthBar"]
+margin_right = 459.0
+margin_bottom = 36.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 15 )
+
+[node name="ProgressBar" type="ProgressBar" parent="Rival/HealthBar/PanelContainer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 455.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/fg = SubResource( 16 )
+custom_styles/bg = SubResource( 17 )
+max_value = 8000.0
+value = 8000.0
+percent_visible = false
+
+[node name="Label" type="Label" parent="Rival/HealthBar/PanelContainer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 455.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 18 )
+text = "8000"
+align = 1
+valign = 2
+
+[node name="Participant" type="Label" parent="Rival/HealthBar"]
+margin_left = 484.0
+margin_top = 4.0
+margin_right = 565.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 19 )
+text = "Rival"
+align = 1
+valign = 1
+
+[node name="Node" type="Node" parent="Rival/HealthBar"]
+
+[node name="Change" type="Label" parent="Rival/HealthBar/Node"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -144.0
+margin_top = -54.0
+margin_right = 144.0
+margin_bottom = 54.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 21 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 10
+custom_constants/shadow_offset_y = 10
+text = "5000"

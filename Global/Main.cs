@@ -19,8 +19,8 @@ namespace CardGame
 		{
 			Room1 = room1;
 			Room2 = room2;
-			Player1 = (Player) typeof(Room).GetProperty("Player", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(room1);
-			Player2 = (Player) typeof(Room).GetProperty("Player", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(room2);
+			Player1 = (Player) typeof(Room).GetProperty("Player")!.GetValue(room1);
+			Player2 = (Player) typeof(Room).GetProperty("Player")!.GetValue(room2);
 		}
 	}
 	public class Main : Node
