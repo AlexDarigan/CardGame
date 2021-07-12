@@ -26,7 +26,7 @@ namespace CardGame.Client.Commands
             };
             
             // Possible NullReference Exception?
-            Card = room.GetCard(CardId, SetCode);
+            Card = room.Cards[CardId, SetCode];
 
             Setup(room);
             room.Effects.Start();

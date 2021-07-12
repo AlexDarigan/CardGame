@@ -11,7 +11,7 @@ namespace CardGame.Client.Commands
         
         protected override void Setup(Room room)
         {
-            foreach (DictionaryEntry pair in Cards) { room.GetCard((int) pair.Key).CardState.Set((CardStates) pair.Value); }
+            foreach (DictionaryEntry pair in Cards) { room.Cards[(int) pair.Key].CardState.Set((CardStates) pair.Value); }
         }
     }
 }

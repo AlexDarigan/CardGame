@@ -17,8 +17,11 @@ namespace CardGame.Client.Commands
 		{
 			foreach (DictionaryEntry pair in DeckList)
 			{
-				Card card = room.GetCard((int) pair.Key, (SetCodes) pair.Value);
+				room.Cards.Add((int) pair.Key, (SetCodes) pair.Value);
+				Card card = room.Cards[(int) pair.Key];
+				
 				Player.Deck.Add(card);
+				
 				card.Controller = Player;
 				Location location = Player.Deck.Locations.Last();
 				card.Translation = location.Translation;

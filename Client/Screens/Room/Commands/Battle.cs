@@ -15,8 +15,8 @@ namespace CardGame.Client.Commands
 
         protected override void Setup(Room room)
         {
-            Card attacker = room.GetCard(AttackerId);
-            Card defender = room.GetCard(DefenderId);
+            Card attacker = room.Cards[AttackerId];
+            Card defender = room.Cards[DefenderId];
             attacker.LookAt(defender.Translation);
             Vector3 sourceRotation = attacker.RotationDegrees;
             attacker.RotationDegrees = new Vector3(0, 0, 0);
