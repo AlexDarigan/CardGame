@@ -11,8 +11,8 @@
         protected override void Setup(Room room)
         {
             string text = IsClientLoser ? LoseText : WinText;
-            room.GameOver.Text = text;
-            room.Effects.InterpolateCallback(room.GameOver, 0.1f, "set_visible", true);
+            room.GUI.GameOver.Text = text;
+            room.Effects.InterpolateCallback(room.GUI.GameOver, 0.1f, "set_visible", true);
         }
     }
 }

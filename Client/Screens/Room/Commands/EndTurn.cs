@@ -1,4 +1,6 @@
-﻿namespace CardGame.Client.Commands
+﻿using System;
+
+namespace CardGame.Client.Commands
 {
     public class EndTurn: Command
     {
@@ -9,7 +11,7 @@
 
         protected override void Setup(Room room)
         {
-            room.TurnCounter.NextTurn();
+            room.GUI.TurnCount.Text = (int.Parse(room.GUI.TurnCount.Text) + 1).ToString();
         }
     }
 }

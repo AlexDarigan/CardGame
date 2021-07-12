@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Client/Screens/Room/Room.cs" type="Script" id=1]
 [ext_resource path="res://Client/Assets/Font/Kenney Bold.ttf" type="DynamicFontData" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Client/Screens/Room/Player.cs" type="Script" id=11]
 [ext_resource path="res://Client/Screens/Room/Zone.cs" type="Script" id=12]
 [ext_resource path="res://Client/Screens/Room/Rival.cs" type="Script" id=13]
+[ext_resource path="res://Client/Screens/Room/GUI.cs" type="Script" id=14]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -189,6 +190,7 @@ margin_top = 10.0
 margin_right = -25.0
 margin_bottom = -25.0
 mouse_filter = 2
+script = ExtResource( 14 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -244,6 +246,8 @@ custom_constants/shadow_as_outline = 0
 text = "game over"
 align = 1
 valign = 1
+
+[node name="Timer" type="Timer" parent="GUI"]
 
 [node name="Effects" parent="." instance=ExtResource( 4 )]
 

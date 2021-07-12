@@ -16,25 +16,18 @@ namespace CardGame.Client
         private static Dictionary<CommandId, Invoker> Commands { get; } = new();
         private Queue<Command> CommandQueue { get; } = new();
         private Cards Cards { get; set; }
-        public Player Player { get; set; }
-        public Rival Rival { get; set; }
-
+        
         // RoomView Items
-        public int Id { get; set; }
-        private Label PlayerId { get; set; }
-        public Label State;
-        public TurnCounter TurnCounter;
         public ChessClockButton ChessClockButton;
-        public Label GameOver;
         private Mouse Mouse { get; set; }
         
         // Resorted Elements
         public Effects Effects { get; private set; }
-        // - Player
-        // -- Health
-        // -- Avatar
-        // -- Zones
-        // - Rival
+        public Player Player { get; private set; }
+        public Rival Rival { get; private set; }
+        public GUI GUI { get; private set; }
+        // Input
+        // Commands
         // - GUI
         // - Input?
     
@@ -58,14 +51,11 @@ namespace CardGame.Client
             Effects = GetNode<Effects>("Effects");
             Player = GetNode<Player>("Player");
             Rival = GetNode<Rival>("Rival");
+            GUI = GetNode<GUI>("GUI");
             
             // RoomView Things
-            PlayerId = GetNode<Label>("GUI/ID");
-            State = GetNode<Label>("GUI/State");
-            TurnCounter = GetNode<TurnCounter>("GUI/TurnCount");
             ChessClockButton = GetNode<ChessClockButton>("Table/ChessClockButton");
-            GameOver = GetNode<Label>("GUI/GameOver");
-            PlayerId.Text = Id.ToString();
+            GUI.Id.Text = CustomMultiplayer.GetNetworkUniqueId().ToString();
             
             // Room Things
             Mouse = GetNode<Mouse>("Mouse");
