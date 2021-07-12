@@ -14,14 +14,13 @@ namespace CardGame.Client.Tests
             await StartGame();
             int drawUntilDeckOut = P2.Deck.Count + 1;
 
-            for (int i = 0; i < drawUntilDeckOut; i++) { await Queue(P1.EndTurn, P2.EndTurn); }
+            for (int i = 0; i < drawUntilDeckOut; i++) { await Queue(P1Input.EndTurn, P2Input.EndTurn); }
             
             Assert.IsTrue(Room1.GUI.GameOver.Visible, "Then Game Over Label is Visible in Room 1");
             Assert.IsTrue(Room2.GUI.GameOver.Visible, "Then Game Over Label is Visible in Room 2");
             Assert.IsEqual(Room1.GUI.GameOver.Text, "You Win!", "And Player 1 won");
             Assert.IsEqual(Room2.GUI.GameOver.Text, "You Lose!", "And Player 2 lost");
             Assert.IsEqual(P2.Deck.Count, 0, "And Player 2's Deck has 0 cards left");
-
         }
     }
 }

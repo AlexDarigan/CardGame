@@ -15,7 +15,7 @@ namespace CardGame.Client
         
         // RoomView Items
         public ChessClockButton ChessClockButton;
-        private Mouse Mouse { get; set; }
+        public InputController InputController { get; set; }
         
         // Resorted Elements
         public Effects Effects { get; private set; }
@@ -38,31 +38,32 @@ namespace CardGame.Client
             Rival = GetNode<Rival>("Rival");
             GUI = GetNode<GUI>("GUI");
             CommandQueue = GetNode<CommandQueue>("CommandQueue");
+
+            // WIP
+            InputController = GetNode<InputController>("InputController");
+
             
             // RoomView Things
             ChessClockButton = GetNode<ChessClockButton>("Table/ChessClockButton");
             GUI.Id.Text = CustomMultiplayer.GetNetworkUniqueId().ToString();
             
             // Room Things
-            Mouse = GetNode<Mouse>("Mouse");
             Cards = GetNode<Cards>("Cards");
-            Rival.Avatar.Pressed += Player.OnRivalAvatarPressed;
-            Player.OnAttackDeclared += OnAttackDeclared;
-            Player.OnAttackCancelled += OnAttackCancelled;
-            Player.Declare += (commandId, args) => { RpcId(Server, Enum.GetName(commandId.GetType(), commandId), args); };
-            Cards.Player = Player;
+            Rival.Avatar.Pressed += InputController.OnRivalAvatarPressed;
+            InputController.Declare += (commandId, args) => { RpcId(Server, Enum.GetName(commandId.GetType(), commandId), args); };
+            Cards.InputController = InputController;
             RpcId(1, "OnClientReady");
         }
         
         
         public void OnAttackDeclared()
         {
-            Mouse.OnAttackDeclared();
+            InputController.OnAttackDeclared();
         }
 
         public void OnAttackCancelled()
         {
-            Mouse.OnAttackCancelled();
+            InputController.OnAttackCancelled();
         }
         
         [Puppet] private async void Update() { CommandQueue.Execute(this); }

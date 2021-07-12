@@ -12,7 +12,7 @@ namespace CardGame.Client.Tests
             int handCount = P1.Hand.Count;
             int unitsCount = P2.Units.Count;
             
-            await Queue(() => P1.OnCardPressed(P1.Hand[0]));
+            await Queue(() => P1Input.OnCardPressed(P1.Hand[0]));
             
             Assert.IsEqual(P1.Units.Count, unitsCount + 1, "The player's units count increased by 1 Card");
             Assert.IsEqual(P1.Hand.Count, handCount - 1, "The player's hand count decreased by 1 card");
@@ -25,7 +25,7 @@ namespace CardGame.Client.Tests
             int handCount = P1.Hand.Count;
             int supportsCount = P1.Supports.Count;
             
-            await Queue(() => P1.OnCardPressed(P1.Hand[0]));
+            await Queue(() => P1Input.OnCardPressed(P1.Hand[0]));
             
             Assert.IsEqual(P1.Supports.Count, supportsCount + 1, "The player's supports count increased by 1 Card");
             Assert.IsEqual(P1.Hand.Count, handCount - 1, "The player's hand count decreased by 1 card");

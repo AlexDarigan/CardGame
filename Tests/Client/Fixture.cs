@@ -15,6 +15,8 @@ namespace CardGame.Client.Tests
         protected Room Room2;
         protected Player P1;
         protected Player P2;
+        protected InputController P1Input;
+        protected InputController P2Input;
         
         // Helper Methods
         // - BuildDeck (Put it on MainScene and then
