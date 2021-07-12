@@ -16,6 +16,10 @@ namespace CardGame.Server
 
         public SkillState(Card owningCard, IEnumerable<int> instructions)
         {
+            foreach (int instruction in instructions)
+            {
+                Console.WriteLine(instruction);
+            }
             OwningCard = owningCard;
             _instructions = new List<int>(instructions);
             _maxSize = _instructions.Count;

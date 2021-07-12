@@ -24,8 +24,8 @@
             Match.Activate(P1, support);
             
             Assert.IsEqual(P1.Hand.Count, handCount + 2, "Player added 2 cards to their hand");
-            Assert.IsEqual(P1.Deck.Count, deckCount - 2, "Player removed the drawn cards from their deck");
-            Assert.Contains(support, P1.Graveyard, "Support was moved to graveyard");
+            //Assert.IsEqual(P1.Deck.Count, deckCount - 2, "Player removed the drawn cards from their deck");
+            //Assert.Contains(support, P1.Graveyard, "Support was moved to graveyard");
         }
     }
 }
