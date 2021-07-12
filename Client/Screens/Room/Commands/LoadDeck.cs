@@ -17,8 +17,10 @@ namespace CardGame.Client.Commands
 		{
 			foreach (DictionaryEntry pair in DeckList)
 			{
-				room.Cards.Add((int) pair.Key, (SetCodes) pair.Value);
-				Card card = room.Cards[(int) pair.Key];
+				int id = (int) pair.Key;
+				SetCodes setCode = (SetCodes) pair.Value;
+				room.Cards.Add(id, setCode);
+				Card card = room.Cards[id];
 				
 				Player.Deck.Add(card);
 				
