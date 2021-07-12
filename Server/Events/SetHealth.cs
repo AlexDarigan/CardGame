@@ -14,8 +14,8 @@
         
         public override void QueueOnClients(Enqueue queue)
         { 
-            queue(Damaged.Id, Command, IsClient, NewHealth);
-            queue(Damaged.Opponent.Id, Command, !IsClient, NewHealth);
+            queue(Damaged.Id, Command, Who.Player, NewHealth);
+            queue(Damaged.Opponent.Id, Command, Who.Rival, NewHealth);
         }
     }
 }

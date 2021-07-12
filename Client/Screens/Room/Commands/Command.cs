@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Godot;
+using JetBrains.Annotations;
 
 namespace CardGame.Client.Commands
 {
@@ -8,21 +9,32 @@ namespace CardGame.Client.Commands
         // Store common operations down here so we can be more declarative in subclasses
         protected int CardId { get; set; }
         protected SetCodes SetCode { get; set; }
-        protected bool IsPlayer { get; set; }
+        protected Who Who { get; set; }
         protected Card Card => Room.GetCard(CardId, SetCode);
-        public Participant Player => Room.GetPlayer(IsPlayer);
+        protected Participant Player { get; set; }
         private Room Room { get; set; }
         
         public async Task Execute(Room room)
         {
             Room = room;
             Room.Effects.RemoveAll();
+
+            Player = Who switch
+            {
+                Who.Player => room.Player,
+                Who.Rival => room.Rival,
+                _ => null
+            };
+           
+            
+            //if (CardId is not null && SetCode is not null) { Card = room.GetCard((int) CardId, (SetCodes) SetCode); }
+            
             Setup(Room);
             Room.Effects.Start();
             await Room.Effects.Executed();
             room = null;
         }
-        
+
         protected abstract void Setup(Room room);
 
         // Helper

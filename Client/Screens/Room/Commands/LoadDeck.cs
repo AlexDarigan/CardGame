@@ -7,21 +7,20 @@ namespace CardGame.Client.Commands
 	{
 		private IEnumerable DeckList { get; }
 
-		public LoadDeck(bool  isPlayer, IEnumerable deckList)
+		public LoadDeck(Who who, IEnumerable deckList)
 		{
-			IsPlayer = isPlayer;
+			Who = who;
 			DeckList = deckList;
 		}
 
 		protected override void Setup(Room room)
 		{
-			Participant player = room.GetPlayer(IsPlayer);
 			foreach (DictionaryEntry pair in DeckList)
 			{
 				Card card = room.GetCard((int) pair.Key, (SetCodes) pair.Value);
-				player.Deck.Add(card);
-				card.Controller = player;
-				Location location = player.Deck.Locations.Last();
+				Player.Deck.Add(card);
+				card.Controller = Player;
+				Location location = Player.Deck.Locations.Last();
 				card.Translation = location.Translation;
 				card.RotationDegrees = location.RotationDegrees;
 			}

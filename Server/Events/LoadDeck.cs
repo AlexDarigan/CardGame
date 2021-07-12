@@ -19,8 +19,8 @@ namespace CardGame.Server.Events
         public override void QueueOnClients(Enqueue queue)
         {
             Console.WriteLine("Queueing DeckLists");
-            queue(Controller.Id, Command, IsClient, Deck.AsEnumerable());
-            queue(Controller.Opponent.Id, Command, !IsClient, NullDeck());
+            queue(Controller.Id, Command, Who.Player, Deck.AsEnumerable());
+            queue(Controller.Opponent.Id, Command, Who.Rival, NullDeck());
         }
 
         private static IEnumerable<KeyValuePair<int, SetCodes>> NullDeck()

@@ -5,28 +5,26 @@ namespace CardGame.Client.Commands
 {
     public class Deploy : Command
     {
-        public Deploy(bool isPlayer, int card, SetCodes setCodes)
+        public Deploy(Who who, int card, SetCodes setCodes)
         {
-            IsPlayer = isPlayer;
+            Who = who;
             CardId = card;
             SetCode = setCodes;
         }
 
         protected override void Setup(Room room)
         {
-            Participant player = room.GetPlayer(IsPlayer);
-            Card card = room.GetCard(CardId, SetCode);
-            if(!IsPlayer) { SwapFakeCardForRealCard(player, card);}
-            MoveCard(card, player.Units, room);
+            if(Who == Who.Rival) { SwapFakeCardForRealCard();}
+            MoveCard(Card, Player.Units, room);
         }
 
-        private void SwapFakeCardForRealCard(Participant player, Card card)
+        private void SwapFakeCardForRealCard()
         {
-            Card fake = player.Hand.Last();
-            player.Hand.Remove(fake);
-            player.Hand.Add(card);
+            Card fake = Player.Hand.Last();
+            Player.Hand.Remove(fake);
+            Player.Hand.Add(Card);
             fake.Free();
-            card.Controller = player;
+            Card.Controller = Player;
         }
     }
 }

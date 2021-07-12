@@ -4,18 +4,17 @@ namespace CardGame.Client.Commands
 {
     public class Draw : Command
     {
-        public Draw(bool isPlayer, int cardId)
+        public Draw(Who who, int cardId)
         {
-            IsPlayer = isPlayer;
+            Who = who;
             CardId = cardId;
         }
 
         protected override void Setup(Room room)
         {
-            Participant player = room.GetPlayer(IsPlayer);
-            Card card = IsPlayer ? room.GetCard(CardId) : player.Deck.Last();
-            MoveCard(card, player.Hand, room);
-            UpdateZone(room, player.Hand);
+            Card card = Who == Who.Player ? Card : Player.Deck.Last();
+            MoveCard(card, Player.Hand, room);
+            UpdateZone(room, Player.Hand);
         }
     }
 }

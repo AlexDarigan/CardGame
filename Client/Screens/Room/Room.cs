@@ -58,7 +58,7 @@ namespace CardGame.Client
         
         [Puppet] private async void Update() { CommandQueue.Execute(this); }
         [Puppet] private void Queue(CommandId commandId, object[] args) { CommandQueue.Enqueue(commandId, args); }
-        public Participant GetPlayer(bool isPlayer) { return isPlayer ? Player : Rival; }
+        //public Participant GetPlayer(bool isPlayer) { return isPlayer ? Player : Rival; }
         public Card GetCard(int id, SetCodes setCodes = SetCodes.NullCard) { return Cards.GetCard(id, setCodes);}
     }
 }

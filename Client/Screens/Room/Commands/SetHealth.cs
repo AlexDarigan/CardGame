@@ -4,15 +4,15 @@
     {
         private int NewHealth { get; }
        
-        public SetHealth(bool isPlayer, int newHealth)
+        public SetHealth(Who who, int newHealth)
         {
-            IsPlayer = isPlayer;
+            Who = who;
             NewHealth = newHealth;
         }
         
         protected override void Setup(Room room)
         {
-            room.GetPlayer(IsPlayer).SetHealth(NewHealth, room);
+            Player.SetHealth(NewHealth, room);
         }
     }
 }

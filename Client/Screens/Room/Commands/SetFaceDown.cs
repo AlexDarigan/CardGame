@@ -6,17 +6,15 @@ namespace CardGame.Client.Commands
 {
     public class SetFaceDown : Command
     {
-        public SetFaceDown(bool isPlayer, int card)
+        public SetFaceDown(Who who, int card)
         {
-            IsPlayer = isPlayer;
+            Who = who;
             CardId = card;
         }
 
         protected override void Setup(Room room)
         {
-            Participant player = room.GetPlayer(IsPlayer);
-            Card card = room.GetCard(CardId);
-            MoveCard(player.IsClient ? card : player.Hand.Last(), player.Supports, room);
+            MoveCard(Who == Who.Player ? Card : Player.Hand.Last(), Player.Supports, room);
         }
     }
 }

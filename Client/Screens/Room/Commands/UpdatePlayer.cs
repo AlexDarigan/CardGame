@@ -8,13 +8,12 @@ namespace CardGame.Client.Commands
 
         public UpdatePlayer(States states)
         {
-            IsPlayer = true;
+            Who = Who.Player;
             States = states;
         }
 
         protected override void Setup(Room room)
         {
-            Participant player = room.GetPlayer(IsPlayer);
             room.InputController.State = States;
             room.Text.State = States;
             room.ChessClockButton.State = States;

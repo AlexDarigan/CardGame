@@ -25,6 +25,13 @@ namespace CardGame
         [CardResource("WeakShocker")] WeakShocker = 3
     }
 
+    public enum Who
+    {
+        NoOne = 0,
+        Player = 1,
+        Rival = 2,
+    }
+
     public enum Triggers
     {
         Any

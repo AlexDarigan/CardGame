@@ -14,8 +14,8 @@
 
         public override void QueueOnClients(Enqueue queue)
         {
-            queue(Controller.Id, Command, IsClient, Card.Id);
-            queue(Controller.Opponent.Id, Command, !IsClient, -1);
+            queue(Controller.Id, Command, Who.Player, Card.Id);
+            queue(Controller.Opponent.Id, Command, Who.Rival, -1);
         }
     }
 }
