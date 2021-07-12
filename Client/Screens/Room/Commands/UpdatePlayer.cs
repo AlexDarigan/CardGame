@@ -16,7 +16,7 @@ namespace CardGame.Client.Commands
         {
             room.InputController.State = States;
             room.Text.State = States;
-            room.ChessClockButton.State = States;
+            room.Table.State = States;
             Main.OnRoomUpdated(); // Required For Testing
         }
     }
