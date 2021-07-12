@@ -1,15 +1,18 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Client/Screens/Room/Room.cs" type="Script" id=1]
 [ext_resource path="res://Client/Assets/Font/Kenney Bold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Client/Assets/Models/WoodenTable/TableWooden.obj" type="ArrayMesh" id=3]
-[ext_resource path="res://Client/Screens/Room/Effects.cs" type="Script" id=4]
+[ext_resource path="res://Client/Screens/Room/Effects.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Client/Screens/Room/TurnCounter.cs" type="Script" id=5]
 [ext_resource path="res://Client/Screens/Room/ChessClockButton.cs" type="Script" id=6]
 [ext_resource path="res://Client/Screens/Room/Heart.cs" type="Script" id=7]
 [ext_resource path="res://Client/Screens/Room/HealthBar.cs" type="Script" id=8]
 [ext_resource path="res://Client/Screens/Room/Cards.cs" type="Script" id=9]
 [ext_resource path="res://Client/Screens/Room/Mouse.cs" type="Script" id=10]
+[ext_resource path="res://Client/Screens/Room/Player.cs" type="Script" id=11]
+[ext_resource path="res://Client/Screens/Room/Zone.cs" type="Script" id=12]
+[ext_resource path="res://Client/Screens/Room/Rival.cs" type="Script" id=13]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -409,11 +412,60 @@ text = "game over"
 align = 1
 valign = 1
 
-[node name="Effects" type="Node" parent="."]
-script = ExtResource( 4 )
+[node name="Effects" parent="." instance=ExtResource( 4 )]
 
-[node name="GFX" type="Tween" parent="Effects"]
+[node name="Player" type="Node" parent="."]
+script = ExtResource( 11 )
 
-[node name="BGM" type="AudioStreamPlayer" parent="Effects"]
+[node name="Deck" type="Spatial" parent="Player"]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 10.5, 0, 8.25 )
+script = ExtResource( 12 )
+OffSet = Vector3( 0, 0.034, 0 )
 
-[node name="SFX" type="AudioStreamPlayer" parent="Effects"]
+[node name="Discard" type="Spatial" parent="Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0.5, 4.5 )
+script = ExtResource( 12 )
+OffSet = Vector3( 0, 0.04, 0 )
+
+[node name="Hand" type="Spatial" parent="Player"]
+transform = Transform( 1, 0, 0, 0, 0.838671, -0.544639, 0, 0.544639, 0.838671, 0, 4, 11 )
+script = ExtResource( 12 )
+OffSet = Vector3( 1.1, 0, 0 )
+
+[node name="Supports" type="Spatial" parent="Player"]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0.33, 7 )
+script = ExtResource( 12 )
+OffSet = Vector3( 1.5, 0, 0 )
+
+[node name="Units" type="Spatial" parent="Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33, 3 )
+script = ExtResource( 12 )
+OffSet = Vector3( 1.5, 0, 0 )
+
+[node name="Rival" type="Node" parent="."]
+script = ExtResource( 13 )
+
+[node name="Deck" type="Spatial" parent="Rival"]
+transform = Transform( 1, -8.74228e-08, -8.74228e-08, -8.74228e-08, -1, 0, -8.74228e-08, 7.64274e-15, -1, 10.5, 0, -8.25 )
+script = ExtResource( 12 )
+OffSet = Vector3( 0, 0.034, 0 )
+
+[node name="Discard" type="Spatial" parent="Rival"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0.5, -4.5 )
+script = ExtResource( 12 )
+OffSet = Vector3( 0, 0.04, 0 )
+
+[node name="Hand" type="Spatial" parent="Rival"]
+transform = Transform( -1, 8.74228e-08, 0, -7.33189e-08, -0.838671, -0.544639, -4.76139e-08, -0.544639, 0.838671, 1.1, 6, -7.5 )
+script = ExtResource( 12 )
+OffSet = Vector3( 1.1, 0, 0 )
+
+[node name="Supports" type="Spatial" parent="Rival"]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0.33, -7 )
+script = ExtResource( 12 )
+OffSet = Vector3( 1.5, 0, 0 )
+
+[node name="Units" type="Spatial" parent="Rival"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33, -3 )
+script = ExtResource( 12 )
+OffSet = Vector3( 1.5, 0, 0 )

@@ -4,20 +4,15 @@ using Godot;
 
 namespace CardGame.Client
 {
-    public class Zone : IEnumerable<Card>
+    public class Zone : Spatial, IEnumerable<Card>
     {
         private List<Card> Cards { get; } = new();
         public List<Location> Locations { get; } = new ();
-        private Vector3 OffSet { get; }
-        private Vector3 Origin { get; }
-        private Vector3 Rotation { get; }
+        [Export()] public Vector3 OffSet { get; set; }
+
+        public Zone() { }
         
-        public Zone(Vector3 origin, Vector3 offSet, Vector3 rotation)
-        {
-            Origin = origin;
-            OffSet = offSet;
-            Rotation = rotation;
-        }
+       
 
         public int Count => Cards.Count;
         public Card this[int index] => Cards[index];
@@ -26,7 +21,7 @@ namespace CardGame.Client
 
         public void Add(Card card)
         {
-            Location location = new (Origin + OffSet * Locations.Count, OffSet, Rotation) {Card = card};
+            Location location = new (Translation + OffSet * Locations.Count, OffSet, RotationDegrees) {Card = card};
             card.CurrentLocation = location;
             card.CurrentZone = this;
             Cards.Add(card);

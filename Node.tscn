@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="CSharpScript" id=1]
+resource_name = "Node"
+script/source = "using Godot;
+using System;
+using CardGame.Client;
+
+public class Node : Godot.Node
+{
+    public override void _Ready()
+    {
+        Player player = new Player();
+        Rival rival = new Rival();
+        CreateScene(player, \"Player\");
+        CreateScene(rival, \"Rival\");
+    }
+
+    public void CreateScene(Participant participant, string name)
+    {
+        Spatial root = new Spatial();
+        Zone Deck = new Zone();
+        Zone Discard = new Zone();
+        Zone Hand = new Zone();
+        Zone Supports = new Zone();
+        Zone Units = new Zone();
+        
+        root.AddChild(Copy(Deck, participant.Deck), true);
+        root.AddChild(Copy(Discard, participant.Discard), true);
+        root.AddChild(Copy(Hand, participant.Hand), true);
+        root.AddChild(Copy(Supports, participant.Supports), true);
+        root.AddChild(Copy(Units, participant.Units), true);
+
+        Deck.Owner = root;
+        Discard.Owner = root;
+        Hand.Owner = root;
+        Supports.Owner = root;
+        Units.Owner = root;
+
+        PackedScene scene = new PackedScene();
+        root.Name = name;
+        scene.Pack(root);
+        ResourceSaver.Save($\"res://{name}.tscn\", scene);
+
+    }
+
+    public Zone Copy(Zone zone, CardGame.Client.Zone oldZone)
+    {
+        zone.Offset = oldZone.OffSet;
+        zone.Translation = oldZone.Origin;
+        zone.RotationDegrees = oldZone.Rotation;
+        return zone;
+    }
+    
+}
+
+public class Zone : Spatial
+{
+    [Export()] public Vector3 Offset;
+}
+"
+
+[node name="Node" type="Node"]
+script = SubResource( 1 )

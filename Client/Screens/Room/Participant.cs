@@ -1,6 +1,8 @@
+using Godot;
+
 namespace CardGame.Client
 {
-    public class Participant
+    public class Participant: Node
     {
         public int Health = 8000;
         public Zone Deck { get; protected set; }

@@ -16,9 +16,8 @@ namespace CardGame.Client
         private static Dictionary<CommandId, Invoker> Commands { get; } = new();
         private Queue<Command> CommandQueue { get; } = new();
         private Cards Cards { get; set; }
-       // public Tween Gfx { get; set; }
-        private Player Player { get; } = new();
-        private Rival Rival { get; } = new();
+        private Player Player { get; set; }
+        private Rival Rival { get; set; }
 
         // RoomView Items
         public int Id { get; set; }
@@ -35,6 +34,13 @@ namespace CardGame.Client
         
         // Resorted Elements
         public Effects Effects { get; private set; }
+        // - Player
+        // -- Health
+        // -- Avatar
+        // -- Zones
+        // - Rival
+        // - GUI
+        // - Input?
     
         static Room()
         {
@@ -54,6 +60,8 @@ namespace CardGame.Client
             
             // New Elements
             Effects = GetNode<Effects>("Effects");
+            Player = GetNode<Player>("Player");
+            Rival = GetNode<Rival>("Rival");
             
             // RoomView Things
             PlayerId = GetNode<Label>("GUI/ID");
@@ -70,9 +78,7 @@ namespace CardGame.Client
             // Room Things
             Mouse = GetNode<Mouse>("Mouse");
             Cards = GetNode<Cards>("Cards");
-            // Bgm = GetNode<AudioStreamPlayer>("BGM");
-            // Sfx = GetNode<AudioStreamPlayer>("SFX");
-            // Gfx = GetNode<Tween>("GFX");
+            
             RivalHeart.Pressed += Player.OnRivalHeartPressed;
             Player.OnAttackDeclared += OnAttackDeclared;
             Player.OnAttackCancelled += OnAttackCancelled;
