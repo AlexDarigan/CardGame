@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Godot;
 using JetBrains.Annotations;
 
@@ -7,17 +8,15 @@ namespace CardGame.Client.Commands
     public abstract class Command
     {
         // Store common operations down here so we can be more declarative in subclasses
-        protected int CardId { get; set; }
-        protected SetCodes SetCode { get; set; }
+        protected int CardId { get; set; } = -1;
+        protected SetCodes SetCode { get; set; } = SetCodes.NullCard;
         protected Who Who { get; set; }
-        protected Card Card => Room.GetCard(CardId, SetCode);
-        protected Participant Player { get; set; }
-        private Room Room { get; set; }
-        
+        protected Card Card { get; set; }
+        protected Participant Player { get; private set; }
+
         public async Task Execute(Room room)
         {
-            Room = room;
-            Room.Effects.RemoveAll();
+            room.Effects.RemoveAll();
 
             Player = Who switch
             {
@@ -25,14 +24,13 @@ namespace CardGame.Client.Commands
                 Who.Rival => room.Rival,
                 _ => null
             };
-           
             
-            //if (CardId is not null && SetCode is not null) { Card = room.GetCard((int) CardId, (SetCodes) SetCode); }
-            
-            Setup(Room);
-            Room.Effects.Start();
-            await Room.Effects.Executed();
-            room = null;
+            // Possible NullReference Exception?
+            Card = room.GetCard(CardId, SetCode);
+
+            Setup(room);
+            room.Effects.Start();
+            await room.Effects.Executed();
         }
 
         protected abstract void Setup(Room room);
@@ -53,7 +51,10 @@ namespace CardGame.Client.Commands
 
         protected void MoveCard(Card card, Zone destination, Room room)
         {
+            Console.WriteLine($"card is not null: {card is not null}");
+            Console.WriteLine($"destination is not null {destination is not null}");
             Zone origin = card.CurrentZone;
+            
             origin.Remove(card);
             destination.Add(card);
             UpdateZone(room, origin);

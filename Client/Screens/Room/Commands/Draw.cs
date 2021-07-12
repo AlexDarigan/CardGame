@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace CardGame.Client.Commands
 {
@@ -12,6 +13,7 @@ namespace CardGame.Client.Commands
 
         protected override void Setup(Room room)
         {
+            Console.WriteLine(Who);
             Card card = Who == Who.Player ? Card : Player.Deck.Last();
             MoveCard(card, Player.Hand, room);
             UpdateZone(room, Player.Hand);
