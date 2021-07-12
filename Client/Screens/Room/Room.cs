@@ -15,7 +15,6 @@ namespace CardGame.Client
         
         // RoomView Items
         public ChessClockButton ChessClockButton;
-        public InputController InputController { get; set; }
         
         // Resorted Elements
         public Effects Effects { get; private set; }
@@ -24,7 +23,9 @@ namespace CardGame.Client
         public GUI GUI { get; private set; }
         public CommandQueue CommandQueue { get; private set; }
         public Cards Cards { get; private set; }
-        // Input
+        
+        // WIP
+        public InputController InputController { get; set; }
 
         public static Room Instance() { return (Room) GD.Load<PackedScene>("res://Client/Screens/Room/Room.tscn").Instance(); }
         
@@ -53,17 +54,6 @@ namespace CardGame.Client
             InputController.Declare += (commandId, args) => { RpcId(Server, Enum.GetName(commandId.GetType(), commandId), args); };
             Cards.InputController = InputController;
             RpcId(1, "OnClientReady");
-        }
-        
-        
-        public void OnAttackDeclared()
-        {
-            InputController.OnAttackDeclared();
-        }
-
-        public void OnAttackCancelled()
-        {
-            InputController.OnAttackCancelled();
         }
         
         [Puppet] private async void Update() { CommandQueue.Execute(this); }
