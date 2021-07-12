@@ -1,14 +1,14 @@
 [gd_scene load_steps=34 format=2]
 
-[ext_resource path="res://Client/Scripts/Room.cs" type="Script" id=1]
+[ext_resource path="res://Client/Screens/Room/Room.cs" type="Script" id=1]
 [ext_resource path="res://Client/Assets/Font/Kenney Bold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Client/Assets/Models/WoodenTable/TableWooden.obj" type="ArrayMesh" id=3]
-[ext_resource path="res://Client/TurnCounter.cs" type="Script" id=5]
-[ext_resource path="res://Client/ChessClockButton.cs" type="Script" id=6]
-[ext_resource path="res://Client/Heart.cs" type="Script" id=7]
-[ext_resource path="res://Client/HealthBar.cs" type="Script" id=8]
-[ext_resource path="res://Client/Scripts/Cards.cs" type="Script" id=9]
-[ext_resource path="res://Client/Scripts/Mouse.cs" type="Script" id=10]
+[ext_resource path="res://Client/Screens/Room/TurnCounter.cs" type="Script" id=5]
+[ext_resource path="res://Client/Screens/Room/ChessClockButton.cs" type="Script" id=6]
+[ext_resource path="res://Client/Screens/Room/Heart.cs" type="Script" id=7]
+[ext_resource path="res://Client/Screens/Room/HealthBar.cs" type="Script" id=8]
+[ext_resource path="res://Client/Screens/Room/Cards.cs" type="Script" id=9]
+[ext_resource path="res://Client/Screens/Room/Mouse.cs" type="Script" id=10]
 
 [sub_resource type="SphereMesh" id=1]
 

@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 
 namespace CardGame.Client
 {
+	
 	[UsedImplicitly]
 	public class Card: Spatial
 	{

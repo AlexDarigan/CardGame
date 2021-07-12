@@ -43,6 +43,8 @@ namespace CardGame.Client
                 Commands[commandId] = args => (Command) c?.Invoke(args);
             }
         }
+
+        public static Room Instance() { return (Room) GD.Load<PackedScene>("res://Client/Screens/Room/Room.tscn").Instance(); }
         
         public Room() { }
 

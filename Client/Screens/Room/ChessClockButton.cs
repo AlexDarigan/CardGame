@@ -21,7 +21,7 @@ public class ChessClockButton : MeshInstance
     private void OnButtonPressed(Node camera, InputEvent input, Vector3 clickPos, Vector3 clickNormal, int shapeIdx)
     {
         if (input is not InputEventMouseButton {Doubleclick: true}) return;
-        Player player = (Player) GetParent().GetParent().GetParent<Room>().GetPlayer(true);
+        Player player = (Player) GetParent().GetParent<Room>().GetPlayer(true);
         Material.AlbedoColor = Colors.Red;
         player.EndTurn();
     }

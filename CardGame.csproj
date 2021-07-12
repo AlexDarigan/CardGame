@@ -8,7 +8,7 @@
     <Content Include="Client\Cards\NullCard.tres" />
     <Content Include="Client\Cards\QuestReward.tres" />
     <Content Include="Client\Cards\WeakShocker.tres" />
-    <Content Include="Client\Scenes\Card\Card.tscn" />
+    <Content Include="Client\Screens\Room\Room.tscn" />
     <Content Include="README.md" />
     <Content Include="Server\Library.json" />
   </ItemGroup>
