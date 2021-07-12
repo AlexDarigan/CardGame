@@ -10,7 +10,7 @@
     <Content Include="Client\Library\Cards\WeakShocker.tres" />
     <Content Include="Client\Screens\Room\Room.tscn" />
     <Content Include="README.md" />
-    <Content Include="Server\Library.json" />
+    <Content Include="Server\Library\Library.json" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2021.2.0-eap2" />

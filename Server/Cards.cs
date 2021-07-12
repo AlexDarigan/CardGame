@@ -27,7 +27,7 @@ namespace CardGame.Server
                 Power = cardInfo.Power
             };
             SkillInfo skillInfo = cardInfo.Skill;
-            card.Skill = new Skill(card, skillInfo.Triggers, skillInfo.Instructions, skillInfo.Description);
+            card.Skill = new Skill(card, skillInfo.Triggers, skillInfo.OpCodes, skillInfo.Description);
             _cards.Add(card);
             return card;   
         }
