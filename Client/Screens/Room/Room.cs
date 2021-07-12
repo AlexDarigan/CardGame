@@ -16,9 +16,7 @@ namespace CardGame.Client
         private static Dictionary<CommandId, Invoker> Commands { get; } = new();
         private Queue<Command> CommandQueue { get; } = new();
         private Cards Cards { get; set; }
-        public Tween Gfx { get; set; }
-        private AudioStreamPlayer Sfx { get; set; }
-        private AudioStreamPlayer Bgm { get; set; }
+       // public Tween Gfx { get; set; }
         private Player Player { get; } = new();
         private Rival Rival { get; } = new();
 
@@ -34,6 +32,9 @@ namespace CardGame.Client
         public Heart PlayerHeart;
         public Heart RivalHeart;
         private Mouse Mouse { get; set; }
+        
+        // Resorted Elements
+        public Effects Effects { get; private set; }
     
         static Room()
         {
@@ -50,6 +51,10 @@ namespace CardGame.Client
 
         public override void _Ready()
         {
+            
+            // New Elements
+            Effects = GetNode<Effects>("Effects");
+            
             // RoomView Things
             PlayerId = GetNode<Label>("GUI/ID");
             State = GetNode<Label>("GUI/State");
@@ -65,9 +70,9 @@ namespace CardGame.Client
             // Room Things
             Mouse = GetNode<Mouse>("Mouse");
             Cards = GetNode<Cards>("Cards");
-            Bgm = GetNode<AudioStreamPlayer>("BGM");
-            Sfx = GetNode<AudioStreamPlayer>("SFX");
-            Gfx = GetNode<Tween>("GFX");
+            // Bgm = GetNode<AudioStreamPlayer>("BGM");
+            // Sfx = GetNode<AudioStreamPlayer>("SFX");
+            // Gfx = GetNode<Tween>("GFX");
             RivalHeart.Pressed += Player.OnRivalHeartPressed;
             Player.OnAttackDeclared += OnAttackDeclared;
             Player.OnAttackCancelled += OnAttackCancelled;

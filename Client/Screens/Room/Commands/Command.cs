@@ -7,10 +7,10 @@ namespace CardGame.Client.Commands
     {
         public async Task Execute(Room room)
         {
-            room.Gfx.RemoveAll();
+            room.Effects.RemoveAll();
             Setup(room);
-            room.Gfx.Start();
-            await room.Gfx.ToSignal(room.Gfx, "tween_all_completed");
+            room.Effects.Start();
+            await room.Effects.Executed();
         }
         
         protected abstract void Setup(Room room);
@@ -21,10 +21,10 @@ namespace CardGame.Client.Commands
             const float duration = .2f;
             foreach (Location location in zone.Locations)
             {
-                room.Gfx.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
+                room.Effects.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
                     duration, Tween.TransitionType.Linear, Tween.EaseType.In);
                 
-                room.Gfx.InterpolateProperty(location.Card, nameof(Card.RotationDegrees), location.Card.RotationDegrees, location.RotationDegrees,
+                room.Effects.InterpolateProperty(location.Card, nameof(Card.RotationDegrees), location.Card.RotationDegrees, location.RotationDegrees,
                     duration, Tween.TransitionType.Linear, Tween.EaseType.In);
             }
         }

@@ -33,9 +33,8 @@ namespace CardGame.Client.Views
 		{
 			Change.Text = (Health - player.Health).ToString();
 			Change.Visible = true;
-//			room.Gfx.InterpolateCallback(Change, 0.01f, "set_visible", true);
-			room.Gfx.InterpolateCallback(Change, 0.4f, "set_visible", false);
-			room.Gfx.InterpolateProperty(this, nameof(Health), Health, player.Health, .5F,
+			room.Effects.InterpolateCallback(Change, 0.4f, "set_visible", false);
+			room.Effects.InterpolateProperty(this, nameof(Health), Health, player.Health, .5F,
 				Tween.TransitionType.Linear, Tween.EaseType.In, .5F);
 		}
 	}

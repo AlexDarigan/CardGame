@@ -12,7 +12,7 @@
         {
             string text = IsClientLoser ? LoseText : WinText;
             room.GameOver.Text = text;
-            room.Gfx.InterpolateCallback(room.GameOver, 0.1f, "set_visible", true);
+            room.Effects.InterpolateCallback(room.GameOver, 0.1f, "set_visible", true);
         }
     }
 }
