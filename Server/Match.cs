@@ -16,7 +16,7 @@ namespace CardGame.Server
         public bool GameOver { get; private set; }
         private Cards Cards { get; }
         private History History { get; } = new();
-        private List<SkillState> Link { get; } = new();
+        private Link Link { get; } = new();
         private Enqueue Queue { get; }
         private Action UpdateClient { get; }
 
@@ -122,29 +122,10 @@ namespace CardGame.Server
             
             if(Disqualified(support.CardStates != CardStates.Activate, player, Illegal.Activation)) { return; }
             Link.Add(support.Activate());
-            Resolve();
+            Link.Resolve();
             Update();
         }
-
-        // If we're going to upgrade the link we're going to have to fix our tests to use pass play options
-        private void Resolve()
-        {
-            while (Link.Count > 0)
-            {
-                SkillState current = Link[Link.Count - 1];
-                current.Execute();
-                if (!current.IsDone()) continue;
-                Link.Remove(current);
-                
-                // OnResolve
-                // AddToCard
-                // SpawnEvents?
-                current.Controller.Supports.Remove(current.OwningCard);
-                current.Owner.Graveyard.Add(current.OwningCard);
-
-            }
-        }
-
+        
         public void PassPlay(Player player)
         {
             if(Disqualified(player.State != States.Active, player, Illegal.PassPlay)) { return; }
