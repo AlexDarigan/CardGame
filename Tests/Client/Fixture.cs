@@ -45,11 +45,10 @@ namespace CardGame.Client.Tests
             AddChild(_game);
             
             // Await the Main Scene Event to gather our data
-            TestEventData data = await UntilEvent(_game, nameof(_game.GameBegun), 3.0);
-            Players room = (Players) data.Arguments;
+            await UntilEvent(_game, nameof(_game.GameBegun), 3.0);
             
-            Room1 = _game.Room1;
-            Room2 = _game.Room2;
+            Room1 = _game.Rooms[0];
+            Room2 = _game.Rooms[1];
             P1 = Room1.Player;
             P2 = Room2.Player;
             P1Input = Room1.InputController;

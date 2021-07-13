@@ -1,45 +1,22 @@
 using System;
-using System.Reflection;
+using System.Collections.Generic;
 using CardGame.Client;
 using Godot;
 using Godot.Collections;
-using JetBrains.Annotations;
-using Array = System.Array;
 
 namespace CardGame
 {
-	public class Players : EventArgs
-	{
-		public Room Room1 { get; }
-		public Room Room2 { get; }
-		public Participant Player1 { get; }
-		public Participant Player2 { get; }
-		
-		public Players(Room room1, Room room2)
-		{
-			Room1 = room1;
-			Room2 = room2;
-			Player1 = room1.Player;
-			Player2 = room2.Player;
-		}
-	}
 	public class Main : Node
 	{
-		// Events
-		public event EventHandler<Players> GameBegun = (sender, args) => { };
+		public event EventHandler GameBegun;
 		public static event EventHandler RoomsUpdated = (sender, args) => { };
-		
-		// Exports
-		[UsedImplicitly][Export] private bool _room1IsVisible;
-		[UsedImplicitly][Export] private bool _room2IsVisible;
-		[Export] public Godot.Collections.Array<SetCodes> DeckList1 = DefaultDeck();
-		[Export] public Godot.Collections.Array<SetCodes> DeckList2 = DefaultDeck();
-
-		public Room Room1; 
-		public Room Room2;
-		private int _rooms = 0;
+		private enum Visibility { IsVisible, IsNotVisible }
+		[Export()] private Array<Visibility> RoomsVisible { get; set; } = new(Visibility.IsVisible, Visibility.IsNotVisible);
+		public Array<SetCodes> DeckList1 { get; set; }= DefaultDeck();
+		public Array<SetCodes> DeckList2 { get; set; }= DefaultDeck();
+		public List<Room> Rooms { get; } = new();
 		private static int _roomUpdates;
-		
+
 		public override void _Ready()
 		{
 			GetNode<Connection>("Client1").DeckList = DeckList1;
@@ -49,7 +26,7 @@ namespace CardGame
 
 		private static Array<SetCodes> DefaultDeck()
 		{
-			Array<SetCodes> deckList = new Array<SetCodes>();
+			Array<SetCodes> deckList = new();
 			for (int i = 0; i < 20; i++)
 			{
 				deckList.Add(SetCodes.AlphaBioShocker);
@@ -59,53 +36,30 @@ namespace CardGame
 			return deckList;
 		}
 
-		public void OnNodeAdded(Node node)
+		public async void OnNodeAdded(Node node)
 		{
-			switch (node)
-			{
-				case Room room:
-				{
-					_rooms++;
-					// ReSharper disable once ConvertIfStatementToSwitchStatement
-					if (_rooms == 1) { Room1 = room; }
-					if (_rooms == 2) { Room2 = room; }
-					bool visible = _rooms == 1 ? _room1IsVisible : _room2IsVisible;
-			
-					room.GetNode<Spatial>("Table").Visible = visible;
-					room.GetNode<Control>("Text").Visible = visible;
-					room.GetNode<Spatial>("Cards").Visible = visible;
-
-					if (_rooms != 2)
-					{
-						return;
-					}
-					
-					GameBegun.Invoke(null, new Players(Room1, Room2));
-					break;
-				}
-			}
+			if (node is not Room room) { return;}
+			Rooms.Add(room);
+			bool visible = RoomsVisible[Rooms.Count - 1] == Visibility.IsVisible;
+			await ToSignal(room, "ready");
+			room.Table.Visible = visible;
+			room.Text.Visible = visible;
+			room.Cards.Visible = visible;
+			if (Rooms.Count == 2) { GameBegun?.Invoke(null, null); }
 		}
 
 		public override void _Input(InputEvent gameEvent)
 		{
-			if (gameEvent is not InputEventKey {Pressed: true} key) return;
-			// ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
-			switch ((KeyList) key.Scancode)
-			{
-				case KeyList.S:
-				{
-					SetVisibility(Room1);
-					SetVisibility(Room2);
-					break;
-				}
-			}
+			if (gameEvent is not InputEventKey {Pressed: true, Scancode: (int) KeyList.S}) { return; }
+			SetVisibility(Rooms[0]);
+			SetVisibility(Rooms[1]);
 		}
 
-		private static void SetVisibility(Node room)
+		private static void SetVisibility(Room room)
 		{
-			room.GetNode<Spatial>("Table").Visible = !room.GetNode<Spatial>("Table").Visible;
-			room.GetNode<Control>("Text").Visible = !room.GetNode<Control>("Text").Visible;
-			room.GetNode<Spatial>("Cards").Visible = !room.GetNode<Spatial>("Cards").Visible;
+			room.Table.Visible = !room.Table.Visible;
+			room.Text.Visible = !room.Text.Visible;
+			room.Cards.Visible = !room.Cards.Visible;
 		}
 
 		public static void OnRoomUpdated()
