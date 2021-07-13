@@ -15,7 +15,6 @@ namespace CardGame.Client
 		public new Vector3 RotationDegrees { get => base.RotationDegrees; set => base.RotationDegrees = value; }
 
 		public Participant Controller { get; set; }
-		public Location CurrentLocation { get; set; }
 		public Zone CurrentZone { get; set; }
 		
 		public int Id { get; set;}
