@@ -19,6 +19,7 @@ namespace CardGame.Server
         private Link Link { get; } = new();
         private Enqueue Queue { get; }
         private Action UpdateClient { get; }
+        private Player TurnPlayer { get; set; }
 
         public Match(Player player1, Player player2, Cards cards, Action updateClient, Enqueue queue)
         {
@@ -35,7 +36,8 @@ namespace CardGame.Server
             players[0].LoadDeck(Cards).QueueOnClients(Queue);
             players[1].LoadDeck(Cards).QueueOnClients(Queue);
             foreach (Player player in players) { for (int i = 0; i < 7; i++) { player.Draw().QueueOnClients(Queue); } }
-            players[0].State = States.IdleTurnPlayer;
+            TurnPlayer = players[0];
+            TurnPlayer.State = States.IdleTurnPlayer;
             Update();
         }
         
@@ -126,27 +128,52 @@ namespace CardGame.Server
             History.Add(activation);
             activation.QueueOnClients(Queue);
             Link.Add(skillState);
-            player.State = States.Passive;
+            player.State = States.Acting;
             player.Opponent.State = States.Active;
             Update();
         }
         
         public void PassPlay(Player player)
         {
-            Console.WriteLine(0);
             if(Disqualified(player.State != States.Active, player, Illegal.PassPlay)) { return; }
-            Console.WriteLine(1);
-            player.State = States.Passive;
-            player.Opponent.State = States.Active;
+            if (player.Opponent.State == States.Acting)
+            {
+                Console.WriteLine("Passing");
+                player.State = States.Passing;
+                player.Opponent.State = States.Active;
+            }
+            else if (player.Opponent.State == States.Passing)
+            {
+                // TODO:
+                // Apply Triggers - When, Where, and how to respond? Maybe Async?
+                // Targeting (Set valid targets beforehand, server only needs to check validity)
+                // Resolve Events (Push Loop Up?)
+                    // while(link.resolving) resolve = link.next()
+                    // record
+                    // queue
+                Link.Resolve();
+                TurnPlayer.State = States.IdleTurnPlayer;
+                TurnPlayer.Opponent.State = States.Passive;
+            }
+            
             Update();
         }
         
         public void EndTurn(Player player)
         {
             if(Disqualified(player.State != States.IdleTurnPlayer, player, Illegal.EndTurn)) { return; }
+            
             player.State = States.Passive;
             player.Opponent.State = States.IdleTurnPlayer;
-            player.EndTurn().QueueOnClients(Queue);
+            
+            Event endTurn = player.EndTurn();
+            History.Add(endTurn);
+            endTurn.QueueOnClients(Queue);
+
+            TurnPlayer = TurnPlayer.Opponent;
+            TurnPlayer.State = States.IdleTurnPlayer;
+            TurnPlayer.Opponent.State = States.Passive;
+
             if (player.Opponent.Deck.Count > 0) { player.Opponent.Draw().QueueOnClients(Queue); } else { OnGameOver(player, player.Opponent); }
             foreach (Card card in player.Units) card.IsReady = true;
             foreach (Card card in player.Supports) card.IsReady = true;
