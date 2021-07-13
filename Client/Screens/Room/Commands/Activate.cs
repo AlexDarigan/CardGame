@@ -23,6 +23,8 @@ namespace CardGame.Client.Commands
             Card.Controller = room.Rival;
             Card.Translation = fake.Translation;
             Card.RotationDegrees = fake.RotationDegrees;
+            fake.Free();
+            
             
             Vector3 flipped = new Vector3(Card.RotationDegrees.x, Card.RotationDegrees.y, 0);
             room.Effects.InterpolateProperty(Card, nameof(Card.RotationDegrees), Card.RotationDegrees, flipped, .25f);
