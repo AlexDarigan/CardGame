@@ -11,7 +11,6 @@ namespace CardGame.Client
         [Export()] public Vector3 OffSet { get; set; }
 
         public Zone() { }
-        
         public int Count => Cards.Count;
         public Card this[int index] => Cards[index];
         public IEnumerator<Card> GetEnumerator() { return Cards.GetEnumerator(); }
@@ -20,22 +19,18 @@ namespace CardGame.Client
         public void Add(Card card)
         {
             Location location = new (Translation + OffSet * Locations.Count, OffSet, RotationDegrees) {Card = card};
-            card.CurrentLocation = location;
+            //card.CurrentLocation = location;
             card.CurrentZone = this;
             Cards.Add(card);
             Locations.Add(location);
+           // Reset();
             ShiftLeft();
         }
 
         public void Insert(int index, Card card)
         {
-            
             Cards.Insert(index, card);
-            Locations.Clear();
-            
-            // Correcting Locations since they're info is now out of order
-            foreach (Card c in Cards) { Locations.Add(new Location(Translation + OffSet, OffSet, RotationDegrees) {Card = c}); }
-            card.CurrentLocation = Locations[index];
+            Reset();
             card.CurrentZone = this;
         }
 
@@ -43,16 +38,24 @@ namespace CardGame.Client
         {
             Cards.Remove(card);
             card.CurrentZone = null;
-            card.CurrentLocation.Card = null; 
             RemoveEmptyLocation();
             ShiftRight();
+        }
+
+        private void Reset()
+        {
+            Locations.Clear();
+            foreach (Card c in Cards)
+            {
+                Locations.Add(new Location(Translation + OffSet * Locations.Count, OffSet, RotationDegrees) {Card = c});
+            }
         }
         
     
         private void RemoveEmptyLocation()
         {
             int index = 0;
-            while (index < Locations.Count && Locations[index].Card is not null) { index++; }
+            while (index < Locations.Count && Cards.Contains(Locations[index].Card)) { index++; }
             for (int i = index; i < Locations.Count - 1; i++)
             {
                 Location location = Locations[i];
@@ -75,7 +78,7 @@ namespace CardGame.Client
                     duration, Tween.TransitionType.Linear, Tween.EaseType.In);
                 
                 room.Effects.InterpolateProperty(location.Card, nameof(Card.RotationDegrees), location.Card.RotationDegrees, location.RotationDegrees,
-                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+                    duration, Tween.TransitionType.Linear, Tween.EaseType.In, .25f);
             }
         }
     }

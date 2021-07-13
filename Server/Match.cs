@@ -155,7 +155,18 @@ namespace CardGame.Server
                 // Some skills affect game state visually
                 // or rather some OPERATIONS do that so we need a way to return those operations back to the game state
                 // ...we could have the Resolve/Execute() function pass the result of the final method
-                Link.Resolve();
+                while (Link.IsResolving)
+                {
+                    Console.WriteLine("Resolving!");
+                    IEnumerable<Event> gameEvents = Link.Resolve();
+                    foreach (Event gameEvent in gameEvents)
+                    {
+                        Console.WriteLine("Queing gameEvents");
+                        History.Add(gameEvent);
+                        gameEvent.QueueOnClients(Queue);
+                    }
+                }
+                
                 TurnPlayer.State = States.IdleTurnPlayer;
                 TurnPlayer.Opponent.State = States.Passive;
             }

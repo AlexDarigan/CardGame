@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CardGame.Server.Events;
+using Godot;
 
 namespace CardGame.Server
 {
@@ -11,6 +13,7 @@ namespace CardGame.Server
         public Player Controller => OwningCard.Controller;
         public Player Opponent => OwningCard.Controller.Opponent;
         public List<Card> Cards { get; } = new();
+        private List<Event> Events { get; } = new();
         private List<int> OpCodes { get; }
         private readonly int _maxSize;
         private int _cursor = 0;
@@ -22,13 +25,29 @@ namespace CardGame.Server
             _maxSize = OpCodes.Count;
         }
 
-        public void Execute()
+        public IEnumerable<Event> Execute()
         {
-            Action<SkillState> operation = Operations.GetOperation((OpCodes) OpCodes[_cursor]);
-            operation(this);
-            _cursor++;
+            // WARNING: Loop may be too hidden
+            while (!IsDone())
+            {
+                Action<SkillState> operation = Operations.GetOperation((OpCodes) OpCodes[_cursor]);
+                operation(this);
+                _cursor++;
+            }
+            
+            // TODO: Find Somewhere better for this
+            // Only Applicable for Support Cards
+            if (OwningCard.CardTypes == CardTypes.Support)
+            {
+                Controller.Supports.Remove(OwningCard);
+                Owner.Graveyard.Add(OwningCard);
+                AddEvent(new SentToGraveyard(OwningCard));
+            }
+
+            return Events.AsEnumerable();
         }
 
+        public void AddEvent(Event gameEvent) => Events.Add(gameEvent);
         public void Jump(int i) { _cursor = _cursor + i - 1;}
         public void Push(int i) { OpCodes.Add(i); }
         public int Next() => OpCodes[++_cursor];

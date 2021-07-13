@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using CardGame.Client.Screens;
+using CardGame.Server.Events;
 
 namespace CardGame.Server
 {
@@ -105,9 +107,16 @@ namespace CardGame.Server
         {
             // If we use skill.PopBack() inlined into the loop, it seems to only ever return the value "2"..
             // ..I imagine this is because we're dealing with it inside a static method
+            Console.WriteLine("Drawing");
             Player player = GetPlayer(skill);
             int count = skill.PopBack();
-            for (int i = 0; i < count; i++) { player.Draw(); }
+            for (int i = 0; i < count; i++)
+            {
+                Card card = player.Deck[player.Deck.Count - 1];
+                player.Deck.Remove(card);
+                player.Hand.Add(card);
+                skill.AddEvent(new Draw(card));
+            }
         }
         
         // What if we make a number of helper methods, and then alias them for keywords (ie Draw = GetFromTopOfDeck, GoToHand, Source-Draw)..

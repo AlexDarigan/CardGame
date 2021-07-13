@@ -78,8 +78,8 @@ namespace CardGame.Client
 			Zone origin = CurrentZone;
 			origin.Remove(this);
 			destination.Add(this);
-			origin.Update(room);
 			destination.Update(room);
+			origin.Update(room);
 		}
 		
 		public void LookAt(Vector3 position) { base.LookAt(position, Vector3.Up); }
