@@ -24,11 +24,7 @@ namespace CardGame.Client.Commands
             Card.Translation = fake.Translation;
             Card.RotationDegrees = fake.RotationDegrees;
             fake.Free();
-<<<<<<< Updated upstream
-            
-=======
->>>>>>> Stashed changes
-            
+
             Vector3 flipped = new Vector3(Card.RotationDegrees.x, Card.RotationDegrees.y, 0);
             room.Effects.InterpolateProperty(Card, nameof(Card.RotationDegrees), Card.RotationDegrees, flipped, .25f);
         }

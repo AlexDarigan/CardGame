@@ -78,7 +78,7 @@ namespace CardGame.Client
                     duration, Tween.TransitionType.Linear, Tween.EaseType.In);
                 
                 room.Effects.InterpolateProperty(location.Card, nameof(Card.RotationDegrees), location.Card.RotationDegrees, location.RotationDegrees,
-                    duration, Tween.TransitionType.Linear, Tween.EaseType.In, .25f);
+                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
             }
         }
     }
