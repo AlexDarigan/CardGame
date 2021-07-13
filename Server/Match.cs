@@ -119,7 +119,7 @@ namespace CardGame.Server
 
         public void Activate(Player player, Card support)
         {
-            
+            Console.WriteLine("Serverside Activation!");
             if(Disqualified(support.CardStates != CardStates.Activate, player, Illegal.Activation)) { return; }
             
             (Event activation, SkillState skillState) = support.Activate();

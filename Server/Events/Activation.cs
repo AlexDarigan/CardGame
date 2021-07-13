@@ -1,4 +1,6 @@
-﻿namespace CardGame.Server.Events
+﻿using System.Linq;
+
+namespace CardGame.Server.Events
 {
     public class Activation: Event
     {
@@ -11,8 +13,8 @@
         
         public override void QueueOnClients(Enqueue queue)
         {
-            queue(Activated.Controller.Id, CommandId.Activate, Activated.Id);
-            queue(Activated.Controller.Opponent.Id, CommandId.Activate, Activated.Id);
+            int index = Activated.Controller.Supports.FindIndex(Activated);
+            queue(Activated.Controller.Opponent.Id, CommandId.Activate, Activated.Id, Activated.SetCodes, index);
         }
     }
 }

@@ -27,6 +27,18 @@ namespace CardGame.Client
             ShiftLeft();
         }
 
+        public void Insert(int index, Card card)
+        {
+            
+            Cards.Insert(index, card);
+            Locations.Clear();
+            
+            // Correcting Locations since they're info is now out of order
+            foreach (Card c in Cards) { Locations.Add(new Location(Translation + OffSet, OffSet, RotationDegrees) {Card = c}); }
+            card.CurrentLocation = Locations[index];
+            card.CurrentZone = this;
+        }
+
         public void Remove(Card card)
         {
             Cards.Remove(card);

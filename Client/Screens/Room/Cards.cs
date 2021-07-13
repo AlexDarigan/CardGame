@@ -12,7 +12,7 @@ namespace CardGame.Client
         public Cards() => Name = "Cards";
         public Card this[int id] => _cards[id];
 
-        public Card this[int id, SetCodes setCode]
+        public Card this[int id, SetCodes setCode = SetCodes.NullCard]
         {
             get
             {
