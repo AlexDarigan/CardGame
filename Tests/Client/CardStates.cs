@@ -36,7 +36,7 @@ namespace CardGame.Client.Tests
 			await StartGame(BuildDeck(SetCodes.AlphaQuestReward));
 			Card card = P1.Hand[0];
 			
-			await Queue(() => P1Input.OnCardPressed(card), P1Input.EndTurn, P2Input.EndTurn);
+			await Queue(() => P1Input.OnCardPressed(card), P1Input.OnPassPlayPressed, P2Input.OnPassPlayPressed);
 			
 			Assert.IsEqual(card.CardType, CardTypes.Support, "When it is a Support Card");
 			Assert.IsEqual(P1Input.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");
@@ -51,7 +51,7 @@ namespace CardGame.Client.Tests
 			Card attacker = P1.Hand[0];
 			Card defender = P2.Hand[0];
 			
-			await Queue(() => P1Input.OnCardPressed(attacker), P1Input.EndTurn, () => P2Input.OnCardPressed(defender), P2Input.EndTurn);
+			await Queue(() => P1Input.OnCardPressed(attacker), P1Input.OnPassPlayPressed, () => P2Input.OnCardPressed(defender), P2Input.OnPassPlayPressed);
 
 			Assert.IsEqual(attacker.CardType, CardTypes.Unit, "When it is a Unit Card");
 			Assert.IsEqual(P1Input.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");
@@ -66,7 +66,7 @@ namespace CardGame.Client.Tests
 			await StartGame(BuildDeck(SetCodes.AlphaBioShocker));
 			Card card = P1.Hand[0];
 
-			await Queue(() => P1Input.OnCardPressed(card), P1Input.EndTurn, P2Input.EndTurn);
+			await Queue(() => P1Input.OnCardPressed(card), P1Input.OnPassPlayPressed, P2Input.OnPassPlayPressed);
 			
 			Assert.IsEqual(card.CardType, CardTypes.Unit, "When it is a Unit Card");
 			Assert.IsEqual(P1Input.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");

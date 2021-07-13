@@ -52,7 +52,7 @@ namespace CardGame.Client
         private void RemoveEmptyLocation()
         {
             int index = 0;
-            while (Locations[index].Card is not null) { index++; }
+            while (index < Locations.Count && Locations[index].Card is not null) { index++; }
             for (int i = index; i < Locations.Count - 1; i++)
             {
                 Location location = Locations[i];

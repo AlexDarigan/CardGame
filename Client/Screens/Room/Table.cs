@@ -10,7 +10,7 @@ namespace CardGame.Client
         public Action PassPlayPressed;
         private SpatialMaterial PassPlay { get; set; }
 
-        public States State { set => PassPlay.AlbedoColor = value == States.IdleTurnPlayer ? Colors.Aqua : Colors.Red; }
+        public States State { set => PassPlay.AlbedoColor = value is States.IdleTurnPlayer or States.Active ? Colors.Aqua : Colors.Red; }
 
         public override void _Ready()
         {

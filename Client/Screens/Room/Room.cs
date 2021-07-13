@@ -30,7 +30,7 @@ namespace CardGame.Client
 			Text = GetNode<Text>("Text");
 			
 			Text.Id = CustomMultiplayer.GetNetworkUniqueId();
-			Table.PassPlayPressed = InputController.EndTurn;
+			Table.PassPlayPressed = InputController.OnPassPlayPressed;
 			Rival.Avatar.Pressed += InputController.OnRivalAvatarPressed;
 			InputController.Declare += (commandId, args) => { RpcId(1, Enum.GetName(commandId.GetType(), commandId), args); };
 			Cards.InputController = InputController;

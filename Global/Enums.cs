@@ -1,6 +1,4 @@
-﻿using System;
-using CardGame.Client;
-using JetBrains.Annotations;
+﻿using CardGame.Client;
 
 namespace CardGame
 {
@@ -98,7 +96,8 @@ namespace CardGame
         Battle,
         GameOver,
         DirectAttack,
-        Activate
+        Activate,
+        PassPlay
     }
     public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner }
     public enum CardStates { None, Deploy, AttackUnit, AttackPlayer, SetFaceDown, Activate }

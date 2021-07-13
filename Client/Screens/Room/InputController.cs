@@ -126,8 +126,17 @@ namespace CardGame.Client
 
 		private States None(Card card) { return State; }
 
-		public void PassPlay() { }
-
-		public void EndTurn() { if (State == States.IdleTurnPlayer) { Declare?.Invoke(CommandId.EndTurn); } }
+		public void OnPassPlayPressed()
+		{
+			switch (State)
+			{
+				case States.Active:
+					Declare?.Invoke(CommandId.PassPlay);
+					break;
+				case States.IdleTurnPlayer:
+					Declare?.Invoke(CommandId.EndTurn);
+					break;
+			}
+		}
 	}
 }

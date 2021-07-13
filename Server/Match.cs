@@ -125,16 +125,19 @@ namespace CardGame.Server
             (Event activation, SkillState skillState) = support.Activate();
             History.Add(activation);
             activation.QueueOnClients(Queue);
-            
             Link.Add(skillState);
-            Link.Resolve();
+            player.State = States.Passive;
+            player.Opponent.State = States.Active;
             Update();
         }
         
         public void PassPlay(Player player)
         {
+            Console.WriteLine(0);
             if(Disqualified(player.State != States.Active, player, Illegal.PassPlay)) { return; }
-            // More Here
+            Console.WriteLine(1);
+            player.State = States.Passive;
+            player.Opponent.State = States.Active;
             Update();
         }
         

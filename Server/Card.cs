@@ -29,13 +29,16 @@ namespace CardGame.Server
 
         public void Update()
         {
-            if (Controller.State != States.IdleTurnPlayer) { CardStates = CardStates.None; }
-            else if (CanBeDeployed()) { CardStates = CardStates.Deploy; }
-            else if (CanBeSetFaceDown()) { CardStates = CardStates.SetFaceDown;}
-            else if (CanAttackUnit()) { CardStates = CardStates.AttackUnit;}
-            else if (CanAttackPlayer()) { CardStates = CardStates.AttackPlayer; }
-            else if (CanBeActivated()) { CardStates = CardStates.Activate; }
-            else { CardStates = CardStates.None; }
+            CardStates = Controller.State switch
+            {
+                States.IdleTurnPlayer when CanBeDeployed() => CardStates.Deploy,
+                States.IdleTurnPlayer when CanBeSetFaceDown() => CardStates.SetFaceDown,
+                States.IdleTurnPlayer when CanAttackUnit() => CardStates.AttackUnit,
+                States.IdleTurnPlayer when CanAttackPlayer() => CardStates.AttackPlayer,
+                States.IdleTurnPlayer when CanBeActivated() => CardStates.Activate,
+                States.Active when CanBeActivated() => CardStates.Activate,
+                _ => CardStates.None
+            };
         }
 
         private bool CanBeDeployed() => Controller.Hand.Contains(this) && CardTypes is CardTypes.Unit;

@@ -17,7 +17,7 @@ namespace CardGame.Client.Tests
 
             int drawUntilDeckOut = P2.Deck.Count + 1;
 
-            for (int i = 0; i < drawUntilDeckOut; i++) { await Queue(P1Input.EndTurn, P2Input.EndTurn); }
+            for (int i = 0; i < drawUntilDeckOut; i++) { await Queue(P1Input.OnPassPlayPressed, P2Input.OnPassPlayPressed); }
             
             Assert.IsTrue(gameOver1.Visible, "Then Game Over Label is Visible in Room 1");
             Assert.IsTrue(gameOver2.Visible, "Then Game Over Label is Visible in Room 2");
