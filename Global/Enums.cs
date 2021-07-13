@@ -97,7 +97,8 @@ namespace CardGame
         SentToGraveyard,
         Battle,
         GameOver,
-        DirectAttack
+        DirectAttack,
+        Activate
     }
     public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner }
     public enum CardStates { None, Deploy, AttackUnit, AttackPlayer, SetFaceDown, Activate }

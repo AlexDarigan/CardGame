@@ -121,7 +121,12 @@ namespace CardGame.Server
         {
             
             if(Disqualified(support.CardStates != CardStates.Activate, player, Illegal.Activation)) { return; }
-            Link.Add(support.Activate());
+            
+            (Event activation, SkillState skillState) = support.Activate();
+            History.Add(activation);
+            activation.QueueOnClients(Queue);
+            
+            Link.Add(skillState);
             Link.Resolve();
             Update();
         }

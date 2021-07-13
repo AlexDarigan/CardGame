@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CardGame.Server.Events;
 
 namespace CardGame.Server
 {
@@ -42,6 +43,6 @@ namespace CardGame.Server
         private bool CanAttackUnit() => Controller.Units.Contains(this) && IsReady && Controller.Opponent.Units.Count > 0;
         private bool CanAttackPlayer() => Controller.Units.Contains(this) && IsReady && Controller.Opponent.Units.Count == 0;
         private bool CanBeActivated() => Controller.Supports.Contains(this) && IsReady;
-        public SkillState Activate() => new SkillState(this, Skill.OpCodes);
+        public (Activation, SkillState) Activate() => (new Activation(this), new SkillState(this, Skill.OpCodes));
     }
 }
