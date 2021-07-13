@@ -151,6 +151,10 @@ namespace CardGame.Server
                     // while(link.resolving) resolve = link.next()
                     // record
                     // queue
+                    
+                // Some skills affect game state visually
+                // or rather some OPERATIONS do that so we need a way to return those operations back to the game state
+                // ...we could have the Resolve/Execute() function pass the result of the final method
                 Link.Resolve();
                 TurnPlayer.State = States.IdleTurnPlayer;
                 TurnPlayer.Opponent.State = States.Passive;

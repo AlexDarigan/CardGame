@@ -23,7 +23,6 @@ namespace CardGame.Server
 
                 SkillState current = SkillStates[SkillStates.Count - 1];
                 current.Execute();
-                if(!current.IsDone()) continue;
                 SkillStates.Remove(current);
                 
                 // Feels like these could be fitted directly onto current?
