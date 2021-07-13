@@ -10,7 +10,7 @@ namespace CardGame.Client.Tests
         {
             await StartGame(BuildDeck(SetCodes.AlphaBioShocker));
             int handCount = P1.Hand.Count;
-            int unitsCount = P2.Units.Count;
+            int unitsCount = P1.Units.Count;
             
             await Queue(() => P1Input.OnCardPressed(P1.Hand[0]));
             

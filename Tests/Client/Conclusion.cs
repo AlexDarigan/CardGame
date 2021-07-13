@@ -11,10 +11,10 @@ namespace CardGame.Client.Tests
         public async Task WhenPlayer2DecksOut()
         {
 
+            await StartGame();
             Label gameOver1 = (Label) Room1.Text.Get("GameOver");
             Label gameOver2 = (Label) Room2.Text.Get("GameOver");
 
-            await StartGame();
             int drawUntilDeckOut = P2.Deck.Count + 1;
 
             for (int i = 0; i < drawUntilDeckOut; i++) { await Queue(P1Input.EndTurn, P2Input.EndTurn); }

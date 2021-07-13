@@ -4,7 +4,7 @@ namespace CardGame.Client.Tests
 {
     public class Battle: Fixture
     {
-        [Test()]
+        //[Test()]
         public async Task AttackerWinsBattle()
         {
             await Task.CompletedTask;

@@ -48,10 +48,12 @@ namespace CardGame.Client.Tests
             TestEventData data = await UntilEvent(_game, nameof(_game.GameBegun), 3.0);
             Players room = (Players) data.Arguments;
             
-            Room1 = room.Room1;
-            Room2 = room.Room2;
-            P1 = room.Player1;
-            P2 = room.Player2;
+            Room1 = _game.Room1;
+            Room2 = _game.Room2;
+            P1 = Room1.Player;
+            P2 = Room2.Player;
+            P1Input = Room1.InputController;
+            P2Input = Room2.InputController;
             
             // Await game state update so every player has a hand at least
             await Update(10);

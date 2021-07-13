@@ -19,8 +19,8 @@ namespace CardGame
 		{
 			Room1 = room1;
 			Room2 = room2;
-			Player1 = (Participant) typeof(Room).GetProperty("Player")!.GetValue(room1);
-			Player2 = (Participant) typeof(Room).GetProperty("Player")!.GetValue(room2);
+			Player1 = room1.Player;
+			Player2 = room2.Player;
 		}
 	}
 	public class Main : Node
@@ -35,9 +35,9 @@ namespace CardGame
 		[Export] public Godot.Collections.Array<SetCodes> DeckList1 = DefaultDeck();
 		[Export] public Godot.Collections.Array<SetCodes> DeckList2 = DefaultDeck();
 
-		private Room _room1; 
-		private Room _room2; 
-		private int _rooms;
+		public Room Room1; 
+		public Room Room2;
+		private int _rooms = 0;
 		private static int _roomUpdates;
 		
 		public override void _Ready()
@@ -67,16 +67,20 @@ namespace CardGame
 				{
 					_rooms++;
 					// ReSharper disable once ConvertIfStatementToSwitchStatement
-					if (_rooms == 1) _room1 = room;
-					if (_rooms == 2) _room2 = room;
+					if (_rooms == 1) { Room1 = room; }
+					if (_rooms == 2) { Room2 = room; }
 					bool visible = _rooms == 1 ? _room1IsVisible : _room2IsVisible;
 			
 					room.GetNode<Spatial>("Table").Visible = visible;
 					room.GetNode<Control>("Text").Visible = visible;
 					room.GetNode<Spatial>("Cards").Visible = visible;
 
-					if (_rooms != 2) return;
-					GameBegun.Invoke(null, new Players(_room1, _room2));
+					if (_rooms != 2)
+					{
+						return;
+					}
+					
+					GameBegun.Invoke(null, new Players(Room1, Room2));
 					break;
 				}
 			}
@@ -90,8 +94,8 @@ namespace CardGame
 			{
 				case KeyList.S:
 				{
-					SetVisibility(_room1);
-					SetVisibility(_room2);
+					SetVisibility(Room1);
+					SetVisibility(Room2);
 					break;
 				}
 			}
