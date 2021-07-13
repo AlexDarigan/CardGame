@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CardGame.Server
 {
@@ -9,37 +10,33 @@ namespace CardGame.Server
         public Player Owner => OwningCard.Owner;
         public Player Controller => OwningCard.Controller;
         public Player Opponent => OwningCard.Controller.Opponent;
-        public List<Card> Cards = new();
-        private List<int> _instructions;
+        public List<Card> Cards { get; }= new();
+        private List<int> OpCodes { get; }
         private int _cursor = 0;
         private readonly int _maxSize;
 
-        public SkillState(Card owningCard, IEnumerable<int> instructions)
+        public SkillState(Card owningCard, IEnumerable<int> opCodes)
         {
-            foreach (int instruction in instructions)
-            {
-                Console.WriteLine(instruction);
-            }
             OwningCard = owningCard;
-            _instructions = new List<int>(instructions);
-            _maxSize = _instructions.Count;
+            OpCodes = opCodes.ToList();
+            _maxSize = OpCodes.Count;
         }
 
         public void Execute()
         {
-            Action<SkillState> operation = Operations.GetOperation((OpCodes) _instructions[_cursor]);
+            Action<SkillState> operation = Operations.GetOperation((OpCodes) OpCodes[_cursor]);
             operation(this);
             _cursor++;
         }
 
         public void Jump(int i) { _cursor = _cursor + i - 1;}
-        public void Push(int i) { _instructions.Add(i); }
-        public int Next() => _instructions[++_cursor];
-        public int PopBack() => Pop(_instructions.Count - 1);
+        public void Push(int i) { OpCodes.Add(i); }
+        public int Next() => OpCodes[++_cursor];
+        public int PopBack() => Pop(OpCodes.Count - 1);
         private int Pop(int index)
         {
-            int popped = _instructions[index];
-            _instructions.RemoveAt(index);
+            int popped = OpCodes[index];
+            OpCodes.RemoveAt(index);
             return popped;
         }
         

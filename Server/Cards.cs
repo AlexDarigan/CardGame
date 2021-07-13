@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 namespace CardGame.Server
@@ -12,7 +11,7 @@ namespace CardGame.Server
          * like a list index, will always be -1 the card count after the card has been added (so if we add a card
          * it will be at index 0 with an id of 0 in a list of count 1)
          */
-        private readonly List<Card> _cards = new();
+        private List<Card> _cards { get; } = new();
         public int Count => _cards.Count;
         public Card this[int i] => _cards[i];
         public Card CreateCard(SetCodes setCodes, Player owner)

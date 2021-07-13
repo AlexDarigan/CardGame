@@ -5,14 +5,14 @@ namespace CardGame.Server
 {
     public class Zone : IEnumerable<Card>
     {
-        private readonly List<Card> _cards = new();
+        private List<Card> Cards { get; } = new();
 
-        public int Count => _cards.Count;
-        public Card this[int index] => _cards[index];
+        public int Count => Cards.Count;
+        public Card this[int index] => Cards[index];
 
         public IEnumerator<Card> GetEnumerator()
         {
-            return _cards.GetEnumerator();
+            return Cards.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -22,17 +22,17 @@ namespace CardGame.Server
 
         public void Add(Card card)
         {
-            _cards.Add(card);
+            Cards.Add(card);
         }
 
         public void Remove(Card card)
         {
-            _cards.Remove(card);
+            Cards.Remove(card);
         }
 
         public bool Contains(Card card)
         {
-            return _cards.Contains(card);
+            return Cards.Contains(card);
         }
     }
 }
