@@ -15,6 +15,7 @@ namespace CardGame.Server
 
         public bool GameOver { get; private set; }
         private Cards Cards { get; }
+        private History History { get; } = new();
         private List<SkillState> Link { get; } = new();
         private Enqueue Queue { get; }
         private Action UpdateClient { get; }
@@ -41,7 +42,9 @@ namespace CardGame.Server
         public void Deploy(Player player, Card unit)
         {
             if(Disqualified(unit.CardStates != CardStates.Deploy, player, Illegal.Deploy)) { return; }
-            player.Deploy(unit).QueueOnClients(Queue);
+            Event gameEvent = player.Deploy(unit);
+            History.Add(gameEvent);
+            gameEvent.QueueOnClients(Queue);
             Update();
         }
 
@@ -49,17 +52,26 @@ namespace CardGame.Server
         {
             if(Disqualified(attacker.CardStates != CardStates.AttackUnit, player, Illegal.AttackUnit)) { return; }
 
-            new Battle(attacker, defender).QueueOnClients(Queue);
+            Event battle = new Battle(attacker, defender);
+            History.Add(battle);
+            battle.QueueOnClients(Queue);
+            
             void DamageCalculation(Card winner, Card loser)
             {
                 
                 int difference = winner.Power - loser.Power;
                 loser.Controller.Health -= difference;
-                new SetHealth(loser.Controller).QueueOnClients(Queue);
+                
+                Event setHealth = new SetHealth(loser.Controller);
+                History.Add(setHealth);
+                setHealth.QueueOnClients(Queue);
                 
                 loser.Controller.Units.Remove(loser);
                 loser.Owner.Graveyard.Add(loser);
-                new SentToGraveyard(loser).QueueOnClients(Queue);
+                
+                Event sentToGraveyard = new SentToGraveyard(loser);
+                History.Add(sentToGraveyard);
+                sentToGraveyard.QueueOnClients(Queue);
 
                 if (loser.Controller.Health <= 0) { OnGameOver(winner.Controller, loser.Controller); }
             }
@@ -76,12 +88,20 @@ namespace CardGame.Server
             
             if(Disqualified(attacker.CardStates != CardStates.AttackPlayer, player, Illegal.AttackPlayer)) { return; }
             player.Opponent.Health -= attacker.Power;
-            new DirectAttack(attacker).QueueOnClients(Queue);
-            new SetHealth(player.Opponent).QueueOnClients(Queue);
+
+            Event directAttack = new DirectAttack(attacker);
+            History.Add(directAttack);
+            directAttack.QueueOnClients(Queue);
+            
+            Event setHealth = new SetHealth(player.Opponent);
+            History.Add(setHealth);
+            setHealth.QueueOnClients(Queue);
+            
             if (player.Opponent.Health <= 0)
             {
                 OnGameOver(player, player.Opponent);
             }
+            
             attacker.IsReady = false;
             Update();
         }
@@ -89,7 +109,11 @@ namespace CardGame.Server
         public void SetFaceDown(Player player, Card support)
         {
             if(Disqualified(support.CardStates != CardStates.SetFaceDown, player, Illegal.SetFaceDown)) { return; }
-            player.SetFaceDown(support).QueueOnClients(Queue);
+
+            Event setFaceDown = player.SetFaceDown(support);
+            History.Add(setFaceDown);
+            setFaceDown.QueueOnClients(Queue);
+            
             Update();
         }
 
@@ -102,6 +126,7 @@ namespace CardGame.Server
             Update();
         }
 
+        // If we're going to upgrade the link we're going to have to fix our tests to use pass play options
         private void Resolve()
         {
             while (Link.Count > 0)
@@ -157,7 +182,11 @@ namespace CardGame.Server
             winner.State = States.Winner;
             loser.State = States.Loser;
             GameOver = true;
-            new GameOver(loser).QueueOnClients(Queue);
+            
+            Event gameOver = new GameOver(loser);
+            History.Add(gameOver);
+            gameOver.QueueOnClients(Queue);
+            
             Update();
         }
     }
