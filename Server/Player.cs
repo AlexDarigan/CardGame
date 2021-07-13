@@ -16,10 +16,10 @@ namespace CardGame.Server
         private IEnumerable<SetCodes> DeckList { get; }
         public Zone Graveyard { get; } = new();
         public Zone Hand { get; } = new();
-        public int Id;
+        public int Id { get; }
         public Zone Supports { get; } = new();
         public Zone Units { get; } = new();
-        public Illegal ReasonPlayerWasDisqualified = Illegal.NotDisqualified;
+        public Illegal ReasonPlayerWasDisqualified { get; set; } = Illegal.NotDisqualified;
         
         // TODO: Remove this when old tests are removed
         public const bool Disqualified = false;

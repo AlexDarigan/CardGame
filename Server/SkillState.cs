@@ -10,10 +10,10 @@ namespace CardGame.Server
         public Player Owner => OwningCard.Owner;
         public Player Controller => OwningCard.Controller;
         public Player Opponent => OwningCard.Controller.Opponent;
-        public List<Card> Cards { get; }= new();
+        public List<Card> Cards { get; } = new();
         private List<int> OpCodes { get; }
-        private int _cursor = 0;
         private readonly int _maxSize;
+        private int _cursor = 0;
 
         public SkillState(Card owningCard, IEnumerable<int> opCodes)
         {

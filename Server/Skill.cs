@@ -4,11 +4,11 @@ namespace CardGame.Server
 {
     public class Skill
     {
-        public string Description { get; }
+        private Card Owner { get; }
+        private IEnumerable<Triggers> Triggers { get; }
         public IEnumerable<int> OpCodes { get; }
-        public Card Owner { get; }
-        public IEnumerable<Triggers> Triggers { get; }
-
+        private string Description { get; set; }
+        
         public Skill(Card owner, IEnumerable<Triggers> triggers, IEnumerable<int> opCodes, string description)
         {
             Owner = owner;

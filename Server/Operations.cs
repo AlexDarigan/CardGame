@@ -6,7 +6,7 @@ namespace CardGame.Server
 {
     public static class Operations
     {
-        private static readonly IReadOnlyDictionary<OpCodes, Action<SkillState>> Ops;
+        private static IReadOnlyDictionary<OpCodes, Action<SkillState>> Ops { get; }
         private const int Owner = 2;
         private const int Player = 1;
         private const int Opponent = 0;

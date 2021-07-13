@@ -6,47 +6,48 @@ namespace CardGame.Server
     public class Connection : Node
     {
         private const int Port = 5000;
-        private Queue<Player> _queue { get; } = new();
-        private NetworkedMultiplayerENet _server { get; } = new();
-        private int _roomCount;
-        public bool IsLive => _server.GetConnectionStatus() == NetworkedMultiplayerPeer.ConnectionStatus.Connected;
+        private Queue<Player> Players { get; } = new();
+        private List<Room> Rooms { get; } = new();
+        private NetworkedMultiplayerENet Server { get; } = new();
+        public bool IsLive => Server.GetConnectionStatus() == NetworkedMultiplayerPeer.ConnectionStatus.Connected;
         public bool IsServer => CustomMultiplayer.IsNetworkServer();
-        public int PlayerCount => _queue.Count;
 
+        
         public override void _Ready()
         {
-            Error err = _server.CreateServer(5000);
+            Error err = Server.CreateServer(5000);
             if (err != Error.Ok) GD.PushError(err.ToString());
-            CustomMultiplayer = new MultiplayerAPI {NetworkPeer = _server, RootNode = this};
+            CustomMultiplayer = new MultiplayerAPI {NetworkPeer = Server, RootNode = this};
         }
 
         [Master]
         public void OnNetworkPeerConnected(IEnumerable<SetCodes> deckList)
         {
-            _queue.Enqueue(new Player(CustomMultiplayer.GetRpcSenderId(), deckList));
+            Players.Enqueue(new Player(CustomMultiplayer.GetRpcSenderId(), deckList));
         }
 
         public override void _Process(float delta)
         {
             if (CustomMultiplayer.HasNetworkPeer()) CustomMultiplayer.Poll();
-            if (PlayerCount > 1) CreateRoom();
+            if (Players.Count > 1) { CreateRoom(); }
         }
 
         private void CreateRoom()
         {
             // This will likely need review when we build our GUI since it depends on NodePaths in the tree
-            Player player1 = _queue.Dequeue();
-            Player player2 = _queue.Dequeue();
-            _roomCount++;
-            Room room = new(player1, player2) {Name = _roomCount.ToString(), CustomMultiplayer = CustomMultiplayer};
-            RpcId(player1.Id, "CreateRoom", _roomCount.ToString());
-            RpcId(player2.Id, "CreateRoom", _roomCount.ToString());
+            Player player1 = Players.Dequeue();
+            Player player2 = Players.Dequeue();
+            string count = Rooms.Count.ToString();
+            Room room = new(player1, player2) {Name = count, CustomMultiplayer = CustomMultiplayer};
+            RpcId(player1.Id, "CreateRoom", count);
+            RpcId(player2.Id, "CreateRoom", count);
+            Rooms.Add(room);
             AddChild(room);
         }
 
         public override void _ExitTree()
         {
-            _server?.CloseConnection();
+            Server?.CloseConnection();
             QueueFree();
         }
     }
