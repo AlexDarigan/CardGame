@@ -69,7 +69,7 @@ namespace CardGame.Client
         private void ShiftRight() { foreach (Location location in Locations) { location.ShiftRight(); } }
         private void ShiftLeft() { foreach (Location location in Locations) { location.ShiftLeft(); } }
 
-        public void Update(Room room)
+        public virtual void Update(Room room)
         {
             const float duration = .2f;
             foreach (Location location in Locations)
