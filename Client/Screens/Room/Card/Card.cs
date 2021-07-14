@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Runtime.InteropServices;
 using Godot;
 using JetBrains.Annotations;
 
@@ -17,58 +18,27 @@ namespace CardGame.Client
 		public Participant Controller { get; set; }
 		public Zone CurrentZone { get; set; }
 		
+		private Art _art;
+		private Power _power;
+		private CardType _cardType;
+		
 		public int Id { get; set;}
 		public string Title { get; set; }
 		public CardStates CardState { get; set; }
 		public Factions Faction { get; set; }
-
-		public CardTypes CardType
-		{
-			get => _cardType;
-			set
-			{
-				_cardType = value;
-				_powerDisplay.Visible = value == CardTypes.Unit;
-			}
-		}
-
-		public Texture Art
-		{
-			set
-			{
-				_face.AlbedoTexture = value;
-				_face.EmissionTexture = value;
-			}
-		}
-
-		public int Power 
-		{ 
-			get => _power;
-			set
-			{
-				_power = value;
-				if (CardType != CardTypes.Unit) return;
-				string power = value.ToString(CultureInfo.InvariantCulture);
-				for (int i = 0; i < 4; i++)
-				{
-					_powerDisplay.GetChild<Sprite3D>(i).Texture =
-						GD.Load<Texture>($"res://Client/Assets/Numbers/Impact/{power[i]}.png");
-				}
-			}
-		}
-		public string Text { get; set; }
-
-		private CardTypes _cardType;
-		private SpatialMaterial _face;
-		private Spatial _powerDisplay;
-		private int _power;
 		
+		public Texture Art { set => _art.Value = value; }
+		public int Power { set => _power.Value = value; }
+		public string Text { get; set; }
+		public CardTypes CardType { get => _cardType.Value; set => _cardType.Value = value; }
+
 		public Card() { }
 		
-		public override void _Ready() 
-		{ 
-			_face = (SpatialMaterial) GetNode<MeshInstance>("Face").GetSurfaceMaterial(0);
-			_powerDisplay = GetNode<Spatial>("Power");
+		public override void _Ready()
+		{
+			_power = new Power(this);
+			_art = new Art(this);
+			_cardType = new CardType(this);
 			GetNode<Area>("Area").Connect("input_event", this, nameof(OnInputEvent)); 
 		}
 
