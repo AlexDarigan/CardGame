@@ -27,8 +27,18 @@ namespace CardGame.Client
 		public CardStates CardState { get; set; }
 		public Factions Faction { get; set; }
 		
-		public Texture Art { set => _art.Value = value; }
-		public int Power { set => _power.Value = value; }
+		public Texture Art
+		{
+			get => _art.Value;
+			set => _art.Value = value;
+		}
+
+		public int Power
+		{
+			get => _power.Value;
+			set => _power.Value = value;
+		}
+
 		public string Text { get; set; }
 		public CardTypes CardType { get => _cardType.Value; set => _cardType.Value = value; }
 

@@ -10,7 +10,11 @@ namespace CardGame.Client
 		private readonly Dictionary<int, Card> _cards = new();
 		public InputController InputController;
 		public Cards() => Name = "Cards";
-		public Card this[int id] => _cards[id];
+		public Card this[int id]
+		{
+			get => _cards[id];
+			set => _cards[id] = value;
+		}
 
 		public Card this[int id, SetCodes setCode = SetCodes.NullCard]
 		{

@@ -12,7 +12,8 @@ namespace CardGame.Server.Events
 
 		public override void QueueOnClients(Enqueue queue)
 		{
-			queue(Card.Controller.Id, CommandId.MoveCard, Who.Player, Card.Id, Card.SetCodes, Zones.Discard);
+			// TODO: Fix this to be generics
+			queue(Card.Controller.Id, CommandId.MoveCard, Who.Player, Card.Id, Card.SetCodes, Zones.Supports, Zones.Discard, 0, 0);
 			queue(Card.Controller.Opponent.Id, Command, Card.Id);
 		}
 	}
