@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace CardGame.Client.Commands
 {
@@ -12,6 +13,7 @@ namespace CardGame.Client.Commands
         private Zones Destination { get; }
         private int SourceIndex { get; }
         private int DestinationIndex { get; }
+        // Change From Card to Cards and unpack an IEnumerable
 
         public MoveCard(Who who, int id, SetCodes setCode, Zones origin, Zones destination, int sourceIndex = 0, int destinationIndex = 0)
         {
@@ -26,16 +28,11 @@ namespace CardGame.Client.Commands
         
         protected override void Setup(Room room)
         {
-            // NOTE/TODO: We mean to do this with multiple cards but let's start with one now
-            // GetPlayer
+            // TODO: Implement with multiple players
             Participant player = Who == Who.Player ? room.Player : room.Rival;
-            
-            // GetCard
             Card card = Who == Who.Player? room.Cards[CardId]: GetCard(room, player, Origin, SourceIndex, CardId, SetCode);
             
             Zone origin = card.CurrentZone;
-            Console.WriteLine(origin.Count);
-            Console.WriteLine(card.CurrentZone.Name);
 
             // Get Destination
             Zone destination = Destination switch
@@ -55,11 +52,7 @@ namespace CardGame.Client.Commands
         // ..but we'll let this execute anyway for the sake of ease (at least until a better alternative is sorted)
         private Card GetCard(Room room, Participant player, Zones from, int at, int id, SetCodes setCodes)
         {
-            // We have a card
-            Card card = room.Cards[id, setCodes];
-            
-            Console.WriteLine(from);
-            // We have a destination
+            // Figure out where we're moving our card from
             Zone origin = from switch
             {
                 Zones.Deck => player.Deck,
@@ -71,24 +64,33 @@ namespace CardGame.Client.Commands
             };
 
             // Now we have the location of the copy
-            Card copy = origin[at];
+            Card card = origin[at];
             
-            // We transfer our card stats to the copy
-            copy.Id = card.Id;
-            copy.Title = card.Title;
-            copy.CardType = card.CardType;
-            copy.Art = card.Art;
-            copy.Text = card.Text;
-            copy.Power = card.Power;
-            copy.Faction = card.Faction;
-            room.Cards[copy.Id] = copy;
+            // Card is not revealed to us so we just use the blank element
+            if (SetCode == SetCodes.NullCard) { return card; }
+
+            // Card is known to us so we transfer our archived data to the actual object
+            Card prototype = room.Cards[id, setCodes];
+
+            if (prototype == card)
+            {
+                // No need to transfer data between card A and card A
+                return card;
+            }
             
-            // Delete our unused card (if it isn't our default card)
-            // TODO: Investigate if we're creating too many objects here
-            if (card.Id != 0) { card.Free(); } ;
+            // Transfer data from our new card (prototype) to the blank card that already existed in origin
+            card.Id = prototype.Id;
+            card.Title = prototype.Title;
+            card.CardType = prototype.CardType;
+            card.Art = prototype.Art;
+            card.Text = prototype.Text;
+            card.Power = prototype.Power;
+            card.Faction = prototype.Faction;
             
-            // Return a reference to our card that already exists in the scene
-            return copy;
+            // Card has taken over the role of the newly created card
+            room.Cards[card.Id] = card;
+            prototype.Free(); // TODO: Fix Null Reference Exception (QueueFree won't cut it)
+            return card;
         }
     }
 }

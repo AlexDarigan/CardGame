@@ -71,7 +71,7 @@ namespace CardGame.Server
                 loser.Controller.Units.Remove(loser);
                 loser.Owner.Graveyard.Add(loser);
                 
-                Event sentToGraveyard = new SentToGraveyard(loser);
+                Event sentToGraveyard = new SentToGraveyard(loser.Controller, loser, 0, 0);
                 History.Add(sentToGraveyard);
                 sentToGraveyard.QueueOnClients(Queue);
 
@@ -121,7 +121,6 @@ namespace CardGame.Server
 
         public void Activate(Player player, Card support)
         {
-            Console.WriteLine("Serverside Activation!");
             if(Disqualified(support.CardStates != CardStates.Activate, player, Illegal.Activation)) { return; }
             
             (Event activation, SkillState skillState) = support.Activate();
@@ -138,7 +137,7 @@ namespace CardGame.Server
             if(Disqualified(player.State != States.Active, player, Illegal.PassPlay)) { return; }
             if (player.Opponent.State == States.Acting)
             {
-                Console.WriteLine("Passing");
+
                 player.State = States.Passing;
                 player.Opponent.State = States.Active;
             }
@@ -157,11 +156,9 @@ namespace CardGame.Server
                 // ...we could have the Resolve/Execute() function pass the result of the final method
                 while (Link.IsResolving)
                 {
-                    Console.WriteLine("Resolving!");
                     IEnumerable<Event> gameEvents = Link.Resolve();
                     foreach (Event gameEvent in gameEvents)
                     {
-                        Console.WriteLine("Queing gameEvents");
                         History.Add(gameEvent);
                         gameEvent.QueueOnClients(Queue);
                     }

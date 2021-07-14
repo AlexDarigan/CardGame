@@ -9,7 +9,7 @@
         
         public Draw(Card card, int index, int destination)
         {
-            Command = CommandId.Draw;
+           // Command = CommandId.Draw;
             Controller = card.Controller;
             Card = card;
             Source = index;

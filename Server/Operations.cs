@@ -108,7 +108,6 @@ namespace CardGame.Server
         {
             // If we use skill.PopBack() inlined into the loop, it seems to only ever return the value "2"..
             // ..I imagine this is because we're dealing with it inside a static method
-            Console.WriteLine("Drawing");
             Player player = GetPlayer(skill);
             int count = skill.PopBack();
             for (int i = 0; i < count; i++)
@@ -119,6 +118,7 @@ namespace CardGame.Server
                 skill.AddEvent(new Draw(card, player.Deck.Count, player.Hand.FindIndex(card)));
             }
         }
+        public record Record(string Name);
         
         // What if we make a number of helper methods, and then alias them for keywords (ie Draw = GetFromTopOfDeck, GoToHand, Source-Draw)..
         // ..this could cause problems with our Actor Models though.

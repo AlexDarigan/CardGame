@@ -98,7 +98,7 @@ namespace CardGame.Client
 
 		private States Activate(Card card)
 		{
-			Console.WriteLine("Activating Card");
+		
 			card.RotationDegrees = new Vector3(card.RotationDegrees.x, card.RotationDegrees.y, 0);
 			Declare?.Invoke(CommandId.Activate, card.Id);
 			return State; // The client can make assumptions about our state so we can trigger things immediatly
