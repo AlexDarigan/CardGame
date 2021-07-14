@@ -65,19 +65,7 @@ namespace CardGame.Client
 
         private void ShiftRight() { foreach (Location location in Locations) { location.ShiftRight(); } }
         private void ShiftLeft() { foreach (Location location in Locations) { location.ShiftLeft(); } }
-
-        public virtual void Update(Room room)
-        {
-            const float duration = .2f;
-            foreach (Location location in Locations)
-            {
-                room.Effects.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
-                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-                
-                room.Effects.InterpolateProperty(location.Card, nameof(Card.RotationDegrees), location.Card.RotationDegrees, location.RotationDegrees,
-                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-            }
-        }
+        
     }
     
 

@@ -47,8 +47,25 @@ namespace CardGame.Client
 			Zone origin = CurrentZone;
 			origin.Remove(this);
 			destination.Add(this);
-			destination.Update(room);
-			origin.Update(room);
+
+			const float duration = .2f;
+			foreach (Location location in origin.Locations)
+			{
+				room.Effects.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
+					duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+                
+				room.Effects.InterpolateProperty(location.Card, nameof(Card.RotationDegrees), location.Card.RotationDegrees, location.RotationDegrees,
+					duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+			}
+			
+			foreach (Location location in destination.Locations)
+			{
+				room.Effects.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
+					duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+                
+				room.Effects.InterpolateProperty(location.Card, nameof(Card.RotationDegrees), location.Card.RotationDegrees, location.RotationDegrees,
+					duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+			}
 		}
 		
 		public void LookAt(Vector3 position) { base.LookAt(position, Vector3.Up); }
