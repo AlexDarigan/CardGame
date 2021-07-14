@@ -5,6 +5,7 @@ namespace CardGame.Client.Commands
 {
 	public class LoadDeck : Command
 	{
+		private Who Who { get; }
 		private IEnumerable DeckList { get; }
 
 		public LoadDeck(Who who, IEnumerable deckList)
@@ -15,6 +16,7 @@ namespace CardGame.Client.Commands
 
 		protected override void Setup(Room room)
 		{
+			Participant Player = Who == Who.Player ? room.Player : room.Rival;
 			foreach (DictionaryEntry pair in DeckList)
 			{
 				int id = (int) pair.Key;

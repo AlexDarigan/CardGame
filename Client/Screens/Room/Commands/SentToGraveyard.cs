@@ -4,6 +4,7 @@ namespace CardGame.Client.Commands
 {
     public class SentToGraveyard: Command
     {
+        private int CardId { get; }
         
         public SentToGraveyard(int cardId)
         {
@@ -12,7 +13,8 @@ namespace CardGame.Client.Commands
         
         protected override void Setup(Room room)
         {
-            Move(room, Card, Card.Controller.Discard);
+            Card card = room.Cards[CardId];
+            Move(room, card, card.Controller.Discard);
         }
     }
 }

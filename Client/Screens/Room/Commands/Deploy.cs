@@ -5,6 +5,10 @@ namespace CardGame.Client.Commands
 {
     public class Deploy : Command
     {
+        private Who Who { get; }
+        private int CardId { get; }
+        private SetCodes SetCode { get; }
+        
         public Deploy(Who who, int card, SetCodes setCodes)
         {
             Who = who;
@@ -14,17 +18,19 @@ namespace CardGame.Client.Commands
 
         protected override void Setup(Room room)
         {
-            if(Who == Who.Rival) { SwapFakeCardForRealCard();} // Replace with clone methods
-            Move(room, Card, Player.Units);
+            Participant player = Who == Who.Player ? room.Player : room.Rival;
+            Card card = room.Cards[CardId, SetCode];
+            if(Who == Who.Rival) { SwapFakeCardForRealCard(player, card);} // Replace with clone methods
+            Move(room, card, player.Units);
         }
 
-        private void SwapFakeCardForRealCard()
+        private void SwapFakeCardForRealCard(Participant player, Card card)
         {
-            Card fake = Player.Hand.Last();
-            Player.Hand.Remove(fake);
-            Player.Hand.Add(Card);
+            Card fake = player.Hand.Last();
+            player.Hand.Remove(fake);
+            player.Hand.Add(card);
             fake.Free();
-            Card.Controller = Player;
+            card.Controller = player;
         }
     }
 }

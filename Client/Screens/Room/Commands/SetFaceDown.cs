@@ -6,6 +6,10 @@ namespace CardGame.Client.Commands
 {
     public class SetFaceDown : Command
     {
+        
+        private Who Who { get; }
+        private int CardId { get; }
+        
         public SetFaceDown(Who who, int card)
         {
             Who = who;
@@ -14,8 +18,9 @@ namespace CardGame.Client.Commands
 
         protected override void Setup(Room room)
         {
-            if (Who == Who.Rival) { Card = Player.Hand.Last();}
-            Move(room, Card, Player.Supports);
+            Participant player = Who == Who.Player? room.Player: room.Rival;
+            Card card = Who == Who.Player ? room.Cards[CardId] : room.Rival.Hand.Last();
+            Move(room, card, player.Supports);
         }
     }
 }

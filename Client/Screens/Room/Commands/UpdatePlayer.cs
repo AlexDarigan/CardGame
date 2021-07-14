@@ -4,6 +4,7 @@ namespace CardGame.Client.Commands
 {
     public class UpdatePlayer: Command
     {
+        private Who Who { get; }
         private States States { get; }
 
         public UpdatePlayer(States states)
