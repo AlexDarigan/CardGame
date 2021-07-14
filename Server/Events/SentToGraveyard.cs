@@ -18,8 +18,9 @@ namespace CardGame.Server.Events
 
 		public override void QueueOnClients(Enqueue queue)
 		{
-			queue(Controller.Id, CommandId.MoveCard, Who.Player, Card.Id, Card.SetCodes, Zones.Hand, Zones.Supports, Source, Destination);
-			queue(Controller.Opponent.Id, CommandId.MoveCard, Who.Rival, Card.Id, Card.SetCodes, Zones.Hand, Zones.Supports, Source, Destination);
+			Zones origin = Card.CardTypes == CardTypes.Unit ? Zones.Units : Zones.Supports;
+			queue(Controller.Id, CommandId.MoveCard, Who.Player, Card.Id, Card.SetCodes, origin, Zones.Discard, Source, Destination);
+			queue(Controller.Opponent.Id, CommandId.MoveCard, Who.Rival, Card.Id, Card.SetCodes, origin, Zones.Discard, Source, Destination);
 		}
 	}
 }
