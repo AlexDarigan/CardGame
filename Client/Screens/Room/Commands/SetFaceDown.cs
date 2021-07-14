@@ -15,7 +15,7 @@ namespace CardGame.Client.Commands
         protected override void Setup(Room room)
         {
             if (Who == Who.Rival) { Card = Player.Hand.Last();}
-            Card.Move(room, Player.Supports);
+            Move(room, Card, Player.Supports);
         }
     }
 }

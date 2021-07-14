@@ -42,32 +42,6 @@ namespace CardGame.Client
 			GetNode<Area>("Area").Connect("input_event", this, nameof(OnInputEvent)); 
 		}
 
-		public void Move(Room room, Zone destination)
-		{
-			Zone origin = CurrentZone;
-			origin.Remove(this);
-			destination.Add(this);
-
-			const float duration = .2f;
-			foreach (Location location in origin.Locations)
-			{
-				room.Effects.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
-					duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-                
-				room.Effects.InterpolateProperty(location.Card, nameof(Card.RotationDegrees), location.Card.RotationDegrees, location.RotationDegrees,
-					duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-			}
-			
-			foreach (Location location in destination.Locations)
-			{
-				room.Effects.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
-					duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-                
-				room.Effects.InterpolateProperty(location.Card, nameof(Card.RotationDegrees), location.Card.RotationDegrees, location.RotationDegrees,
-					duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-			}
-		}
-		
 		public void LookAt(Vector3 position) { base.LookAt(position, Vector3.Up); }
 		
 		public void OnInputEvent(Node camera, InputEvent input, Vector3 clickPos, Vector3 clickNormal, int shapeIdx)

@@ -14,8 +14,8 @@ namespace CardGame.Client.Commands
 
         protected override void Setup(Room room)
         {
-            if(Who == Who.Rival) { SwapFakeCardForRealCard();}
-            Card.Move(room, Player.Units);
+            if(Who == Who.Rival) { SwapFakeCardForRealCard();} // Replace with clone methods
+            Move(room, Card, Player.Units);
         }
 
         private void SwapFakeCardForRealCard()

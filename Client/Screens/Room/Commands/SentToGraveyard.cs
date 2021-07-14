@@ -12,7 +12,7 @@ namespace CardGame.Client.Commands
         
         protected override void Setup(Room room)
         {
-            Card.Move(room, Card.Controller.Discard);
+            Move(room, Card, Card.Controller.Discard);
         }
     }
 }
