@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using CardGame.Client;
 using CardGame.Client.Screens;
 using CardGame.Server.Events;
 
@@ -115,7 +116,7 @@ namespace CardGame.Server
                 Card card = player.Deck[player.Deck.Count - 1];
                 player.Deck.Remove(card);
                 player.Hand.Add(card);
-                skill.AddEvent(new Draw(card));
+                skill.AddEvent(new Draw(card, player.Deck.Count, player.Hand.FindIndex(card)));
             }
         }
         

@@ -15,7 +15,7 @@
         public override void QueueOnClients(Enqueue queue)
         {
             queue(Controller.Id, CommandId.MoveCard, Who.Player, Card.Id, Card.SetCodes, Zones.Hand, Zones.Units, 0, 0);
-            queue(Controller.Opponent.Id, Command, Who.Rival, Card.Id, Card.SetCodes);
+            queue(Controller.Opponent.Id, CommandId.MoveCard, Who.Rival, Card.Id, Card.SetCodes, Zones.Hand, Zones.Units, 0, 0);
         }
     }
 }

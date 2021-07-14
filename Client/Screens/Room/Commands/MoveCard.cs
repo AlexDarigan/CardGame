@@ -34,6 +34,8 @@ namespace CardGame.Client.Commands
             Card card = Who == Who.Player? room.Cards[CardId]: GetCard(room, player, Origin, SourceIndex, CardId, SetCode);
             
             Zone origin = card.CurrentZone;
+            Console.WriteLine(origin.Count);
+            Console.WriteLine(card.CurrentZone.Name);
 
             // Get Destination
             Zone destination = Destination switch
@@ -49,14 +51,16 @@ namespace CardGame.Client.Commands
             Move(room, card, destination);
         }
 
-        // BIG NOTE - ORIGIN NOT IN ARGUMENTS SERVERSIDE
-        protected Card GetCard(Room room, Participant player, Zones from, int at, int id, SetCodes setCodes)
+        // NOTE: Some Movements don't have a physical representation (Opponent setting a face-down card)..
+        // ..but we'll let this execute anyway for the sake of ease (at least until a better alternative is sorted)
+        private Card GetCard(Room room, Participant player, Zones from, int at, int id, SetCodes setCodes)
         {
             // We have a card
             Card card = room.Cards[id, setCodes];
             
+            Console.WriteLine(from);
             // We have a destination
-            Zone origin = Destination switch
+            Zone origin = from switch
             {
                 Zones.Deck => player.Deck,
                 Zones.Hand => player.Hand,
@@ -79,8 +83,9 @@ namespace CardGame.Client.Commands
             copy.Faction = card.Faction;
             room.Cards[copy.Id] = copy;
             
-            // Delete our unused card
-            card.Free();
+            // Delete our unused card (if it isn't our default card)
+            // TODO: Investigate if we're creating too many objects here
+            if (card.Id != 0) { card.Free(); } ;
             
             // Return a reference to our card that already exists in the scene
             return copy;

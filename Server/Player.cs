@@ -50,7 +50,7 @@ namespace CardGame.Server
             Card card = Deck[Deck.Count - 1];
             Deck.Remove(card);
             Hand.Add(card);
-            return new Draw(card);
+            return new Draw(card, Deck.Count, Hand.FindIndex(card));
         }
 
         public Event Deploy(Card unit)
