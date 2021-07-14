@@ -12,9 +12,8 @@ namespace CardGame.Server.Events
 
 		public override void QueueOnClients(Enqueue queue)
 		{
-			queue(Card.Controller.Id, Command, Card.Id);
+			queue(Card.Controller.Id, CommandId.MoveCard, Who.Player, Card.Id, Card.SetCodes, Zones.Discard);
 			queue(Card.Controller.Opponent.Id, Command, Card.Id);
-
 		}
 	}
 }
