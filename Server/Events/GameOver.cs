@@ -3,7 +3,7 @@
     public class GameOver: Event
     {
         private const bool IsLoser = true;
-        private Player Loser;
+        private Player Loser { get; }
         // Add Reason?
 
         public GameOver(Player loser) { Loser = loser; }

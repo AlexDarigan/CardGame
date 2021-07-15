@@ -4,7 +4,7 @@ namespace CardGame.Server.Events
 {
     public class EndTurn: Event
     {
-        private Player Player;
+        private Player Player { get; }
 
         public EndTurn(Player player)
         {
