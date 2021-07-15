@@ -16,8 +16,8 @@ namespace CardGame.Server.Events
         public override void QueueOnClients(Enqueue queue)
         {
             int index = Activated.Controller.Supports.FindIndex(Activated);
-            queue(Activated.Controller.Id, CommandId.Activate, Who.Player, Activated.Id, Activated.SetCodes, index);
-            queue(Activated.Controller.Opponent.Id, CommandId.Activate, Who.Rival, Activated.Id, Activated.SetCodes, index);
+            queue(Player.Id, CommandId.Activate, Who.Player, Activated.Id, Activated.SetCodes, index);
+            queue(Player.Opponent.Id, CommandId.Activate, Who.Rival, Activated.Id, Activated.SetCodes, index);
         }
     }
 }
