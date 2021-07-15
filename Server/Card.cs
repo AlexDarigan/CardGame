@@ -46,6 +46,6 @@ namespace CardGame.Server
         private bool CanAttackUnit() => Controller.Units.Contains(this) && IsReady && Controller.Opponent.Units.Count > 0;
         private bool CanAttackPlayer() => Controller.Units.Contains(this) && IsReady && Controller.Opponent.Units.Count == 0;
         private bool CanBeActivated() => Controller.Supports.Contains(this) && IsReady;
-        public (Activation, SkillState) Activate() => (new Activation(this), new SkillState(this, Skill.OpCodes));
+        public (Activation, SkillState) Activate() => (new Activation(Controller,this), new SkillState(this, Skill.OpCodes));
     }
 }

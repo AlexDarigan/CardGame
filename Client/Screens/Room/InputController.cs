@@ -17,7 +17,6 @@ namespace CardGame.Client
 		public event Declaration Declare;
 		public States State { get; set; } = States.Passive;
 		private Card Attacker { get; set; }
-		public Action<Card> Activated;
 
 		public InputController()
 		{
@@ -101,7 +100,6 @@ namespace CardGame.Client
 		{
 		
 			card.RotationDegrees = new Vector3(card.RotationDegrees.x, card.RotationDegrees.y, 0);
-			Activated(card);
 			Declare?.Invoke(CommandId.Activate, card.Id);
 			return State; // The client can make assumptions about our state so we can trigger things immediatly
 		}

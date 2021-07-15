@@ -34,7 +34,6 @@ namespace CardGame.Client
 			Text.Id = CustomMultiplayer.GetNetworkUniqueId();
 			Table.PassPlayPressed = InputController.OnPassPlayPressed;
 			Rival.Avatar.Pressed += InputController.OnRivalAvatarPressed;
-			InputController.Activated = Link.Activate;
 			InputController.Declare += (commandId, args) => { RpcId(1, Enum.GetName(commandId.GetType(), commandId), args); };
 			Cards.InputController = InputController;
 			RpcId(1, "OnClientReady");
