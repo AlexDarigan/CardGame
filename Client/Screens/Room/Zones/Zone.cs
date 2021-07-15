@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 namespace CardGame.Client
@@ -18,54 +19,36 @@ namespace CardGame.Client
 
         public void Add(Card card)
         {
-            Location location = new (Translation + OffSet * Locations.Count, OffSet, RotationDegrees) {Card = card};
             card.CurrentZone = this;
             Cards.Add(card);
-            Locations.Add(location);
-            ShiftLeft();
+            UpdatePositions();
         }
 
         public void Insert(int index, Card card)
         {
             Cards.Insert(index, card);
-            Reset();
             card.CurrentZone = this;
+            UpdatePositions();
         }
 
         public void Remove(Card card)
         {
             Cards.Remove(card);
             card.CurrentZone = null;
-            RemoveEmptyLocation();
-            ShiftRight();
+            UpdatePositions();
         }
-
-        private void Reset()
+        
+        private void UpdatePositions()
         {
             Locations.Clear();
-            foreach (Card c in Cards)
+            foreach (Card card in Cards)
             {
-                Locations.Add(new Location(Translation + OffSet * Locations.Count, OffSet, RotationDegrees) {Card = c});
+                Locations.Add(new Location(Translation + OffSet * Locations.Count, OffSet, RotationDegrees, card));
+                
+                // Push zone left every time we see a new card come into play
+                foreach (Location location in Locations) { location.ShiftLeft(); }
             }
         }
-        
-    
-        private void RemoveEmptyLocation()
-        {
-            int index = 0;
-            while (index < Locations.Count && Cards.Contains(Locations[index].Card)) { index++; }
-            for (int i = index; i < Locations.Count - 1; i++)
-            {
-                Location location = Locations[i];
-                location.Card = Locations[i + 1].Card;
-            }
-            
-            Locations.RemoveAt(Locations.Count - 1);
-        }
-
-        private void ShiftRight() { foreach (Location location in Locations) { location.ShiftRight(); } }
-        private void ShiftLeft() { foreach (Location location in Locations) { location.ShiftLeft(); } }
-        
     }
     
 
@@ -74,16 +57,16 @@ namespace CardGame.Client
         private Vector3 OffSet { get; }
         public Vector3 RotationDegrees { get; }
         public Vector3 Translation { get; private set; }
-        public Card Card { get; set; }
+        public Card Card { get; }
 
-        public Location(Vector3 translation, Vector3 offSet, Vector3 rotationDegrees)
+        public Location(Vector3 translation, Vector3 offSet, Vector3 rotationDegrees, Card card)
         {
             Translation = translation;
             OffSet = offSet;
             RotationDegrees = rotationDegrees;
+            Card = card;
         }
 
-        public void ShiftRight() { Translation += OffSet; }
         public void ShiftLeft() { Translation -= OffSet; }
     }
 }
