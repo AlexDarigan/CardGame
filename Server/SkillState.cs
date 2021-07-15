@@ -35,16 +35,6 @@ namespace CardGame.Server
                 _cursor++;
             }
             
-            // TODO: Find Somewhere better for this
-            // Only Applicable for Support Cards
-            if (OwningCard.CardTypes == CardTypes.Support)
-            {
-                int sourceIdx = OwningCard.Controller.Supports.FindIndex(OwningCard);
-                Controller.Supports.Remove(OwningCard);
-                Owner.Graveyard.Add(OwningCard);
-                AddEvent(new SentToGraveyard(Controller, OwningCard, sourceIdx, 0));
-            }
-
             return Events.AsEnumerable();
         }
 

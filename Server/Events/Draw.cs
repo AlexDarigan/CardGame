@@ -1,4 +1,6 @@
-﻿namespace CardGame.Server.Events
+﻿using System;
+
+namespace CardGame.Server.Events
 {
     public class Draw : Event
     {
@@ -18,7 +20,6 @@
 
         public override void QueueOnClients(Enqueue queue)
         {
-            // Destination isn't really doing anything here yet but better safer than sorry
             queue(Controller.Id, CommandId.MoveCard, Who.Player, Card.Id, Card.SetCodes, Zones.Deck, Zones.Hand, Source, Destination);
             queue(Controller.Opponent.Id, CommandId.MoveCard, Who.Rival, 0, SetCodes.NullCard, Zones.Deck, Zones.Hand, Source, Destination);
         }

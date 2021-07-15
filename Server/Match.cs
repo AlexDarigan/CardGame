@@ -126,6 +126,15 @@ namespace CardGame.Server
             (Event activation, SkillState skillState) = support.Activate();
             History.Add(activation);
             activation.QueueOnClients(Queue);
+
+            int sourceIndex = player.Supports.FindIndex(support);
+            player.Supports.Remove(support);
+            player.Graveyard.Add(support);
+            
+            Event sentToGraveyard = new SentToGraveyard(support.Controller, support, sourceIndex, 0);
+            History.Add(sentToGraveyard);
+            sentToGraveyard.QueueOnClients(Queue);
+            
             Link.Add(skillState);
             player.State = States.Acting;
             player.Opponent.State = States.Active;

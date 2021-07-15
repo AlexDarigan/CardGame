@@ -56,7 +56,7 @@ namespace CardGame.Client
 
 		public void OnCardPressed(Card pressed)
 		{
-			Console.WriteLine(pressed.CardState);
+		
 			if (pressed == Attacker)
 			{
 				CancelAttack();

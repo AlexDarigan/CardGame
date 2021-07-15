@@ -15,7 +15,7 @@ namespace CardGame.Client.Commands
         private int DestinationIndex { get; }
         // Change From Card to Cards and unpack an IEnumerable
 
-        public MoveCard(Who who, int id, SetCodes setCode, Zones origin, Zones destination, int sourceIndex = 0, int destinationIndex = 0)
+        public MoveCard(Who who, int id, SetCodes setCode, Zones origin, Zones destination, int sourceIndex, int destinationIndex)
         {
             Who = who;
             CardId = id;
@@ -24,6 +24,7 @@ namespace CardGame.Client.Commands
             Destination = destination;
             SourceIndex = sourceIndex;
             DestinationIndex = destinationIndex;
+            Console.WriteLine($"Source Value At Client Command is {SourceIndex}");
         }
         
         protected override void Setup(Room room)
@@ -63,6 +64,7 @@ namespace CardGame.Client.Commands
                 _ => throw new ArgumentOutOfRangeException()
             };
 
+           
             // Now we have the location of the copy
             Card card = origin[at];
             
