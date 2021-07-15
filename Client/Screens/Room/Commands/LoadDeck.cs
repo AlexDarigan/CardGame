@@ -23,13 +23,9 @@ namespace CardGame.Client.Commands
 				SetCodes setCode = (SetCodes) pair.Value;
 				room.Cards.Add(id, setCode);
 				Card card = room.Cards[id];
-				
+				room.Cards.RemoveChild(card);
 				Player.Deck.Add(card);
-				
 				card.Controller = Player;
-				Location location = Player.Deck.Locations.Last();
-				card.Translation = location.Translation;
-				card.RotationDegrees = location.RotationDegrees;
 			}
 		}
 	}

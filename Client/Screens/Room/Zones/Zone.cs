@@ -6,84 +6,38 @@ namespace CardGame.Client
 {
     public class Zone : Spatial, IEnumerable<Card>
     {
-        private List<Card> Cards { get; } = new();
-        public List<Location> Locations { get; } = new ();
+        protected List<Card> Cards { get; } = new();
         [Export()] public Vector3 OffSet { get; set; }
-
         public Zone() { }
+
         public int Count => Cards.Count;
         public Card this[int index] => Cards[index];
+
         public IEnumerator<Card> GetEnumerator() { return Cards.GetEnumerator(); }
         IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
 
-        public void Add(Card card)
+        public virtual void Add(Card card)
         {
-            Location location = new (Translation + OffSet * Locations.Count, OffSet, RotationDegrees) {Card = card};
-            card.CurrentZone = this;
+            AddChild(card);
             Cards.Add(card);
-            Locations.Add(location);
-            ShiftLeft();
+            card.Translate(OffSet * Cards.Count);
+            card.CurrentZone = this;
+            card.RotationDegrees = new Vector3(0, 0, 180);
+            Translate(new Vector3(-2, 0, 0));
         }
 
-        public void Insert(int index, Card card)
+        public virtual void Insert(int index, Card card)
         {
             Cards.Insert(index, card);
-            Reset();
             card.CurrentZone = this;
         }
 
-        public void Remove(Card card)
+        public virtual void Remove(Card card)
         {
+            RemoveChild(card);
             Cards.Remove(card);
             card.CurrentZone = null;
-            RemoveEmptyLocation();
-            ShiftRight();
+            Translate(new Vector3(1, 0, 0));
         }
-
-        private void Reset()
-        {
-            Locations.Clear();
-            foreach (Card c in Cards)
-            {
-                Locations.Add(new Location(Translation + OffSet * Locations.Count, OffSet, RotationDegrees) {Card = c});
-            }
-        }
-        
-    
-        private void RemoveEmptyLocation()
-        {
-            int index = 0;
-            while (index < Locations.Count && Cards.Contains(Locations[index].Card)) { index++; }
-            for (int i = index; i < Locations.Count - 1; i++)
-            {
-                Location location = Locations[i];
-                location.Card = Locations[i + 1].Card;
-            }
-            
-            Locations.RemoveAt(Locations.Count - 1);
-        }
-
-        private void ShiftRight() { foreach (Location location in Locations) { location.ShiftRight(); } }
-        private void ShiftLeft() { foreach (Location location in Locations) { location.ShiftLeft(); } }
-        
-    }
-    
-
-    public class Location
-    {
-        private Vector3 OffSet { get; }
-        public Vector3 RotationDegrees { get; }
-        public Vector3 Translation { get; private set; }
-        public Card Card { get; set; }
-
-        public Location(Vector3 translation, Vector3 offSet, Vector3 rotationDegrees)
-        {
-            Translation = translation;
-            OffSet = offSet;
-            RotationDegrees = rotationDegrees;
-        }
-
-        public void ShiftRight() { Translation += OffSet; }
-        public void ShiftLeft() { Translation -= OffSet; }
     }
 }

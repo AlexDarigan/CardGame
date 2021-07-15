@@ -133,8 +133,8 @@ __meta__ = {
 IsClient = true
 
 [node name="Deck" parent="Player" index="0"]
-transform = Transform( -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 10.5, 0, 8.25 )
-OffSet = Vector3( 0, 0.04, 0 )
+transform = Transform( -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 10.5, 0.51, 8.25 )
+OffSet = Vector3( 0, 1, 0 )
 
 [node name="Discard" parent="Player" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0.5, 4.5 )
@@ -142,7 +142,7 @@ OffSet = Vector3( 0, 0.04, 0 )
 
 [node name="Hand" parent="Player" index="2"]
 transform = Transform( 1, 0, 0, 0, 0.838671, -0.544639, 0, 0.544639, 0.838671, 1.1, 4, 11 )
-OffSet = Vector3( 1.1, 0, 0 )
+OffSet = Vector3( 2.1, 0, 0 )
 
 [node name="Supports" parent="Player" index="3"]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0.33, 7 )
@@ -165,13 +165,15 @@ value = 8000.0
 [node name="Rival" parent="." instance=ExtResource( 7 )]
 
 [node name="Deck" parent="Rival" index="0"]
-OffSet = Vector3( 0, 0.04, 0 )
+transform = Transform( 1, -8.74228e-08, -8.74228e-08, -8.74228e-08, -1, 0, -8.74228e-08, 7.64274e-15, -1, 10.5, 0.51, -8.25 )
+OffSet = Vector3( 0, 1, 0 )
 
 [node name="Discard" parent="Rival" index="1"]
 OffSet = Vector3( 0, 0.04, 0 )
 
 [node name="Hand" parent="Rival" index="2"]
-OffSet = Vector3( 1.1, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 0.838671, -0.544639, 0, 0.544639, 0.838671, 1.1, 6, -7.5 )
+OffSet = Vector3( 2.1, 0, 0 )
 
 [node name="Supports" parent="Rival" index="3"]
 OffSet = Vector3( 1.5, 0, 0 )

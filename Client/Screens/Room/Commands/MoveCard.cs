@@ -34,7 +34,7 @@ namespace CardGame.Client.Commands
             Card card = Who == Who.Player? room.Cards[CardId]: GetCard(room, player, Origin, SourceIndex, CardId, SetCode);
             
             Zone origin = card.CurrentZone;
-
+            
             // Get Destination
             Zone destination = Destination switch
             {
@@ -42,10 +42,11 @@ namespace CardGame.Client.Commands
                 Zones.Hand => player.Hand,
                 Zones.Supports => player.Supports,
                 Zones.Units => player.Units,
-                Zones.Discard => player.Discard,
+                Zones.Discard => player.Graveyard,
                 _ => throw new ArgumentOutOfRangeException()
             };
             
+            Console.WriteLine(destination.Name);
             Move(room, card, destination);
         }
 
@@ -60,20 +61,21 @@ namespace CardGame.Client.Commands
                 Zones.Hand => player.Hand,
                 Zones.Supports => player.Supports,
                 Zones.Units => player.Units,
-                Zones.Discard => player.Discard,
+                Zones.Discard => player.Graveyard,
                 _ => throw new ArgumentOutOfRangeException()
             };
 
            
             // Now we have the location of the copy
+            Console.WriteLine(origin.Name);
             Card card = origin[at];
-            
-            // Card is not revealed to us so we just use the blank element
+            //return card;
+            // // Card is not revealed to us so we just use the blank element
             if (SetCode == SetCodes.NullCard) { return card; }
-
+            
             // Card is known to us so we transfer our archived data to the actual object
             Card prototype = room.Cards[id, setCodes];
-
+            
             if (prototype == card)
             {
                 // No need to transfer data between card A and card A

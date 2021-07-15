@@ -28,7 +28,6 @@ namespace CardGame.Client
 		public void Add(int id, SetCodes setCodes)
 		{
 			Card card = (Card) CardScene.Instance();
-			card.Translation = new Vector3(0, -3, 0);
 			card.CardPressed += InputController.OnCardPressed;
 			AddChild(card);
 			Library.Cards[setCodes].WriteTo(card);

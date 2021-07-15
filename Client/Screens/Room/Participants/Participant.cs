@@ -8,7 +8,7 @@ namespace CardGame.Client
         [Export()] public bool IsClient { get; private set; }
         private int Health { get; set;  } = 8000;
         public Zone Deck { get; private set; }
-        public Zone Discard { get; private set; }
+        public Zone Graveyard { get; private set; }
         public Zone Hand { get; private set; }
         public Zone Supports { get; private set; }
         public Zone Units { get; private set; }
@@ -21,7 +21,7 @@ namespace CardGame.Client
         public override void _Ready()
         {
             Deck = GetNode<Zone>("Deck");
-            Discard = GetNode<Zone>("Discard");
+            Graveyard = GetNode<Zone>("Discard");
             Hand = GetNode<Zone>("Hand");
             Units = GetNode<Zone>("Units");
             Supports = GetNode<Zone>("Supports");
@@ -42,5 +42,16 @@ namespace CardGame.Client
             LifeCount.Text = newHealth.ToString(CultureInfo.InvariantCulture);
             Health = newHealth;
         }
+
+        public void LoadDeck() { }
+        public void Draw(Card card) { }
+        public void Deploy(Card card) { }
+        public void SetFaceDown(Card card) { }
+        public void Activate(Card card) { }
+        public void AttackUnit(Card attacker, Card defender) { }
+        public void AttackPlayer(Card attacker) { }
+        
+
+        
     }
 }
