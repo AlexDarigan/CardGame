@@ -16,6 +16,7 @@ namespace CardGame.Client
 		public Cards Cards { get; private set; }
 		public Table Table { get; private set; }
 		public Text Text { get; private set; }
+		public Link Link { get; private set; }
 		public Room() { }
 
 		public override void _Ready()
@@ -28,10 +29,12 @@ namespace CardGame.Client
 			Table = GetNode<Table>("Table");
 			Cards = GetNode<Cards>("Cards");
 			Text = GetNode<Text>("Text");
+			Link = GetNode<Link>("Link");
 			
 			Text.Id = CustomMultiplayer.GetNetworkUniqueId();
 			Table.PassPlayPressed = InputController.OnPassPlayPressed;
 			Rival.Avatar.Pressed += InputController.OnRivalAvatarPressed;
+			InputController.Activated = Link.Activate;
 			InputController.Declare += (commandId, args) => { RpcId(1, Enum.GetName(commandId.GetType(), commandId), args); };
 			Cards.InputController = InputController;
 			RpcId(1, "OnClientReady");

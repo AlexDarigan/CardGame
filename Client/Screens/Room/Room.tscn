@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Client/Screens/Room/Room.cs" type="Script" id=1]
 [ext_resource path="res://Client/Assets/Font/Kenney Bold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Client/Screens/Room/Table.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Client/Screens/Room/Effects.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Client/Screens/Room/Link.cs" type="Script" id=5]
 [ext_resource path="res://Client/Screens/Room/Participant.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Client/Screens/Room/Text.cs" type="Script" id=8]
 [ext_resource path="res://Client/Screens/Room/Cards.cs" type="Script" id=9]
@@ -114,6 +115,17 @@ align = 1
 valign = 1
 
 [node name="Timer" type="Timer" parent="Text"]
+
+[node name="Link" type="VBoxContainer" parent="."]
+margin_left = 25.0
+margin_top = 75.0
+margin_right = 125.0
+margin_bottom = 285.0
+custom_constants/separation = -130
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Effects" parent="." instance=ExtResource( 4 )]
 

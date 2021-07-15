@@ -45,6 +45,7 @@ namespace CardGame
 			room.Table.Visible = visible;
 			room.Text.Visible = visible;
 			room.Cards.Visible = visible;
+			room.Link.Visible = visible;
 			if (Rooms.Count == 2) { GameBegun?.Invoke(null, null); }
 		}
 
@@ -60,6 +61,7 @@ namespace CardGame
 			room.Table.Visible = !room.Table.Visible;
 			room.Text.Visible = !room.Text.Visible;
 			room.Cards.Visible = !room.Cards.Visible;
+			room.Link.Visible = !room.Link.Visible;
 		}
 
 		public static void OnRoomUpdated()

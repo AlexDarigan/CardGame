@@ -162,6 +162,8 @@ namespace CardGame.Server
                         History.Add(gameEvent);
                         gameEvent.QueueOnClients(Queue);
                     }
+                    
+                    new Resolve(TurnPlayer).QueueOnClients(Queue);
                 }
                 
                 TurnPlayer.State = States.IdleTurnPlayer;

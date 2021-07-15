@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Client/Assets/Models/WoodenTable/TableWooden.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Client/Screens/Room/Table.cs" type="Script" id=2]
+[ext_resource path="res://Client/Screens/Room/Card/Card.tscn" type="PackedScene" id=3]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -56,3 +57,13 @@ shape = SubResource( 3 )
 transform = Transform( 1.1, 0, 0, 0, 1, 0, 0, 0, 1.1, 0, -1, 0 )
 mesh = SubResource( 4 )
 material/0 = SubResource( 5 )
+
+[node name="Position3D" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, -16.4871, 3.85627, -5.70608 )
+visible = false
+
+[node name="Card" parent="Position3D" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 0.03, 0, 0, 0, 1.5, -0.179668, 0.0684953, 0.0684953 )
+
+[node name="Card2" parent="Position3D" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 0.03, 0, 0, 0, 1.5, 0, 0.63887, -0.248135 )

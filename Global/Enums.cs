@@ -96,7 +96,8 @@ namespace CardGame
         DirectAttack,
         Activate,
         PassPlay,
-        MoveCard
+        MoveCard,
+        Resolve
     }
     public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner,
         Passing,
