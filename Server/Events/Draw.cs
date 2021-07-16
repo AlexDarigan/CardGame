@@ -11,7 +11,6 @@ namespace CardGame.Server.Events
         
         public Draw(Card card, int index, int destination)
         {
-           // Command = CommandId.Draw;
             Controller = card.Controller;
             Card = card;
             Source = index;
@@ -20,8 +19,8 @@ namespace CardGame.Server.Events
 
         public override void QueueOnClients(Enqueue queue)
         {
-            queue(Controller.Id, CommandId.MoveCard, Who.Player, Card.Id, Card.SetCodes, Zones.Deck, Zones.Hand, Source, Destination);
-            queue(Controller.Opponent.Id, CommandId.MoveCard, Who.Rival, 0, SetCodes.NullCard, Zones.Deck, Zones.Hand, Source, Destination);
+            queue(Controller.Id, CommandId.PlayerDraw, Card.Id);
+            queue(Controller.Opponent.Id, CommandId.RivalDraw);
         }
     }
 }
