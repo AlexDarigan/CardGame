@@ -82,17 +82,16 @@ namespace CardGame
     
 
     public enum CommandId {
-        UpdatePlayer,
-        UpdateCards,
-        EndTurn,
-        SetHealth,
-        GameOver,
-        Resolve,
-        
         // Common
         AttackUnit,
         AttackParticipant,
+        EndTurn,
+        GameOver,
+        Resolve,
+        SetHealth,
         SentToGraveyard,
+        UpdatePlayer,
+        UpdateCards,
 
         // Player Commands
         PlayerLoadDeck,
@@ -108,11 +107,8 @@ namespace CardGame
         RivalSetFaceDown,
         RivalActivate,
     }
-    public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner,
-        Passing,
-        Acting
-    }
     
+    public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner, Passing, Acting }
     public enum Declaration { Deploy, SetFaceDown, Activate, AttackUnit, AttackPlayer, PassPlay, EndTurn}
     public enum Zones { Deck, Discard, Hand, Units, Supports }
     public enum CardStates { None, Deploy, AttackUnit, AttackPlayer, SetFaceDown, Activate }

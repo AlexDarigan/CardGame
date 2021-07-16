@@ -10,14 +10,12 @@ namespace CardGame.Server.Events
         public Resolve(Player player)
         {
             Player = player;
-            Command = CommandId.Resolve;
         }
-
-
+        
         public override void QueueOnClients(Enqueue queue)
         {
-            queue(Player.Id, Command);
-            queue(Player.Opponent.Id, Command);
+            queue(Player.Id, CommandId.Resolve);
+            queue(Player.Opponent.Id, CommandId.Resolve);
         }
     }
 }
