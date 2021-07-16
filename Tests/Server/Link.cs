@@ -22,6 +22,8 @@
             int deckCount = P1.Deck.Count;
             
             Match.Activate(P1, support);
+            Match.PassPlay(P2);
+            Match.PassPlay(P1);
             
             Assert.IsEqual(P1.Hand.Count, handCount + 2, "Player added 2 cards to their hand");
             //Assert.IsEqual(P1.Deck.Count, deckCount - 2, "Player removed the drawn cards from their deck");
