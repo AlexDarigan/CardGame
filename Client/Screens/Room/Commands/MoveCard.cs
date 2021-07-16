@@ -46,7 +46,7 @@ namespace CardGame.Client.Commands
 				_ => throw new ArgumentOutOfRangeException()
 			};
 			
-			Move(room, card, destination);
+			Move(card, destination);
 		}
 
 		// NOTE: Some Movements don't have a physical representation (Opponent setting a face-down card)..

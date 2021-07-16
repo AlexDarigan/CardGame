@@ -21,7 +21,7 @@ namespace CardGame.Client.Commands
             Participant player = Who == Who.Player ? room.Player : room.Rival;
             Card card = room.Cards[CardId, SetCode];
             if(Who == Who.Rival) { SwapFakeCardForRealCard(player, card);} // Replace with clone methods
-            Move(room, card, player.Units);
+            Move(card, player.Units);
         }
 
         private void SwapFakeCardForRealCard(Participant player, Card card)

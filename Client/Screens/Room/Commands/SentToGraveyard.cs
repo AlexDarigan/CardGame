@@ -14,7 +14,7 @@ namespace CardGame.Client.Commands
         protected override void Setup(Room room)
         {
             Card card = room.Cards[CardId];
-            Move(room, card, card.Controller.Discard);
+            Move(card, card.Controller.Discard);
         }
     }
 }

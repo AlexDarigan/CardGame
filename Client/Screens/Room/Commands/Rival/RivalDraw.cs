@@ -10,7 +10,7 @@ namespace CardGame.Client.Commands
             Card card = rival.Deck.Last();
             rival.Deck.Remove(card);
             rival.Hand.Add(card);
-            Move(room, card, rival.Hand);
+            Move(card, rival.Hand);
         }
     }
 }

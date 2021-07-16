@@ -7,18 +7,21 @@ namespace CardGame.Client.Commands
 {
     public abstract class Command
     {
+        private Room Room;
         // Store common operations down here so we can be more declarative in subclasses
         public async Task Execute(Room room)
         {
+            Room = room;
             room.Effects.RemoveAll();
             Setup(room);
+            Room = null;
             room.Effects.Start();
             await room.Effects.Executed();
         }
 
         protected abstract void Setup(Room room);
 
-        protected void Move(Room room, Card card, Zone destination)
+        protected void Move(Card card, Zone destination)
         {
             Zone origin = card.CurrentZone;
             origin.Remove(card);
@@ -27,19 +30,19 @@ namespace CardGame.Client.Commands
             const float duration = .2f;
             foreach (Card c in origin)
             {
-                room.Effects.InterpolateProperty(c, nameof(Card.Translation), c.Translation, c.Location.Translation,
+                Room.Effects.InterpolateProperty(c, nameof(Card.Translation), c.Translation, c.Location.Translation,
                     duration, Tween.TransitionType.Linear, Tween.EaseType.In);
                 
-                room.Effects.InterpolateProperty(c, nameof(Card.RotationDegrees), c.RotationDegrees, c.Location.RotationDegrees,
+                Room.Effects.InterpolateProperty(c, nameof(Card.RotationDegrees), c.RotationDegrees, c.Location.RotationDegrees,
                     duration, Tween.TransitionType.Linear, Tween.EaseType.In);
             }
 			
             foreach (Card c in destination)
             {
-                room.Effects.InterpolateProperty(c, nameof(Card.Translation), c.Translation, c.Location.Translation,
+                Room.Effects.InterpolateProperty(c, nameof(Card.Translation), c.Translation, c.Location.Translation,
                     duration, Tween.TransitionType.Linear, Tween.EaseType.In);
                 
-                room.Effects.InterpolateProperty(c, nameof(Card.RotationDegrees), c.RotationDegrees, c.Location.RotationDegrees,
+                Room.Effects.InterpolateProperty(c, nameof(Card.RotationDegrees), c.RotationDegrees, c.Location.RotationDegrees,
                     duration, Tween.TransitionType.Linear, Tween.EaseType.In);
             }
         }

@@ -18,10 +18,7 @@
             player.Deck.Remove(card);
             player.Deck.Add(card);
             
-            // Actual movement
-            player.Deck.Remove(card);
-            player.Hand.Add(card);
-            Move(room, card, player.Hand);
+            Move(card, player.Hand);
         }
     }
 }

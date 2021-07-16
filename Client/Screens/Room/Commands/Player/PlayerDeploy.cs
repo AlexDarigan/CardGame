@@ -14,7 +14,7 @@
         {
             Participant player = room.Player;
             Card card = room.Cards[CardId];
-            Move(room, card, player.Units);
+            Move(card, player.Units);
         }
     }
 }

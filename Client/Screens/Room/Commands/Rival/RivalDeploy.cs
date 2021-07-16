@@ -25,7 +25,7 @@ namespace CardGame.Client.Commands
             fake.Free();
             rival.Hand.Add(card);
             
-            Move(room, card, rival.Units);
+            Move(card, rival.Units);
         }
     }
 }

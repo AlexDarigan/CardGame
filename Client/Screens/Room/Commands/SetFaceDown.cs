@@ -20,7 +20,7 @@ namespace CardGame.Client.Commands
         {
             Participant player = Who == Who.Player? room.Player: room.Rival;
             Card card = Who == Who.Player ? room.Cards[CardId] : room.Rival.Hand.Last();
-            Move(room, card, player.Supports);
+            Move(card, player.Supports);
         }
     }
 }
