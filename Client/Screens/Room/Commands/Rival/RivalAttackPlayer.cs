@@ -1,4 +1,4 @@
-﻿namespace CardGame.Client.Commands.Rival
+﻿namespace CardGame.Client.Commands
 {
     public class RivalAttackPlayer
     {

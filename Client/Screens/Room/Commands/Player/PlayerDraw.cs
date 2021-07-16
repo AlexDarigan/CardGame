@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace CardGame.Client.Commands
+﻿namespace CardGame.Client.Commands
 {
     public class PlayerDraw: Command
     {

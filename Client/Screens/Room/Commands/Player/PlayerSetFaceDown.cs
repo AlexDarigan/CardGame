@@ -1,4 +1,4 @@
-﻿namespace CardGame.Client.Commands.Player
+﻿namespace CardGame.Client.Commands
 {
     public class PlayerSetFaceDown
     {
