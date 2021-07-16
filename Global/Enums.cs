@@ -97,7 +97,32 @@ namespace CardGame
         Activate,
         PassPlay,
         MoveCard,
-        Resolve
+        Resolve,
+        
+        // Player Commands
+        PlayerLoadDeck,
+        PlayerDraw,
+        PlayerDeploy,
+        PlayerSetFaceDown,
+        PlayerActivate,
+        PlayerAttackUnit,
+        PlayerAttackRival,
+        
+        // Rival Commands
+        RivalLoadDeck,
+        RivalDraw,
+        RivalDeploy,
+        RivalSetFaceDown,
+        RivalActivate,
+        RivalAttackUnit,
+        RivalAttackPlayer,
+        
+        // Common / Single-Person Actions
+        XResolve,
+        XPassPlay,
+        XEndTurn,
+        XWin,
+        XLose,
     }
     public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner,
         Passing,

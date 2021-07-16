@@ -10,23 +10,14 @@ namespace CardGame.Server.Events
 
         public LoadDeck(Player controller, Dictionary<int, SetCodes> deck)
         {
-            Command = CommandId.LoadDeck;
             Controller = controller;
             Deck = deck;
         }
 
         public override void QueueOnClients(Enqueue queue)
         {
-            queue(Controller.Id, Command, Who.Player, Deck.AsEnumerable());
-            queue(Controller.Opponent.Id, Command, Who.Rival, NullDeck());
-        }
-
-        private static IEnumerable<KeyValuePair<int, SetCodes>> NullDeck()
-        {
-            Dictionary<int, SetCodes> nullDeck = new();
-            for (int i = -1; i > -41; i--) nullDeck[i] = SetCodes.NullCard;
-
-            return nullDeck.AsEnumerable();
+            queue(Controller.Id, CommandId.PlayerLoadDeck, Deck.AsEnumerable());
+            queue(Controller.Opponent.Id, CommandId.RivalLoadDeck);
         }
     }
 }

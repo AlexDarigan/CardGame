@@ -28,9 +28,9 @@ namespace CardGame.Client
 		public void Add(int id, SetCodes setCodes)
 		{
 			Card card = (Card) CardScene.Instance();
-			card.Translation = new Vector3(0, -3, 0);
 			card.CardPressed += InputController.OnCardPressed;
 			AddChild(card);
+			// Could maybe defer this with async?
 			Library.Cards[setCodes].WriteTo(card);
 			_cards[id] = card;
 			card.Id = id;
