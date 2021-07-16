@@ -14,7 +14,7 @@ namespace CardGame.Client
 
 		private delegate States Play(Card card);
 		private ReadOnlyDictionary<CardStates, Play> Plays { get; }
-		public event Declaration Declare;
+		public event Declare Declare;
 		public States State { get; set; } = States.Passive;
 		private Card Attacker { get; set; }
 
@@ -72,7 +72,7 @@ namespace CardGame.Client
 
 		private States Deploy(Card card)
 		{
-			Declare?.Invoke(CommandId.Deploy, card.Id);
+			Declare?.Invoke(Declaration.Deploy, card.Id);
 			return States.Passive;
 		}
 
@@ -92,7 +92,7 @@ namespace CardGame.Client
 
 		private States SetFaceDown(Card card)
 		{
-			Declare?.Invoke(CommandId.SetFaceDown, card.Id);
+			Declare?.Invoke(Declaration.SetFaceDown, card.Id);
 			return State;
 		}
 
@@ -100,21 +100,21 @@ namespace CardGame.Client
 		{
 		
 			card.RotationDegrees = new Vector3(card.RotationDegrees.x, card.RotationDegrees.y, 0);
-			Declare?.Invoke(CommandId.Activate, card.Id);
+			Declare?.Invoke(Declaration.Activate, card.Id);
 			return State; // The client can make assumptions about our state so we can trigger things immediatly
 		}
 
 		private void CommitAttack(Card card)
 		{
 			StopDrawingLine();
-			Declare?.Invoke(CommandId.DeclareAttack, Attacker.Id, card.Id);
+			Declare?.Invoke(Declaration.AttackUnit, Attacker.Id, card.Id);
 			Attacker = null;
 		}
 
 		private void CommitAttack()
 		{
 			StopDrawingLine();
-			Declare?.Invoke(CommandId.DeclareDirectAttack, Attacker.Id);
+			Declare?.Invoke(Declaration.AttackPlayer, Attacker.Id);
 			Attacker = null;
 		}
 
@@ -131,10 +131,10 @@ namespace CardGame.Client
 			switch (State)
 			{
 				case States.Active:
-					Declare?.Invoke(CommandId.PassPlay);
+					Declare?.Invoke(Declaration.PassPlay);
 					break;
 				case States.IdleTurnPlayer:
-					Declare?.Invoke(CommandId.EndTurn);
+					Declare?.Invoke(Declaration.EndTurn);
 					break;
 			}
 		}

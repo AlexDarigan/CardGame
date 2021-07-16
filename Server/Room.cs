@@ -52,11 +52,11 @@ namespace CardGame.Server
 
         // Since we have common operations inside our Room near the start and end of actions, maybe we should change this to a switch?
         [Master] public void Deploy(int cardId) => Match.Deploy(Players[Multiplayer.GetRpcSenderId()], Cards[cardId]);
-        [Master] public void DeclareAttack(int attackerId, int defenderId) => Match.DeclareAttack(Players[Multiplayer.GetRpcSenderId()], Cards[attackerId], Cards[defenderId]);
-        [Master] public void DeclareDirectAttack(int attackerId) => Match.DeclareDirectAttack(Players[Multiplayer.GetRpcSenderId()], Cards[attackerId]);
+        [Master] public void AttackUnit(int attackerId, int defenderId) => Match.DeclareAttack(Players[Multiplayer.GetRpcSenderId()], Cards[attackerId], Cards[defenderId]);
+        [Master] public void AttackPlayer(int attackerId) => Match.DeclareDirectAttack(Players[Multiplayer.GetRpcSenderId()], Cards[attackerId]);
         [Master] public void Activate(int cardId) => Match.Activate(Players[Multiplayer.GetRpcSenderId()], Cards[cardId]);
-        [Master] public void PassPlay() => Match.PassPlay(Players[Multiplayer.GetRpcSenderId()]);
         [Master] public void SetFaceDown(int cardId) => Match.SetFaceDown(Players[Multiplayer.GetRpcSenderId()], Cards[cardId]);
+        [Master] public void PassPlay() => Match.PassPlay(Players[Multiplayer.GetRpcSenderId()]);
         [Master] public void EndTurn() => Match.EndTurn(Players[Multiplayer.GetRpcSenderId()]); 
     }
 }

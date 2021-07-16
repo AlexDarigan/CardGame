@@ -3,7 +3,7 @@ using Godot;
 
 namespace CardGame.Client
 {
-	public delegate void Declaration(CommandId commandId, params object[] args);
+	public delegate void Declare(Declaration declaration, params object[] args);
 	
 	public class Room : Node
 	{

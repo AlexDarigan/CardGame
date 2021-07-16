@@ -104,6 +104,7 @@ namespace CardGame
         Acting
     }
     
+    public enum Declaration { Deploy, SetFaceDown, Activate, AttackUnit, AttackPlayer, PassPlay, EndTurn}
     public enum Zones { Deck, Discard, Hand, Units, Supports }
     public enum CardStates { None, Deploy, AttackUnit, AttackPlayer, SetFaceDown, Activate }
     public enum Illegal { NotDisqualified, Draw, Deploy, AttackUnit, AttackPlayer, SetFaceDown, PassPlay, EndTurn, Activation }

@@ -43,9 +43,19 @@ namespace CardGame.Client
             Locations.Clear();
             foreach (Card card in Cards)
             {
+                // Place Location at our translation + offset per location (ie card) in zone
                 Locations.Add(new Location(Translation + OffSet * Locations.Count, OffSet, RotationDegrees, card));
                 
-                // Push zone left every time we see a new card come into play
+                // Shift all locations left after adding a new one
+                // 1. Add Location 0
+                // 2. Shift Location 0 Left
+                // 3. Add Location 1
+                // 4. Shift Location 0 Left
+                // 5. Shift Location 1 Left
+                // 6. Add Location 2
+                // 7. Shift Location 0 Left
+                // 8. Shift Location 1 Left
+                // 9. Shift Location 2 Left
                 foreach (Location location in Locations) { location.ShiftLeft(); }
             }
         }
