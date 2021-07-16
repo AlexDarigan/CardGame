@@ -15,6 +15,7 @@ namespace CardGame.Client
 		public new Vector3 Translation { get => base.Translation; set => base.Translation = value; }
 		public new Vector3 RotationDegrees { get => base.RotationDegrees; set => base.RotationDegrees = value; }
 
+		public Participant OwningParticipant { get; set; }
 		public Participant Controller { get; set; }
 		public Zone CurrentZone { get; set; }
 		
@@ -27,17 +28,8 @@ namespace CardGame.Client
 		public CardStates CardState { get; set; }
 		public Factions Faction { get; set; }
 		
-		public Texture Art
-		{
-			get => _art.Value;
-			set => _art.Value = value;
-		}
-
-		public int Power
-		{
-			get => _power.Value;
-			set => _power.Value = value;
-		}
+		public Texture Art { get => _art.Value; set => _art.Value = value; }
+		public int Power { get => _power.Value; set => _power.Value = value; }
 
 		public string Text { get; set; }
 		public CardTypes CardType { get => _cardType.Value; set => _cardType.Value = value; }

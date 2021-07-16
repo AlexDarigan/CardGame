@@ -18,6 +18,7 @@ namespace CardGame.Client.Commands
         {
             Participant rival = room.Rival;
             Card card = room.Cards[CardId, SetCode];
+            card.OwningParticipant = rival;
             card.Controller = rival;
             Card fake = rival.Supports.Last();
             rival.Supports.Remove(fake);

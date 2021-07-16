@@ -84,17 +84,16 @@ namespace CardGame
     public enum CommandId {
         UpdatePlayer,
         UpdateCards,
-        //SetFaceDown, /// ??????? 
         EndTurn,
         SetHealth,
         GameOver,
-        MoveCard,
         Resolve,
         
         // Common
         AttackUnit,
         AttackParticipant,
-        
+        SentToGraveyard,
+
         // Player Commands
         PlayerLoadDeck,
         PlayerDraw,

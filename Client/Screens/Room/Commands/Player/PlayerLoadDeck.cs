@@ -18,6 +18,7 @@ namespace CardGame.Client.Commands
             {
                 Card card = room.Cards[(int) pair.Key, (SetCodes) pair.Value];
                 player.Deck.Add(card);
+                card.OwningParticipant = player;
                 card.Controller = player;
                 card.Translation = card.Location.Translation;
                 card.RotationDegrees = card.Location.RotationDegrees;
