@@ -84,20 +84,16 @@ namespace CardGame
     public enum CommandId {
         UpdatePlayer,
         UpdateCards,
-        LoadDeck, 
-        Deploy, 
-        SetFaceDown, 
+        //SetFaceDown, /// ??????? 
         EndTurn,
-        DeclareAttack,
-        DeclareDirectAttack,
         SetHealth,
-        Battle,
         GameOver,
-        DirectAttack,
-        Activate,
-        PassPlay,
         MoveCard,
         Resolve,
+        
+        // Common
+        AttackUnit,
+        AttackParticipant,
         
         // Player Commands
         PlayerLoadDeck,
@@ -105,8 +101,6 @@ namespace CardGame
         PlayerDeploy,
         PlayerSetFaceDown,
         PlayerActivate,
-        PlayerAttackUnit,
-        PlayerAttackRival,
         
         // Rival Commands
         RivalLoadDeck,
@@ -114,15 +108,6 @@ namespace CardGame
         RivalDeploy,
         RivalSetFaceDown,
         RivalActivate,
-        RivalAttackUnit,
-        RivalAttackPlayer,
-        
-        // Common / Single-Person Actions
-        XResolve,
-        XPassPlay,
-        XEndTurn,
-        XWin,
-        XLose,
     }
     public enum States { IdleTurnPlayer, Active, Passive, Loser, Winner,
         Passing,

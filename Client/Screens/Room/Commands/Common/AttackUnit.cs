@@ -2,12 +2,12 @@
 
 namespace CardGame.Client.Commands
 {
-    public class Battle: Command
+    public class AttackUnit: Command
     {
         private int AttackerId { get; }
         private int DefenderId { get; }
 
-        public Battle(int attackerId, int defenderId)
+        public AttackUnit(int attackerId, int defenderId)
         {
             AttackerId = attackerId;
             DefenderId = defenderId;

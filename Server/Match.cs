@@ -54,7 +54,7 @@ namespace CardGame.Server
         {
             if(Disqualified(attacker.CardStates != CardStates.AttackUnit, player, Illegal.AttackUnit)) { return; }
 
-            Event battle = new Battle(attacker, defender);
+            Event battle = new AttackUnit(attacker, defender);
             History.Add(battle);
             battle.QueueOnClients(Queue);
             
@@ -91,7 +91,7 @@ namespace CardGame.Server
             if(Disqualified(attacker.CardStates != CardStates.AttackPlayer, player, Illegal.AttackPlayer)) { return; }
             player.Opponent.Health -= attacker.Power;
 
-            Event directAttack = new DirectAttack(attacker);
+            Event directAttack = new AttackParticipant(attacker);
             History.Add(directAttack);
             directAttack.QueueOnClients(Queue);
             

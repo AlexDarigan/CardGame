@@ -9,7 +9,7 @@ namespace CardGame.Server.Events
 
 		public SentToGraveyard(Player controller, Card card, int source, int destination)
 		{
-			Command = CommandId.SetFaceDown;
+			//Command = CommandId.SetFaceDown;
 			Controller = controller;
 			Card = card;
 			Source = source;

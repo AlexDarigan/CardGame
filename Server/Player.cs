@@ -50,7 +50,7 @@ namespace CardGame.Server
             Card card = Deck[Deck.Count - 1];
             Deck.Remove(card);
             Hand.Add(card);
-            return new Draw(card, Deck.Count, Hand.FindIndex(card));
+            return new Draw(card);
         }
 
         public Event Deploy(Card unit)
@@ -58,7 +58,7 @@ namespace CardGame.Server
             Hand.Remove(unit);
             Units.Add(unit);
             unit.Zone = Units;
-            return new Deploy(this, unit, Hand.Count, Units.FindIndex(unit));
+            return new Deploy(this, unit);
         }
 
         public Event SetFaceDown(Card support)
@@ -66,7 +66,7 @@ namespace CardGame.Server
             Hand.Remove(support);
             Supports.Add(support);
             support.Zone = Supports;
-            return new SetFaceDown(this, support, Hand.Count, Supports.FindIndex(support));
+            return new SetFaceDown(this, support);
         }
 
         public Event EndTurn()

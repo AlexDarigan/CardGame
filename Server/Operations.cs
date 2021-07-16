@@ -113,10 +113,9 @@ namespace CardGame.Server
             for (int i = 0; i < count; i++)
             {
                 Card card = player.Deck[player.Deck.Count - 1];
-                int sourceIndex = player.Deck.FindIndex(card);
                 player.Deck.Remove(card);
                 player.Hand.Add(card);
-                skill.AddEvent(new Draw(card, sourceIndex, player.Hand.FindIndex(card)));
+                skill.AddEvent(new Draw(card));
             }
         }
         

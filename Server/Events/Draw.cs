@@ -6,15 +6,11 @@ namespace CardGame.Server.Events
     {
         private Card Card { get; }
         private Player Controller { get; }
-        private int Source { get; }
-        private int Destination { get; }
-        
-        public Draw(Card card, int index, int destination)
+      
+        public Draw(Card card)
         {
             Controller = card.Controller;
             Card = card;
-            Source = index;
-            Destination = destination;
         }
 
         public override void QueueOnClients(Enqueue queue)

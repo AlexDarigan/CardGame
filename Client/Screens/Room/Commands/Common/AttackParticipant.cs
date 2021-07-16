@@ -2,11 +2,11 @@
 
 namespace CardGame.Client.Commands
 {
-    public class DirectAttack: Command
+    public class AttackParticipant: Command
     {
         private int CardId { get; }
 
-        public DirectAttack(int cardId)
+        public AttackParticipant(int cardId)
         {
             CardId = cardId;
         }

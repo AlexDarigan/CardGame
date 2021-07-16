@@ -4,16 +4,11 @@
     {
         private Card Card { get; }
         private Player Controller { get; }
-        private int Source { get; }
-        private int Destination { get; }
 
-        public Deploy(Player controller, Card card, int source, int destination)
+        public Deploy(Player controller, Card card)
         {
-            Command = CommandId.SetFaceDown;
             Controller = controller;
-            Card = card;
-            Source = source;
-            Destination = destination;
+            Card = card; 
         }
 
         public override void QueueOnClients(Enqueue queue)
