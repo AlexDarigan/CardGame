@@ -22,6 +22,7 @@ namespace CardGame.Client
 		private Art _art;
 		private Power _power;
 		private CardType _cardType;
+		private CardText _text;
 		
 		public int Id { get; set;}
 		public string Title { get; set; }
@@ -30,8 +31,7 @@ namespace CardGame.Client
 		
 		public Texture Art { get => _art.Value; set => _art.Value = value; }
 		public int Power { get => _power.Value; set => _power.Value = value; }
-
-		public string Text { get; set; }
+		public string Text { get => _text.Value; set => _text.Value = value; }
 		public CardTypes CardType { get => _cardType.Value; set => _cardType.Value = value; }
 		public Location Location { get; set; }
 
@@ -42,10 +42,16 @@ namespace CardGame.Client
 			_power = new Power(this);
 			_art = new Art(this);
 			_cardType = new CardType(this);
-			GetNode<Area>("Area").Connect("input_event", this, nameof(OnInputEvent)); 
+			_text = new CardText(this);
+			GetNode<Area>("Area").Connect("input_event", this, nameof(OnInputEvent));
+			GetNode<Area>("Area").Connect("mouse_entered", this, nameof(OnMouseEntered));
+			GetNode<Area>("Area").Connect("mouse_exited", this, nameof(OnMouseExited));
 		}
 
 		public void LookAt(Vector3 position) { base.LookAt(position, Vector3.Up); }
+
+		public void OnMouseEntered() { _text.Show(); }
+		public void OnMouseExited() { _text.Hide(); }
 		
 		public void OnInputEvent(Node camera, InputEvent input, Vector3 clickPos, Vector3 clickNormal, int shapeIdx)
 		{
