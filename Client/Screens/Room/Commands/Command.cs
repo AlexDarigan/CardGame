@@ -25,21 +25,21 @@ namespace CardGame.Client.Commands
             destination.Add(card);
 
             const float duration = .2f;
-            foreach (Location location in origin.Locations)
+            foreach (Card c in origin)
             {
-                room.Effects.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
+                room.Effects.InterpolateProperty(c, nameof(Card.Translation), c.Translation, c.Location.Translation,
                     duration, Tween.TransitionType.Linear, Tween.EaseType.In);
                 
-                room.Effects.InterpolateProperty(location.Card, nameof(Card.RotationDegrees), location.Card.RotationDegrees, location.RotationDegrees,
+                room.Effects.InterpolateProperty(c, nameof(Card.RotationDegrees), c.RotationDegrees, c.Location.RotationDegrees,
                     duration, Tween.TransitionType.Linear, Tween.EaseType.In);
             }
 			
-            foreach (Location location in destination.Locations)
+            foreach (Card c in destination)
             {
-                room.Effects.InterpolateProperty(location.Card, nameof(Card.Translation), location.Card.Translation, location.Translation,
+                room.Effects.InterpolateProperty(c, nameof(Card.Translation), c.Translation, c.Location.Translation,
                     duration, Tween.TransitionType.Linear, Tween.EaseType.In);
                 
-                room.Effects.InterpolateProperty(location.Card, nameof(Card.RotationDegrees), location.Card.RotationDegrees, location.RotationDegrees,
+                room.Effects.InterpolateProperty(c, nameof(Card.RotationDegrees), c.RotationDegrees, c.Location.RotationDegrees,
                     duration, Tween.TransitionType.Linear, Tween.EaseType.In);
             }
         }

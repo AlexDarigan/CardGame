@@ -27,9 +27,9 @@ namespace CardGame.Client.Commands
 				Player.Deck.Add(card);
 				
 				card.Controller = Player;
-				Location location = Player.Deck.Locations.Last();
-				card.Translation = location.Translation;
-				card.RotationDegrees = location.RotationDegrees;
+				// Location location = Player.Deck.Last().Location;
+				card.Translation = card.Location.Translation;
+				card.RotationDegrees = card.Location.RotationDegrees;
 			}
 		}
 	}

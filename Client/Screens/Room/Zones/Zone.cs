@@ -8,7 +8,7 @@ namespace CardGame.Client
     public class Zone : Spatial, IEnumerable<Card>
     {
         private List<Card> Cards { get; } = new();
-        public List<Location> Locations { get; } = new ();
+        private List<Location> Locations { get; } = new ();
         [Export()] public Vector3 OffSet { get; set; }
 
         public Zone() { }
@@ -43,40 +43,26 @@ namespace CardGame.Client
             Locations.Clear();
             foreach (Card card in Cards)
             {
-                // Place Location at our translation + offset per location (ie card) in zone
-                Locations.Add(new Location(Translation + OffSet * Locations.Count, OffSet, RotationDegrees, card));
-                
-                // Shift all locations left after adding a new one
-                // 1. Add Location 0
-                // 2. Shift Location 0 Left
-                // 3. Add Location 1
-                // 4. Shift Location 0 Left
-                // 5. Shift Location 1 Left
-                // 6. Add Location 2
-                // 7. Shift Location 0 Left
-                // 8. Shift Location 1 Left
-                // 9. Shift Location 2 Left
-                foreach (Location location in Locations) { location.ShiftLeft(); }
+                // Initial Location of Card and then adjust for all cards in the zone
+                // (Might be easier to use a physical slot system?)
+                Vector3 destination = (Translation + OffSet * Locations.Count) - OffSet * (Cards.Count - Locations.Count);
+                Location location = new(destination, RotationDegrees);
+                Locations.Add(location);
+                card.Location = location;
             }
         }
     }
     
 
-    public class Location
+    public readonly struct Location
     {
-        private Vector3 OffSet { get; }
-        public Vector3 RotationDegrees { get; }
-        public Vector3 Translation { get; private set; }
-        public Card Card { get; }
+        public readonly Vector3 RotationDegrees;
+        public readonly Vector3 Translation;
 
-        public Location(Vector3 translation, Vector3 offSet, Vector3 rotationDegrees, Card card)
+        public Location(Vector3 translation, Vector3 rotationDegrees)
         {
             Translation = translation;
-            OffSet = offSet;
             RotationDegrees = rotationDegrees;
-            Card = card;
         }
-
-        public void ShiftLeft() { Translation -= OffSet; }
     }
 }

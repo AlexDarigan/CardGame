@@ -41,6 +41,7 @@ namespace CardGame.Client
 
 		public string Text { get; set; }
 		public CardTypes CardType { get => _cardType.Value; set => _cardType.Value = value; }
+		public Location Location { get; set; }
 
 		public Card() { }
 		
