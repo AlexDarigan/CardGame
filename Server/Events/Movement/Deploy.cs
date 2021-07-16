@@ -1,16 +1,8 @@
 ﻿namespace CardGame.Server.Events
 {
-    public class Deploy : Event
+    public class Deploy : MoveEvent
     {
-        private Card Card { get; }
-        private Player Controller { get; }
-
-        public Deploy(Player controller, Card card)
-        {
-            Controller = controller;
-            Card = card; 
-        }
-
+        public Deploy(Card card): base(card) { }
         public override void QueueOnClients(Enqueue queue)
         {
             queue(Controller.Id, CommandId.PlayerDeploy, Card.Id);

@@ -71,7 +71,7 @@ namespace CardGame.Server
                 loser.Controller.Units.Remove(loser);
                 loser.Owner.Graveyard.Add(loser);
                 
-                Event sentToGraveyard = new SentToGraveyard(loser.Controller, loser, 0, 0);
+                Event sentToGraveyard = new SentToGraveyard(loser);
                 History.Add(sentToGraveyard);
                 sentToGraveyard.QueueOnClients(Queue);
 
@@ -131,7 +131,7 @@ namespace CardGame.Server
             player.Supports.Remove(support);
             player.Graveyard.Add(support);
             
-            Event sentToGraveyard = new SentToGraveyard(support.Controller, support, sourceIndex, 0);
+            Event sentToGraveyard = new SentToGraveyard(support);
             History.Add(sentToGraveyard);
             sentToGraveyard.QueueOnClients(Queue);
             

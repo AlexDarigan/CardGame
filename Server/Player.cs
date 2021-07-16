@@ -58,7 +58,7 @@ namespace CardGame.Server
             Hand.Remove(unit);
             Units.Add(unit);
             unit.Zone = Units;
-            return new Deploy(this, unit);
+            return new Deploy(unit);
         }
 
         public Event SetFaceDown(Card support)
@@ -66,7 +66,7 @@ namespace CardGame.Server
             Hand.Remove(support);
             Supports.Add(support);
             support.Zone = Supports;
-            return new SetFaceDown(this, support);
+            return new SetFaceDown(support);
         }
 
         public Event EndTurn()

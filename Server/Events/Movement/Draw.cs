@@ -2,16 +2,9 @@
 
 namespace CardGame.Server.Events
 {
-    public class Draw : Event
+    public class Draw : MoveEvent
     {
-        private Card Card { get; }
-        private Player Controller { get; }
-      
-        public Draw(Card card)
-        {
-            Controller = card.Controller;
-            Card = card;
-        }
+        public Draw(Card card) : base(card) { }
 
         public override void QueueOnClients(Enqueue queue)
         {

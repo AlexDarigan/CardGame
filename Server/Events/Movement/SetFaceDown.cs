@@ -1,16 +1,8 @@
 ﻿namespace CardGame.Server.Events
 {
-    public class SetFaceDown : Event
+    public class SetFaceDown : MoveEvent
     {
-        private Card Card { get; }
-        private Player Controller { get; }
-        
-        public SetFaceDown(Player controller, Card card)
-        {
-            Controller = controller;
-            Card = card;
-        }
-
+        public SetFaceDown(Card card): base(card) { }
         public override void QueueOnClients(Enqueue queue)
         {
             queue(Controller.Id, CommandId.PlayerSetFaceDown, Card.Id);
