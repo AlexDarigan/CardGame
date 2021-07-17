@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Client/Screens/Room/Room.cs" type="Script" id=1]
 [ext_resource path="res://Client/Assets/Font/Kenney Bold.ttf" type="DynamicFontData" id=2]
@@ -32,6 +32,23 @@ outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 1, 1, 1, 0.588235 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 2.0
+expand_margin_right = 2.0
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+anti_aliasing_size = 4
 
 [node name="Room" type="Node"]
 script = ExtResource( 1 )
@@ -116,10 +133,20 @@ valign = 1
 
 [node name="Timer" type="Timer" parent="Text"]
 
+[node name="Card" type="Label" parent="Text"]
+margin_left = 15.0
+margin_top = 83.0
+margin_right = 234.0
+margin_bottom = 326.0
+custom_styles/normal = SubResource( 4 )
+text = "XXXX"
+
 [node name="Link" type="VBoxContainer" parent="."]
-margin_left = 25.0
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -150.0
 margin_top = 75.0
-margin_right = 125.0
+margin_right = -50.0
 margin_bottom = 285.0
 custom_constants/separation = -130
 script = ExtResource( 5 )

@@ -38,7 +38,8 @@ namespace CardGame.Client
 			Cards.InputController = InputController;
 			RpcId(1, "OnClientReady");
 		}
-		
+
+
 		[Puppet] private void Update() { CommandQueue.Execute(this); }
 		[Puppet] private void Queue(CommandId commandId, object[] args) { CommandQueue.Enqueue(commandId, args); }
 	}

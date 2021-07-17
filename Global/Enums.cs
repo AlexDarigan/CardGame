@@ -34,10 +34,6 @@ namespace CardGame
         Any
     }
     
-
-   
-    
-
     public enum CommandId {
         // Common
         AttackUnit,

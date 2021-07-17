@@ -14,6 +14,7 @@ namespace CardGame.Server.Bytecode
         private static void SetPower(SkillState skill) { }
         private static void Destroy(SkillState skill) { }
         private static void DealDamage(SkillState skill) { }
+        
         private static void Draw(SkillState skill)
         {
             Player player = GetPlayer(skill);

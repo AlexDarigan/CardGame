@@ -9,8 +9,12 @@ namespace CardGame.Client
 
         public override string Value
         {
-            get => Display.Text;
-            set => Display.Text = value;
+            get => Property;
+            set
+            {
+                Property = value;
+                Display.Text = value;
+            }
         }
         
         public CardText(Node card)
@@ -20,13 +24,8 @@ namespace CardGame.Client
 
         public void Show()
         {
-            if (Display.Text == "") { return; }
-
-            // Probably better to have this update with the card's unprojected 2D position rather..
-            // ..than use the mouse but we'll keep with it for now
-            Display.RectSize = Display.GetMinimumSize();
-            Display.RectPosition = Display.GetGlobalMousePosition() + new Vector2(0, -25);
-            Display.Show();
+            if (Property == "") { return; }
+            Text.CardText = Property;
         }
 
         public void Hide() { Display.Hide(); }
