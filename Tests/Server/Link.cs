@@ -13,7 +13,7 @@
         public void ActivationAction()
         {
             // How do we remove the current
-            StartGame(BuildDeck(SetCodes.AlphaQuestReward));
+            StartGame(BuildDeck(SetCodes.BasicSupport));
             Card support = P1.Hand[0];
             Match.SetFaceDown(P1, support);
             Match.EndTurn(P1);

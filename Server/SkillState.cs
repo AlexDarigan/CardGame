@@ -30,7 +30,7 @@ namespace CardGame.Server
             // WARNING: Loop may be too hidden
             while (!IsDone())
             {
-                Action<SkillState> operation = Operations.GetOperation((OpCodes) OpCodes[_cursor]);
+                Action<SkillState> operation = Bytecode.VirtualMachine.GetOperation((Bytecode.OpCodes) OpCodes[_cursor]);
                 operation(this);
                 _cursor++;
             }

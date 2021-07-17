@@ -8,7 +8,7 @@ namespace CardGame.Client.Tests
         [Test]
         public async Task Deploy()
         {
-            await StartGame(BuildDeck(SetCodes.AlphaBioShocker));
+            await StartGame(BuildDeck(SetCodes.BasicUnit));
             int handCount = P1.Hand.Count;
             int unitsCount = P1.Units.Count;
             
@@ -21,7 +21,7 @@ namespace CardGame.Client.Tests
         [Test]
         public async Task SetFaceDown()
         {
-            await StartGame(BuildDeck(SetCodes.AlphaQuestReward));
+            await StartGame(BuildDeck(SetCodes.BasicSupport));
             int handCount = P1.Hand.Count;
             int supportsCount = P1.Supports.Count;
             

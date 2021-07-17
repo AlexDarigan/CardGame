@@ -54,7 +54,7 @@ namespace CardGame.Server
 				foreach (string code in opCodes)
 				{
 					if (int.TryParse(code, NumberStyles.Integer, CultureInfo.InvariantCulture, out int value)) { codes.Add(value); }
-					else if (Enum.IsDefined(typeof(OpCodes), code)) { codes.Add(ParseEnum<OpCodes>(code)); }
+					else if (Enum.IsDefined(typeof(Bytecode.OpCodes), code)) { codes.Add(ParseEnum<Bytecode.OpCodes>(code)); }
 					else if (Enum.IsDefined(typeof(Factions), code)) { codes.Add(ParseEnum<Factions>(code)); }
 					else if (Enum.IsDefined(typeof(CardTypes), code)) { codes.Add(ParseEnum<CardTypes>(code)); }
 					else { throw new Exception("Could not locate a matching Op Code");}

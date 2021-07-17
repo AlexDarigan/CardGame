@@ -1,4 +1,4 @@
-﻿using System;
+﻿using CardGame.Server.Bytecode;
 
 namespace CardGame.Server.Tests
 {
@@ -19,14 +19,14 @@ namespace CardGame.Server.Tests
             Assert.IsEqual(player.Hand.Count, count + 3, context);
         }
         
-        [Test(OpCodes.GetDeck, "Deck", 0, 39, "Player drew a card for each card in their deck")]
-        [Test(OpCodes.GetHand, "Hand", 0, 14, "Player drew a card for each card in their hand")]
-        [Test(OpCodes.GetUnits, "Units", 2, 9, "Player drew a card for each Unit on their field")]
-        [Test(OpCodes.GetSupport, "Supports", 0, 7, "Player drew a card for each Support on their field (excluding the activated card)")]
-        [Test(OpCodes.GetGraveyard, "Graveyard", 4, 12, "Player drew a card for each card in their graveyard (including the activated card)")]
+        [Test(OpCodes.GetControllerDeck, "Deck", 0, 39, "Player drew a card for each card in their deck")]
+        [Test(OpCodes.GetControllerHand, "Hand", 0, 14, "Player drew a card for each card in their hand")]
+        [Test(OpCodes.GetControllerUnits, "Units", 2, 9, "Player drew a card for each Unit on their field")]
+        [Test(OpCodes.GetControllerSupport, "Supports", 0, 7, "Player drew a card for each Support on their field (excluding the activated card)")]
+        [Test(OpCodes.GetControllerGraveyard, "Graveyard", 4, 12, "Player drew a card for each card in their graveyard (including the activated card)")]
         public void CardGetter(OpCodes getZone, string zoneToAddTo, int cardsToAdd, int expected, string context)
         {
-            StartGame(BuildDeck(SetCodes.AlphaQuestReward));
+            StartGame(BuildDeck(SetCodes.BasicSupport));
             Card support = CommonPlay(OpCodes.GetController, getZone, OpCodes.CountCards, OpCodes.GetController, OpCodes.Draw);
             Zone zone = (Zone) typeof(Player).GetProperty(zoneToAddTo)!.GetValue(P1);
             for(int i = 0; i < cardsToAdd; i++) { zone!.Add(new Card(0, P1)); }
@@ -71,7 +71,7 @@ namespace CardGame.Server.Tests
         
         private Card CommonPlay(params object[] ops)
         {
-            StartGame(BuildDeck(SetCodes.AlphaQuestReward));
+            StartGame(BuildDeck(SetCodes.BasicSupport));
             Card support = P1.Hand[0];
             support.Skill = BuildSkill(support, ops);
             Match.SetFaceDown(P1, support);

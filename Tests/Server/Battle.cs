@@ -10,7 +10,7 @@ namespace CardGame.Server.Tests
         public void WinBattle()
         {
             Describe("When an attacking Unit wins a Battle");
-            StartGame(BuildDeck(SetCodes.AlphaBioShocker), BuildDeck(SetCodes.AlphaBioShocker));
+            StartGame(BuildDeck(SetCodes.BasicUnit), BuildDeck(SetCodes.BasicUnit));
             Card attacker = P1.Hand[0];
             Card defender = P2.Hand[1];
             Match.Deploy(P1, attacker);
@@ -33,7 +33,7 @@ namespace CardGame.Server.Tests
         public void LoseBattle()
         {
             Describe("When an attack Unit loses a battle");
-            StartGame(BuildDeck(SetCodes.AlphaBioShocker), BuildDeck(SetCodes.AlphaBioShocker));
+            StartGame(BuildDeck(SetCodes.BasicUnit), BuildDeck(SetCodes.BasicUnit));
             Card attacker = P1.Hand[0];
             Card defender = P2.Hand[1];
             Match.Deploy(P1, attacker);
@@ -55,7 +55,7 @@ namespace CardGame.Server.Tests
         public void TieBattle()
         {
             Describe("When a battle ends in a tie");
-            StartGame(BuildDeck(SetCodes.AlphaBioShocker), BuildDeck(SetCodes.AlphaBioShocker));
+            StartGame(BuildDeck(SetCodes.BasicUnit), BuildDeck(SetCodes.BasicUnit));
             Card attacker = P1.Hand[0];
             Card defender = P2.Hand[1];
             Match.Deploy(P1, attacker);
@@ -79,7 +79,7 @@ namespace CardGame.Server.Tests
         public void DirectAttack()
         {
             Describe("When a unit attacks directly");
-            StartGame(BuildDeck(SetCodes.AlphaBioShocker));
+            StartGame(BuildDeck(SetCodes.BasicUnit));
             Card attacker = P1.Hand[0];
             Match.Deploy(P1, attacker);
             Match.EndTurn(P1);

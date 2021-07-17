@@ -9,7 +9,7 @@
         [Test()]
         public void Draw()
         {
-            StartGame(BuildDeck(SetCodes.AlphaBioShocker));
+            StartGame(BuildDeck(SetCodes.BasicUnit));
             int deckCount = P1.Deck.Count;
             int handCount = P1.Hand.Count;
             P1.Draw();
@@ -20,7 +20,7 @@
         [Test]
         public void DeployAction()
         {
-            StartGame(BuildDeck(SetCodes.AlphaBioShocker));
+            StartGame(BuildDeck(SetCodes.BasicUnit));
             int handCount = P1.Hand.Count;
             int unitsCount = P1.Units.Count;
             P1.Deploy(P1.Hand[0]);
@@ -31,7 +31,7 @@
         [Test]
         public void SetFaceDownAction()
         {
-            StartGame(BuildDeck(SetCodes.AlphaQuestReward));
+            StartGame(BuildDeck(SetCodes.BasicSupport));
             int handCount = P1.Hand.Count;
             int supportsCount = P1.Supports.Count;
             P1.SetFaceDown(P1.Hand[0]);

@@ -8,7 +8,7 @@ namespace CardGame.Client.Tests
 		[Test]
 		public async Task Deploy()
 		{
-			await StartGame(BuildDeck(SetCodes.AlphaBioShocker));
+			await StartGame(BuildDeck(SetCodes.BasicUnit));
 			Card card = P1.Hand[0];
 			Assert.IsEqual(card.CardType, CardTypes.Unit, "When it is a Unit Card");
 			Assert.IsEqual(P1Input.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");
@@ -20,7 +20,7 @@ namespace CardGame.Client.Tests
 		[Test]
 		public async Task SetFaceDown()
 		{
-			await StartGame(BuildDeck(SetCodes.AlphaQuestReward));
+			await StartGame(BuildDeck(SetCodes.BasicSupport));
 			Card card = P1.Hand[0];
 			Assert.IsEqual(card.CardType, CardTypes.Support, "When it is a Support Card");
 			Assert.IsEqual(P1Input.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");
@@ -33,7 +33,7 @@ namespace CardGame.Client.Tests
 		public async Task Activation()
 		{
 			// We can't really see this happen but maybe that's just the nature of it
-			await StartGame(BuildDeck(SetCodes.AlphaQuestReward));
+			await StartGame(BuildDeck(SetCodes.BasicSupport));
 			Card card = P1.Hand[0];
 			
 			await Queue(() => P1Input.OnCardPressed(card), P1Input.OnPassPlayPressed, P2Input.OnPassPlayPressed);
@@ -47,7 +47,7 @@ namespace CardGame.Client.Tests
 		[Test]
 		public async Task AttackUnit()
 		{
-			await StartGame(BuildDeck(SetCodes.AlphaBioShocker), BuildDeck(SetCodes.AlphaBioShocker));
+			await StartGame(BuildDeck(SetCodes.BasicUnit), BuildDeck(SetCodes.BasicUnit));
 			Card attacker = P1.Hand[0];
 			Card defender = P2.Hand[0];
 			
@@ -63,7 +63,7 @@ namespace CardGame.Client.Tests
 		[Test]
 		public async Task AttackPlayer()
 		{
-			await StartGame(BuildDeck(SetCodes.AlphaBioShocker));
+			await StartGame(BuildDeck(SetCodes.BasicUnit));
 			Card card = P1.Hand[0];
 
 			await Queue(() => P1Input.OnCardPressed(card), P1Input.OnPassPlayPressed, P2Input.OnPassPlayPressed);

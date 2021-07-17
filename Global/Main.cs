@@ -29,8 +29,8 @@ namespace CardGame
 			Array<SetCodes> deckList = new();
 			for (int i = 0; i < 20; i++)
 			{
-				deckList.Add(SetCodes.AlphaBioShocker);
-				deckList.Add(SetCodes.AlphaQuestReward);
+				deckList.Add(SetCodes.BasicUnit);
+				deckList.Add(SetCodes.BasicSupport);
 			}
 
 			return deckList;

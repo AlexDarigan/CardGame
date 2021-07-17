@@ -6,7 +6,7 @@
         [Test]
         public void Deploy()
         {
-            StartGame(BuildDeck(SetCodes.AlphaBioShocker));
+            StartGame(BuildDeck(SetCodes.BasicUnit));
             Card card = P1.Hand[0];
             Assert.IsEqual(card.CardTypes, CardTypes.Unit, "When it is a Unit Card");
             Assert.IsEqual(card.Controller.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");
@@ -18,7 +18,7 @@
         [Test]
         public void SetFaceDown()
         {
-            StartGame(BuildDeck(SetCodes.AlphaQuestReward));
+            StartGame(BuildDeck(SetCodes.BasicSupport));
             Card card = P1.Hand[0];
             Assert.IsEqual(card.CardTypes, CardTypes.Support, "When it is a Support Card");
             Assert.IsEqual(card.Controller.State, States.IdleTurnPlayer, "And its controller is the Idle Turn Player");
@@ -30,7 +30,7 @@
         [Test]
         public void Activation()
         {
-            StartGame(BuildDeck(SetCodes.AlphaQuestReward));
+            StartGame(BuildDeck(SetCodes.BasicSupport));
             Card card = P1.Hand[0];
             Match.SetFaceDown(P1, card);
             Match.EndTurn(P1);
@@ -45,7 +45,7 @@
         [Test]
         public void AttackUnit()
         {
-            StartGame(BuildDeck(SetCodes.AlphaBioShocker), BuildDeck(SetCodes.AlphaBioShocker));
+            StartGame(BuildDeck(SetCodes.BasicUnit), BuildDeck(SetCodes.BasicUnit));
             Card card = P1.Hand[0];
             Match.Deploy(P1, card);
             Match.EndTurn(P1);
@@ -63,7 +63,7 @@
         [Test]
         public void AttackPlayer()
         {
-            StartGame(BuildDeck(SetCodes.AlphaBioShocker));
+            StartGame(BuildDeck(SetCodes.BasicUnit));
             Card card = P1.Hand[0];
             Match.Deploy(P1, card);
             Match.EndTurn(P1);

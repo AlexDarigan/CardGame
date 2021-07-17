@@ -4,7 +4,7 @@ namespace CardGame.Client.Commands
 {
     public class PlayerActivate: Command
     {
-        private int CardId { get; }
+        private int CardId { get; init; }
 
         
         public PlayerActivate(int cardId)

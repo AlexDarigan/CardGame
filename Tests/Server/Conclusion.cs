@@ -25,7 +25,7 @@
         public void HealthRanOut()
         {
             Describe("Player 2 lost due to health reaching 0");
-            StartGame(BuildDeck(SetCodes.AlphaBioShocker));
+            StartGame(BuildDeck(SetCodes.BasicUnit));
             Card unit = P1.Hand[0];
             Match.Deploy(P1, unit);
             Match.EndTurn(P1);
