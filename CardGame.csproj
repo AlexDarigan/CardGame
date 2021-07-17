@@ -1,45 +1,19 @@
 <Project Sdk="Godot.NET.Sdk/3.3.0">
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <LangVersion>9</LangVersion>
+    <Lang>9</Lang>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Client\Library\Cards\BioShocker.tres" />
-    <Content Include="Client\Library\Cards\NullCard.tres" />
-    <Content Include="Client\Library\Cards\QuestReward.tres" />
-    <Content Include="Client\Library\Cards\WeakShocker.tres" />
-    <Content Include="Client\Screens\Room\Room.tscn" />
-    <Content Include="README.md" />
-    <Content Include="Server\Library\Library.json" />
+    <PackageReference Include="JetBrains.Annotations" Version="2021.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2021.2.0-eap2" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="xunit.core" Version="2.4.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Client\Network\**" />
-    <Compile Remove="Client\Commands\**" />
-    <Compile Remove="Client\Assets\CardArt\**" />
-    <Compile Remove="Client\Assets\Numbers\**" />
-    <Compile Remove="Client\Assets\Textures\**" />
-    <Compile Remove="Client\Assets\Models\**" />
-    <Compile Remove="Client\Assets\**" />
-    <Compile Remove="Client\Scripts\Register.cs" />
-    <Compile Remove="Debug\**" />
-    <Compile Remove="TestsOld\Battle.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Remove="Client\Network\**" />
-    <EmbeddedResource Remove="Client\Commands\**" />
-    <EmbeddedResource Remove="Client\Assets\CardArt\**" />
-    <EmbeddedResource Remove="Client\Assets\Numbers\**" />
-    <EmbeddedResource Remove="Client\Assets\Textures\**" />
-    <EmbeddedResource Remove="Client\Assets\Models\**" />
-    <EmbeddedResource Remove="Client\Assets\**" />
-    <EmbeddedResource Remove="Debug\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ManualTests" />
+    <Content Include="Client\Assets\Sounds\Card_Game_Movement_Deal_Single_02.wav" />
+    <Content Include="Client\Assets\Sounds\Card_Game_Movement_Deal_Single_02.wav.import" />
+    <Content Include="Client\Assets\Sounds\Card_Game_Play_Slam_01.wav" />
+    <Content Include="Client\Assets\Sounds\Card_Game_Play_Slam_01.wav.import" />
+    <Content Include="Client\Assets\Sounds\HellsBattle2.ogg" />
+    <Content Include="Client\Assets\Sounds\HellsBattle2.ogg.import" />
   </ItemGroup>
 </Project>

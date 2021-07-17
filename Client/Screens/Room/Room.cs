@@ -10,7 +10,9 @@ namespace CardGame.Client
 		public static Room Instance() => (Room) GD.Load<PackedScene>("res://Client/Screens/Room/Room.tscn").Instance();
 		public InputController InputController { get; set; }
 		private CommandQueue CommandQueue { get; set; }
-		public Effects Effects { get; private set; }
+		public Tween Effects { get; set; }
+		public AudioStreamPlayer BGM { get; set; }
+		public AudioStreamPlayer SFX { get; set; }
 		public Participant Player { get; private set; }
 		public Participant Rival { get; private set; }
 		public Cards Cards { get; private set; }
@@ -23,9 +25,11 @@ namespace CardGame.Client
 		{
 			InputController = GetNode<InputController>("InputController");
 			CommandQueue = GetNode<CommandQueue>("CommandQueue");
-			Effects = GetNode<Effects>("Effects");
+			BGM = GetNode<AudioStreamPlayer>("BGM");
+			SFX = GetNode<AudioStreamPlayer>("SFX");
 			Player = GetNode<Participant>("Player");
 			Rival = GetNode<Participant>("Rival");
+			Effects = GetNode<Tween>("Effects");
 			Table = GetNode<Table>("Table");
 			Cards = GetNode<Cards>("Cards");
 			Text = GetNode<Text>("Text");

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/HellsBattle2.ogg-d8689908bfbc6a72e75dd3478ff86d7b.oggstr"
+
+[deps]
+
+source_file="res://Client/Assets/Sounds/HellsBattle2.ogg"
+dest_files=[ "res://.import/HellsBattle2.ogg-d8689908bfbc6a72e75dd3478ff86d7b.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

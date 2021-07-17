@@ -46,6 +46,8 @@ namespace CardGame
 			room.Text.Visible = visible;
 			room.Cards.Visible = visible;
 			room.Link.Visible = visible;
+			room.BGM.Playing = visible;
+			room.SFX.VolumeDb = visible ? 1 : -100;
 			if (Rooms.Count == 2) { GameBegun?.Invoke(null, null); }
 		}
 
@@ -62,6 +64,8 @@ namespace CardGame
 			room.Text.Visible = !room.Text.Visible;
 			room.Cards.Visible = !room.Cards.Visible;
 			room.Link.Visible = !room.Link.Visible;
+			room.BGM.Playing = !room.BGM.Playing;
+			room.SFX.VolumeDb = room.SFX.VolumeDb < 1 ? -100 : 1;
 		}
 
 		public static void OnRoomUpdated()

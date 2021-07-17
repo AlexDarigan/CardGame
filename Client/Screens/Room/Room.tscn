@@ -3,7 +3,7 @@
 [ext_resource path="res://Client/Screens/Room/Room.cs" type="Script" id=1]
 [ext_resource path="res://Client/Assets/Font/Kenney Bold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Client/Screens/Room/Table.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Client/Screens/Room/Effects.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Client/Assets/Sounds/HellsBattle2.ogg" type="AudioStream" id=4]
 [ext_resource path="res://Client/Screens/Room/Link.cs" type="Script" id=5]
 [ext_resource path="res://Client/Screens/Room/Participant.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Client/Screens/Room/Text.cs" type="Script" id=8]
@@ -154,8 +154,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Effects" parent="." instance=ExtResource( 4 )]
-
 [node name="Player" parent="." instance=ExtResource( 7 )]
 IsClient = true
 
@@ -217,6 +215,16 @@ fill_mode = 1
 
 [node name="CommandQueue" type="Node" parent="."]
 script = ExtResource( 15 )
+
+[node name="Effects" type="Tween" parent="."]
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -10.0
+autoplay = true
+mix_target = 1
+
+[node name="SFX" type="AudioStreamPlayer" parent="."]
 
 [editable path="Player"]
 [editable path="Rival"]

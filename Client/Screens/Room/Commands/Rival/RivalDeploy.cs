@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Godot;
 
 namespace CardGame.Client.Commands
 {
@@ -25,8 +26,29 @@ namespace CardGame.Client.Commands
             rival.Hand.Remove(fake);
             fake.Free();
             rival.Hand.Add(card);
-            
-            Move(card, rival.Units);
+
+            Zone origin = card.CurrentZone;
+            origin.Remove(card);
+            rival.Units.Add(card);
+
+            const float duration = .2f;
+            foreach (Card c in origin)
+            {
+                Room.Effects.InterpolateProperty(c, nameof(Card.Translation), c.Translation, c.Location.Translation,
+                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+                
+                Room.Effects.InterpolateProperty(c, nameof(Card.RotationDegrees), c.RotationDegrees, c.Location.RotationDegrees,
+                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+            }
+			
+            foreach (Card c in rival.Units)
+            {
+                Room.Effects.InterpolateProperty(c, nameof(Card.Translation), c.Translation, c.Location.Translation,
+                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+                
+                Room.Effects.InterpolateProperty(c, nameof(Card.RotationDegrees), c.RotationDegrees, c.Location.RotationDegrees,
+                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
+            }
         }
     }
 }

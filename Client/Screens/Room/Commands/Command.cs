@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 using Godot;
 using JetBrains.Annotations;
+using Object = Godot.Object;
 
 namespace CardGame.Client.Commands
 {
-    public abstract class Command
+    public abstract class Command: Object
     {
-        private Room Room;
+        protected Room Room;
         // Store common operations down here so we can be more declarative in subclasses
         public async Task Execute(Room room)
         {
@@ -16,35 +17,9 @@ namespace CardGame.Client.Commands
             Setup(room);
             Room = null;
             room.Effects.Start();
-            await room.Effects.Executed();
+            await ToSignal(room.Effects, "tween_all_completed");
         }
 
         protected abstract void Setup(Room room);
-
-        protected void Move(Card card, Zone destination)
-        {
-            Zone origin = card.CurrentZone;
-            origin.Remove(card);
-            destination.Add(card);
-
-            const float duration = .2f;
-            foreach (Card c in origin)
-            {
-                Room.Effects.InterpolateProperty(c, nameof(Card.Translation), c.Translation, c.Location.Translation,
-                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-                
-                Room.Effects.InterpolateProperty(c, nameof(Card.RotationDegrees), c.RotationDegrees, c.Location.RotationDegrees,
-                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-            }
-			
-            foreach (Card c in destination)
-            {
-                Room.Effects.InterpolateProperty(c, nameof(Card.Translation), c.Translation, c.Location.Translation,
-                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-                
-                Room.Effects.InterpolateProperty(c, nameof(Card.RotationDegrees), c.RotationDegrees, c.Location.RotationDegrees,
-                    duration, Tween.TransitionType.Linear, Tween.EaseType.In);
-            }
-        }
     }
 }
